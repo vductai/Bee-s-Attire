@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:sanctum')->group(function (){
+    // cac route chi dung duoc khi dang nhap thanh cong
     Route::get('/list', [RolesController::class, 'index']);
     Route::post('/role', [RolesController::class, 'store']);
     Route::put('/role/{id}', [RolesController::class, 'update']);
