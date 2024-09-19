@@ -21,6 +21,18 @@ class SizeController extends Controller
 
 public function store(Request $request)  
 {  
+    $request->validate([  
+        'size_name' => 'required|string|max:255',  
+    ]);  
+
+    // Kiểm tra xem kích thước với tên giống nhau đã tồn tại hay chưa  
+    $existingSize = Size::where('size_name', $request->size_name)->first();  
+
+    if ($existingSize) {  
+        // Nếu đã tồn tại, quay lại trang tạo với thông báo lỗi  
+        return redirect()->back()->withErrors(['size_name' => 'Tên Size đã tồn tại.'])->withInput();  
+    } 
+
     Size::create([  
         'size_name' => $request->size_name,  
     ]);  
