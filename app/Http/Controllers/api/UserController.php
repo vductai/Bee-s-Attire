@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+
     public function index()
     {
 
+        $user = User::all();
+        return response()->json([
+           'message' => 'list user',
+           'data' => $user
+        ]);
     }
 
 

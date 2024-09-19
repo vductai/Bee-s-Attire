@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class role extends Model
 {
@@ -15,4 +16,8 @@ class role extends Model
         'role_name',
         'role_desc'
     ];
+
+    public function user():HasMany{
+         return $this->hasMany(User::class);
+    }
 }

@@ -11,10 +11,7 @@
 //    public function index()
 //    {
 //        $list = role::all();
-//        return response()->json([
-//            'mes' => 'list',
-//            'data' => $list
-//        ]);
+//        return view('list', compact('list'));
 //    }
 //
 //    public function store(RoleRequest $request)
@@ -42,7 +39,7 @@
 //        ]);
 //    }
 //
-//    public function delete($id){
+//    public function destroy($id){
 //        $del = role::destroy($id);
 //        return response()->json([
 //            'message' => 'fall',

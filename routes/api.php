@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\CategoryAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\api\UserController;
@@ -23,13 +24,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function (){
     // cac route chi dung duoc khi dang nhap thanh cong
-    Route::get('/list', [RolesController::class, 'index']);
-    Route::post('/role', [RolesController::class, 'store']);
-    Route::put('/role/{id}', [RolesController::class, 'update']);
-    Route::delete('/role/{id}', [RolesController::class, 'delete']);
+
+
     Route::post('/logout', [UserController::class, 'logout'] );
+    Route::apiResource('categories-api', CategoryAPIController::class);
+    Route::apiResource('role', RolesController::class);
+
+
+
 });
 
 
+Route::get('/user/list', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);

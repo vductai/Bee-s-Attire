@@ -10,6 +10,7 @@ class RolesController extends Controller
 {
     public function index()
     {
+
         $list = role::all();
         return response()->json([
            'mes' => 'list',
@@ -42,7 +43,7 @@ class RolesController extends Controller
         ]);
     }
 
-    public function delete($id){
+    public function destroy($id){
         $del = role::destroy($id);
         return response()->json([
             'message' => 'fall',

@@ -40,7 +40,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mail',  // Đảm bảo bạn có file view 'resources/views/Mail.blade.php'
+            view: 'mail.Mail',  // Đảm bảo bạn có file view 'resources/views/Mail.blade.php'
         );
     }
 

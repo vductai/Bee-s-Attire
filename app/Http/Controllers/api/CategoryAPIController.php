@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Request\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class CategoryAPIController extends Controller
      */
     public function index()
     {
-        $categoreis = Category::query()->get();
+        $categoreis = Category::all();
 
         return CategoryResource::collection($categoreis);
     }
@@ -42,7 +42,7 @@ class CategoryAPIController extends Controller
     public function show(string $id )
     {
         $categories = Category::query()->findOrFail($id );
-        
+
         return new CategoryResource($categories);
     }
 
@@ -73,7 +73,7 @@ class CategoryAPIController extends Controller
         $categories->delete();
 
         return response()->json([
-            
+
             'message' => 'Xoa thanh cong !',
         ]);
     }
