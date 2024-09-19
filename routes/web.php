@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::resource('sizes',SizeController::class);
+Route::get('/', function () {
+    return view('welcome');
+});
