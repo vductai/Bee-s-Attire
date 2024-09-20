@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\CategoryAPIController;
+use App\Http\Controllers\Api\SizeAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\api\UserController;
@@ -30,9 +31,9 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource('categories-api', CategoryAPIController::class);
     Route::apiResource('role', RolesController::class);
     Route::get('/user/list', [UserController::class, 'index']);
+    Route::apiResource('sizes',SizeAPIController::class);
 
 });
-
 
 
 Route::post('/register', [UserController::class, 'register']);

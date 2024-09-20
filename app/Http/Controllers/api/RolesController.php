@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\request\RoleRequest;
+use App\Http\requests\RoleRequest;
 use App\Models\role;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class RolesController extends Controller
 {
+
     public function index()
     {
 
-        $this->authorize('viewAny', User::class);
+        try {
+            $this->authorize('viewAny', User::class);
+        } catch (AuthorizationException $e) {
+        }
 
         $list = role::all();
         return response()->json([
@@ -21,9 +26,13 @@ class RolesController extends Controller
         ]);
     }
 
+
     public function store(RoleRequest $request)
     {
-        $this->authorize('create', User::class);
+        try {
+            $this->authorize('create', User::class);
+        } catch (AuthorizationException $e) {
+        }
 
 
         $create = role::create([
@@ -37,9 +46,13 @@ class RolesController extends Controller
         ]);
     }
 
+
     public function update(RoleRequest $request , $id){
 
-        $this->authorize('update', User::class);
+        try {
+            $this->authorize('update', User::class);
+        } catch (AuthorizationException $e) {
+        }
 
 
         $update = role::where('role_id',$id)->update([
@@ -53,9 +66,13 @@ class RolesController extends Controller
         ]);
     }
 
+
     public function destroy($id){
 
-        $this->authorize('delete', User::class);
+        try {
+            $this->authorize('delete', User::class);
+        } catch (AuthorizationException $e) {
+        }
 
         $del = role::destroy($id);
         return response()->json([

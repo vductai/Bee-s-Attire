@@ -3,21 +3,30 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Request\CategoryRequest;
+use App\Http\requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class CategoryAPIController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
+        try {
+            $this->authorize('viewAny', User::class);
+        } catch (AuthorizationException $e) {
+        }
+
+
         $categoreis = Category::all();
 
-        return CategoryResource::collection($categoreis);
+        return response()->json([
+            'message' => 'list',
+            'data' => $categoreis
+        ]);
     }
 
     /**
@@ -30,9 +39,8 @@ class CategoryAPIController extends Controller
         $category = Category::create($param);
 
         return response()->json([
-            'data' => new CategoryResource(resource: $category),
-
             'message' => 'Them moi thanh cong !',
+            'data' => $category,
         ]);
     }
 
@@ -43,7 +51,10 @@ class CategoryAPIController extends Controller
     {
         $categories = Category::query()->findOrFail($id );
 
-        return new CategoryResource($categories);
+        return response()->json([
+        'message' => 'fall',
+        'data' => $categories,
+    ]);;
     }
 
     /**
@@ -60,7 +71,7 @@ class CategoryAPIController extends Controller
         return response()->json([
             'data' => new CategoryResource($categories),
             'message' => 'Sua thanh cong !',
-        ],200);
+        ]);
     }
 
     /**
@@ -69,11 +80,8 @@ class CategoryAPIController extends Controller
     public function destroy(string $id )
     {
         $categories = Category::query()->findOrFail($id );
-
         $categories->delete();
-
         return response()->json([
-
             'message' => 'Xoa thanh cong !',
         ]);
     }

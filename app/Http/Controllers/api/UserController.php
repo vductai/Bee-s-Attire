@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\request\UserRequest;
+use App\Http\requests\UserRequest;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,10 @@ class UserController extends Controller
     public function index()
     {
 
-        $this->authorize('viewAny', User::class);
+        try {
+            $this->authorize('viewAny', User::class);
+        } catch (AuthorizationException $e) {
+        }
         $user = User::all();
         return response()->json([
            'message' => 'list user',
@@ -86,25 +90,5 @@ class UserController extends Controller
     }
 
 
-    public function ForgotPassword(Request $request){
-
-        $response = Password::sendResetLink($request->only('email'));
-
-        return $response == Password::RESET_LINK_SENT
-            ? response()->json(['status' => __($response)])
-            : response()->json(['email' => __($response)], 422);
-    }
-
-
-    public function reset(Request $request){
-        $response = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
-            $user->password = bcrypt($password);
-            $user->save();
-        });
-
-        return $response == Password::PASSWORD_RESET
-            ? response()->json(['status' => __($response)])
-            : response()->json(['email' => __($response)], 422);
-    }
 
 }
