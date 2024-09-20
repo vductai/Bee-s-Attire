@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\request\UserRequest;
 use App\Mail\WelcomeMail;
 use App\Models\User;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -18,6 +18,7 @@ class UserController extends Controller
     public function index()
     {
 
+        $this->authorize('viewAny', User::class);
         $user = User::all();
         return response()->json([
            'message' => 'list user',
@@ -44,7 +45,7 @@ class UserController extends Controller
         ]);
 
         // Gửi email chào mừng
-        Mail::to($create->email)->send(new WelcomeMail($create));
+        //Mail::to($create->email)->send(new WelcomeMail($create));
 
         return response()->json([
             'message' => 'fall',
@@ -82,6 +83,28 @@ class UserController extends Controller
         return response()->json([
             'message' => 'logout success'
         ]);
+    }
+
+
+    public function ForgotPassword(Request $request){
+
+        $response = Password::sendResetLink($request->only('email'));
+
+        return $response == Password::RESET_LINK_SENT
+            ? response()->json(['status' => __($response)])
+            : response()->json(['email' => __($response)], 422);
+    }
+
+
+    public function reset(Request $request){
+        $response = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
+            $user->password = bcrypt($password);
+            $user->save();
+        });
+
+        return $response == Password::PASSWORD_RESET
+            ? response()->json(['status' => __($response)])
+            : response()->json(['email' => __($response)], 422);
     }
 
 }

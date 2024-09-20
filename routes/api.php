@@ -29,12 +29,13 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/logout', [UserController::class, 'logout'] );
     Route::apiResource('categories-api', CategoryAPIController::class);
     Route::apiResource('role', RolesController::class);
-
-
+    Route::get('/user/list', [UserController::class, 'index']);
 
 });
 
 
-Route::get('/user/list', [UserController::class, 'index']);
+
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+
+

@@ -17,7 +17,8 @@ class role extends Model
         'role_desc'
     ];
 
-    public function user():HasMany{
-         return $this->hasMany(User::class);
+    public function user()
+    {
+         return $this->hasMany(User::class, 'role_id');
     }
 }

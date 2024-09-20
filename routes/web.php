@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function (){
-   return view('welcome');
+   return view('errors.404');
 });
 
 //Route::middleware('auth:sanctum')->group(function (){
@@ -32,5 +32,8 @@ Route::get('/', function (){
 //
 //Route::post('/register', [UserController::class, 'register']);
 //Route::post('/login', [UserController::class, 'login']);
+
+
+Auth::routes();
 
 
