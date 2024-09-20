@@ -34,6 +34,3 @@ Route::get('/', function (){
 //Route::post('/login', [UserController::class, 'login']);
 
 
-Auth::routes();
-
-
