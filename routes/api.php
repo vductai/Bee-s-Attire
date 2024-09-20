@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\CategoryAPIController;
+use App\Http\Controllers\api\VouchersAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('categories-api', CategoryAPIController::class);
+
+Route::apiResource('vouchers-api', VouchersAPIController::class);
