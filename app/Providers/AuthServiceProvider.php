@@ -4,14 +4,17 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Http\Controllers\api\client\ProfileController;
 use App\Models\Category;
 use App\Models\role;
 use App\Models\Size;
 use App\Models\User;
+use App\Models\Vouchers;
 use App\Policies\CategoryPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\SizePolicy;
 use App\Policies\UserPolicy;
+use App\Policies\VoucherPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -27,10 +30,11 @@ class AuthServiceProvider extends ServiceProvider
         role::class => RolePolicy::class,
         Size::class => SizePolicy::class,
         Category::class => CategoryPolicy::class,
+        Vouchers::class => VoucherPolicy::class,
     ];
 
     /**
-     * Register any authentication / authorization services.
+     * Register any auth / authorization services.
      */
     public function boot(): void
     {

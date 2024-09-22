@@ -1,21 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\requests\UserRequest;
-use App\Mail\WelcomeMail;
+use App\Http\Requests\userRequest;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
-
     public function index()
     {
 
@@ -25,8 +19,8 @@ class UserController extends Controller
         }
         $user = User::all();
         return response()->json([
-           'message' => 'list user',
-           'data' => $user
+            'message' => 'list user',
+            'data' => $user
         ]);
     }
 
@@ -57,10 +51,16 @@ class UserController extends Controller
         ]);
     }
 
+    public function getProfile(){
+
+        if (Auth::check()){
+           return Auth::user();
+        }
+    }
+
 
     public function login(UserRequest $request){
 
-        // chi lay email va password
         $loginCustomers = $request->only('email', 'password');
 
         if (Auth::attempt($loginCustomers)) {
@@ -88,7 +88,4 @@ class UserController extends Controller
             'message' => 'logout success'
         ]);
     }
-
-
-
 }

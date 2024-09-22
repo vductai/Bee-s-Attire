@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\requests\CategoryRequest;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\User;
+use App\Policies\CategoryPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class CategoryAPIController extends Controller
     public function index()
     {
         try {
-            $this->authorize('viewAny', User::class);
+            $this->authorize('viewAny', CategoryPolicy::class);
         } catch (AuthorizationException $e) {
         }
 

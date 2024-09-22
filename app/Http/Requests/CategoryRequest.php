@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,6 +23,13 @@ class CategoryRequest extends FormRequest
     {
         return [
             'category_name' => 'required|string|max:255',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'category_name.required' => 'bắt buộc điền!',
         ];
     }
 }
