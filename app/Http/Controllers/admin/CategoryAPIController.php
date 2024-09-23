@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Policies\CategoryPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryAPIController extends Controller
 {
@@ -17,7 +18,7 @@ class CategoryAPIController extends Controller
     public function index()
     {
         try {
-            $this->authorize('viewAny', CategoryPolicy::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -35,6 +36,10 @@ class CategoryAPIController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $param = $request->all();
 
         $category = Category::create($param);
@@ -50,6 +55,10 @@ class CategoryAPIController extends Controller
      */
     public function show(string $id )
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $categories = Category::query()->findOrFail($id );
 
         return response()->json([
@@ -63,6 +72,10 @@ class CategoryAPIController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $categories = Category::query()->findOrFail($id);
 
         $param = $request->all();
@@ -80,6 +93,10 @@ class CategoryAPIController extends Controller
      */
     public function destroy(string $id )
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $categories = Category::query()->findOrFail($id );
         $categories->delete();
         return response()->json([

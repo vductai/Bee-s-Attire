@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VouchersRequest;
@@ -20,7 +20,7 @@ class VouchersAPIController extends Controller
     {
 
         try {
-            $this->authorize('viewAny', Vouchers::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -38,7 +38,7 @@ class VouchersAPIController extends Controller
     public function store(VouchersRequest $request)
     {
         try {
-            $this->authorize('create', Vouchers::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -53,6 +53,7 @@ class VouchersAPIController extends Controller
         $voucher = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
+            'voucher_desc' => $request->voucher_desc,
             'start_date' => $start_date,
             'end_date' => $end_date
         ]);
@@ -70,7 +71,7 @@ class VouchersAPIController extends Controller
     {
 
         try {
-            $this->authorize('view', Vouchers::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -89,7 +90,7 @@ class VouchersAPIController extends Controller
     {
 
         try {
-            $this->authorize('update', Vouchers::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -121,7 +122,7 @@ class VouchersAPIController extends Controller
     {
         try {
             $voucher = Vouchers::findOrFail($id);
-            $this->authorize('delete', $voucher);
+            $this->authorize('manageAdmin', Auth::user());
             $voucher->delete();
             return response()->json([
                 'message' => 'Xóa thành công!',

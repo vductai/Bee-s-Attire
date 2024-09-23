@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
@@ -8,6 +8,7 @@ use App\Models\Size;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class SizeAPIController extends Controller
 {
@@ -16,7 +17,7 @@ class SizeAPIController extends Controller
     public function index()
     {
         try {
-            $this->authorize('viewAny', Size::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -28,12 +29,10 @@ class SizeAPIController extends Controller
     }
 
 
-
-
     public function store(SizeRequest $request)
     {
         try {
-            $this->authorize('create', Size::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -42,12 +41,10 @@ class SizeAPIController extends Controller
     }
 
 
-
-
     public function show($size_id)
     {
         try {
-            $this->authorize('view', Size::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -62,11 +59,10 @@ class SizeAPIController extends Controller
     }
 
 
-
     public function update(SizeRequest $request, Size $size)
     {
         try {
-            $this->authorize('update', $size);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -78,11 +74,10 @@ class SizeAPIController extends Controller
     }
 
 
-
     public function destroy($id)
     {
         try {
-            $this->authorize('delete', Size::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 

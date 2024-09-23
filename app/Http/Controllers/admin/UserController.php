@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api\admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\userRequest;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,7 +18,7 @@ class UserController extends Controller
     {
 
         try {
-            $this->authorize('viewAny', User::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -60,6 +61,10 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $user = User::where('user_id', $id)->get();
         return response()->json([
             'message' => 'user id',
@@ -81,6 +86,10 @@ class UserController extends Controller
     public function update(UserRequest $request, string $id)
     {
 
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
 
         $user = User::where('user_id', $id)->update([
             'email' => $request->email,
@@ -99,6 +108,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $user = User::delete($id);
 
         return response()->json([

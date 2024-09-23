@@ -17,7 +17,8 @@ class userRequest extends FormRequest
             'phone',
             'birthday',
             'address',
-            'role_id'
+            'role_id',
+            'voucher_id'
         ];
     }
 

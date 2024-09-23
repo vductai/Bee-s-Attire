@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model
+class ProductImage extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
-    protected $primaryKey = 'category_id';
-
+    protected $table = 'product_images';
+    protected $primaryKey = 'product_image_id';
     protected $fillable = [
-        'category_name',
+        'product_id',
+        'product_image'
     ];
-
 
     public function product()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
+
 }

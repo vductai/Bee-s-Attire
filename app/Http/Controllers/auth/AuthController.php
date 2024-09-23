@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\api\auth;
+namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\userRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
@@ -79,13 +79,20 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(){
+    public function logout() {
+        // Xoá token của user đang đăng nhập
         $user = Auth::user();
-        // xoa token
-        $user->tokens()->delete();
+        $user->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'logout success'
+            'message' => 'Logout success'
         ]);
     }
+
+
+    public function resetPassword(UserRequest $request){
+
+    }
+
+
 }

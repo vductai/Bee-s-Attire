@@ -10,7 +10,9 @@ use App\Models\role;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\Vouchers;
+use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\ClientPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\SizePolicy;
 use App\Policies\UserPolicy;
@@ -26,11 +28,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        User::class => UserPolicy::class,
-        role::class => RolePolicy::class,
-        Size::class => SizePolicy::class,
-        Category::class => CategoryPolicy::class,
-        Vouchers::class => VoucherPolicy::class,
+        User::class => AdminPolicy::class,
+        User::class => ClientPolicy::class
     ];
 
     /**

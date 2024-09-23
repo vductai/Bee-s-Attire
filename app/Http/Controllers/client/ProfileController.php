@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\client;
+namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
@@ -15,7 +15,7 @@ class ProfileController extends Controller
     public function updateProfile(UserRequest $request)
     {
         try {
-            $this->authorize('update', Auth::user());
+            $this->authorize('manageClient', Auth::user());
         } catch (AuthorizationException $e) {
             // handle unauthorized access
         }
@@ -50,8 +50,7 @@ class ProfileController extends Controller
                 'message' => 'update profile',
                 'data' => $update
             ]);
-        }
-    }
+        }    }
 
 
 

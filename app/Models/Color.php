@@ -7,27 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Size extends Model
+class Color extends Model
 {
     use HasFactory;
 
-
-    protected $table = 'sizes';
-    protected $primaryKey = 'size_id';
+    protected $table = 'colors';
+    protected $primaryKey = 'color_id';
     protected $fillable = [
-        'size_name'
+        'color_name',
+        'color_code'
     ];
 
-    public function variantSize(): HasMany
+
+    public function variantColor(): HasMany
     {
-        return $this->hasMany(ProductVariant::class, 'size_id');
+        return $this->hasMany(ProductVariant::class, 'color_id');
     }
 
-
 }
-
-
-
-
-
-

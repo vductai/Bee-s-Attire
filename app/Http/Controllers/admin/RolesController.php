@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api\admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Models\role;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Auth;
 
 class RolesController extends Controller
 {
@@ -15,7 +16,7 @@ class RolesController extends Controller
     {
 
         try {
-            $this->authorize('viewAny', role::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -30,7 +31,7 @@ class RolesController extends Controller
     public function store(RoleRequest $request)
     {
         try {
-            $this->authorize('create', role::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -50,7 +51,7 @@ class RolesController extends Controller
     public function update(RoleRequest $request , $id){
 
         try {
-            $this->authorize('update', role::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
@@ -70,7 +71,7 @@ class RolesController extends Controller
     public function destroy($id){
 
         try {
-            $this->authorize('delete', role::class);
+            $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
