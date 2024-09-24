@@ -4,9 +4,9 @@
       <div class="col-lg-12">
         <div class="top-header">
           <a href="/" class="cr-logo">
-            <img src="{{ asset('client/img/logo/logo.png') }}" alt="logo" class="logo" />
+            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="logo" class="logo" />
             <img
-              src="{{ asset('client/img/logo/dark-logo.png') }}"
+              src="{{ asset('assets/img/logo/dark-logo.png') }}"
               alt="logo"
               class="dark-logo"
             />
@@ -54,10 +54,10 @@
                 </ul>
               </li>
             </ul>
-            <a href="/wishlist" class="cr-right-bar-item">
+            {{-- <a href="/wishlist" class="cr-right-bar-item">
               <i class="ri-heart-3-line"></i>
               <span>Wishlist</span>
-            </a>
+            </a> --}}
             <a
               href="javascript:void(0)"
               class="cr-right-bar-item Shopping-toggle"
@@ -404,9 +404,9 @@
                 </ul>
               </li>
             </ul>
-            <a href="/wishlist" class="cr-right-bar-item">
+            {{-- <a href="/wishlist" class="cr-right-bar-item">
               <i class="ri-heart-line"></i>
-            </a>
+            </a> --}}
             <a
               href="javascript:void(0)"
               class="cr-right-bar-item Shopping-toggle"
@@ -424,9 +424,9 @@
                 <a class="nav-link" href="/products">Products</a>
               </li>
 
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a class="nav-link" href="/blog">Blog</a>
-              </li>
+              </li> --}}
             </ul>
           </div>
         </nav>
@@ -456,9 +456,9 @@
           <a href="/products">Products</a>
         </li>
 
-        <li class="dropdown drop-list">
+        {{-- <li class="dropdown drop-list">
           <a href="/blog">Blog</a>
-        </li>
+        </li> --}}
       </ul>
     </div>
   </div>

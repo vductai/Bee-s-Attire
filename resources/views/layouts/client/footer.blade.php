@@ -4,9 +4,9 @@
       <div class="col-xl-4 col-lg-6 col-sm-12 col-12 cr-footer-border">
         <div class="cr-footer-logo">
           <div class="image">
-            <img src="{{ asset('client/img/logo/logo.png') }}" alt="logo" class="logo" />
+            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="logo" class="logo" />
             <img
-              src="{{ asset('client/img/logo/dark-logo.png') }}"
+              src="{{ asset('assets/img/logo/dark-logo.png') }}"
               alt="logo"
               class="dark-logo"
             />
@@ -108,49 +108,49 @@
               <div class="swiper-wrapper">
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/1.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/1.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/2.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/2.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/3.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/3.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/4.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/4.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/5.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/5.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/6.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/6.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/7.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/7.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
                 <div class="swiper-slide">
                   <a href="#" class="cr-payment-image">
-                    <img src="{{ asset('client/img/insta/8.jpg') }}" alt="insta" />
+                    <img src="{{ asset('assets/img/insta/8.jpg') }}" alt="insta" />
                     <div class="payment-overlay"></div>
                   </a>
                 </div>
@@ -199,7 +199,7 @@
           <div class="col-md-5 col-sm-12 col-xs-12">
             <div class="zoom-image-hover modal-border-image">
               <img
-                src="{{ asset('client/img/product/tab-1.jpg') }}"
+                src="{{ asset('assets/img/product/tab-1.jpg') }}"
                 alt="product-tab-2"
                 class="product-image"
               />
