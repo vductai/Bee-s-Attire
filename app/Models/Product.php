@@ -36,4 +36,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'product_id');
     }
+
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'product_id');
+    }
 }

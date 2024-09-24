@@ -37,24 +37,24 @@ class UserController extends Controller
         //
     }
 
-//    /**
-//     * Store a newly created resource in storage.
-//     */
-//    public function store(UserRequest $request)
-//    {
-//        $user = User::create([
-//            'email' => $request->email,
-//            'password' => $request->password,
-//            'email' => $request->email,
-//            'role_id' => 3
-//        ]);
-//
-//        return response()->json([
-//           'message' => 'add',
-//           'data' => $user
-//        ]);
-//
-//    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UserRequest $request)
+    {
+        $user = User::create([
+            'email' => $request->email,
+            'password' => $request->password,
+            'email' => $request->email,
+            'role_id' => 3
+        ]);
+
+        return response()->json([
+           'message' => 'add',
+           'data' => $user
+        ]);
+
+    }
 
     /**
      * Display the specified resource.

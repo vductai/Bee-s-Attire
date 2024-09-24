@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -43,7 +44,7 @@ class AuthController extends Controller
         ]);
 
         // Gửi email chào mừng
-        //Mail::to($create->email)->send(new WelcomeMail($create));
+        Mail::to($create->email)->send(new WelcomeMail($create));
 
         return response()->json([
             'message' => 'fall',
