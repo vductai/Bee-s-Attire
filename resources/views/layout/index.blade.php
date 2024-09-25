@@ -33,7 +33,7 @@
 @endsection
 
 @section('footer')
-   
+
 
     <script src="{{ asset('js/vendor/jquery-3.6.4.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery.zoom.min.js') }}"></script>
