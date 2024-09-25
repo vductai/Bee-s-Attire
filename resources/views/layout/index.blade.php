@@ -19,7 +19,7 @@
 @endsection
 
 @section('header')
-    @include('layouts.client.header')
+    @include('layouts.admin.header')
 @endsection
 
 @section('master-content')
@@ -33,7 +33,7 @@
 @endsection
 
 @section('footer')
-    @include('layouts.client.footer')
+   
 
     <script src="{{ asset('js/vendor/jquery-3.6.4.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery.zoom.min.js') }}"></script>
