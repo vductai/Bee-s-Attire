@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/admin', function () {
+    return view('admin.page.index');
 });
+
+Route::get('/admin/product', function() {
+    return view('admin.product.index');
+});
+
+Route::get('/admin/cart', function() {
+    return view('admin.cart.index');
+});
+
+Route::get('/admin/category', function() {
+    return view('admin.category.index');
+});
+
+Route::get('/admin/user', function() {
+    return view('admin.user.index');
+});
+
