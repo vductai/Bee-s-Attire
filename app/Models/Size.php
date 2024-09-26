@@ -4,25 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Size extends Model
 {
     use HasFactory;
 
-    
+
     protected $table = 'sizes';
-        // Chỉ định cột khóa chính  
-        protected $primaryKey = 'size_id';  
-    
-        // Nếu bạn không muốn Laravel tự động thêm timestamp cho created_at và updated_at,  
-        // bạn có thể tắt nó đi  
-        public $timestamps = true; // Đây là mặc định, có thể bỏ qua nếu sử dụng timestamps  
+    protected $primaryKey = 'size_id';
     protected $fillable = [
-        'size_id',
         'size_name'
-    
     ];
-   
+
+    public function variantSize(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class, 'size_id');
+    }
+
+
 }
 
 
