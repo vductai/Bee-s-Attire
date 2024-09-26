@@ -55,7 +55,10 @@ class CategoryAPIController extends Controller
      */
     public function show(string $id )
     {
-
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $categories = Category::query()->findOrFail($id );
 
         return response()->json([

@@ -30,6 +30,10 @@ class ProductController extends Controller
 
 
     public function show($id){
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $show = Product::where('product_id', $id)->get();
         return response()->json([
             'message' => 'show',

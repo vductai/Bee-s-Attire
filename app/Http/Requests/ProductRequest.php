@@ -15,6 +15,7 @@ class ProductRequest extends FormRequest
             'product_desc',
             'sale_price',
             'category_id',
+            'quantity',
             'product_images',
             'product_images.*'
         ];
