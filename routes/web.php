@@ -58,3 +58,11 @@ Route::get('/addSize', function () {
 Route::get('/updateSize', function () {
     return view('admin.size.update-size');
 })->name('updateSize');
+
+
+
+Route::get('/loginAdmin', function (){
+    return view('admin.auth.login-admin');
+})->name('loginAdmin');
+
+/// admin

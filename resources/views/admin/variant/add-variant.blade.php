@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="row cr-category">
-        <div class="col-xl-4 col-lg-12">
+        <div class="col-xl-5 col-lg-12">
             <div class="team-sticky-bar">
                 <div class="col-md-12">
                     <div class="cr-cat-list cr-card card-default mb-24px">
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-12">
+        <div class="col-xl-7 col-lg-12">
             <div class="cr-cat-list cr-card card-default">
                 <div class="cr-card-content ">
                     <div class="table-responsive tbl-800">
