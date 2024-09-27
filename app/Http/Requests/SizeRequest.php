@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests ;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,9 +16,7 @@ class SizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'required',          
-            'string',             
-            'in:XS,S,M,L,XL,XXL',             
+            'size' => 'required|string|regex:/^(XS|S|M|L|XL|XXL)$/',
         ];
     }
 
@@ -27,8 +25,8 @@ class SizeRequest extends FormRequest
     {
         return [
             'size.required' => 'Vui lòng chọn size quần áo.',
-            'size.string' => 'Tên Size phải là một chuỗi ký tự.',
-            'size.in' => 'Size không hợp lệ. Vui lòng chọn các size sau XS, S, M, L, XL, XXL.',
+            'size.string' => 'Tên Size phải là một chuỗi.',
+            'size.regex' => 'Size không hợp lệ. Vui lòng chọn các size sau XS, S, M, L, XL, XXL.',
         ];
     }
 }
