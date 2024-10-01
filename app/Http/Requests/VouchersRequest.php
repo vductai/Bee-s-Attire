@@ -35,8 +35,8 @@ class VouchersRequest extends FormRequest
             'voucher_code' => 'required|string|max:255',
             'voucher_price' => 'required|string|max:255',
             'voucher_desc' => 'required|string',
-            'start_date' => 'required|date|max:255',
-            'end_date' => 'required|date|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ];
     }
 
@@ -48,6 +48,8 @@ class VouchersRequest extends FormRequest
             'voucher_price.required' => 'Giá voucher bắt buộc điền',
             'start_date.required' => 'Điền star vochers',
             'end_date.required' => 'Điền end vochers',
+            'voucher_code.max' => 'Code voucher không được quá 255 kí tự',
+            'voucher_price.max' => 'Giá voucher không được quá 255 kí tự',
         ];
     }
 }
