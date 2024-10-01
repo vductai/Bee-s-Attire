@@ -16,7 +16,7 @@ class SizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'size' => 'required|string|regex:/^(XS|S|M|L|XL|XXL)$/',
+            'size_name' => 'required|string|regex:/^(XS|S|M|L|XL|XXL)$/',
         ];
     }
 
@@ -24,9 +24,9 @@ class SizeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'size.required' => 'Vui lòng chọn size quần áo.',
-            'size.string' => 'Tên Size phải là một chuỗi.',
-            'size.regex' => 'Size không hợp lệ. Vui lòng chọn các size sau XS, S, M, L, XL, XXL.',
+            'size_name.required' => 'Vui lòng chọn size quần áo.',
+            'size_name.string' => 'Tên Size phải là một chuỗi.',
+            'size_name.regex' => 'Size không hợp lệ. Vui lòng chọn các size sau XS, S, M, L, XL, XXL.',
         ];
     }
 }
