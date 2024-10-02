@@ -26,8 +26,11 @@ class ColorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_color' => 'required',
-            'code_color' => 'required',
+            'name_color' => 'required|string|max:50',  // Bắt buộc, chuỗi ký tự, tối đa 50 ký tự
+            'code_color' => [
+                'required',
+                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'  // Bắt buộc, định dạng mã màu hợp lệ (#RRGGBB hoặc #RGB)
+            ],
         ];
     }
 
@@ -37,10 +40,12 @@ class ColorRequest extends FormRequest
 
         $response = response()->json(
             [
+                'message' => 'Dữ liệu không hợp lệ',
                 'errors' => $errors->messages(),
             ],
-            Response::HTTP_BAD_REQUEST);
-            throw new HttpResponseException($response);
-            
+            Response::HTTP_BAD_REQUEST
+        );
+
+        throw new HttpResponseException($response);
     }
 }

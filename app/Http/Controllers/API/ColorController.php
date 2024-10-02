@@ -38,17 +38,6 @@ class ColorController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    // public function store(ColorRequest $request)
-    // {
-    //     $data = Color::create($request->validated());
-
-    //     return response()->json([
-    //         'message' => 'Tạo mới thành công',
-    //         'data' => $data
-    //     ], Response::HTTP_CREATED);
-    // }
-
-
     public function show(string $id)
     {
         try {
@@ -67,7 +56,7 @@ class ColorController extends Controller
         }
     }
 
-    public function update(Request $request, string $id)
+    public function update(ColorRequest $request, string $id)
     {
         $data = Color::query()->findOrFail($id);
 
