@@ -13,16 +13,15 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add New Size</h3>
-                                <form>
+                                <form action="{{route('size.store')}}" method="post">
+                                    @csrf
                                     <div class="form-group">
                                         <label>Name size</label>
                                         <div class="col-12">
-                                            <input id="text" name="text"
+                                            <input id="text" name="size_name"
                                                    class="form-control here slug-title" type="text">
                                         </div>
                                     </div>
-
-
                                     <div class="row">
                                         <div class="col-12 d-flex">
                                             <button type="submit" class="cr-btn-primary">Submit</button>
@@ -48,27 +47,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Clothes</td>
-                                <td>Top</td>
-                                <td>
-                                    <div>
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($sizes as $item)
+                                <tr>
+                                    <td>{{$loop->index}}</td>
+                                    <td>{{$item->size_name}}</td>
+                                    <td>
+                                        <div>
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
+                                            </button>
 
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('updateSize')}}">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
+                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit">Delete</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

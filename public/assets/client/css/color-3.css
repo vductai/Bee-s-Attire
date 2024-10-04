@@ -241,6 +241,10 @@ a.back-to-top {
 .cr-size-and-weight .cr-size-weight .cr-kg ul .active-color {
   background-color: #3f51b5;
 }
+/*color*/
+.cr-size-and-weight .cr-color-weight .cl-kg ul .cl-active-color {
+    background-color: #3f51b5;
+}
 .cr-size-and-weight .cr-add-card .cr-card-icon a i:hover {
   background-color: #3f51b5;
 }

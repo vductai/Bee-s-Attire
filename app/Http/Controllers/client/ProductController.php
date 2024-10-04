@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -17,7 +18,15 @@ class ProductController extends Controller
     }
 
 
-    public function showDetailProduct(){
-
+    public function listAllProductMain(){
+        $listAllCategory = Category::all();
+        $listAllProduct = Product::all();
+        return view('client.main', compact('listAllProduct', 'listAllCategory'));
     }
+
+    public function getProductDetail($id){
+        $getDetail = Product::findOrFail($id);
+        return view('client.product.detail-product', compact('getDetail'));
+    }
+
 }

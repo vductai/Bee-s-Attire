@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
+use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -22,12 +23,17 @@ class SizeAPIController extends Controller
         }
 
         $sizes = Size::all();
-        return response()->json([
-            'message' => 'list',
-            'data' => $sizes
-        ]);
+        return view('admin.size.list-size', compact('sizes'));
+//        return response()->json([
+//            'message' => 'list',
+//            'data' => $sizes
+//        ]);
     }
 
+    public function create(){
+        $sizes = Size::all();
+        return view('admin.size.add-size', compact('sizes'));
+    }
 
     public function store(SizeRequest $request)
     {
@@ -36,8 +42,10 @@ class SizeAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $size = Size::create($request->validated());
-        return response()->json($size);
+        $size = Size::create([
+            'size_name' => $request->size_name
+        ]);
+        return redirect()->route('size.create');
     }
 
 
@@ -58,19 +66,28 @@ class SizeAPIController extends Controller
         return response()->json($size);
     }
 
+    public function edit($id){
+        $edit = Size::where('size_id', $id)->get();
+        return view('admin.size.update-size', compact('edit'));
+    }
 
-    public function update(SizeRequest $request, Size $size)
+
+    public function update(SizeRequest $request, $id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
 
+        $find = Size::find($id);
 
-        $data = $request->validated();
+        $find->update([
+           'size_name' => $request->size_name
+        ]);
 
-        $size->update($data);
-        return response()->json($size);
+        return redirect()->route('size.index');
+
+
     }
 
 
@@ -80,15 +97,13 @@ class SizeAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
-        $size = Size::find($id);
-
-        if (!$size) {
-            return response()->json(['message' => 'Không tìm thấy Size.']);
+        $del = ProductVariant::where('size_id', $id)->exists();
+        if ($del){
+            return redirect()->back()->with('errorSize', 'Sản phẩm này đang có biến thể không thể xoá');
+        }else{
+            Size::where('size_id', $id)->delete();
+            return redirect()->route('size.index');
         }
 
-        $size->delete();
-        return response()->json(['message' => 'Size deleted successfully.']);
     }
 }

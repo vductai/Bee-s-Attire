@@ -4,6 +4,7 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
@@ -29,15 +30,10 @@ class AuthController extends Controller
     public function register(UserRequest $request)
     {
 
-//        if ($request->hasFile('avatar')) {
-//            $file = $request->file('avatar');
-//            $filename = time() . '.' . $file->getClientOriginalExtension();
-//            $file->move(public_path('/upload'), $filename);
-//            $request->merge(['avatar' => $filename]);
-//        }
+        $username = 'user_' . rand(1000, 9999);
 
         $create = User::create([
-            'username' => $request->username,
+            'username' => $username,
             'password' => $request->password,
             'email' => $request->email,
             'role_id' => 3
@@ -50,10 +46,10 @@ class AuthController extends Controller
             'message' => 'fall',
             'data' => $create
         ]);
+
     }
 
     public function getProfile(){
-
         if (Auth::check()){
            return Auth::user();
         }
@@ -69,13 +65,9 @@ class AuthController extends Controller
             $user = Auth::user();
             // tao token
             $token = $user->createToken('MyAppToken')->plainTextToken;
+
             return response()->json([
-                'message' => 'login success',
                 'token' => $token
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'login feu',
             ]);
         }
     }
@@ -85,9 +77,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logout success'
-        ]);
+        return redirect()->route('loginAdmin');
     }
 
 
