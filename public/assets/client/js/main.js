@@ -325,6 +325,14 @@
 
     /*--------------------- Add to cart button notify js ---------------------- */
     $('.cr-shopping-bag').on("click", function () {
+        var isLoggedIn = false; // Thay bằng kiểm tra trạng thái đăng nhập thực tế
+        if (!isLoggedIn) {
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Bạn cần <a href="/auth/login">đăng nhập</a> để thêm sản phẩm vào giỏ hàng.</p></div>');
+            setTimeout(function () {
+                $('.cr-cart-notify').fadeOut();
+            }, 3000);
+            return;
+        }
         $('.cr-wish-notify').remove();
         $('.cr-compare-notify').remove();
         $('.cr-cart-notify').remove();
@@ -332,14 +340,14 @@
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in  Cart Successfully!</p></div>');
         } else {
             $(this).addClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in Cart Successfully!</p></div>');
         }
         setTimeout(function () {
             $('.cr-cart-notify').fadeOut();
-        }, 2000);
+        }, 10000);
     });
 
     /* Slider room details */

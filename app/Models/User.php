@@ -29,7 +29,6 @@ class User extends Authenticatable
         'birthday',
         'address',
         'role_id',
-        'voucher_id'
     ];
 
     protected $hidden = [
@@ -53,11 +52,6 @@ class User extends Authenticatable
     public function cart()
     {
         return $this->hasMany(Cart::class, 'user_id');
-    }
-
-    public function voucher()
-    {
-        return $this->belongsTo(Vouchers::class, 'voucher_id');
     }
 
     public function role()

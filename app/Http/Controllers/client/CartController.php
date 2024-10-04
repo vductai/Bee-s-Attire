@@ -15,12 +15,6 @@ class CartController extends Controller
         return view('client.carts.cart', compact('getCart'));
     }
 
-    public function getCartSlider(){
-        $user = auth()->user();
-        $getCartSlider = Cart::where('user_id', $user->user_id)->with(['productVariant', 'product'])->get();
-        return view('layout.client.footer', ['getCartSlider' => $getCartSlider]);
-    }
-
 
     public function addCart(Request $request)
     {
@@ -41,8 +35,8 @@ class CartController extends Controller
 
         if ($cartItem) {
             $cartItem->delete();
+            return redirect()->back();
         }
-        return redirect()->route('viewCart');
     }
 
 }

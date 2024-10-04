@@ -46,7 +46,11 @@
                     </div>
                 </div>
                 <form class="col-xxl-8 col-xl-7 col-md-6 col-12 mb-24" action="{{route('addCart')}}" method="post">
-                    <input type="hidden" name="user_id" value="{{auth()->user()->user_id}}">
+                    @if(auth()->check())
+                        <input type="hidden" name="user_id" value="{{auth()->user()->user_id}}">
+                    @else
+                        <input type="hidden" name="user_id" value="">
+                    @endif
                     <input type="hidden" name="product_id" value="{{$getDetail->product_id}}">
                     <input type="hidden" name="sale_price" value="{{$getDetail->sale_price}}">
                     <input type="hidden" name="product_variant_id" id="selected-product-variant-id" value="">
@@ -127,6 +131,8 @@
                                         selectedSizeId = this.getAttribute('data-size-id');
                                         hiddenInputSize.value = selectedSizeId;
                                         updateProductVariant();
+                                        filterColorsByStock();
+                                        filterSizesByStock()
                                     });
                                 });
 
@@ -140,6 +146,7 @@
                                         selectedColorId = this.getAttribute('data-color-id');
                                         hiddenInputColor.value = selectedColorId;
                                         updateProductVariant();
+                                        filterSizesByStock()
                                     });
                                 });
 
@@ -155,8 +162,40 @@
                                         }
                                     }
                                 }
-                            });
 
+                                function filterColorsByStock() {
+                                    const variants = @json($getDetail->variants);
+
+                                    colorOptions.forEach(option => {
+                                        const colorId = option.getAttribute('data-color-id');
+                                        const matchingVariant = variants.find(variant =>
+                                            variant.size_id == selectedSizeId && variant.color_id == colorId
+                                        );
+
+                                        if (matchingVariant && matchingVariant.quantity > 0) {
+                                            option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
+                                        } else {
+                                            option.style.display = 'none'; // Ẩn màu nếu hết hàng
+                                        }
+                                    });
+                                }
+                                function filterSizesByStock() {
+                                    const variants = @json($getDetail->variants);
+
+                                    sizeOptions.forEach(option => {
+                                        const sizeId = option.getAttribute('data-size-id');
+                                        const matchingVariant = variants.find(variant =>
+                                            variant.color_id == selectedColorId && variant.size_id == sizeId
+                                        );
+
+                                        if (matchingVariant && matchingVariant.quantity > 0) {
+                                            option.style.display = 'inline-block'; // Hiển thị size nếu còn hàng
+                                        } else {
+                                            option.style.display = 'none'; // Ẩn size nếu hết hàng
+                                        }
+                                    });
+                                }
+                            });
                         </script>
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
@@ -167,7 +206,11 @@
                                 <button type="button" class="minus">-</button>
                             </div>
                             <div class="cr-add-button">
-                                <button type="submit" class="cr-button cr-shopping-bag">Add to cart</button>
+                                @if(auth()->check())
+                                    <button type="submit" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                @else
+                                    <button type="button" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                @endif
                             </div>
                             {{--<div class="cr-card-icon">
                                 <a href="javascript:void(0)" class="wishlist">

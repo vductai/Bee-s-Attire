@@ -26,128 +26,101 @@
                         <!-- Sidebar Summary Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
-                                <h3 class="cr-sidebar-title">Summary</h3>
+                                <h3 class="cr-sidebar-title">Sơ lược</h3>
                             </div>
                             <div class="cr-sb-block-content">
                                 <div class="cr-checkout-summary">
+
                                     <div>
-                                        <span class="text-left">Sub-Total</span>
-                                        <span class="text-right">$80.00</span>
+                                        <span class="text-left">Tiền hàng</span>
+                                        <span class="text-right">{{number_format($totalAmount)}} đ</span>
                                     </div>
+
                                     <div>
-                                        <span class="text-left">Delivery Charges</span>
-                                        <span class="text-right">$80.00</span>
+                                        <span class="text-left">Giảm giá</span>
+                                        <span class="text-right">{{number_format($discount) ?? '0'}} đ</span>
                                     </div>
                                     <div class="cr-checkout-summary-total">
-                                        <span class="text-left">Total Amount</span>
-                                        <span class="text-right">$80.00</span>
+                                        <span class="text-left">Tổng tiền hàng</span>
+                                        <span class="text-right">{{number_format($total_after_discount) ?? '0'}} đ</span>
                                     </div>
                                 </div>
                                 <div class="cr-checkout-pro">
                                     <div class="col-sm-12 mb-6">
-                                        <div class="cr-product-inner">
-                                            <div class="cr-pro-image-outer">
-                                                <div class="cr-pro-image">
-                                                    <a href="product-left-sidebar.html" class="image">
-                                                        <img class="main-image" src="{{asset('assets/client/img/product/10.jpg')}}"
-                                                             alt="Product">
-                                                    </a>
+                                        @foreach($selCart as $item)
+                                            <div class="cr-product-inner">
+                                                <div class="cr-pro-image-outer">
+                                                    <div class="cr-pro-image">
+                                                        <a href="product-left-sidebar.html" class="image">
+                                                            <img class="main-image"
+                                                                 src="{{asset('upload/'. $item->product->product_avatar)}}"
+                                                                 alt="Product">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="cr-pro-content cr-product-details">
+                                                    <h5 class="cr-pro-title">
+                                                        <a href="product-left-sidebar.html">{{$item->product->product_name}}</a>
+                                                    </h5>
+                                                    <div class="cr-pro-rating">
+                                                        <p>x{{$item->quantity}}</p>
+                                                    </div>
+                                                    <p class="cr-price">
+                                                        <span class="new-price">{{number_format($item->product->sale_price)}} đ</span>
+                                                        <span class="old-price">{{number_format($item->product->product_price)}} đ</span>
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div class="cr-pro-content cr-product-details">
-                                                <h5 class="cr-pro-title"><a href="product-left-sidebar.html">Dates Value
-                                                        Pack Pouch</a></h5>
-                                                {{--<div class="cr-pro-rating">
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-line"></i>
-                                                </div>--}}
-                                                <p class="cr-price"><span class="new-price">$120.25</span> <span
-                                                        class="old-price">$123.25</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 mb-0">
-                                        <div class="cr-product-inner">
-                                            <div class="cr-pro-image-outer">
-                                                <div class="cr-pro-image">
-                                                    <a href="product-left-sidebar.html" class="image">
-                                                        <img class="main-image" src="{{asset('assets/client/img/product/12.jpg')}}"
-                                                             alt="Product">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="cr-pro-content cr-product-details">
-                                                <h5 class="cr-pro-title"><a href="product-left-sidebar.html">Smoked
-                                                        Honey Spiced Nuts</a></h5>
-                                                {{--<div class="cr-pro-rating">
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-line"></i>
-                                                </div>--}}
-                                                <p class="cr-price"><span class="new-price">$120.25</span> <span
-                                                        class="old-price">$123.25</span></p>
-
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Sidebar Summary Block -->
                     </div>
-                    {{--<div class="cr-sidebar-wrap cr-checkout-del-wrap">
+                    <div class="cr-sidebar-wrap cr-checkout-del-wrap">
                         <!-- Sidebar Summary Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
-                                <h3 class="cr-sidebar-title">Delivery Method</h3>
+                                <h3 class="cr-sidebar-title">Voucher</h3>
                             </div>
                             <div class="cr-sb-block-content">
                                 <div class="cr-checkout-del">
-                                    <div class="cr-del-desc">Please select the preferred shipping method to use on this
-                                        order.</div>
-                                    <form action="#">
+                                    <form action="{{route('addVoucher')}}" method="post">
+                                        <input type="hidden" name="totalAmount" value="{{$totalAmount}}">
+                                        @csrf
                                         <span class="cr-del-option">
-                                            <span>
-                                                <span class="cr-del-opt-head">Free Shipping</span>
-                                                <input type="radio" id="del1" name="radio-group" checked>
-                                                <label for="del1">Rate - $0 .00</label>
-                                            </span>
-                                            <span>
-                                                <span class="cr-del-opt-head">Flat Rate</span>
-                                                <input type="radio" id="del2" name="radio-group">
-                                                <label for="del2">Rate - $5.00</label>
+                                            <span >
+                                                <span class="cr-del-opt-head">Nhập mã giảm giá</span>
+                                                <input type="text" class="form-control" name="voucher_code">
+                                                @if(session('voucherError'))
+                                                    <p class="text-danger">{{session('voucherError')}}</p>
+                                                @endif
                                             </span>
                                         </span>
-                                        <span class="cr-del-commemt">
-                                            <span class="cr-del-opt-head">Add Comments About Your Order</span>
-                                            <textarea name="your-commemt" placeholder="Comments"></textarea>
-                                        </span>
+                                        <button class="btn btn-success mt-2" type="submit">Add mã giảm giá</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <!-- Sidebar Summary Block -->
-                    </div>--}}
+                    </div>
                     <div class="cr-sidebar-wrap cr-checkout-pay-wrap">
                         <!-- Sidebar Payment Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
-                                <h3 class="cr-sidebar-title">Payment Method</h3>
+                                <h3 class="cr-sidebar-title">Phương thức thanh toán</h3>
                             </div>
                             <div class="cr-sb-block-content">
                                 <div class="cr-checkout-pay">
-                                    <div class="cr-pay-desc">Please select the preferred payment method to use on this
-                                        order.</div>
+                                    <div class="cr-pay-desc">
+                                        Vui lòng chọn phương thức thanh toán ưa thích để sử dụng cho đơn hàng này.
+                                    </div>
                                     <form action="#" class="payment-options">
                                         <span class="cr-pay-option">
                                             <span>
                                                 <input type="radio" id="pay1" name="radio-group" checked>
-                                                <label for="pay1">Cash On Delivery</label>
+                                                <label for="pay1">Tiền mặt khi giao hàng</label>
                                             </span>
                                         </span>
                                         <span class="cr-pay-option">
@@ -159,7 +132,7 @@
                                         <span class="cr-pay-option">
                                             <span>
                                                 <input type="radio" id="pay3" name="radio-group">
-                                                <label for="pay3">Bank Transfer</label>
+                                                <label for="pay3">Chuyển khoản ngân hàng</label>
                                             </span>
                                         </span>
                                     </form>
@@ -241,9 +214,9 @@
                             </div>--}}
                             <div class="cr-checkout-wrap">
                                 <div class="cr-checkout-block cr-check-bill">
-                                    <h3 class="cr-checkout-title">Billing Details</h3>
+                                    <h3 class="cr-checkout-title">Chi tiết thanh toán</h3>
                                     <div class="cr-bl-block-content">
-                                        <div class="cr-check-subtitle">Checkout Options</div>
+                                        {{--<div class="cr-check-subtitle">Checkout Options</div>
                                         <span class="cr-bill-option">
                                             <span>
                                                 <input type="radio" id="bill1" name="radio-group">
@@ -253,77 +226,40 @@
                                                 <input type="radio" id="bill2" name="radio-group" checked>
                                                 <label for="bill2">I want to use new address</label>
                                             </span>
-                                        </span>
+                                        </span>--}}
                                         <div class="cr-check-bill-form mb-minus-24">
-                                            <form action="#" method="post">
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>First Name*</label>
-                                                    <input type="text" name="firstname"
-                                                           placeholder="Enter your first name" required>
-                                                </span>
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>Last Name*</label>
-                                                    <input type="text" name="lastname"
-                                                           placeholder="Enter your last name" required>
+                                            <form action="#" method="post" id="formCheckOut">
+                                                @csrf
+                                                <span class="cr-bill-wrap">
+                                                    <label>UserName</label>
+                                                    <input type="text" value="{{$item->user->username}}"
+                                                           name="username"
+                                                           placeholder="Enter your username" required>
                                                 </span>
                                                 <span class="cr-bill-wrap">
                                                     <label>Address</label>
-                                                    <input type="text" name="address" placeholder="Address Line 1">
+                                                    <input type="text" name="address" value="{{$item->user->address}}"
+                                                           placeholder="Address">
                                                 </span>
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>City *</label>
-                                                    <span class="cr-bl-select-inner">
-                                                        <select name="cr_select_city" id="cr-select-city"
-                                                                class="cr-bill-select">
-                                                            <option selected disabled>City</option>
-                                                            <option value="1">City 1</option>
-                                                            <option value="2">City 2</option>
-                                                            <option value="3">City 3</option>
-                                                            <option value="4">City 4</option>
-                                                            <option value="5">City 5</option>
-                                                        </select>
-                                                    </span>
+                                                <span class="cr-bill-wrap ">
+                                                    <label>Phone</label>
+                                                    <input type="number" value="{{$item->user->phone}}" name="phone"
+                                                           placeholder="Phone">
                                                 </span>
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>Post Code</label>
-                                                    <input type="text" name="postalcode" placeholder="Post Code">
-                                                </span>
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>Country *</label>
-                                                    <span class="cr-bl-select-inner">
-                                                        <select name="cr_select_country" id="cr-select-country"
-                                                                class="cr-bill-select">
-                                                            <option selected disabled>Country</option>
-                                                            <option value="1">Country 1</option>
-                                                            <option value="2">Country 2</option>
-                                                            <option value="3">Country 3</option>
-                                                            <option value="4">Country 4</option>
-                                                            <option value="5">Country 5</option>
-                                                        </select>
-                                                    </span>
-                                                </span>
-                                                <span class="cr-bill-wrap cr-bill-half">
-                                                    <label>Region State</label>
-                                                    <span class="cr-bl-select-inner">
-                                                        <select name="cr_select_state" id="cr-select-state"
-                                                                class="cr-bill-select">
-                                                            <option selected disabled>Region/State</option>
-                                                            <option value="1">Region/State 1</option>
-                                                            <option value="2">Region/State 2</option>
-                                                            <option value="3">Region/State 3</option>
-                                                            <option value="4">Region/State 4</option>
-                                                            <option value="5">Region/State 5</option>
-                                                        </select>
-                                                    </span>
+                                                <span class="cr-bill-wrap ">
+                                                    <label>Email</label>
+                                                    <input type="email" value="{{$item->user->email}}" name="email"
+                                                           placeholder="Email">
                                                 </span>
                                             </form>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                             <span class="cr-check-order-btn">
-                                <a class="cr-button mt-30" href="#">Place Order</a>
+                                <a class="cr-button mt-30"
+                                   onclick="event.preventDefault(); document.getElementById('formCheckOut').submit();"
+                                   href="#">Place Order</a>
                             </span>
                         </div>
                     </div>

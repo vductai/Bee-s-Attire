@@ -17,7 +17,7 @@
     </section>
 
     <!-- Cart -->
-    <section class="section-cart padding-t-100">
+    <section class="section-cart padding-t-100 mb-5">
         <div class="container">
             <div class="row d-none">
                 <div class="col-lg-12">
@@ -38,7 +38,7 @@
                         <div class="row">
                             <form action="#">
                                 <div class="cr-table-content">
-                                    <table>
+                                    <table >
                                         <thead>
                                         <tr>
                                             <th>Product</th>
@@ -141,17 +141,21 @@
                                                             });
                                                         });
                                                     });
-
                                                 </script>
                                                 <td class="cr-cart-remove">
-                                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                                    <form action="{{ route('deleteCart', $item->cart_item_id) }}"
+                                                          method="POST" style="display: none;" id="cart-form">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    <a href="#"
+                                                       onclick="event.preventDefault(); document.getElementById('cart-form').submit();">
                                                         <i class="ri-delete-bin-line"></i>
                                                     </a>
                                                 </td>
+                                            </tr>
+                                            <tr>
+
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -160,8 +164,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
-                                            <a href="javascript:void(0)" class="cr-links">Continue Shopping</a>
-                                            <a href="cart.html" class="cr-button">
+                                            <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
+                                            <a href="{{route('checkout')}}" class="cr-button">
                                                 Check Out
                                             </a>
                                         </div>

@@ -14,6 +14,7 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PasswordController;
 use App\Http\Controllers\auth\VerificationController;
 use App\Http\Controllers\client\CartController;
+use App\Http\Controllers\client\CheckOutController;
 use App\Http\Controllers\client\CommentController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
@@ -31,7 +32,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-/// admin
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // route admin và user dùng chung
     Route::group(['middleware' => ['checkRole:user,admin']], function () {
@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/addCart', [CartController::class, 'addCart'])->name('addCart');
         // get cart
         Route::get('/shoping-cart', [CartController::class, 'getCart'])->name('viewCart');
+        // delete cart
+        Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
     });
 
     // route chỉ admin mới dùng được
@@ -68,21 +70,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::resource('product', ProductController::class);
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
-
             Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
         });
     });
 
 
 });
+/*admin*/
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthAdminController::class, 'viewLoginAdmin'])->name('admin.viewLogin');
     Route::post('/login', [AuthAdminController::class, 'loginAdmin'])->name('admin.login');
 });
 
+/*end admin*/
+
 /* client*/
+
 Route::prefix('auth')->group(function () {
+
     // login
     Route::get('login', [AuthClientController::class, 'viewLogin'])->name('client.viewLogin');
     Route::post('login', [AuthClientController::class, 'loginClient'])->name('client.login');
@@ -97,7 +103,6 @@ Route::prefix('auth')->group(function () {
     Route::get('success', function () {
         return view('client.auth.message.verify-email-success');
     })->name('success');
-
     Route::get('error', function () {
         return view('client.auth.message.verify-email-error');
     })->name('error');
@@ -108,17 +113,28 @@ Route::prefix('auth')->group(function () {
     Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
 
-
 });
 
+/*end client*/
+
+/*home*/
+
+// product home
 Route::get('/', [ProductClient::class, 'listAllProductMain'])->name('home');
-
-Route::get('/product', function () {
-    return view('client.product.show-product');
-})->name('product');
-
+// product detail
 Route::get('/detail/{id}', [ProductClient::class, 'getProductDetail'])->name('detail');
+// shop product
+Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 
+/*and home*/
+
+/* check out*/
+
+Route::get('/checkout', [CheckOutController::class, 'selectCart'])->name('checkout');
+
+Route::post('/addVoucher', [CheckOutController::class, 'applyVoucher'])->name('addVoucher');
+
+/*end check out*/
 Route::get('/about', function () {
     return view('client.us.about');
 })->name('about');
@@ -127,6 +143,10 @@ Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
 
-Route::get('/checkout', function () {
-    return view('client.check-out');
-})->name('checkout');
+
+
+
+// check login
+Route::get('/check-login', function () {
+    return response()->json(['isLoggedIn' => auth()->check()]);
+})->name('client.checkLogin');
