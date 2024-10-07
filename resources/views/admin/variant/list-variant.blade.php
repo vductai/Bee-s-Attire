@@ -10,47 +10,46 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="product_list" class="table" style="width:100%">
+                        <table id="product_list" class="table text-center" style="width:100%">
                             <thead>
                             <tr>
+                                <th>STT</th>
                                 <th>Product</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Offer</th>
-                                <th>Purchased</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                                <th>Date</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><img class="tbl-thumb" src="{{asset('assets/admin/img/product/1.jpg')}}"
-                                         alt="Product Image"></td>
-                                <td>Mens t-shirt</td>
-                                <td>$20</td>
-                                <td>25% OFF</td>
-                                <td>61</td>
-                                <td>5421</td>
-                                <td><span class="active">active</span></td>
-                                <td>05/11/2023</td>
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($list as $item)
+                                <tr>
+                                    <td>{{$loop->index}}</td>
+                                    <td>{{$item->product->product_name}}</td>
+                                    <td><input id="text" name="color_code"
+                                               class="form-control here slug-title"
+                                               type="color"
+                                               value="{{$item->color->color_code}}" disabled></td>
+                                    <td>{{$item->size->size_name}}</td>
+                                    <td>{{$item->quantity}}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Edit</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
