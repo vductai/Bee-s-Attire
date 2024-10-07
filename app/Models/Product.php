@@ -19,7 +19,8 @@ class Product extends Model
         'product_price',
         'product_desc',
         'sale_price',
-        'category_id'
+        'category_id',
+        'slug'
     ];
 
     public function category(): BelongsTo

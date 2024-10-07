@@ -32,19 +32,23 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mixshow" id="MixItUpDA2FB7">
                 <div class="col-lg-3 col-12 md-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                     <div class="cr-shop-sideview">
                         <div class="cr-shop-categories">
                             <h4 class="cr-shop-sub-title">Category</h4>
                             <div class="cr-checkbox">
-                                @foreach($listcategory as $item)
-                                    <div class="checkbox-group">
-                                        <input type="checkbox" id="{{$item->category_name}}">
-                                        <label for="{{$item->category_name}}">{{$item->category_name}}</label>
-                                        <span>[{{ $item->product_count }}]</span>
-                                    </div>
-                                @endforeach
+
+                                <div class="cr-product-tabs">
+                                    <ul>
+                                        <li data-filter="all">Tất cả sản phẩm</li>
+                                        @foreach($listcategory as $item)
+                                            <li data-filter=".category-{{$item->category_id}}">
+                                                {{$item->category_name}} ( {{ $item->product_count }} )
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="cr-shop-price">
@@ -127,7 +131,8 @@
                     </div>
                     <div class="row col-100 mb-minus-24">
                         @foreach($listAllProductShop as $item)
-                            <div class="col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                            <div
+                                class="mix category-{{$item->category->category_id}} col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
                                 <div class="cr-product-card">
                                     <div class="cr-product-image">
                                         <div class="cr-image-inner zoom-image-hover">
@@ -158,12 +163,9 @@
                                                 <p>(4.5)</p>
                                             </div>--}}
                                         </div>
-                                        <a href="{{route('detail', $item->product_id)}}" class="title">
+                                        <a href="{{route('detail', ['slug' => $item->slug])}}" class="title">
                                             {{$item->product_name}}
                                         </a>
-                                        {{--<p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt
-                                            ut labore lacus vel facilisis.</p>--}}
                                         <ul class="list">
 
                                             <li><label>Size :</label>

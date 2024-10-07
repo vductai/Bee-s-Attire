@@ -22,12 +22,10 @@
                         <i class="ri-product-hunt-line"></i></i><span class="condense">Product<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('product.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List Product</a></li>
-                        <li><a href="" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('product.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Add Product</a></li>
-                        <li><a href="" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Update Product</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
@@ -37,8 +35,6 @@
                     <ul class="cr-sb-subdrop condense">
                         <li><a href="{{route('product-variant.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List variant</a></li>
-                        <li><a href="{{route('product-variant.create')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Create variant</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">

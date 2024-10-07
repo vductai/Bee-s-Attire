@@ -28,7 +28,7 @@
         });
 
         /* Minus and Plus Quantity */
-        $('.minus').on("click", function () {
+        /*$('.minus').on("click", function () {
             var $input = $(this).parent().find('input');
             var count = parseInt($input.val()) - 1;
             count = count < 1 ? 1 : count;
@@ -42,7 +42,7 @@
             $input.val(parseInt($input.val()) + 1);
             $input.change();
             return false;
-        });
+        });*/
 
         /* Onclick Remove Products */
         $(".cr-remove-product").on("click", function () {
@@ -581,6 +581,9 @@
     /* Potfolio for Mixit up */
     var portfolioContent = $(".product-content");
     portfolioContent.mixItUp();
+
+    var show = $(".mixshow");
+    show.mixItUp()
 
     /* Footer year */
     var date = new Date().getFullYear();
