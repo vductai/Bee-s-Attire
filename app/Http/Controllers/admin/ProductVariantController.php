@@ -43,7 +43,7 @@ class ProductVariantController extends Controller
         return view('admin.variant.add-variant', compact('product', 'color', 'size', 'variant'));
     }
 
-    public function store(ProductVariantRequest $request)
+    /*public function store(ProductVariantRequest $request)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
@@ -80,7 +80,7 @@ class ProductVariantController extends Controller
             'data' => $variant
         ]);
 
-    }
+    }*/
 
     public function destroy($id){
         try {
@@ -88,9 +88,7 @@ class ProductVariantController extends Controller
         } catch (AuthorizationException $e) {
         }
         $delete = ProductVariant::where('product_variant_id', $id)->delete();
-        return response()->json([
-            'message' => 'delete',
-            'data' => $delete
-        ]);
+
+        return redirect()->route('product-variant.index');
     }
 }

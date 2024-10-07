@@ -17,7 +17,13 @@ class ProductRequest extends FormRequest
             'category_id',
             'quantity',
             'product_images',
-            'product_images.*'
+            'product_images.*',
+            'slug',
+            'color_id',
+            'color_id.*',
+            'size_id',
+            'size_id.*',
+            'quantity'
         ];
     }
 

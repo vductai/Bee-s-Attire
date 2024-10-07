@@ -12,10 +12,6 @@
                         <div class="cr-banner">
                             <h2>Popular Products</h2>
                         </div>
-                        {{--<div class="cr-banner-sub-title">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore lacus vel facilisis. </p>
-                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -26,12 +22,8 @@
                             <div class="cr-product-tabs">
                                 <ul>
                                     <li class="active" data-filter="all">All</li>
-                                    {{--<li data-filter=".snack">Snack</li>
-                                    <li data-filter=".vegetable">Vegetable</li>
-                                    <li data-filter=".fruit">Fruit</li>
-                                    <li data-filter=".bakery">Bakery</li>--}}
                                     @foreach($listAllCategory as $itemCategory)
-                                        <li data-filter=".{{$itemCategory->category_name}}">{{$itemCategory->category_name}}</li>
+                                        <li data-filter=".category-{{$itemCategory->category_id}}">{{$itemCategory->category_name}}</li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -52,7 +44,7 @@
                 <div class="col-xl-9 col-lg-8 col-12 mb-24">
                     <div class="row mb-minus-24">
                         @foreach($listAllProduct as $item)
-                            <div class="mix col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                            <div class="mix category-{{$item->category->category_id}} col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
                                 <div class="cr-product-card">
                                     <div class="cr-product-image">
                                         <div class="cr-image-inner zoom-image-hover">
@@ -80,7 +72,7 @@
                                                 <p>(4.5)</p>
                                             </div>--}}
                                         </div>
-                                        <a href="{{route('detail', $item->product_id)}}" class="title">{{$item->product_name}}</a>
+                                        <a href="{{route('detail', ['slug' => $item->slug])}}" class="title">{{$item->product_name}}</a>
                                         <p class="cr-price"><span class="new-price">{{number_format($item->sale_price)}} đ</span> <span
                                                 class="old-price">{{number_format($item->product_price)}} đ</span></p>
                                     </div>

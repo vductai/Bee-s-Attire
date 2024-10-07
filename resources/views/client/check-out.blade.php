@@ -38,7 +38,7 @@
 
                                     <div>
                                         <span class="text-left">Giảm giá</span>
-                                        <span class="text-right">{{number_format($discount) ?? '0'}} đ</span>
+                                        <span class="text-right">{{ number_format($discount) ?? '0'}} đ</span>
                                     </div>
                                     <div class="cr-checkout-summary-total">
                                         <span class="text-left">Tổng tiền hàng</span>
@@ -93,9 +93,6 @@
                                             <span >
                                                 <span class="cr-del-opt-head">Nhập mã giảm giá</span>
                                                 <input type="text" class="form-control" name="voucher_code">
-                                                @if(session('voucherError'))
-                                                    <p class="text-danger">{{session('voucherError')}}</p>
-                                                @endif
                                             </span>
                                         </span>
                                         <button class="btn btn-success mt-2" type="submit">Add mã giảm giá</button>
