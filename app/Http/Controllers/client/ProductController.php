@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Size;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -20,30 +21,44 @@ class ProductController extends Controller
     }
 
 
-    public function listAllProductMain()
+    public function listAllProductMain(Request $request)
     {
         $listAllCategory = Category::all();
-        $listAllProduct = Product::all();
-        return view('client.main', compact('listAllProduct', 'listAllCategory'));
+
+        $category_id = $request->get('category_id', 'all');
+        if ($category_id === 'all'){
+            $listAllProduct = Product::all();
+        }else{
+            $listAllProduct = Product::where('category_id', $category_id)->get();
+
+        }
+        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id'));
     }
 
-    public function getProductDetail($id)
+    public function getProductDetail($slug)
     {
-        $getDetail = Product::findOrFail($id);
+        $getDetail = Product::where('slug', $slug)->first();
         return view('client.product.detail-product', compact('getDetail'));
     }
 
 
     // list product shop
 
-    public function getProductShop()
+    public function getProductShop(Request $request)
     {
+        $category_id = $request->get('category_id', 'all');
+
         $listcategory = Category::withCount('product')->get();
-        $listAllProductShop = Product::all();
+        if ($category_id === 'all'){
+            $listAllProductShop = Product::all();
+        }else{
+            $listAllProductShop = Product::where('category_id', $category_id)->get();
+        }
         $listColor = Color::all();
         $listSize = Size::all();
         return view('client.product.show-product', compact('listAllProductShop',
             'listcategory', 'listSize', 'listColor'));
     }
+
 
 }

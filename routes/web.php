@@ -10,7 +10,6 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\VouchersAPIController;
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthClientController;
-use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PasswordController;
 use App\Http\Controllers\auth\VerificationController;
 use App\Http\Controllers\client\CartController;
@@ -122,7 +121,7 @@ Route::prefix('auth')->group(function () {
 // product home
 Route::get('/', [ProductClient::class, 'listAllProductMain'])->name('home');
 // product detail
-Route::get('/detail/{id}', [ProductClient::class, 'getProductDetail'])->name('detail');
+Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('detail');
 // shop product
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 

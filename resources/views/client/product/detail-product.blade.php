@@ -130,6 +130,7 @@
                                         // Gán giá trị cho selectedSizeId
                                         selectedSizeId = this.getAttribute('data-size-id');
                                         hiddenInputSize.value = selectedSizeId;
+                                        console.log(selectedSizeId)
                                         updateProductVariant();
                                         filterColorsByStock();
                                         filterSizesByStock()
@@ -145,6 +146,8 @@
                                         // Gán giá trị cho selectedColorId
                                         selectedColorId = this.getAttribute('data-color-id');
                                         hiddenInputColor.value = selectedColorId;
+                                        console.log(selectedColorId)
+
                                         updateProductVariant();
                                         filterSizesByStock()
                                     });
@@ -189,9 +192,10 @@
                                         );
 
                                         if (matchingVariant && matchingVariant.quantity > 0) {
-                                            option.style.display = 'inline-block'; // Hiển thị size nếu còn hàng
+                                            option.style.display = 'none'; // Hiển thị size nếu còn hàng
                                         } else {
-                                            option.style.display = 'none'; // Ẩn size nếu hết hàng
+                                            selectedSizeId.style.display = 'none';
+                                            option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
                                         }
                                     });
                                 }
@@ -254,15 +258,8 @@
                                  aria-labelledby="description-tab">
                                 <div class="cr-tab-content">
                                     <div class="cr-description">
-                                        <p>{{$getDetail->product_desc}}</p>
+                                        <p>{!!$getDetail->product_desc!!}</p>
                                     </div>
-                                    {{--<h4 class="heading">Packaging & Delivery</h4>
-                                    <div class="cr-description">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            perferendis dolor! Quis vel consequuntur repellat distinctio rem. Corrupti
-                                            ratione alias odio, error dolore temporibus consequatur, nobis veniam odit
-                                            laborum dignissimos consectetur quae vero in perferendis provident quis.</p>
-                                    </div>--}}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">

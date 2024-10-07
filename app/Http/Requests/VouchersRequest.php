@@ -26,6 +26,7 @@ class VouchersRequest extends FormRequest
             'voucher_desc' => 'required|string|max:255',
             'start_date' => 'required|date|max:255',
             'end_date' => 'required|date|max:255',
+            'quantity' => 'required'
         ];
     }
 
