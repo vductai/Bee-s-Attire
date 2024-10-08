@@ -34,7 +34,6 @@ class SizeRequest extends FormRequest
     {
         return [
             'size_name.required' => 'Tên kích thước là bắt buộc.',
-            'size_name.string' => 'Tên kích thước phải là một chuỗi.',
             'size_name.max' => 'Tên kích thước không được vượt quá 225 ký tự.',
         ];
     }

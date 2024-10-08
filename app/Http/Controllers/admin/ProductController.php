@@ -44,7 +44,7 @@ class ProductController extends Controller
         return view('admin.product.edit-product',compact('show', 'category'));
     }
 
-    public function create()
+    public function create(ProductRequest $request)
     {
         $category = Category::all();
         $color = Color::all();
