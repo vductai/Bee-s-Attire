@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
 
+    public function getProfile()
+    {
+        return view('client.Profile-client');
+    }
+
+
     public function updateProfile(UserRequest $request)
     {
         try {
@@ -45,13 +51,9 @@ class ProfileController extends Controller
 
             $update = User::find($userId);
 
-
-            return response()->json([
-                'message' => 'update profile',
-                'data' => $update
-            ]);
-        }    }
-
+            return redirect()->route('profile');
+        }
+    }
 
 
 }

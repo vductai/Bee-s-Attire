@@ -19,11 +19,9 @@
                                         <div class="col-12">
                                             <select class="form-control form-select">
                                                 <option>Select Main Product</option>
-                                                <option>Clothes</option>
-                                                <option>Jewellery</option>
-                                                <option>Furniture</option>
-                                                <option>Perfume</option>
-                                                <option>Footwear</option>
+                                            @foreach($product as $pro)
+                                                    <option>{{$pro->product_name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -32,26 +30,38 @@
                                         <div class="col-12">
                                             <select class="form-control form-select">
                                                 <option>Select Main Size</option>
-                                                <option>Clothes</option>
-                                                <option>Jewellery</option>
-                                                <option>Furniture</option>
-                                                <option>Perfume</option>
-                                                <option>Footwear</option>
+                                                @foreach($size as $s)
+                                                    <option>{{$s->size_name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Color</label>
                                         <div class="col-12">
-                                            <select class="form-control form-select">
+                                            <select class="form-control form-select" id="colorSelect">
                                                 <option>Select Main Color</option>
-                                                <option>Clothes</option>
-                                                <option>Jewellery</option>
-                                                <option>Furniture</option>
-                                                <option>Perfume</option>
-                                                <option>Footwear</option>
+                                                @foreach($color as $c)
+                                                    <option value="{{$c->color_code}}">
+                                                        {{$c->color_name}}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
+
+                                        <div class="col-12">
+                                            <input id="color" name="color_code"
+                                                   class="form-control here slug-title"
+                                                   type="color"
+                                                   value="" disabled>
+                                        </div>
+                                        <script !src="">
+                                            document.getElementById('colorSelect').addEventListener('change', function() {
+                                                var input = document.getElementById('color');
+                                                var selectedColor = this.value;
+                                                input.value = selectedColor;
+                                            });
+                                        </script>
                                     </div>
                                     <div class="form-group">
                                         <label >Quantity</label>
@@ -73,40 +83,46 @@
             <div class="cr-cat-list cr-card card-default">
                 <div class="cr-card-content ">
                     <div class="table-responsive tbl-800">
-                        <table id="cat_data_table" class="table">
+                        <table id="product_list" class="table text-center" style="width:100%">
                             <thead>
                             <tr>
                                 <th>STT</th>
                                 <th>Product</th>
-                                <th>Size</th>
                                 <th>Color</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Top</td>
-                                <td>Top</td>
-                                <td>Top</td>
-                                <td>
-                                    <div>
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($variant as $item)
+                                <tr>
+                                    <td>{{$loop->index}}</td>
+                                    <td>{{$item->product->product_name}}</td>
+                                    <td><input id="text" name="color_code"
+                                               class="form-control here slug-title"
+                                               type="color"
+                                               value="{{$item->color->color_code}}" disabled></td>
+                                    <td>{{$item->size->size_name}}</td>
+                                    <td>{{$item->quantity}}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
-
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('updateSize')}}">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Edit</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

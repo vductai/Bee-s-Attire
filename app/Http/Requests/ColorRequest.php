@@ -9,6 +9,7 @@ class ColorRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'color_name',
             'color_code'
         ];
     }
