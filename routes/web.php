@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\admin\CategoryAPIController;
 use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\ProductController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\client\CheckOutController;
 use App\Http\Controllers\client\CommentController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
+use App\Http\Controllers\admin\BannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/shoping-cart', [CartController::class, 'getCart'])->name('viewCart');
         // delete cart
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
+        Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
     });
 
     // route chỉ admin mới dùng được
@@ -70,14 +73,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::resource('product', ProductController::class);
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
+
+            Route::resource('banners', BannerController::class);
+
             Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
         });
     });
-
-
 });
-/*admin*/
 
+
+/*admin*/
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthAdminController::class, 'viewLoginAdmin'])->name('admin.viewLogin');
     Route::post('/login', [AuthAdminController::class, 'loginAdmin'])->name('admin.login');
@@ -112,7 +117,6 @@ Route::prefix('auth')->group(function () {
     Route::post('forgot-password', [PasswordController::class, 'sendResetLink'])->name('password.email');
     Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
-
 });
 
 /*end client*/
@@ -150,3 +154,4 @@ Route::get('/contact', function () {
 Route::get('/check-login', function () {
     return response()->json(['isLoggedIn' => auth()->check()]);
 })->name('client.checkLogin');
+
