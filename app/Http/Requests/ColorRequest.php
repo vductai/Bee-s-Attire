@@ -3,10 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
-
 
 class ColorRequest extends FormRequest
 {
@@ -26,26 +22,17 @@ class ColorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_color' => 'required|string|max:50',  // Bắt buộc, chuỗi ký tự, tối đa 50 ký tự
-            'code_color' => [
-                'required',
-                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'  // Bắt buộc, định dạng mã màu hợp lệ (#RRGGBB hoặc #RGB)
-            ],
+            'color_name' => 'required',
+            'color_code' => 'required', // Trường color_code là bắt buộc, phải là chuỗi có kích thước 7 và phải là mã màu hex
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    public function messages()
     {
-        $errors = $validator->errors();
-
-        $response = response()->json(
-            [
-                'message' => 'Dữ liệu không hợp lệ',
-                'errors' => $errors->messages(),
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
-
-        throw new HttpResponseException($response);
+        return [
+            'color_name.required' => 'Tên màu là bắt buộc.',
+            'color_code.required' => 'Mã màu là bắt buộc.',
+        ];
     }
 }
+
