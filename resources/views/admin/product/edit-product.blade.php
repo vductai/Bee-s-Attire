@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-    @endforeach
+   
 
 @endsection
 @section('script')
