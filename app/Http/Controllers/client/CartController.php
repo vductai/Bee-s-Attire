@@ -30,13 +30,20 @@ class CartController extends Controller
     }
 
     public function deleteCart($id){
-        $user = auth()->user();
-        $cartItem = Cart::where('user_id', $user->user_id)->where('cart_item_id', $id)->first();
-
+        $cartItem = Cart::find($id);
         if ($cartItem) {
             $cartItem->delete();
             return redirect()->back();
         }
+    }
+
+    public function deleteCartSlider($id){
+        $cartItem = Cart::find($id);
+
+        if ($cartItem) {
+            $cartItem->delete();
+        }
+        return redirect()->route('home');
     }
 
 }

@@ -1,4 +1,3 @@
-
 <!-- Cart -->
 <div class="cr-cart-overlay"></div>
 <div class="cr-cart-view">
@@ -9,14 +8,21 @@
                 <button type="button" class="close-cart">×</button>
             </div>
             <ul class="crcart-pro-items">
-                {{--@foreach($getCartSlider as $item)
+                @php
+                    $subTotal = 0;
+                @endphp
+                @foreach($getCartSlider as $item)
+                    @php
+                        $subTotal += $item->product->sale_price;
+                    @endphp
                     <li>
                         <a href="product-left-sidebar.html" class="crside_pro_img">
                             <img src="{{asset('upload/'. $item->product->product_avatar)}}" alt="product-1">
                         </a>
                         <div class="cr-pro-content">
-                            <a href="product-left-sidebar.html" class="cart_pro_title">{{$item->product->product_name}}</a>
-                            <span class="cart-price"><span>{{number_format($item->price)}}</span> đ</span>
+                            <a href="{{route('detail', $item->product->product_id)}}"
+                               class="cart_pro_title">{{$item->product->product_name}}</a>
+                            <span class="cart-price"><span>{{number_format($item->product->sale_price)}}</span> đ</span>
                             <div class="cr-cart-qty">
                                 <div class="cart-qty-plus-minus">
                                     <button type="button" class="plus">+</button>
@@ -25,10 +31,17 @@
                                     <button type="button" class="minus">-</button>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="remove">×</a>
+                            <form action="{{route('deleteCartSlider', $item->cart_item_id)}}" method="post"
+                                  style="display: none" id="cartSlider">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <a href="javascript:void(0)"
+                               onclick="event.preventDefault(); document.getElementById('cartSlider').submit()"
+                               class="remove">×</a>
                         </div>
                     </li>
-                @endforeach--}}
+                @endforeach
             </ul>
         </div>
         <div class="cr-cart-bottom">
@@ -36,16 +49,8 @@
                 <table class="table cart-table">
                     <tbody>
                     <tr>
-                        <td class="text-left">Sub-Total :</td>
-                        <td class="text-right">$300.00</td>
-                    </tr>
-                    <tr>
-                        <td class="text-left">VAT (20%) :</td>
-                        <td class="text-right">$60.00</td>
-                    </tr>
-                    <tr>
-                        <td class="text-left">Total :</td>
-                        <td class="text-right primary-color">$360.00</td>
+                        <td class="text-left">Tổng tiền :</td>
+                        <td class="text-right">{{number_format($subTotal)}} đ</td>
                     </tr>
                     </tbody>
                 </table>

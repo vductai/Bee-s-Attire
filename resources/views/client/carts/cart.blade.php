@@ -117,7 +117,6 @@
             const productPrices = document.querySelectorAll('.product_price');
             const totals = document.querySelectorAll('.total');
 
-            console.log(plusButtons)
 
             // Hàm chuyển đổi chuỗi có dấu phẩy (định dạng tiền tệ) về số thập phân
             function parseCurrency(str) {

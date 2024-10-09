@@ -133,7 +133,6 @@
                                         console.log(selectedSizeId)
                                         updateProductVariant();
                                         filterColorsByStock();
-                                        filterSizesByStock()
                                     });
                                 });
 
@@ -146,10 +145,7 @@
                                         // Gán giá trị cho selectedColorId
                                         selectedColorId = this.getAttribute('data-color-id');
                                         hiddenInputColor.value = selectedColorId;
-                                        console.log(selectedColorId)
-
                                         updateProductVariant();
-                                        filterSizesByStock()
                                     });
                                 });
 

@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/shoping-cart', [CartController::class, 'getCart'])->name('viewCart');
         // delete cart
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
+        Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
     });
 
     // route chỉ admin mới dùng được
