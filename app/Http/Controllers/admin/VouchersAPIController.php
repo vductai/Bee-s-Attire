@@ -56,7 +56,8 @@ class VouchersAPIController extends Controller
             'voucher_price' => $request->voucher_price,
             'voucher_desc' => $request->voucher_desc,
             'start_date' => $start_date,
-            'end_date' => $end_date
+            'end_date' => $end_date,
+            'quantity' => $request->quantity
         ]);
 
         return response()->json([

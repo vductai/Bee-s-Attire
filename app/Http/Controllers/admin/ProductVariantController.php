@@ -4,7 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductVariantRequest;
+use App\Models\Color;
+use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\Size;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,10 +20,7 @@ class ProductVariantController extends Controller
         } catch (AuthorizationException $e) {
         }
         $list = ProductVariant::all();
-        return response()->json([
-            'message' => 'list',
-            'data' => $list
-        ]);
+        return view('admin.variant.list-variant', compact('list'));
     }
 
     public function show($id){
@@ -28,14 +28,22 @@ class ProductVariantController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $show = ProductVariant::where('product_variant_id', $id)->get();
+        $show = ProductVariant::where('product_id', $id)->get();
         return response()->json([
             'message' => 'show',
             'data' => $show
         ]);
     }
 
-    public function store(ProductVariantRequest $request)
+    public function create(){
+        $product = Product::orderBy('created_at', 'desc')->get();
+        $size = Size::orderBy('created_at', 'desc')->get();
+        $color = Color::orderBy('created_at', 'desc')->get();
+        $variant = ProductVariant::orderBy('created_at', 'desc')->get();
+        return view('admin.variant.add-variant', compact('product', 'color', 'size', 'variant'));
+    }
+
+    /*public function store(ProductVariantRequest $request)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
@@ -72,7 +80,7 @@ class ProductVariantController extends Controller
             'data' => $variant
         ]);
 
-    }
+    }*/
 
     public function destroy($id){
         try {
@@ -80,9 +88,7 @@ class ProductVariantController extends Controller
         } catch (AuthorizationException $e) {
         }
         $delete = ProductVariant::where('product_variant_id', $id)->delete();
-        return response()->json([
-            'message' => 'delete',
-            'data' => $delete
-        ]);
+
+        return redirect()->route('product-variant.index');
     }
 }

@@ -19,9 +19,9 @@
     <link href="{{asset('assets/admin/css/vendor/owl.carousel.min.css')}}" rel="stylesheet">
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--}}
     <!-- Vendor CSS -->
-    <link href='{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}' rel='stylesheet'>
-    <link href='{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}' rel='stylesheet'>
-    <link href='{{asset('assets/admin/css/vendor/daterangepicker.css')}}' rel='stylesheet'>
+    <link href="{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/css/vendor/daterangepicker.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/simplebar.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/apexcharts.css')}}" rel="stylesheet">
@@ -143,15 +143,25 @@
                             </div>
                             <div class="cr-hover-drop-panel right">
                                 <div class="details">
-                                    <h6>Wiley Waites</h6>
-                                    <p>wiley@example.com</p>
+                                    @if(auth()->check())
+                                        <h6>{{auth()->user()->username}}</h6>
+                                        <p>{{auth()->user()->email}}</p>
+                                    @endif
+
                                 </div>
                                 <ul class="border-top">
                                     <li><a href="team-profile.html">Profile</a></li>
                                     <li><a href="project-overview.html">Projects</a></li>
                                 </ul>
                                 <ul class="border-top">
-                                    <li><a href="signin.html"><i class="ri-logout-circle-r-line"></i>Logout</a></li>
+                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                        @csrf
+                                    </form>
+                                    <li>
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <i class="ri-logout-circle-r-line"></i>Logout
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -206,27 +216,27 @@
 </main>
 
 <!-- Vendor Custom -->
-<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}" async></script>
 <!-- Data Tables -->
-<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}" async></script>
 <!-- Caleddar -->
-<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}" async></script>
 <!-- Date Range Picker -->
-<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/date-range.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/date-range.js')}}" async></script>
 
 <!-- Main Custom -->
-<script src="{{asset('assets/admin/js/main.js')}}"></script>
-<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
+<script src="{{asset('assets/admin/js/main.js')}}" async></script>
+<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}" async></script>
 @yield('script')
 </body>
 </html>

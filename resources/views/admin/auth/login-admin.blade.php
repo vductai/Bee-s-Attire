@@ -46,13 +46,14 @@
                             <div class="main-info">
                                 <div class="hero-container">
                                     <!-- Login form -->
-                                    <form class="login-form" method="post">
+                                    <form class="login-form" action="{{route('admin.login')}}" method="post">
+                                        @csrf
                                         <div class="imgcontainer">
                                             <a href="index.html"><img src="assets/img/logo/full-logo.png" alt="logo"
                                                                       class="logo"></a>
                                         </div>
                                         <div class="input-control">
-                                            <input type="text" placeholder="Enter Username" name="uname"
+                                            <input type="text" placeholder="Enter Email" name="email"
                                                    required>
                                             <span class="password-field-show">
 													<input type="password" placeholder="Enter Password"

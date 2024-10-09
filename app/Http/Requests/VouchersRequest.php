@@ -14,21 +14,6 @@ class VouchersRequest extends FormRequest
     {
         return true;
     }
-
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator){
-        throw new HttpResponseException(response()->json([
-            'message' => 'Lỗi thêm vouchers!',
-            'status' => false,
-            'errors' => $validator->errors()
-        ], 400));
-    }
-   
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [

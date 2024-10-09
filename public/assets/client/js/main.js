@@ -69,8 +69,7 @@
             if (crCurScroll > crPrevScroll) {
                 //scrolled up
                 crDirection = 2;
-            }
-            else if (crCurScroll < crPrevScroll) {
+            } else if (crCurScroll < crPrevScroll) {
                 //scrolled down
                 crDirection = 1;
             }
@@ -87,8 +86,7 @@
             if (crDirection === 2 && crCurScroll > -46) {
                 crPrevDirection = crDirection;
                 $("#cr-main-menu-desk").addClass("menu_fixed_up");
-            }
-            else if (crDirection === 1) {
+            } else if (crDirection === 1) {
                 crPrevDirection = crDirection;
                 $("#cr-main-menu-desk").addClass("menu_fixed");
                 $("#cr-main-menu-desk").removeClass("menu_fixed_up");
@@ -101,8 +99,7 @@
 
             if ($window.scrollTop() <= distance + 5) {
                 $("#cr-main-menu-desk").removeClass("menu_fixed");
-            }
-            else {
+            } else {
                 checkScroll();
             }
         });
@@ -335,15 +332,20 @@
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in  Cart Successfully!</p></div>');
         } else {
             $(this).addClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in Cart Successfully!</p></div>');
         }
         setTimeout(function () {
             $('.cr-cart-notify').fadeOut();
         }, 2000);
     });
+
+
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+
 
     /* Slider room details */
     $('.slider-for').slick({
@@ -497,6 +499,11 @@
         $(this).addClass("active-color");
     });
 
+    $(".cl-kg ul li").on("click", function () {
+        $("ul li").removeClass("cl-active-color");
+        $(this).addClass("cl-active-color");
+    });
+
     /* Counter */
     $('.elementor-counter-number').each(function () {
         var size = $(this).text().split(".")[1] ? $(this).text().split(".")[1].length : 0;
@@ -521,15 +528,23 @@
         var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
         var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
         var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
-        if (hours < "10") { hours = "0" + hours; }
-        if (minutes < "10") { minutes = "0" + minutes; }
-        if (seconds < "10") { seconds = "0" + seconds; }
+        if (hours < "10") {
+            hours = "0" + hours;
+        }
+        if (minutes < "10") {
+            minutes = "0" + minutes;
+        }
+        if (seconds < "10") {
+            seconds = "0" + seconds;
+        }
         $("#days").html(days);
         $("#hours").html(hours);
         $("#minutes").html(minutes);
         $("#seconds").html(seconds);
     };
-    setInterval(function () { makeTimer(); }, 1000);
+    setInterval(function () {
+        makeTimer();
+    }, 1000);
 
     /* Products-page model */
     $(".model-oraganic-product").on("click", function () {
@@ -564,6 +579,9 @@
     var portfolioContent = $(".product-content");
     portfolioContent.mixItUp();
 
+    var show = $(".mixshow");
+    show.mixItUp()
+
     /* Footer year */
     var date = new Date().getFullYear();
 
@@ -596,7 +614,7 @@
     });
     jQuery('.back-to-top-wrap').on('click', function (event) {
         event.preventDefault();
-        jQuery('html, body').animate({ scrollTop: 0 }, duration);
+        jQuery('html, body').animate({scrollTop: 0}, duration);
         return false;
     })
 
