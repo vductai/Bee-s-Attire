@@ -122,7 +122,7 @@ Route::prefix('auth')->group(function () {
 // product home
 Route::get('/', [ProductClient::class, 'listAllProductMain'])->name('home');
 // product detail
-Route::get('/detail/{id}', [ProductClient::class, 'getProductDetail'])->name('detail');
+Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('detail');
 // shop product
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 
