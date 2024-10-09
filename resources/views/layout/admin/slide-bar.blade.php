@@ -59,6 +59,27 @@
                                     class="ri-checkbox-blank-circle-line"></i>Create size</a></li>
                     </ul>
                 </li>
+
+                <ul class="cr-sb-menu">
+                    <li class="cr-sb-item sb-subdrop-item">
+                        <a href="javascript:void(0)" class="cr-sub-drop-toggle">
+                            <i class="ri-image-line"></i>
+                            <span class="condense">Banner<i class="drop-arrow ri-arrow-down-s-line"></i></span>
+                        </a>
+                        <ul class="cr-sb-subdrop condense">
+                            <li>
+                                <a href="{{ route('banners.index') }}" class="cr-page-link subdrop">
+                                    <i class="ri-checkbox-blank-circle-line"></i>List Banner</a>
+                            </li>
+                            <li><a href="{{route('banners.create')}}" class="cr-page-link subdrop"><i
+                                class="ri-checkbox-blank-circle-line"></i>Create banner</a>
+                            </li>    
+                        </ul>
+                    </li>
+                </ul>
+                
+                
+                
 {{--                <li class="cr-sb-item sb-subdrop-item">--}}
 {{--                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">--}}
 {{--                        <i class="ri-shield-user-line"></i><span class="condense">Vendor<i--}}
