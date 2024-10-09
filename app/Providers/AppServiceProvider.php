@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,10 +22,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        /*View::composer('client.carts.cart-slider', function ($view) {
-            $user = auth()->user();
-            $getCartSlider = Cart::where('user_id', $user->user_id)->with(['productVariant', 'product'])->get();
+        View::composer('client.carts.cart-slider', function ($view) {
+            $user = Auth::user();
+            if (Auth::check()){
+                $getCartSlider = Cart::where('user_id', $user->user_id)->with(['productVariant', 'product'])->get();
+            }else{
+                // gắn mảng rổng khi chưa login
+                $getCartSlider = collect();
+            }
             $view->with('getCartSlider', $getCartSlider);
-        });*/
+        });
+
     }
 }

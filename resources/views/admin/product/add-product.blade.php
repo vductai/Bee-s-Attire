@@ -204,9 +204,16 @@
                     <hr>
                     <div class="col-md-6">
                         <label class="form-label">Color</label>
-                        <select name="color_id[]" id="color_id" class="form-control form-select">
-                                <option>Chọn màu sắc</option>
-                        </select>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <select name="color_id[]" id="color_id" class="form-control form-select">
+                                    <option>Chọn màu sắc</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="color"  disabled>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Size</label>

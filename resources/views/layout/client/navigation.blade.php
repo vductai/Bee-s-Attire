@@ -191,22 +191,47 @@
             </a>
             <div class="cr-header-buttons">
                 <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)">
-                            <i class="ri-user-3-line"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="{{route('client.viewRegister')}}">Register</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{route('client.viewLogin')}}">Login</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if(auth()->check())
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
+                                <i class="ri-user-3-line"></i>
+                                <span>Xin chào, {{auth()->user()->username}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                        @csrf
+                                    </form>
+                                    <a class="dropdown-item" href="#"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
+                                <i class="ri-user-3-line"></i>
+                                <span>Account</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{route('client.viewRegister')}}">Register</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{route('client.viewLogin')}}">Login</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
                 {{--<a href="wishlist.html" class="cr-right-bar-item">
                     <i class="ri-heart-line"></i>
@@ -237,136 +262,6 @@
                             Contact Us
                         </a>
                     </li>
-                    {{--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                            Category
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="shop-left-sidebar.html">Shop Left
-                                    sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="shop-right-sidebar.html">Shop
-                                    Right
-                                    sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="shop-full-width.html">Full
-                                    Width</a>
-                            </li>
-                        </ul>
-                    </li>--}}
-                    {{--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                            Products
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="product-left-sidebar.html">product
-                                    Left
-                                    sidebar </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="product-right-sidebar.html">product
-                                    Right
-                                    sidebar </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="product-full-width.html">Product
-                                    Full
-                                    Width
-                                </a>
-                            </li>
-                        </ul>
-                    </li>--}}
-                    {{--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                            Pages
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="about.html">About Us</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="contact-us.html">Contact Us</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="cart.html">Cart</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="track-order.html">Track Order</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="wishlist.html">Wishlist</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="faq.html">Faq</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="login.html">Login</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="register.html">Register</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="policy.html">Policy</a>
-                            </li>
-                        </ul>
-                    </li>--}}
-                    {{--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                            Blog
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="blog-left-sidebar.html">Left
-                                    Sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="blog-right-sidebar.html">Right
-                                    Sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="blog-full-width.html">Full
-                                    Width</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="blog-detail-left-sidebar.html">Detail
-                                    Left
-                                    Sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="blog-detail-right-sidebar.html">Detail
-                                    Right
-                                    Sidebar</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="blog-detail-full-width.html">Detail
-                                    Full
-                                    Width</a>
-                            </li>
-                        </ul>
-                    </li>--}}
-                    {{--<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
-                            Elements
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="elements-products.html">Products</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="elements-typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="elements-buttons.html">Buttons</a>
-                            </li>
-                        </ul>
-                    </li>--}}
                 </ul>
             </div>
         </nav>
