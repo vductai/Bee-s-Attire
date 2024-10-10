@@ -135,8 +135,6 @@ public function store(Request $request)
     
         return redirect()->route('banners.index')->with('message', 'Cập nhật banner thành công');
     }
-    
-    
 
     public function destroy(Banner $banner)
     {
