@@ -152,4 +152,3 @@ Route::get('/contact', function () {
 Route::get('/check-login', function () {
     return response()->json(['isLoggedIn' => auth()->check()]);
 })->name('client.checkLogin');
-

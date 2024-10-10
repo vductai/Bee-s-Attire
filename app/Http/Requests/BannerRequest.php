@@ -6,30 +6,41 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BannerRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize()
     {
-        return true;
+        return true; 
     }
 
-
-    public function rules(): array
+    public function rules()
     {
         return [
-            'title' => 'required|string', 
-            'subtitle' => 'required|string', 
-            'description' => 'required|string', 
-            'image' => 'required|mimes:jpeg,png|dimensions:width=1920,height=900', 
+            'banner_title' => 'required|string|max:255',
+            'banner_subtitle' => 'required|string|max:255',
+            'banner_description' => 'required|string',
+            'banner_image' => 'required|mimes:jpg,png',
+            'image_banners.*' => 'required|mimes:jpg,png',
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
-            'title.required' => 'Vui lòng nhập tiêu đề.',
-            'subtitle.required' => 'Vui lòng nhập phụ đề.',
-            'image.required' => 'Ảnh là bắt buộc.',
-            'image.mimes' => 'Ảnh phải có định dạng jpeg hoặc png.',
-            'image.dimensions' => 'Ảnh phải có kích thước 1920x900.',
+            'banner_title.required' => 'Vui lòng điền tiêu đề.',
+            'banner_title.string' => 'Tiêu đề phải là một chuỗi.',
+            'banner_title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            
+            'banner_subtitle.required' => 'Vui lòng điền phụ đề.',
+            'banner_subtitle.string' => 'Phụ đề phải là một chuỗi.',
+            'banner_subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
+            
+            'banner_description.required' => 'Vui lòng điền mô tả.',
+            'banner_description.string' => 'Mô tả phải là một chuỗi.',
+            
+            'banner_image.required' => 'Vui lòng chọn banner.',
+            'banner_image.mimes' => 'Banner phải có định dạng: jpg,png.',
+            
+            'image_banners.*.required' => 'Vui lòng chọn banner.',
+            'image_banners.*.mimes' => 'Banner phải có định dạng: jpg,png.',
         ];
     }
 }
