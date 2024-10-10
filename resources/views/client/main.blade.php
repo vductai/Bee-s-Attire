@@ -57,7 +57,7 @@
                                             </a>
                                         </div>
                                         <a class="cr-shopping-bag" href="javascript:void(0)">
-                                            <i class="ri-shopping-bag-line"></i>
+                                            <i class="ri-heart-line"></i>
                                         </a>
                                     </div>
                                     <div class="cr-product-details">

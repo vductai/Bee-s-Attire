@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests ;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,20 +12,18 @@ class SizeRequest extends FormRequest
         return true;
     }
 
-
     public function rules(): array
     {
         return [
-            'size_name' => 'required|string',
+            'size_name' => 'required|string|max:225',
         ];
     }
-
 
     public function messages(): array
     {
         return [
-            'size_name.required' => 'Vui lòng chọn size quần áo.',
-            'size_name.string' => 'Tên Size phải là một chuỗi.',
+            'size_name.required' => 'Tên kích thước là bắt buộc.',
+            'size_name.max' => 'Tên kích thước không được vượt quá 225 ký tự.',
         ];
     }
 }

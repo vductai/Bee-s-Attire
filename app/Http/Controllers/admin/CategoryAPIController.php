@@ -83,7 +83,7 @@ class CategoryAPIController extends Controller
         $categories->update($param);
 
         return response()->json([
-            'data' => new $categories,//CategoryResource(),
+            'data' => $categories,
             'message' => 'Sua thanh cong !',
         ]);
     }

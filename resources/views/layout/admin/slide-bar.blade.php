@@ -118,7 +118,7 @@
                             class="ri-checkbox-blank-circle-line"></i>Remember</a></li>
             </ul>
         </li>
-        <li class="cr-sb-item-separator"></li>
+        {{--<li class="cr-sb-item-separator"></li>
         <li class="cr-sb-title condense">Elements</li>
         <li class="cr-sb-item">
             <a href="remix-icons.html" class="cr-page-link">
@@ -154,6 +154,6 @@
             <a href="alert-popup.html" class="cr-page-link">
                 <i class="ri-file-warning-line"></i><span class="condense"><span
                         class="hover-title">Alert Popup</span></span></a>
-        </li>
+        </li>--}}
     </ul>
 </div>
