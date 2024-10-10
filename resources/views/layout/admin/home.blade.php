@@ -237,6 +237,7 @@
 <!-- Main Custom -->
 <script src="{{asset('assets/admin/js/main.js')}}" async></script>
 <script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}" async></script>
+
 @yield('script')
 </body>
 </html>

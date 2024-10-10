@@ -19,11 +19,11 @@ class ColorRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             'color_name' => 'required|string|max:255',
-             'color_code' => 'required|string|max:255'
+            'color_code' => 'required'
         ];
     }
 
@@ -32,11 +32,13 @@ class ColorRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function messages(): array
+    public function messages()
     {
         return [
-            'color_name' => 'Tên màu sắc bắt buộc phải điền!',
-            'color_code' => 'Code màu sắc bắt buộc phải điền!'
+            'color_name.required' => 'Tên màu sắc bắt buộc phải điền!',
+            'color_name.max' => 'Tên màu sắc không quá 255 kí tự!',
+
+            'color_code.required' => 'Code màu sắc bắt buộc phải điền!'
         ];
     }
 }

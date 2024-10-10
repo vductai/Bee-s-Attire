@@ -8,6 +8,10 @@
     @if(session('errorSize'))
         <div class="text-danger">{{session('errorSize')}}</div>
     @endif
+
+    @if(session('success'))
+        <div class="text-success">{{session('success')}}</div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default product-list">
@@ -37,7 +41,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
-                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post">
+                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post" onsubmit="return confirm('Bạn có muốn xóa không??')">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="dropdown-item" type="submit">Delete</button>

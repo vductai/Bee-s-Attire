@@ -45,7 +45,7 @@ class SizeAPIController extends Controller
         $size = Size::create([
             'size_name' => $request->size_name
         ]);
-        return redirect()->route('size.create');
+        return redirect()->route('size.create')->with('success', 'Thêm thành công');
     }
 
 
