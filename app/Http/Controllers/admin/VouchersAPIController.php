@@ -5,12 +5,12 @@ namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Vouchers;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\VouchersRequest;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VouchersAPIController extends Controller
 {
