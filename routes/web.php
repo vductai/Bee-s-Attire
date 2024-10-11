@@ -15,8 +15,10 @@ use App\Http\Controllers\auth\VerificationController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\CheckOutController;
 use App\Http\Controllers\client\CommentController;
+use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
+use App\Http\Controllers\client\VNPayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +50,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // delete cart
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
         Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
+
+        // vnpay
+        Route::get('/vnpay', [VNPayController::class, 'createPayment'])->name('create-payment');
+        Route::get('/order-success', [VNPayController::class, 'handlePaymentReturn'])->name('vnpay-return');
+
+        // get order
+        Route::get('/order', [OrderController::class, 'getAllOrder'])->name('get-all-order');
+
     });
 
     // route chỉ admin mới dùng được

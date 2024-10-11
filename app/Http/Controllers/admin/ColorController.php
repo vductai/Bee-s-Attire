@@ -98,10 +98,6 @@ class ColorController extends Controller
             Color::where('color_id', $id)->delete();
             return redirect()->route('color.index');
         }
-//        return response()->json([
-//            'message' => 'delete',
-//            'data' => $del
-//        ]);
     }
 
 }

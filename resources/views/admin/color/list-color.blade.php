@@ -1,13 +1,7 @@
 @extends('layout.admin.home')
 @section('content_admin')
     @if(session('errorColor'))
-        <script>
-            console.log('{{session('errorColor')}}')
-            console.log('day la loi')
-            window.addEventListener('DOMContentLoaded', function() {
-                alert("{{ session('errorColor') }}");
-            });
-        </script>
+        <h1>{{session('errorColor')}}</h1>
     @endif
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
@@ -29,14 +23,14 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             @foreach($listColor as $item)
                                 <tr>
                                     <td>{{$loop->index}}</td>
                                     <td>{{$item->color_name}}</td>
                                     <td>
                                         <input id="text" name="color_code"
-                                               class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
+                                               class="form-control here slug-title" type="color"
+                                               value="{{$item->color_code}}" disabled>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -48,13 +42,15 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('color.edit', $item->color_id)}}">Edit</a>
-                                                <form action="{{route('color.destroy', $item->color_id)}}" method="post">
+                                                <a class="dropdown-item"
+                                                   href="{{route('color.edit', $item->color_id)}}">Edit</a>
+                                                <form action="{{route('color.destroy', $item->color_id)}}"
+                                                      method="post">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="dropdown-item" type="submit">Delete</button>
                                                 </form>
-{{--                                                <a  href="{{route('color.destroy', $item->color_id)}}">Delete</a>--}}
+                                                {{--                                                <a  href="{{route('color.destroy', $item->color_id)}}">Delete</a>--}}
                                             </div>
                                         </div>
                                     </td>
