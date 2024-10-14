@@ -1,23 +1,12 @@
 @extends('layout.admin.home')
 @section('content_admin')
 
-{{-- @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif --}}
 
 <div class="cr-page-title cr-page-title-2">
     <div class="cr-breadcrumb">
         <h5>Color</h5>
     </div>
 </div>
-
-
 <div class="row cr-category">
     <div class="col-xl-4 col-lg-12">
         <div class="team-sticky-bar">
@@ -33,21 +22,18 @@
                                     <div class="col-12">
                                         <input id="text" name="color_name" class="form-control @error('color_name') is-invalid @enderror" type="text" value="{{ old('color_name') }}">
                                         @error('color_name')
-                                        <p class="text-danger">
-                                            {{$message}}
-                                        </p>
-                                    @enderror
-                                    </div>
+                                        <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div> 
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>Color code</label>
                                     <div class="col-12">
-                                        <input id="text" name="color_code" class="form-control here slug-title" type="color" value="{{ old('color_code') }}">
+                                        <input id="text" name="color_code" class="form-control here slug-title @error('color_code') is-invalid @enderror" type="color" value="{{ old('color_code') }}">
                                         @error('color_code')
-                                        <p class="text-danger">
-                                            {{$message}}
-                                        </p>
-                                    @enderror
+                                        <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">
@@ -108,17 +94,4 @@
     </div>
 </div>
 
-
-{{-- 
-<script>
-    function test(event) {
-        const colorName = document.querySelector('input[name="color_name"]').value;
-        const colorCode = document.querySelector('input[name="color_code"]').value;
-        if(!colorCode || !colorName) {
-            event.preventDefault();
-            console.log("lỗi");
-            
-        }
-    }
-</script> --}}
 @endsection

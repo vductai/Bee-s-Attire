@@ -51,27 +51,19 @@ class ColorController extends Controller
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
+            // dd($e);
             
         }
-        // $data = $request->all();
-        // Color::create(
-        //     [
-        //         'color_name' => $data['color_name'],
-        //         'color_code' => $data['color_code'],
-        //     ]
-        // );
 
         $create = Color::create([
             'color_name' =>$request->color_name,
             'color_code' => $request->color_code
         ]);
 
+        
+        
         return redirect()->route('color.index')->with('success','Thêm màu thành công');
 
-        //        return response()->json([
-        //            'message' => 'create',
-        //            'data' => $create
-        //        ]);
     }
 
     public function edit($id)

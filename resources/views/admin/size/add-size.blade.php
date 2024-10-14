@@ -21,7 +21,7 @@
                                             <input id="text" name="size_name"
                                                    class="form-control here slug-title" type="text">
                                         </div>
-                                        @error('size_name')
+                                    @error('size_name')
                                         <p class="text-danger">
                                             {{$message}}
                                         </p>

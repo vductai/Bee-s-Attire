@@ -59,21 +59,6 @@
                                     class="ri-checkbox-blank-circle-line"></i>Create size</a></li>
                     </ul>
                 </li>
-{{--                <li class="cr-sb-item sb-subdrop-item">--}}
-{{--                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">--}}
-{{--                        <i class="ri-shield-user-line"></i><span class="condense">Vendor<i--}}
-{{--                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>--}}
-{{--                    <ul class="cr-sb-subdrop condense">--}}
-{{--                        <li><a href="vendor-profile.html" class="cr-page-link subdrop"><i--}}
-{{--                                    class="ri-checkbox-blank-circle-line"></i>Profile</a></li>--}}
-{{--                        <li><a href="vendor-update.html" class="cr-page-link subdrop"><i--}}
-{{--                                    class="ri-checkbox-blank-circle-line"></i>Vendor Update</a></li>--}}
-{{--                        <li><a href="vendor-list.html" class="cr-page-link subdrop"><i--}}
-{{--                                    class="ri-checkbox-blank-circle-line"></i>Vendor List</a></li>--}}
-{{--                        <li><a href="invoice.html" class="cr-page-link subdrop"><i--}}
-{{--                                    class="ri-checkbox-blank-circle-line"></i>Invoice</a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
             </ul>
         </li>
         <li class="cr-sb-item-separator"></li>

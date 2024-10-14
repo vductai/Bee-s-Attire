@@ -52,7 +52,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // route chỉ admin mới dùng được
     Route::group(['middleware' => ['checkRole:admin']], function () {
-
         Route::prefix('admin')->group(function () {
             // crud categories
             Route::resource('categories', CategoryAPIController::class);
@@ -73,8 +72,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
         });
     });
-
-
 });
 /*admin*/
 
@@ -112,7 +109,6 @@ Route::prefix('auth')->group(function () {
     Route::post('forgot-password', [PasswordController::class, 'sendResetLink'])->name('password.email');
     Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
-
 });
 
 /*end client*/
