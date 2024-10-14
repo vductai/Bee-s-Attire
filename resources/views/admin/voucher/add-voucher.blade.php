@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Color</h5>
+            <h5>Voucher</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -12,21 +12,42 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Add New Color</h3>
-                                <form id="formColor">
+                                <h3>Add voucher</h3>
+                                <form action="{{route('coupon.store')}}" method="post">
+                                    @csrf
                                     <div class="form-group">
-                                        <label>Color name</label>
+                                        <label>Voucher code</label>
                                         <div class="col-12">
-                                            <input id="color_name" name="color_name"
+                                            <input id="text" name="voucher_code"
                                                    class="form-control here slug-title" type="text">
-                                            <p class="text-danger" id="errColorName"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Color code</label>
+                                        <label>Discount</label>
                                         <div class="col-12">
-                                            <input id="color_code" name="color_code"
-                                                   class="form-control here slug-title" type="color">
+                                            <input id="text" name="voucher_price"
+                                                   class="form-control here slug-title" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Start date</label>
+                                        <div class="col-12">
+                                            <input id="text" name="start_date"
+                                                   class="form-control here slug-title" type="datetime-local">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End date</label>
+                                        <div class="col-12">
+                                            <input id="text" name="end_date"
+                                                   class="form-control here slug-title" type="datetime-local">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Voucher desc</label>
+                                        <div class="col-12">
+                                            <textarea name="voucher_desc" id="" cols="70" rows="10"
+                                                      style="resize: none"></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -49,20 +70,23 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Color name</th>
-                                <th>Color code</th>
+                                <th>Voucher code</th>
+                                <th>Discount</th>
+                                <th>Desc</th>
+                                <th>Start date</th>
+                                <th>End date</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($listColor as $item)
-                                <tr data-id="{{$item->color_id}}">
+                            @foreach($vouchers as $item)
+                                <tr>
                                     <td>{{$loop->index}}</td>
-                                    <td class="colorName">{{$item->color_name}}</td>
-                                    <td>
-                                        <input id="colorCode" name="color_code"
-                                               class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
-                                    </td>
+                                    <td>{{$item->voucher_code}}</td>
+                                    <td>{{$item->voucher_price}} %</td>
+                                    <td>{{$item->voucher_desc}}</td>
+                                    <td>{{$item->start_date}}</td>
+                                    <td>{{$item->end_date}}</td>
                                     <td>
                                         <div>
                                             <button type="button"
@@ -72,9 +96,14 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
+
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
+                                                <a class="dropdown-item" href="">Edit</a>
+                                                <form action="" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit">Delete</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>

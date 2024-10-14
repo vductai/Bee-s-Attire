@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\admin\CategoryAPIController;
 use App\Http\Controllers\admin\ColorController;
+use App\Http\Controllers\admin\CouponUserController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantController;
 use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\SizeAPIController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\VoucherController;
 use App\Http\Controllers\admin\VouchersAPIController;
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthClientController;
@@ -14,7 +16,9 @@ use App\Http\Controllers\auth\PasswordController;
 use App\Http\Controllers\auth\VerificationController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\CheckOutController;
+use App\Http\Controllers\client\CheckPaymentMethodController;
 use App\Http\Controllers\client\CommentController;
+use App\Http\Controllers\client\MoMoController;
 use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
@@ -51,9 +55,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
         Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
 
+        // online checkout
+        Route::post('online-checkout', [CheckPaymentMethodController::class, 'onlineCheckOut'])->name('check-payment-method');
+
         // vnpay
         Route::get('/vnpay', [VNPayController::class, 'createPayment'])->name('create-payment');
         Route::get('/order-success', [VNPayController::class, 'handlePaymentReturn'])->name('vnpay-return');
+        // momo
+        Route::get('/return-momo', [VNPayController::class, 'orderSuccessMono'])->name('momo-return');
+
 
         // get order
         Route::get('/order', [OrderController::class, 'getAllOrder'])->name('get-all-order');
@@ -64,6 +74,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['checkRole:admin']], function () {
 
         Route::prefix('admin')->group(function () {
+            // voucher
+            Route::get('/coupon-user', [CouponUserController::class, 'formAdd'])->name('add-form-coupon-user');
+            Route::post('/coupon-user', [CouponUserController::class, 'store'])->name('add-coupon-user');
+            Route::delete('/coupon/{id}', [CouponUserController::class, 'delete'])->name('delete-coupon');
+
             // crud categories
             Route::resource('categories', CategoryAPIController::class);
             // crud role
@@ -73,7 +88,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             // crud user
             Route::resource('user', UserController::class);
             // crud voucher
-            Route::resource('voucher', VouchersAPIController::class);
+            Route::resource('coupon', VouchersAPIController::class);
             // crud color
             Route::resource('color', ColorController::class);
             // crud product

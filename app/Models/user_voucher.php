@@ -4,27 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Order extends Model
+class user_voucher extends Model
 {
-    protected $table = 'order';
-    protected $primaryKey = 'order_id';
+    protected $table = 'user_voucher';
+    protected $primaryKey = 'user_voucher_id';
+
     protected $fillable = [
-        'order_id',
         'user_id',
-        'total_price',
         'voucher_id',
-        'final_price'
     ];
 
-    public function order_item()
+    public function voucher()
     {
-        return $this->hasMany(order_item::class, 'order_id');
+        return $this->belongsTo(Vouchers::class, 'voucher_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
 }

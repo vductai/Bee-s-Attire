@@ -20,10 +20,8 @@
     <section class="cr-checkout-section padding-tb-100">
         <div class="container">
             <div class="row">
-                <!-- Sidebar Area Start -->
                 <div class="cr-checkout-rightside col-lg-4 col-md-12">
                     <div class="cr-sidebar-wrap">
-                        <!-- Sidebar Summary Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
                                 <h3 class="cr-sidebar-title">Sơ lược</h3>
@@ -38,12 +36,12 @@
 
                                     <div>
                                         <span class="text-left">Giảm giá</span>
-                                        <span class="text-right">{{ number_format($discount) ?? '0'}} đ</span>
+                                        <span class="text-right">{{ number_format($discount) ?? 0}} đ</span>
                                     </div>
                                     <div class="cr-checkout-summary-total">
                                         <span class="text-left">Tổng tiền hàng</span>
                                         <span
-                                            class="text-right">{{number_format($total_after_discount) ?? '0'}} đ</span>
+                                            class="text-right">{{number_format($total_after_discount) ?? 0}} đ</span>
                                     </div>
                                 </div>
                                 <div class="cr-checkout-pro">
@@ -77,10 +75,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Sidebar Summary Block -->
                     </div>
                     <div class="cr-sidebar-wrap cr-checkout-del-wrap">
-                        <!-- Sidebar Summary Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
                                 <h3 class="cr-sidebar-title">Voucher</h3>
@@ -107,85 +103,51 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Sidebar Summary Block -->
                     </div>
                     <div class="cr-sidebar-wrap cr-checkout-pay-wrap">
-                        <!-- Sidebar Payment Block -->
                         <div class="cr-sidebar-block">
                             <div class="cr-sb-title">
                                 <h3 class="cr-sidebar-title">Phương thức thanh toán</h3>
                             </div>
                             <div class="cr-sb-block-content">
                                 <div class="cr-checkout-pay">
-                                    <div class="cr-pay-desc">
-                                        Vui lòng chọn phương thức thanh toán ưa thích để sử dụng cho đơn hàng này.
-                                    </div>
                                     <div action="#" class="payment-options">
                                         <span class="cr-pay-option">
                                             <span>
-                                                <input type="radio" id="pay1" name="radio-group" checked>
+                                                <input type="radio" id="pay1" value="cod" name="radio-group" checked>
                                                 <label for="pay1">Tiền mặt khi giao hàng</label>
                                             </span>
                                         </span>
                                         <span class="cr-pay-option">
                                             <span>
-                                                <input type="radio" id="pay2" name="radio-group">
-                                                <label for="pay2">UPI</label>
+                                                <input type="radio" id="pay2" value="vnpay" name="radio-group">
+                                                <label for="pay2">Thanh toán qua VNPay</label>
                                             </span>
                                         </span>
                                         <span class="cr-pay-option">
                                             <span>
-                                                <input type="radio" id="pay3" name="radio-group">
-                                                <label for="pay3">Chuyển khoản ngân hàng</label>
+                                                <input type="radio" id="pay3" value="payUrl" name="radio-group">
+                                                <label for="pay3">Thanh toán qua MoMo</label>
                                             </span>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Sidebar Payment Block -->
-                    </div>
-                    <div class="cr-sidebar-wrap cr-check-pay-img-wrap">
-                        <!-- Sidebar Payment Block -->
-                        <div class="cr-sidebar-block">
-                            <div class="cr-sb-title">
-                                <h3 class="cr-sidebar-title">Payment Method</h3>
-                            </div>
-                            <div class="cr-sb-block-content">
-                                <div class="cr-check-pay-img-inner">
-                                    <div class="cr-check-pay-img">
-                                        <img src="{{asset('assets/client/img/banner/payment.png')}}" alt="payment">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sidebar Payment Block -->
                     </div>
                 </div>
                 <div class="cr-checkout-leftside col-lg-8 col-md-12 m-t-991">
-                    <!-- checkout content Start -->
                     <div class="cr-checkout-content">
                         <div class="cr-checkout-inner">
-                            <form action="{{route('create-payment')}}" method="get" class="cr-checkout-wrap">
+                            <form action="{{route('check-payment-method')}}" method="post" class="cr-checkout-wrap">
                                 @csrf
                                 <input type="hidden" name="total_price" value="{{$totalAmount}}">
-                                <input type="hidden" name="voucher_id" value="{{$voucher_item_id}}">
+                                <input type="hidden" name="voucher_id" value="{{$voucher_item_id ?? 0}}">
                                 <input type="hidden" name="final_price" value="{{$total_after_discount}}">
                                 <input type="hidden" name="product" value="{{json_encode($selCart)}}">
                                 <div class="cr-checkout-block cr-check-bill">
                                     <h3 class="cr-checkout-title">Chi tiết thanh toán</h3>
                                     <div class="cr-bl-block-content">
-                                        {{--<div class="cr-check-subtitle">Checkout Options</div>
-                                        <span class="cr-bill-option">
-                                            <span>
-                                                <input type="radio" id="bill1" name="radio-group">
-                                                <label for="bill1">I want to use an existing address</label>
-                                            </span>
-                                            <span>
-                                                <input type="radio" id="bill2" name="radio-group" checked>
-                                                <label for="bill2">I want to use new address</label>
-                                            </span>
-                                        </span>--}}
                                         <div class="cr-check-bill-form mb-minus-24">
                                             <div>
                                                 <span class="cr-bill-wrap">
@@ -214,14 +176,26 @@
                                     </div>
                                 </div>
                                 <span class="cr-check-order-btn">
-                                    <button class="cr-button mt-30" type="submit">place order</button>
+                                    <button class="cr-button mt-30" id="submitButton" name="cod"
+                                            type="submit">place order</button>
                                 </span>
                             </form>
                         </div>
                     </div>
-                    <!--cart content End -->
                 </div>
             </div>
         </div>
     </section>
+    <script !src="">
+        // Lấy tất cả các input radio
+        const paymentOptions = document.querySelectorAll('input[name="radio-group"]');
+        const submitButton = document.getElementById('submitButton');
+
+        // Gắn sự kiện 'change' cho mỗi radio button
+        paymentOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                submitButton.name = this.value;
+            });
+        });
+    </script>
 @endsection
