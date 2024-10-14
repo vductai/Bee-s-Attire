@@ -1,13 +1,13 @@
 @extends('layout.admin.home')
 @section('content_admin')
-    @if(session('errorColor'))
-        <h1>{{session('errorColor')}}</h1>
-    @endif
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>List color</h5>
+            <h5>List size</h5>
         </div>
     </div>
+    @if(session('errorSize'))
+        <div class="text-danger">{{session('errorSize')}}</div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default product-list">
@@ -17,20 +17,15 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Color name</th>
-                                <th>Color code</th>
+                                <th>Size</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($listColor as $item)
-                                <tr data-id="{{$item->color_id}}">
+                            @foreach($list as $item)
+                                <tr data-id="{{$item->size_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td class="colorName">{{$item->color_name}}</td>
-                                    <td>
-                                        <input id="colorCode" name="color_code"
-                                               class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
-                                    </td>
+                                    <td class="sizeName">{{$item->size_name}}</td>
                                     <td>
                                         <div>
                                             <button type="button"
@@ -40,9 +35,12 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
+
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
+                                                <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                    Delete
+                                                </button>
                                             </div>
                                         </div>
                                     </td>

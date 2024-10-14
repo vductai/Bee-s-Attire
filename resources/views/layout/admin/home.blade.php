@@ -7,6 +7,8 @@
     <meta name="keywords" content="admin, dashboard, ecommerce, panel"/>
     <meta name="description" content="Carrot - Admin.">
     <meta name="author" content="ashishmaraviya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Carrot - Admin.</title>
 
@@ -32,7 +34,8 @@
     {{--Tailwind css--}}{{--
     @vite('public/assets/app.css')
 --}}
-
+    @vite('resources/js/size.js')
+    @vite('resources/js/color.js')
 </head>
 
 <body>
