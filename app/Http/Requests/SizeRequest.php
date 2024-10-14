@@ -28,4 +28,5 @@ class SizeRequest extends FormRequest
             'size_name.string' => 'Tên Size phải là một chuỗi.',
         ];
     }
+
 }

@@ -25,18 +25,17 @@ class ProductController extends Controller
     public function listAllProductMain(Request $request)
     {
         $listAllCategory = Category::all();
-        $banners = Banner::all();
-    
+
         $category_id = $request->get('category_id', 'all');
         if ($category_id === 'all') {
             $listAllProduct = Product::all();
         } else {
             $listAllProduct = Product::where('category_id', $category_id)->get();
         }
-    
-        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id', 'banners'));
+
+        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id'));
     }
-    
+
 
     public function getProductDetail($slug)
     {

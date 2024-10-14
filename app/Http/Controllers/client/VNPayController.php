@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderMail;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\order_item;
+use App\Models\Vouchers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class VNPayController extends Controller
 {
-    public function createPayment(Request $request)
+    /*public function createPayment(Request $request)
     {
 
         $order = Order::create([
@@ -37,7 +40,6 @@ class VNPayController extends Controller
                     ]);
             }
         }
-
 
         $vnp_Url = env('VNP_URL');
         $vnp_Returnurl = env('VNP_RETURN');
@@ -90,7 +92,7 @@ class VNPayController extends Controller
 
         return redirect()->to($vnp_Url);
 
-    }
+    }*/
 
     public function handlePaymentReturn(Request $request)
     {
@@ -110,11 +112,64 @@ class VNPayController extends Controller
 
         // Kiểm tra và xử lý dữ liệu
         if ($vnp_ResponseCode == '00') {
+            // Tìm đơn hàng dựa trên vnp_TxnRef (order_id)
+            $order = Order::where('order_id', $vnp_TxnRef)->first();
+
+            if ($order && $order->voucher_id) {
+                // Xóa chỉ mã voucher đã áp dụng
+                $voucher = Vouchers::where('voucher_id', $order->voucher_id)->first();
+                $voucher->quantity -= 1;
+                $voucher->save();
+            }
             Cart::where('user_id', Auth::user()->user_id)->delete();
+
+
+            Mail::to(Auth::user()->email)->send(new OrderMail($order));
+
             return view('client.message.orderSuccess');
         } else {
             return 'Thanh toán thất bại!';
         }
+    }
+
+
+    public function orderSuccessMono(Request $request)
+    {
+        // Lấy các tham số từ URL
+        $partnerCode = $request->input('partnerCode');
+        $orderId = $request->input('orderId');
+        $requestId = $request->input('requestId');
+        $amount = $request->input('amount');
+        $orderInfo = $request->input('orderInfo');
+        $orderType = $request->input('orderType');
+        $transId = $request->input('transId');
+        $resultCode = $request->input('resultCode');
+        $message = $request->input('message');
+        $payType = $request->input('payType');
+        $responseTime = $request->input('responseTime');
+        $extraData = $request->input('extraData');
+        $signature = $request->input('signature');
+
+        // Xử lý thông tin hoặc lưu vào cơ sở dữ liệu
+        if ($resultCode == '00'){
+
+            $order = Order::where('order_id', $orderId)->first();
+
+            if ($order && $order->voucher_id) {
+                // Xóa chỉ mã voucher đã áp dụng
+                $voucher = Vouchers::where('voucher_id', $order->voucher_id)->first();
+                $voucher->quantity -= 1;
+                $voucher->save();
+            }
+            Cart::where('user_id', Auth::user()->user_id)->delete();
+
+            Mail::to(Auth::user()->email)->send(new OrderMail($order));
+
+            return view('client.message.orderMoMoSuccess');
+        }else{
+            return 'Thanh toán thất bại!';
+        }
+
     }
 
 
