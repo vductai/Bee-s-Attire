@@ -18,7 +18,10 @@ class Size extends Model
         'size_name'
     ];
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 77f1927f19f4103550016ea09d4074270390cd8d
     public function variantSize(): HasMany
     {
         return $this->hasMany(ProductVariant::class, 'size_id');

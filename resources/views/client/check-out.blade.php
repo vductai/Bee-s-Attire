@@ -42,8 +42,7 @@
                                     </div>
                                     <div class="cr-checkout-summary-total">
                                         <span class="text-left">Tổng tiền hàng</span>
-                                        <span
-                                            class="text-right">{{number_format($total_after_discount) ?? '0'}} đ</span>
+                                        <span class="text-right">{{number_format($total_after_discount) ?? '0'}} đ</span>
                                     </div>
                                 </div>
                                 <div class="cr-checkout-pro">
@@ -87,23 +86,17 @@
                             </div>
                             <div class="cr-sb-block-content">
                                 <div class="cr-checkout-del">
-                                    <form action="{{route('addVoucher')}}" method="post" id="addVoucher">
+                                    <form action="{{route('addVoucher')}}" method="post">
                                         <input type="hidden" name="totalAmount" value="{{$totalAmount}}">
                                         @csrf
                                         <span class="cr-del-option">
-                                            <span>
+                                            <span >
                                                 <span class="cr-del-opt-head">Nhập mã giảm giá</span>
-                                                @if(session('voucherError'))
-                                                    <p class="text-danger">{{session('voucherError')}}</p>
-                                                @endif
                                                 <input type="text" class="form-control" name="voucher_code">
                                             </span>
                                         </span>
+                                        <button class="btn btn-success mt-2" type="submit">Add mã giảm giá</button>
                                     </form>
-                                    <button
-                                        form="addVoucher"
-                                        class="btn btn-success mt-2" type="submit">Add mã giảm giá
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +113,7 @@
                                     <div class="cr-pay-desc">
                                         Vui lòng chọn phương thức thanh toán ưa thích để sử dụng cho đơn hàng này.
                                     </div>
-                                    <div action="#" class="payment-options">
+                                    <form action="#" class="payment-options">
                                         <span class="cr-pay-option">
                                             <span>
                                                 <input type="radio" id="pay1" name="radio-group" checked>
@@ -139,7 +132,7 @@
                                                 <label for="pay3">Chuyển khoản ngân hàng</label>
                                             </span>
                                         </span>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -166,12 +159,57 @@
                     <!-- checkout content Start -->
                     <div class="cr-checkout-content">
                         <div class="cr-checkout-inner">
-                            <form action="{{route('create-payment')}}" method="get" class="cr-checkout-wrap">
-                                @csrf
-                                <input type="hidden" name="total_price" value="{{$totalAmount}}">
-                                <input type="hidden" name="voucher_id" value="{{$voucher_item_id}}">
-                                <input type="hidden" name="final_price" value="{{$total_after_discount}}">
-                                <input type="hidden" name="product" value="{{json_encode($selCart)}}">
+                            {{--<div class="cr-checkout-wrap mb-30">
+                                <div class="cr-checkout-block cr-check-new">
+                                    <h3 class="cr-checkout-title">New Customer</h3>
+                                    <div class="cr-check-block-content">
+                                        <div class="cr-check-subtitle">Checkout Options</div>
+                                        <form action="#">
+                                            <span class="cr-new-option">
+                                                <span>
+                                                    <input type="radio" id="account1" name="radio-group" checked>
+                                                    <label for="account1">Register Account</label>
+                                                </span>
+                                                <span>
+                                                    <input type="radio" id="account2" name="radio-group">
+                                                    <label for="account2">Guest Account</label>
+                                                </span>
+                                            </span>
+                                        </form>
+                                        <div class="cr-new-desc">By creating an account you will be able to shop faster,
+                                            be up to date on an order's status, and keep track of the orders you have
+                                            previously made.
+                                        </div>
+                                        <span>
+                                            <button class="cr-button mt-30" type="submit">Continue</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="cr-checkout-block cr-check-login">
+                                    <h3 class="cr-checkout-title">Returning Customer</h3>
+                                    <div class="cr-check-login-form">
+                                        <form action="#" method="post">
+                                            <span class="cr-check-login-wrap">
+                                                <label>Email Address</label>
+                                                <input type="text" name="name" placeholder="Enter your email address"
+                                                       required>
+                                            </span>
+                                            <span class="cr-check-login-wrap">
+                                                <label>Password</label>
+                                                <input type="password" name="password" placeholder="Enter your password"
+                                                       required>
+                                            </span>
+
+                                            <span class="cr-check-login-wrap cr-check-login-btn">
+                                                <button class="cr-button mr-15" type="submit">Login</button>
+                                                <a class="cr-check-login-fp" href="#">Forgot Password?</a>
+                                            </span>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>--}}
+                            <div class="cr-checkout-wrap">
                                 <div class="cr-checkout-block cr-check-bill">
                                     <h3 class="cr-checkout-title">Chi tiết thanh toán</h3>
                                     <div class="cr-bl-block-content">
@@ -187,7 +225,8 @@
                                             </span>
                                         </span>--}}
                                         <div class="cr-check-bill-form mb-minus-24">
-                                            <div>
+                                            <form action="#" method="post" id="formCheckOut">
+                                                @csrf
                                                 <span class="cr-bill-wrap">
                                                     <label>UserName</label>
                                                     <input type="text" value="{{$item->user->username}}"
@@ -209,14 +248,16 @@
                                                     <input type="email" value="{{$item->user->email}}" name="email"
                                                            placeholder="Email">
                                                 </span>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="cr-check-order-btn">
-                                    <button class="cr-button mt-30" type="submit">place order</button>
-                                </span>
-                            </form>
+                            </div>
+                            <span class="cr-check-order-btn">
+                                <a class="cr-button mt-30"
+                                   onclick="event.preventDefault(); document.getElementById('formCheckOut').submit();"
+                                   href="#">Place Order</a>
+                            </span>
                         </div>
                     </div>
                     <!--cart content End -->

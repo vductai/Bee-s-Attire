@@ -216,27 +216,27 @@
 </main>
 
 <!-- Vendor Custom -->
-<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}" async></script>
 <!-- Data Tables -->
-<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}" async></script>
 <!-- Caleddar -->
-<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}" async></script>
 <!-- Date Range Picker -->
-<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}"></script>
-<script src="{{asset('assets/admin/js/vendor/date-range.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/date-range.js')}}" async></script>
 
 <!-- Main Custom -->
-<script src="{{asset('assets/admin/js/main.js')}}"></script>
-<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
+<script src="{{asset('assets/admin/js/main.js')}}" async></script>
+<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}" async></script>
 @yield('script')
 </body>
 </html>
