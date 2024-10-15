@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // route admin và user dùng chung
-    Route::group(['middleware' => ['checkRole:user,admin']], function () {
+    Route::group(['middleware' => ['checkRole:user,admin', 'web']], function () {
         Route::post('/logout', [AuthAdminController::class, 'logoutAdmin'])->name('admin.logout');
         // get profile
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
@@ -71,13 +71,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     // route chỉ admin mới dùng được
-    Route::group(['middleware' => ['checkRole:admin']], function () {
+    Route::group(['middleware' => ['checkRole:admin', 'web']], function () {
 
         Route::prefix('admin')->group(function () {
             // voucher
             Route::get('/coupon-user', [CouponUserController::class, 'formAdd'])->name('add-form-coupon-user');
             Route::post('/coupon-user', [CouponUserController::class, 'store'])->name('add-coupon-user');
-            Route::delete('/coupon/{id}', [CouponUserController::class, 'delete'])->name('delete-coupon');
+            Route::delete('/coupon-user/{id}', [CouponUserController::class, 'delete'])->name('delete-coupon');
 
             // crud categories
             Route::resource('categories', CategoryAPIController::class);
@@ -95,7 +95,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::resource('product', ProductController::class);
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
+            // dashboard
             Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
+            // action user, product
+            Route::post('/action/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
+            Route::post('/actionProduct/{id}', [AuthAdminController::class, 'toggleProductStatus'])->name('action-product');
         });
     });
 
@@ -115,8 +119,8 @@ Route::prefix('admin')->group(function () {
 Route::prefix('auth')->group(function () {
 
     // login
-    Route::get('login', [AuthClientController::class, 'viewLogin'])->name('client.viewLogin');
-    Route::post('login', [AuthClientController::class, 'loginClient'])->name('client.login');
+    Route::get('login', [AuthClientController::class, 'viewLogin'])->name('client-viewLogin');
+    Route::post('login', [AuthClientController::class, 'loginClient'])->name('client-login');
     Route::post('logout', [AuthClientController::class, 'logoutClient'])->name('client.logout');
 
     // register
@@ -138,9 +142,8 @@ Route::prefix('auth')->group(function () {
     Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
 
-});
+})->middleware(['web']);
 
-/*end client*/
 
 /*home*/
 
@@ -167,11 +170,3 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
-
-
-
-
-// check login
-Route::get('/check-login', function () {
-    return response()->json(['isLoggedIn' => auth()->check()]);
-})->name('client.checkLogin');

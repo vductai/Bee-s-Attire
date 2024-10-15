@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\CategoryEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
@@ -23,31 +24,28 @@ class CategoryAPIController extends Controller
         }
 
 
-        $categoreis = Category::all();
+        $list = Category::all();
 
-        return response()->json([
-            'message' => 'list',
-            'data' => $categoreis
-        ]);
+        return view('admin.category.list-category', compact('list'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+    public function create(){
+        $list = Category::all();
+        return view('admin.category.add-category', compact('list'));
+    }
+
     public function store(CategoryRequest $request)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $param = $request->all();
 
-        $category = Category::create($param);
+        $category = Category::create($request->all());
+        broadcast(new CategoryEvent($category, 'create'))->toOthers();
 
-        return response()->json([
-            'message' => 'Them moi thanh cong !',
-            'data' => $category,
-        ]);
+        return response()->json($category);
     }
 
     /**
@@ -67,25 +65,29 @@ class CategoryAPIController extends Controller
     ]);;
     }
 
+    public function edit($id){
+        $find = Category::findOrFail($id);
+        $list = Category::all();
+        return view('admin.category.update-category', compact('find', 'list'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $categories = Category::query()->findOrFail($id);
+        $categories = Category::findOrFail($id);
 
-        $param = $request->all();
+        $categories->update($request->all());
 
-        $categories->update($param);
+        broadcast(new CategoryEvent($categories, 'update'))->toOthers();
 
-        return response()->json([
-            'data' => new $categories,//CategoryResource(),
-            'message' => 'Sua thanh cong !',
-        ]);
+        return response()->json($categories);
+
     }
 
     /**

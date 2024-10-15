@@ -36,6 +36,9 @@
 --}}
     @vite('resources/js/size.js')
     @vite('resources/js/color.js')
+    @vite('resources/js/category.js')
+    @vite('resources/js/status.js')
+    @vite('resources/js/voucher.js')
 </head>
 
 <body>
@@ -67,62 +70,6 @@
                     </div>
                 </div>
                 <div class="right-header">
-                    {{--                    <div class="cr-right-tool cr-flag-drop language">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <img class="flag" src="{{asset('assets/admin/img/flag/us.png')}}" alt="flag">
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/us.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/in.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/de.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/it.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/jp.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="cr-right-tool apps">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <i class="ri-apps-2-line"></i>
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <h6 class="title">Apps</h6>
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/1.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/2.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/3.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/4.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/5.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/6.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>--}}
                     <div class="cr-right-tool display-screen">
                         <a class="cr-screen full" href="javascript:void(0)"><i
                                 class="ri-fullscreen-line"></i></a>
@@ -195,7 +142,7 @@
 
     <!-- Main content -->
     <div class="cr-main-content">
-        <div class="container-fluid">
+        <div class="container-fluid" id="content">
             <!-- trung tam -->
             @yield('content_admin')
         </div>
@@ -217,6 +164,7 @@
         @include('layout.admin.tool')
     </div>
 </main>
+
 
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
