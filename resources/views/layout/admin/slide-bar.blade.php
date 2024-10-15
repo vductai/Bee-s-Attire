@@ -5,9 +5,10 @@
                 <i class="ri-dashboard-3-line"></i><span class="condense">Dashboard<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
-                {{--                <li><a href="index.html" class="cr-page-link drop"><i
-                                            class="ri-checkbox-blank-circle-line"></i>ecommerce</a></li>
-                                --}}
+                <li>
+                    <a href="{{route('dashboard')}}" class="cr-page-link drop">
+                        <i class="ri-bar-chart-2-line"></i>Statistical</a>
+                </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-product-hunt-line"></i></i><span class="condense">Product<i
@@ -17,6 +18,17 @@
                                     class="ri-checkbox-blank-circle-line"></i>List Product</a></li>
                         <li><a href="{{route('product.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Add Product</a></li>
+                    </ul>
+                </li>
+                <li class="cr-sb-item sb-subdrop-item">
+                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
+                        <i class="ri-copyright-line"></i></i><span class="condense">Category<i
+                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+                    <ul class="cr-sb-subdrop condense">
+                        <li><a href="{{route('categories.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>List category</a></li>
+                        <li><a href="{{route('categories.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Create category</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
@@ -63,6 +75,24 @@
                 </li>
             </ul>
         </li>
-        {{--<li class="cr-sb-item-separator"></li>--}}
+        <li class="cr-sb-item-separator"></li>
+        <li class="cr-sb-item sb-drop-item">
+            <a href="javascript:void(0)" class="cr-drop-toggle">
+                <i class="ri-shield-keyhole-line"></i><span class="condense">Authentication<i
+                        class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+            <ul class="cr-sb-drop condense">
+                <li class="cr-sb-item sb-subdrop-item">
+                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
+                        <i class="ri-user-line"></i></i><span class="condense">User<i
+                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+                    <ul class="cr-sb-subdrop condense">
+                        <li><a href="{{route('user.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>List User</a></li>
+                        <li><a href="" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Add User</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>

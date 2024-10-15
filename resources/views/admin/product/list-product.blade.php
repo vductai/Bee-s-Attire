@@ -10,7 +10,7 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="product_list" class="table" style="width:100%">
+                        <table id="cat_data_table" class="table" style="width:100%">
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -18,12 +18,13 @@
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Category</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($list as $item)
-                                <tr>
+                                <tr data-id="{{$item->product_id}}">
                                     <td>{{$loop->index}}</td>
                                     <td>
                                         <img class="tbl-thumb"
@@ -45,7 +46,12 @@
                                         </p>
                                     </td>
                                     <td>{{$item->category->category_name}}</td>
-                                    <td><span class="active">active</span></td>
+                                    <td>
+                                        <span class="badgeProduct {{ $item->action ? 'text-success' : 'text-danger' }}"
+                                              data-status="{{ $item->action ? 'active' : 'inactive' }}">
+                                            {{$item->action ? 'Public' : 'Private'}}
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <button type="button"
@@ -58,6 +64,9 @@
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('product.edit', $item->product_id)}}">Edit</a>
                                                 <a class="dropdown-item" href="#">Delete</a>
+                                                <button class="dropdown-item toggleButton" data-id="{{$item->product_id}}">
+                                                    {{$item->action ? 'Private' : 'Public'}}
+                                                </button>
                                             </div>
                                         </div>
                                     </td>

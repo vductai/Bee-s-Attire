@@ -23,12 +23,9 @@ class SizeAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $sizes = Size::all();
-        return view('admin.size.list-size', compact('sizes'));
-//        return response()->json([
-//            'message' => 'list',
-//            'data' => $sizes
-//        ]);
+        $list = Size::all();
+        return view('admin.size.list-size', compact('list'));
+
     }
 
     public function create(){

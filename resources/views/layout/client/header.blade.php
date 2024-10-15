@@ -103,7 +103,7 @@
                                             <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('client.viewLogin')}}">Login</a>
+                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Login</a>
                                         </li>
                                     </ul>
                                 </li>
