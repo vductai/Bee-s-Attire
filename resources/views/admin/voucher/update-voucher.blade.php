@@ -12,40 +12,41 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Add voucher</h3>
-                                <form id="formVoucher">
+                                <h3>Update voucher</h3>
+                                <form id="formVoucherUpdate">
+                                    <input type="hidden" id="voucherId" value="{{$find->voucher_id}}">
                                     <div class="form-group">
                                         <label>Voucher code</label>
                                         <div class="col-12">
-                                            <input id="voucher_code" name="voucher_code" class="form-control here slug-title" type="text">
+                                            <input id="voucher_code" name="voucher_code" value="{{$find->voucher_code}}" class="form-control here slug-title" type="text">
                                         </div>
                                         <p class="error-text text-danger" id="voucher_code-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Discount</label>
                                         <div class="col-12">
-                                            <input id="voucher_price" name="voucher_price" class="form-control here slug-title" type="number">
+                                            <input id="voucher_price" value="{{$find->voucher_price}}" name="voucher_price" class="form-control here slug-title" type="number">
                                         </div>
                                         <p class="error-text text-danger" id="voucher_price-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Start date</label>
                                         <div class="col-12">
-                                            <input id="start_date" name="start_date" class="form-control here slug-title" type="datetime-local">
+                                            <input id="start_date" value="{{$find->start_date}}" name="start_date" class="form-control here slug-title" type="datetime-local">
                                         </div>
                                         <p class="error-text text-danger" id="start_date-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>End date</label>
                                         <div class="col-12">
-                                            <input id="end_date" name="end_date" class="form-control here slug-title" type="datetime-local">
+                                            <input id="end_date" value="{{$find->end_date}}" name="end_date" class="form-control here slug-title" type="datetime-local">
                                         </div>
                                         <p class="error-text text-danger" id="end_date-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Voucher desc</label>
                                         <div class="col-12">
-                                            <textarea name="voucher_desc" class="form-control here slug-title" id="voucher_desc" cols="70" rows="5" style="resize: none"></textarea>
+                                            <textarea name="voucher_desc" class="form-control here slug-title" id="voucher_desc" cols="70" rows="5" style="resize: none">{{$find->voucher_desc}}</textarea>
                                         </div>
                                         <p class="error-text text-danger" id="voucher_desc-error"></p> <!-- Sửa id -->
                                     </div>
@@ -55,7 +56,6 @@
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -82,11 +82,11 @@
                             @foreach($vouchers as $item)
                                 <tr data-id="{{$item->voucher_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td class="voucher_code">{{$item->voucher_code}}</td>
-                                    <td class="voucher_price">{{$item->voucher_price}} %</td>
-                                    <td class="voucher_desc">{{$item->voucher_desc}}</td>
-                                    <td class="start_date">{{$item->start_date}}</td>
-                                    <td class="end_date">{{$item->end_date}}</td>
+                                    <td class="voucherCode">{{$item->voucher_code}}</td>
+                                    <td class="voucherPrice">{{$item->voucher_price}} %</td>
+                                    <td class="voucherDesc">{{$item->voucher_desc}}</td>
+                                    <td class="startDate">{{$item->start_date}}</td>
+                                    <td class="endDate">{{$item->end_date}}</td>
                                     <td>
                                         <div>
                                             <button type="button"

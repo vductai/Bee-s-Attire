@@ -22,7 +22,8 @@ class ProductRequest extends FormRequest
             'color_id.*',
             'size_id',
             'size_id.*',
-            'quantity'
+            'quantity',
+            'action'
         ];
     }
 

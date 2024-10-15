@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    {{--<div class="row">
         <div class="col-xxl-8 col-xl-12">
             <div class="cr-card revenue-overview">
                 <div class="cr-card-header header-575">
@@ -172,5 +172,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 @endsection
