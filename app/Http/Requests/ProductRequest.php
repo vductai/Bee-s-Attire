@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRequest extends FormRequest
 {
@@ -23,7 +24,8 @@ class ProductRequest extends FormRequest
             'size_id',
             'size_id.*',
             'quantity',
-            'action'
+            'action',
+            'tag_name'
         ];
     }
 
@@ -31,4 +33,6 @@ class ProductRequest extends FormRequest
     {
         return true;
     }
+
+
 }
