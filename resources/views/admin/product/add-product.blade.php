@@ -121,6 +121,9 @@
                                         <label for="inputEmail4" class="form-label">Product name</label>
                                         <input type="text" name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
+                                        @error('product_name')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Select Categories</label>
@@ -137,6 +140,14 @@
                                                    type="hidden">
                                             <input id="slugs" class="form-control here set-slug" type="text" disabled>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">
+                                            Product Tags
+                                            <span>( Type and make comma to separate tags )</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="group_tag"
+                                               name="tag_name" value="" placeholder="">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Price</label>
