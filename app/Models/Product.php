@@ -24,6 +24,12 @@ class Product extends Model
         'action'
     ];
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tag',
+            'product_id', 'tag_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
