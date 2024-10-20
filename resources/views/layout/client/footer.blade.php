@@ -172,6 +172,7 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/client/js/main.js')}}"></script>
+
 </body>
 <!-- Mirrored from maraviyainfotech.com/projects/carrot/carrot-v2/carrot-html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 17:46:40 GMT -->
 </html>

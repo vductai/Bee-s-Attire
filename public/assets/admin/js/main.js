@@ -1045,4 +1045,39 @@
         $(this).parents(".cr-tools-info").find('.cr-tools-item.bg').removeClass("active")
         $(this).addClass("active");
     });
+
+
+    // status
+    $(document).ready(function() {
+
+        $('.update-status').click(function() {
+            var orderId = $(this).data('id');
+            var status = $(this).data('status');
+
+            $.ajax({
+                url: '/admin/orders/' + orderId + '/status/' + encodeURIComponent(status),
+                type: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Cập nhật trạng thái hiển thị
+                    var statusBadge = $('.order-status[data-id="' + orderId + '"]');
+                    statusBadge.empty(); // Xóa nội dung cũ
+
+                    if (status === 'Đang sử lý') {
+                        statusBadge.append('<span class="badge text-warning">Đang sử lý</span>');
+                    } else if (status === 'Đã xác nhận') {
+                        statusBadge.append('<span class="badge text-primary">Đã xác nhận</span>');
+                    } else if (status === 'Đã giao hàng') {
+                        statusBadge.append('<span class="badge text-success">Đã giao hàng</span>');
+                    }
+
+                },
+                error: function(xhr) {
+                    alert('Có lỗi xảy ra: ' + (xhr.responseJSON.message || 'Không xác định.'));
+                }
+            });
+        });
+    });
 })(jQuery);

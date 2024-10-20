@@ -24,6 +24,10 @@ class Vouchers extends Model
         'quantity'
     ];
 
+    public function order(): HasMany
+    {
+        return $this->hasMany(Order::class, 'voucher_id');
+    }
 
     public function user()
     {

@@ -121,17 +121,14 @@ class ProductController extends Controller
 
 
         if ($request->has('color_id') && $request->has('size_id')) {
-            // Assuming color_id and size_id are arrays of equal length
             foreach ($request->color_id as $index => $color_id) {
                 $size_id = $request->size_id[$index];
-
-                // Ensure that both color_id and size_id exist before creating the variant
                 if ($color_id && $size_id) {
                     ProductVariant::create([
                         'product_id' => $product->product_id,
                         'size_id' => $size_id,
                         'color_id' => $color_id,
-                        'quantity' => $request->quantity[$index] ?? 0  // Ensure quantity is handled correctly
+                        'quantity' => $request->quantity[$index] ?? 0
                     ]);
                 }
             }

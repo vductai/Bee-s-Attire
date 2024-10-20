@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Size;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -62,5 +63,11 @@ class ProductController extends Controller
             'listcategory', 'listSize', 'listColor'));
     }
 
+    public function searchTag(Request $request)
+    {
+        $searchTerm = $request->input('query');
+        $tags = Tag::where('tag_name', 'like', '%' . $searchTerm . '%')->get();
 
+        return response()->json($tags);
+    }
 }
