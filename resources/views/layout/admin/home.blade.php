@@ -143,7 +143,7 @@
 
     <!-- Main content -->
     <div class="cr-main-content">
-        <div class="container-fluid" id="content">
+        <div class="container-fluid">
             <!-- trung tam -->
             @yield('content_admin')
         </div>

@@ -15,7 +15,8 @@ class Order extends Model
         'user_id',
         'total_price',
         'voucher_id',
-        'final_price'
+        'final_price',
+        'status'
     ];
 
     public function order_item()
@@ -26,5 +27,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function voucher(): BelongsTo
+    {
+        return $this->belongsTo(Vouchers::class, 'voucher_id');
     }
 }

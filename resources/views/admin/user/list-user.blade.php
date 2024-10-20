@@ -31,10 +31,10 @@
                                     </td>
                                     <td class="userName">{{$item->username}}</td>
                                     <td>{{$item->email}}</td>
-                                    <td>{{$item->created_at}}</td>
+                                    <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y')}}</td>
                                     <td>
                                         <span
-                                            class="statusBadge {{ $item->action ? 'text-success' : 'text-danger' }}"
+                                            class="statusBadge badge {{ $item->action ? 'text-success' : 'text-danger' }}"
                                             data-status="{{ $item->action ? 'active' : 'inactive' }}">
                                             {{ $item->action ? 'Đang hoạt động' : 'Tạm khoá' }}
                                         </span>
