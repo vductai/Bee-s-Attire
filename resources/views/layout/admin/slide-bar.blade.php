@@ -94,5 +94,15 @@
                 </li>
             </ul>
         </li>
+        <li class="cr-sb-item-separator"></li>
+        <li class="cr-sb-item sb-drop-item">
+            <a href="javascript:void(0)" class="cr-drop-toggle">
+                <i class="ri-shopping-bag-3-line"></i><span class="condense">Order<i
+                        class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+            <ul class="cr-sb-drop condense">
+                <li><a href="{{route('admin-list-order')}}" class="cr-page-link subdrop"><i
+                            class="ri-checkbox-blank-circle-line"></i>List Order</a></li>
+            </ul>
+        </li>
     </ul>
 </div>

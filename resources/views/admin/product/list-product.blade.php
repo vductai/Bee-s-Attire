@@ -47,7 +47,7 @@
                                     </td>
                                     <td>{{$item->category->category_name}}</td>
                                     <td>
-                                        <span class="badgeProduct {{ $item->action ? 'text-success' : 'text-danger' }}"
+                                        <span class="badgeProduct badge {{ $item->action ? 'text-success' : 'text-danger' }}"
                                               data-status="{{ $item->action ? 'active' : 'inactive' }}">
                                             {{$item->action ? 'Public' : 'Private'}}
                                         </span>

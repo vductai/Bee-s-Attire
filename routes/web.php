@@ -10,6 +10,8 @@ use App\Http\Controllers\admin\SizeAPIController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\VoucherController;
 use App\Http\Controllers\admin\VouchersAPIController;
+use App\Http\Controllers\admin\OrderController as OrderAdmin;
+
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthClientController;
 use App\Http\Controllers\auth\PasswordController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
 use App\Http\Controllers\client\VNPayController;
+use App\Http\Controllers\client\WishListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +48,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
         // update profile
         Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
+        // wishlist
+        Route::get('/wish-list', [WishListController::class, 'index'])->name('list-wish');
         //crud comment
         Route::post('/comment', [CommentController::class, 'comment']);
         // add cart
@@ -100,6 +105,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             // action user, product
             Route::post('/action/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
             Route::post('/actionProduct/{id}', [AuthAdminController::class, 'toggleProductStatus'])->name('action-product');
+
+            // order
+            Route::get('/order', [OrderAdmin::class, 'listOrder'])->name('admin-list-order');
+            Route::get('/order/{id}/detail', [OrderAdmin::class, 'detailOrder'])->name('admin-order-detail');
+            Route::get('/export-order', [OrderAdmin::class, 'export'])->name('export-order');
+            // status
+            Route::put('/orders/{order}/status/{status}', [OrderAdmin::class, 'updateStatus'])->name('admin-update-status');
+
+
+
         });
     });
 
@@ -155,7 +170,7 @@ Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 
 /*and home*/
-
+Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 /* check out*/
 
 Route::get('/checkout', [CheckOutController::class, 'selectCart'])->name('checkout');

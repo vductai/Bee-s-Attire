@@ -1,3 +1,33 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const searchBox = document.getElementById('search-box');
+    const suggestionBox = document.getElementById('suggestion-box');
+
+    searchBox.addEventListener('input', function () {
+        const input = searchBox.value;
+
+        // Chỉ hiển thị hoặc ẩn suggestion box dựa trên độ dài input
+        if (input.length > 2) {
+            suggestionBox.classList.remove('hidden'); // Hiển thị box khi có dữ liệu nhập
+        } else {
+            suggestionBox.classList.add('hidden'); // Ẩn box khi không có dữ liệu
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        // Ẩn suggestion box khi click ra ngoài
+        if (!suggestionBox.contains(e.target) && !searchBox.contains(e.target)) {
+            suggestionBox.classList.add('hidden');
+        }
+    });
+});
+
+
+
+
+
+
+
+
 (function ($) {
     "use strict";
 
