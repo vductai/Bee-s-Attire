@@ -13,13 +13,13 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add New Size</h3>
-                                <form action="{{route('size.store')}}" method="post">
-                                    @csrf
+                                <form id="formSize">
                                     <div class="form-group">
                                         <label>Name size</label>
                                         <div class="col-12">
-                                            <input id="text" name="size_name"
+                                            <input id="size_name" name="size_name"
                                                    class="form-control here slug-title" type="text">
+                                            <p class="text-danger" id="errSize"></p>
                                         </div>
                                     @error('size_name')
                                         <p class="text-danger">
@@ -52,10 +52,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($sizes as $item)
-                                <tr>
+                            @foreach($list as $item)
+                                <tr data-id="{{$item->size_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td>{{$item->size_name}}</td>
+                                    <td class="sizeName">{{$item->size_name}}</td>
                                     <td>
                                         <div>
                                             <button type="button"
@@ -67,12 +67,10 @@
                                             </button>
 
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
-                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>
+                                                <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                    Delete
+                                                </button>
                                             </div>
                                         </div>
                                     </td>

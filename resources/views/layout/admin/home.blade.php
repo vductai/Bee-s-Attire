@@ -8,6 +8,8 @@
     <meta name="keywords" content="admin, dashboard, ecommerce, panel" />
     <meta name="description" content="Carrot - Admin.">
     <meta name="author" content="ashishmaraviya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Carrot - Admin.</title>
 
@@ -33,7 +35,8 @@
     {{-- Tailwind css --}}{{--
     @vite('public/assets/app.css')
 --}}
-
+    @vite('resources/js/size.js')
+    @vite('resources/js/color.js')
 </head>
 
 <body>
@@ -242,6 +245,29 @@
     <script src="{{ asset('assets/admin/js/main.js') }}" async></script>
     <script src="{{ asset('assets/admin/js/data/ecommerce-chart-data.js') }}" async></script>
     @yield('script')
+<!-- Vendor Custom -->
+<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}"></script>
+<!-- Data Tables -->
+<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}"></script>
+<!-- Caleddar -->
+<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}"></script>
+<!-- Date Range Picker -->
+<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/date-range.js')}}"></script>
+
+<!-- Main Custom -->
+<script src="{{asset('assets/admin/js/main.js')}}"></script>
+<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
+@yield('script')
 </body>
 
 </html>

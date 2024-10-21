@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
@@ -26,14 +27,15 @@ class ProductController extends Controller
         $listAllCategory = Category::all();
 
         $category_id = $request->get('category_id', 'all');
-        if ($category_id === 'all'){
+        if ($category_id === 'all') {
             $listAllProduct = Product::all();
-        }else{
+        } else {
             $listAllProduct = Product::where('category_id', $category_id)->get();
-
         }
+
         return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id'));
     }
+
 
     public function getProductDetail($slug)
     {

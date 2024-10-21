@@ -17,7 +17,7 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="product_list" class="table" style="width:100%">
+                        <table id="cat_data_table" class="table">
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -26,12 +26,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($sizes as $item)
-                                <tr>
+                            @foreach($list as $item)
+                                <tr data-id="{{$item->size_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td>{{$item->size_name}}</td>
+                                    <td class="sizeName">{{$item->size_name}}</td>
                                     <td>
-                                        <div class="d-flex justify-content-center">
+                                        <div>
                                             <button type="button"
                                                     class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
                                                     data-bs-toggle="dropdown" aria-haspopup="true"
@@ -39,9 +39,10 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
+
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
-                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post" onsubmit="return confirm('Bạn có muốn xóa không??')">
+                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="dropdown-item" type="submit">Delete</button>

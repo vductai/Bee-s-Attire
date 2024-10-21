@@ -84,6 +84,7 @@ class CategoryAPIController extends Controller
 
         return response()->json([
             'data' => $categories,
+            'data' => new $categories,//CategoryResource(),
             'message' => 'Sua thanh cong !',
         ]);
     }

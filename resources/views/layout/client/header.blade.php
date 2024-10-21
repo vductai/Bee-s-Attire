@@ -78,6 +78,9 @@
                                             <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
                                         </li>
                                         <li>
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
+                                        </li>
+                                        <li>
                                             <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
                                                 @csrf
                                             </form>

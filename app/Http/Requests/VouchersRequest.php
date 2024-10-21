@@ -18,10 +18,11 @@ class VouchersRequest extends FormRequest
     {
         return [
             'voucher_code' => 'required|string|max:255',
-            'voucher_price' => 'required|string|max:255',
-            'voucher_desc' => 'required|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'voucher_price' => 'required|numeric',
+            'voucher_desc' => 'required|string|max:255',
+            'start_date' => 'required|date|max:255',
+            'end_date' => 'required|date|max:255',
+            'quantity' => 'required'
         ];
     }
 

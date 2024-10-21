@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\SizeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
 use App\Models\ProductVariant;
@@ -31,8 +32,8 @@ class SizeAPIController extends Controller
     }
 
     public function create(){
-        $sizes = Size::all();
-        return view('admin.size.add-size', compact('sizes'));
+        $list = Size::all();
+        return view('admin.size.add-size', compact('list'));
     }
 
     public function store(SizeRequest $request)
@@ -45,7 +46,7 @@ class SizeAPIController extends Controller
         $size = Size::create([
             'size_name' => $request->size_name
         ]);
-        return redirect()->route('size.create')->with('success', 'Thêm thành công');
+        return redirect()->route('size.create');
     }
 
 
@@ -67,8 +68,9 @@ class SizeAPIController extends Controller
     }
 
     public function edit($id){
-        $edit = Size::where('size_id', $id)->get();
-        return view('admin.size.update-size', compact('edit'));
+        $sizes = Size::all();
+        $edit = Size::findOrFail($id);
+        return view('admin.size.update-size', compact('edit', 'sizes'));
     }
 
 
@@ -79,31 +81,30 @@ class SizeAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $find = Size::find($id);
+        $find = Size::findOrFail($id);
 
         $find->update([
            'size_name' => $request->size_name
         ]);
 
-        return redirect()->route('size.index');
+        broadcast(new SizeEvent($find, 'update'))->toOthers();
+
+        return response()->json($find);
 
 
     }
 
 
-    public function destroy($id)
+    public function destroy(Size $size)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $del = ProductVariant::where('size_id', $id)->exists();
-        if ($del){
-            return redirect()->back()->with('errorSize', 'Sản phẩm này đang có biến thể không thể xoá');
-        }else{
-            Size::where('size_id', $id)->delete();
-            return redirect()->route('size.index');
-        }
+
+        $size->delete();
+        broadcast(new SizeEvent($size, 'delete'))->toOthers();
+        return response()->json(['mesage' => 'done']);
 
     }
 }

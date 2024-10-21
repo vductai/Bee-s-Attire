@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Vouchers;
+use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +27,9 @@ class VouchersAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $vouchers = Vouchers::query()->get();
+        $vouchers = Vouchers::orderBy('created_at', 'desc')->get();
 
-        return response()->json([
-            'message' => 'list',
-            'data' => $vouchers
-        ]);
+        return view('admin.voucher.add-voucher', compact('vouchers'));
     }
 
     /**
@@ -51,19 +50,15 @@ class VouchersAPIController extends Controller
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
 
-        $voucher = Vouchers::create([
+        Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
             'voucher_desc' => $request->voucher_desc,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'quantity' => $request->quantity
         ]);
 
-        return response()->json([
-            'message' => 'add',
-            'data' => $voucher
-        ]);
+        return redirect()->back();
     }
 
     /**

@@ -1,5 +1,58 @@
 @extends('layout.client.home')
 @section('content_client')
+    <style>
+        .voucher-card {
+            border: 2px dashed #FFA500; /* Đường viền gạch */
+            padding: 15px;
+            width: 200px; /* Giảm kích thước chiều rộng */
+            text-align: center;
+            background-color: #fdf8e1; /* Màu nền nhẹ */
+            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+        }
+
+        .voucher-title {
+            font-size: 18px; /* Giảm kích thước chữ */
+            font-weight: bold;
+            color: #FF4500; /* Màu chữ nổi bật */
+        }
+
+        .voucher-discount {
+            font-size: 24px; /* Giảm kích thước chữ */
+            font-weight: bold;
+            color: #32CD32; /* Màu cho phần giảm giá */
+            margin: 10px 0;
+        }
+
+        .voucher-expiry {
+            font-size: 12px; /* Giảm kích thước chữ */
+            color: #666;
+        }
+
+        .voucher-details {
+            font-size: 14px; /* Giảm kích thước chữ */
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Nút sử dụng hình chữ nhật */
+        .use-btn {
+            background-color: #FF4500;
+            color: white;
+            padding: 8px 15px; /* Giảm kích thước nút */
+            border: none;
+            cursor: pointer;
+            font-size: 14px; /* Giảm kích thước chữ */
+            margin-top: 10px;
+            width: 100%; /* Chiều rộng của nút bằng 100% */
+            transition: background-color 0.3s ease;
+        }
+
+        .use-btn:hover {
+            background-color: #e63900; /* Màu khi hover */
+        }
+    </style>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-4">
@@ -46,7 +99,7 @@
                                 <button class="nav-link" id="preferences-tab" data-bs-toggle="tab"
                                         data-bs-target="#preferences" type="button" role="tab"
                                         aria-controls="preferences"
-                                        aria-selected="false">Preferences
+                                        aria-selected="false">Voucher
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -88,19 +141,22 @@
                             </div>
                             <div class="tab-pane fade" id="preferences" role="tabpanel"
                                  aria-labelledby="preferences-tab">
-                                <h6>Theme Preference</h6>
                                 <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="darkModeSwitch">
-                                    <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
-                                </div>
-                                <h6>Notification Settings</h6>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
-                                    <label class="form-check-label" for="emailNotifications">Email Notifications</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
-                                    <label class="form-check-label" for="pushNotifications">Push Notifications</label>
+                                    <div class="container text-center">
+                                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                                            @foreach($vouchers as $item)
+                                                <div class="col">
+                                                    <div class="voucher-card">
+                                                        <div class="voucher-title">{{$item->voucher_desc}}</div>
+                                                        <div class="voucher-discount">{{$item->voucher_price}}% OFF</div>
+                                                        <div class="voucher-details">Use code: <strong>{{$item->voucher_code}}</strong></div>
+                                                        <div class="voucher-expiry mb-3">Expires on: {{$item->end_date}}</div>
+                                                        <a href="{{route('home')}}" class="use-btn">Sử dụng</a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
@@ -120,12 +176,6 @@
                         </div>
                     </div>
                 </div>
-                {{--<div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Activity Graph</h5>
-                        <canvas id="activityChart"></canvas>
-                    </div>
-                </div>--}}
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+/*Route::group(['middleware' => ['auth:sanctum']], function () {
     // route admin và user dùng chung
     Route::group(['middleware' => ['checkRole:user,admin']], function () {
 
@@ -88,4 +88,5 @@ Route::get('/show', [ProductClient::class, 'index']);
 
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);*/
 
