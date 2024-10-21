@@ -49,6 +49,39 @@
    - Terms Policy
 
 -----------------------------------------------------------------------------------*/
+#search-box {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.suggestions {
+    margin-top: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    z-index: 1000;
+    border-radius: 1px 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f1f1f1;
+}
+
+.hidden {
+    display: none;
+}
 /* Typography */
 /* Typography */
 /* Manrope */

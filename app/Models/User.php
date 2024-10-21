@@ -29,6 +29,7 @@ class User extends Authenticatable
         'birthday',
         'address',
         'role_id',
+        'action'
     ];
 
     protected $hidden = [
@@ -75,4 +76,17 @@ class User extends Authenticatable
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function voucher()
+    {
+        return $this->belongsToMany(Vouchers::class, 'user_voucher',
+            'user_id', 'voucher_id');
+    }
+
+
 }

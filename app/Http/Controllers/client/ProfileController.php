@@ -14,7 +14,9 @@ class ProfileController extends Controller
 
     public function getProfile()
     {
-        return view('client.Profile-client');
+        $user = Auth::user();
+        $vouchers = $user->voucher;
+        return view('client.Profile-client', compact('vouchers'));
     }
 
 
