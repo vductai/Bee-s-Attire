@@ -152,6 +152,7 @@ return response()->json($user);
         } else {
             $filename = $user->avatar;
         }
+
         $user->update([
             'avatar' => $filename,
             'username' => $request->username,
