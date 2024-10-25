@@ -86,7 +86,6 @@
                                         <th>#</th>
                                         <th>Image</th>
                                         <th>Item</th>
-                                        <th>Description</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Total</th>
@@ -101,7 +100,6 @@
                                                      src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                      alt="product-image"></td>
                                             <td>{{$item->product->product_name}}</td>
-                                            <td>Half Sleeve men T-shirt with cap in Dark Blue Color.</td>
                                             <td>{{$item->quantity}}</td>
                                             <td>{{number_format($item->product->sale_price)}} đ</td>
                                             <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

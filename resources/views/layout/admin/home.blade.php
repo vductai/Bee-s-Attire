@@ -39,7 +39,6 @@
     @vite('resources/js/category.js')
     @vite('resources/js/status.js')
     @vite('resources/js/voucher.js')
-    @vite('resources/js/product.js')
 </head>
 
 <body>

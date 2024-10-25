@@ -56,6 +56,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/addCart', [CartController::class, 'addCart'])->name('addCart');
         // get cart
         Route::get('/shoping-cart', [CartController::class, 'getCart'])->name('viewCart');
+        // Update cart
+        Route::post('/cart/update', [CartController::class, 'updateCart'])->name('update-cart');
         // delete cart
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
         Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
@@ -72,6 +74,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         // get order
         Route::get('/order', [OrderController::class, 'getAllOrder'])->name('get-all-order');
+        Route::get('/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('detail-order');
+        Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('order-track');
+
 
     });
 
@@ -184,4 +189,8 @@ Route::get('/about', function () {
 
 Route::get('/contact', function () {
     return view('client.us.contact');
+})->name('contact');
+
+Route::get('/order-detail', function () {
+    return view('client.order.orderDetail');
 })->name('contact');
