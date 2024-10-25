@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\admin;
 
-// use Carbon\Carbon;
+use App\Events\VoucherEvent;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\VouchersRequest;
 use App\Models\User;
 use App\Models\Vouchers;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\VouchersRequest;
-// use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VouchersAPIController extends Controller
 {
@@ -27,7 +26,7 @@ class VouchersAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $vouchers = Vouchers::orderBy('created_at', 'desc')->get();
+        $vouchers = Vouchers::all();
 
         return view('admin.voucher.add-voucher', compact('vouchers'));
     }
@@ -50,7 +49,7 @@ class VouchersAPIController extends Controller
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
 
-        Vouchers::create([
+        $add = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
             'voucher_desc' => $request->voucher_desc,
@@ -58,7 +57,10 @@ class VouchersAPIController extends Controller
             'end_date' => $end_date,
         ]);
 
-        return redirect()->back();
+
+        broadcast(new VoucherEvent($add, 'create'))->toOthers();
+
+        return response()->json($add);
     }
 
     /**
@@ -80,10 +82,16 @@ class VouchersAPIController extends Controller
         ]);
     }
 
+    public function edit($id){
+        $find = Vouchers::findOrFail($id);
+        $vouchers = Vouchers::all();
+        return view('admin.voucher.update-voucher',compact('vouchers', 'find'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(VouchersRequest $request, string $id)
+    public function update(VouchersRequest $request,$id)
     {
 
         try {
@@ -98,43 +106,34 @@ class VouchersAPIController extends Controller
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
 
-        $voucher = Vouchers::where('voucher_id', $id)->update([
+        $voucher = Vouchers::findOrFail($id);
+
+        $voucher->update([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
             'start_date' => $start_date,
             'end_date' => $end_date
         ]);
 
+        broadcast(new VoucherEvent($voucher, 'update'))->toOthers();
 
-        return response()->json([
-            'message' => 'update',
-            'data' => $voucher
-        ]);
+        return response()->json($voucher);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try {
-            $voucher = Vouchers::findOrFail($id);
             $this->authorize('manageAdmin', Auth::user());
-            $voucher->delete();
-            return response()->json([
-                'message' => 'Xóa thành công!',
-                'data' => $voucher
-            ]);
         } catch (AuthorizationException $e) {
-            return response()->json([
-                'message' => 'Bạn không có quyền xóa voucher này!',
-            ], 403);
-
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'message' => 'Voucher không tồn tại!',
-            ], 404);
         }
+
+        $vouchers = Vouchers::find($id)->delete();
+        broadcast(new VoucherEvent($vouchers, 'delete'))->toOthers();
+
+        return response()->json(['message' => 'Xóa thành công!']);
     }
 
 }

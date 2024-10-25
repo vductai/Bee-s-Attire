@@ -14,7 +14,7 @@ if (formSize) {
         if (errorMessage) {
             errorMessage.remove()
         };
-        axios.post('/admin/size', {
+        axios.post('/admin/size', { 
             size_name: name
         }, {
             headers: {

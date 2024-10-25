@@ -18,8 +18,7 @@ class SearchController extends Controller
                 ->orWhere('product_price', 'LIKE', "%{$query}%");
         })
             ->orWhereHas('variants.color', function($query_color) use ($query) {
-                $query_color->where('color_name', $query); // Nếu muốn tìm chính xác `color_id`
-                // Nếu bạn muốn tìm tương tự `color_id`, bạn có thể đổi thành `LIKE` nếu cần thiết
+                $query_color->where('color_name', $query);
             })
             ->get();
 

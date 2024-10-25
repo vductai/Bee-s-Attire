@@ -5,6 +5,7 @@
             <h5>List size</h5>
         </div>
     </div>
+
     @if(session('errorSize'))
         <div class="text-danger">{{session('errorSize')}}</div>
     @endif
@@ -12,6 +13,7 @@
     @if(session('success'))
         <div class="text-success">{{session('success')}}</div>
     @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default product-list">

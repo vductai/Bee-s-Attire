@@ -13,42 +13,41 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add voucher</h3>
-                                <form action="{{route('coupon.store')}}" method="post">
-                                    @csrf
+                                <form id="formVoucher">
                                     <div class="form-group">
                                         <label>Voucher code</label>
                                         <div class="col-12">
-                                            <input id="text" name="voucher_code"
-                                                   class="form-control here slug-title" type="text">
+                                            <input id="voucher_code" name="voucher_code" class="form-control here slug-title" type="text">
                                         </div>
+                                        <p class="error-text text-danger" id="voucher_code-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Discount</label>
                                         <div class="col-12">
-                                            <input id="text" name="voucher_price"
-                                                   class="form-control here slug-title" type="number">
+                                            <input id="voucher_price" name="voucher_price" class="form-control here slug-title" type="number">
                                         </div>
+                                        <p class="error-text text-danger" id="voucher_price-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Start date</label>
                                         <div class="col-12">
-                                            <input id="text" name="start_date"
-                                                   class="form-control here slug-title" type="datetime-local">
+                                            <input id="start_date" name="start_date" class="form-control here slug-title" type="datetime-local">
                                         </div>
+                                        <p class="error-text text-danger" id="start_date-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>End date</label>
                                         <div class="col-12">
-                                            <input id="text" name="end_date"
-                                                   class="form-control here slug-title" type="datetime-local">
+                                            <input id="end_date" name="end_date" class="form-control here slug-title" type="datetime-local">
                                         </div>
+                                        <p class="error-text text-danger" id="end_date-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Voucher desc</label>
                                         <div class="col-12">
-                                            <textarea name="voucher_desc" id="" cols="70" rows="10"
-                                                      style="resize: none"></textarea>
+                                            <textarea name="voucher_desc" class="form-control here slug-title" id="voucher_desc" cols="70" rows="5" style="resize: none"></textarea>
                                         </div>
+                                        <p class="error-text text-danger" id="voucher_desc-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
@@ -56,6 +55,7 @@
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
@@ -80,13 +80,13 @@
                             </thead>
                             <tbody>
                             @foreach($vouchers as $item)
-                                <tr>
+                                <tr data-id="{{$item->voucher_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td>{{$item->voucher_code}}</td>
-                                    <td>{{$item->voucher_price}} %</td>
-                                    <td>{{$item->voucher_desc}}</td>
-                                    <td>{{$item->start_date}}</td>
-                                    <td>{{$item->end_date}}</td>
+                                    <td class="voucher_code">{{$item->voucher_code}}</td>
+                                    <td class="voucher_price">{{$item->voucher_price}} %</td>
+                                    <td class="voucher_desc">{{$item->voucher_desc}}</td>
+                                    <td class="start_date">{{$item->start_date}}</td>
+                                    <td class="end_date">{{$item->end_date}}</td>
                                     <td>
                                         <div>
                                             <button type="button"
@@ -96,14 +96,9 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
-
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="">Edit</a>
-                                                <form action="" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>
+                                                <a class="dropdown-item" href="/admin/coupon/{{$item->voucher_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->voucher_id}}">Delete</button>
                                             </div>
                                         </div>
                                     </td>

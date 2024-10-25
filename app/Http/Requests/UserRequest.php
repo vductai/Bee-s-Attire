@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'image|mimes:jpg,jpeg,png,gif',
+            'avatar' => 'required',
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
             'email' => 'required|max:255',
@@ -27,8 +27,7 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'avatar.image' => 'Hình ảnh không hợp lệ.',
-            'avatar.mimes' => 'Hình ảnh không hợp lệ.',
+            'avatar.required' => 'Hình ảnh không hợp lệ.',
 
             'username.required' => 'Vui lòng điền tên',
             'username.max' => 'Tên không vượt quá 255 kí tự',

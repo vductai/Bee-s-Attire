@@ -20,8 +20,15 @@ class Product extends Model
         'product_desc',
         'sale_price',
         'category_id',
-        'slug'
+        'slug',
+        'action'
     ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tag',
+            'product_id', 'tag_id');
+    }
 
     public function category(): BelongsTo
     {
