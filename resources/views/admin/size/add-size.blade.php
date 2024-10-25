@@ -21,6 +21,11 @@
                                                    class="form-control here slug-title" type="text">
                                             <p class="text-danger" id="errSize"></p>
                                         </div>
+                                        @error('size_name')
+                                        <p class="text-danger">
+                                            {{$message}}
+                                        </p>
+                                    @enderror
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">

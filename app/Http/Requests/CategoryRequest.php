@@ -24,11 +24,11 @@ class CategoryRequest extends FormRequest
             'category_name' => 'required|string|max:255',
         ];
     }
-
     public function messages(): array
     {
         return [
-            'category_name.required' => 'bắt buộc điền!',
+            'category_name.required' => 'Tên danh mục bắt buộc điền.!',
+            'category_name.max' => 'Tên danh mục không được quá 255 kí tự.!',
         ];
     }
 }
