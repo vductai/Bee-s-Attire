@@ -114,7 +114,7 @@
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
                                 <input type="text" placeholder="."
-                                       name="quantity" value="1" minlength="1" maxlength="20"
+                                       name="quantity" value="1" minlength="1" maxlength="5"
                                        class="quantity">
                                 <button type="button" class="plus">+</button>
                                 <button type="button" class="minus">-</button>
@@ -124,6 +124,14 @@
                                     <button type="submit" class="cr-button cr-shopping-bag" >Add to cart</button>
                                 @else
                                     <button type="button" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                @endif
+                            </div>
+                            <div class="cr-add-button">
+                                @if(session()->has('errorCart'))
+                                    <div class="alert alert-danger">
+                                        {{ session('errorCart') }}
+                                    </div>
+                                    {{ session()->forget('errorCart') }}
                                 @endif
                             </div>
                             {{--<div class="cr-card-icon">
@@ -216,44 +224,9 @@
                                             sapiente doloribus debitis corporis, eaque dicta, repellat amet, illum
                                             adipisci vel
                                             perferendis dolor! quae vero in perferendis provident quis.</p>
-                                        <div class="content mt-30">
-                                            <img src="{{asset('assets/client/img/review/2.jpg')}}" alt="review">
-                                            <div class="details">
-                                                <span class="date">Mar 22, 2024</span>
-                                                <span class="name">Lina Wilson</span>
-                                            </div>
-                                            {{--<div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-line"></i>
-                                            </div>--}}
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente doloribus debitis corporis, eaque dicta, repellat amet, illum
-                                            adipisci vel
-                                            perferendis dolor! quae vero in perferendis provident quis.</p>
                                     </div>
-
                                     <h4 class="heading">Add a Review</h4>
                                     <form action="javascript:void(0)">
-                                        {{--<div class="cr-ratting-star">
-                                            <span>Your rating :</span>
-                                            <div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-line"></i>
-                                                <i class="ri-star-s-line"></i>
-                                                <i class="ri-star-s-line"></i>
-                                            </div>
-                                        </div>--}}
-                                        <div class="cr-ratting-input">
-                                            <input name="your-name" placeholder="Name" type="text">
-                                        </div>
-                                        <div class="cr-ratting-input">
-                                            <input name="your-email" placeholder="Email*" type="email" required="">
-                                        </div>
                                         <div class="cr-ratting-input form-submit">
                                             <textarea name="your-commemt" placeholder="Enter Your Comment"></textarea>
                                             <button class="cr-button" type="submit" value="Submit">Submit</button>

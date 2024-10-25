@@ -31,7 +31,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
-    <livewire:styles />
+    <livewire:styles/>
 </head>
 
 <body class="body-bg-6">
@@ -51,7 +51,7 @@
                         <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <livewire:tag-search />
+                    <livewire:tag-search/>
                     <div class="cr-right-bar">
                         <ul class="navbar-nav">
                             @if(auth()->check())
@@ -71,7 +71,8 @@
                                             <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
                                         </li>
                                         <li>
-                                            <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                            <form action="{{ route('client.logout') }}" method="POST"
+                                                  style="display: none;" id="logout-form">
                                                 @csrf
                                             </form>
                                             <a class="dropdown-item" href="#"
@@ -87,7 +88,8 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{route('client.viewRegister')}}">Register</a>
+                                            <a class="dropdown-item"
+                                               href="{{route('client.viewRegister')}}">Register</a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
@@ -108,9 +110,44 @@
                             {{--  --}}
                         @endif
 
-                        <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
+                        {{--<a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
                             <i class="ri-shopping-cart-line"></i>
-                            <span>Cart</span>
+                            <span class="me-3">Cart</span>
+                            --}}{{--<span
+                                class="position-absolute top-10
+                                start-100 translate-middle badge rounded-pill
+                                 bg-danger text-white">
+                            </span>--}}{{--
+                            <span hidden
+                                  class="position-absolute top-10
+                                  start-100 translate-middle badge rounded-pill
+                                   bg-danger text-white">
+                            </span>
+                        </a>--}}
+
+                        <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
+                            <i class="ri-shopping-cart-line"></i>
+                            <span class="me-3">Cart</span>
+                            @if(auth()->check())
+                                @if(\App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::user()->user_id)->exists())
+                                    <span
+                                            class="position-absolute top-10 start-100 translate-middle
+                                        bg-danger border border-light rounded-circle" style="padding: 6px">
+                                    </span>
+                                @else
+                                    <span
+                                            class="position-absolute top-10 start-100 translate-middle
+                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
+                                    </span>
+                                @endif
+                            @else
+                                <span
+                                    class="position-absolute top-10 start-100 translate-middle
+                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
+                                    </span>
+                            @endif
+
+
                         </a>
                     </div>
                 </div>
@@ -121,5 +158,5 @@
         @include('layout.client.navigation')
     </div>
 </header>
-<livewire:scripts />
+<livewire:scripts/>
 @include('layout.client.mobile-menu')

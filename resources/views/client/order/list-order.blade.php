@@ -63,22 +63,56 @@
                                 <div class="cr-checkout-block cr-check-new">
                                     <h3 class="cr-checkout-title">Đơn hàng</h3>
                                 </div>
-                                <div>
-                                    @foreach($getOrder as $item)
-                                        <div class="d-flex justify-content-evenly align-items-center border border-2 rounded-2 mb-3 w-75" style="height: 200px">
-                                            <div>
-                                                <img src="{{asset('assets/client/img/product/1.jpg')}}" width="170" height="170" alt="">
-                                            </div>
-                                            <div class="">
-                                                <ul class="" style="list-style: none">
-                                                    <li><label>Tên sản phẩm :</label></li>
-                                                    <li><label>Diet Type :</label>Vegetarian</li>
-                                                    <li><label>Speciality :</label>Gluten Free, Sugar Free</li>
-                                                    <li>$120.25</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                <div class="cr-card-content ">
+                                    <div class="table-responsive">
+                                        <table id="cat_data_table" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Tiền hàng</th>
+                                                <th>Mã giảm giá</th>
+                                                <th>Tổng</th>
+                                                <th>Ngày mua</th>
+                                                <th>Trạng thái</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($getOrder as $item)
+                                                <tr>
+                                                    <td>{{$item->order_id}}</td>
+                                                    <td>{{number_format($item->total_price)}} đ</td>
+                                                    <td>{{$item->voucher->voucher_price}} %</td>
+                                                    <td>{{number_format($item->final_price)}} đ</td>
+                                                    <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('h:i:s d-m-Y')}}</td>
+                                                    <td>
+                                                        @if($item->status === 'Đang sử lý')
+                                                            <span class="badge text-warning">{{$item->status}}</span>
+                                                        @elseif($item->status === 'Đã xác nhận')
+                                                            <span class="badge text-primary">{{$item->status}}</span>
+                                                        @elseif($item->status === 'Đã giao hàng')
+                                                            <span class="badge text-success">{{$item->status}}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <button type="button"
+                                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false" data-display="static">
+															<span class="sr-only"><i
+                                                                    class="ri-settings-3-line"></i></span>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" href="{{route('detail-order', $item->order_id)}}">Chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
