@@ -55,7 +55,7 @@
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="inputEmail4" class="form-label">Product name</label>
-                                            <input type="text" name="product_name" class="form-control slug-title"
+                                            <input type="text" name="product_name" class="form-control slug-title  "
                                                    id="inputEmail4">
                                         </div>
                                         <div class="col-md-6">

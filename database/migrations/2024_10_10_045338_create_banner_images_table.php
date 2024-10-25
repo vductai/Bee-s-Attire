@@ -9,8 +9,8 @@ class CreateBannerImagesTable extends Migration
     public function up()
     {
         Schema::create('banner_images', function (Blueprint $table) {
-            $table->unsignedBigInteger('banner_images_id')->primary(); 
-            $table->unsignedBigInteger('banner_id');
+            $table->increments('banner_images_id')->primary(); 
+            $table->Integer('banner_id');
             $table->string('image_path');
             $table->timestamps();
             

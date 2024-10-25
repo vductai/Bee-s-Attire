@@ -110,93 +110,7 @@
                                 <input type="hidden" name="color_id" id="selected-color-id">
                             </div>
                         </div>
-                        <script !src="">
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const sizeOptions = document.querySelectorAll('.size-option');
-                                const hiddenInputSize = document.getElementById('selected-size-id');
-                                const colorOptions = document.querySelectorAll('.color-option');
-                                const hiddenInputColor = document.getElementById('selected-color-id');
-                                const hiddenInputVariant = document.getElementById('selected-product-variant-id');
 
-                                let selectedSizeId = null;
-                                let selectedColorId = null;
-
-                                sizeOptions.forEach(option => {
-                                    option.addEventListener('click', function () {
-                                        sizeOptions.forEach(opt => opt.classList.remove('active-color'));
-
-                                        this.classList.add('active-color');
-
-                                        // Gán giá trị cho selectedSizeId
-                                        selectedSizeId = this.getAttribute('data-size-id');
-                                        hiddenInputSize.value = selectedSizeId;
-                                        console.log(selectedSizeId)
-                                        updateProductVariant();
-                                        filterColorsByStock();
-                                    });
-                                });
-
-                                colorOptions.forEach(option => {
-                                    option.addEventListener('click', function () {
-                                        colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
-
-                                        this.classList.add('cl-active-color');
-
-                                        // Gán giá trị cho selectedColorId
-                                        selectedColorId = this.getAttribute('data-color-id');
-                                        hiddenInputColor.value = selectedColorId;
-                                        updateProductVariant();
-                                    });
-                                });
-
-                                function updateProductVariant() {
-                                    if (selectedSizeId && selectedColorId) {
-                                        const variants = @json($getDetail->variants);
-
-                                        const selectedVariant = variants.find(variant =>
-                                            variant.size_id == selectedSizeId && variant.color_id == selectedColorId
-                                        );
-                                        if (selectedVariant) {
-                                            hiddenInputVariant.value = selectedVariant.product_variant_id;
-                                        }
-                                    }
-                                }
-
-                                function filterColorsByStock() {
-                                    const variants = @json($getDetail->variants);
-
-                                    colorOptions.forEach(option => {
-                                        const colorId = option.getAttribute('data-color-id');
-                                        const matchingVariant = variants.find(variant =>
-                                            variant.size_id == selectedSizeId && variant.color_id == colorId
-                                        );
-
-                                        if (matchingVariant && matchingVariant.quantity > 0) {
-                                            option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
-                                        } else {
-                                            option.style.display = 'none'; // Ẩn màu nếu hết hàng
-                                        }
-                                    });
-                                }
-                                function filterSizesByStock() {
-                                    const variants = @json($getDetail->variants);
-
-                                    sizeOptions.forEach(option => {
-                                        const sizeId = option.getAttribute('data-size-id');
-                                        const matchingVariant = variants.find(variant =>
-                                            variant.color_id == selectedColorId && variant.size_id == sizeId
-                                        );
-
-                                        if (matchingVariant && matchingVariant.quantity > 0) {
-                                            option.style.display = 'none'; // Hiển thị size nếu còn hàng
-                                        } else {
-                                            selectedSizeId.style.display = 'none';
-                                            option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
-                                        }
-                                    });
-                                }
-                            });
-                        </script>
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
                                 <input type="text" placeholder="."
@@ -353,4 +267,91 @@
             </div>
         </div>
     </section>
+    <script !src="">
+        document.addEventListener('DOMContentLoaded', function () {
+            const sizeOptions = document.querySelectorAll('.size-option');
+            const hiddenInputSize = document.getElementById('selected-size-id');
+            const colorOptions = document.querySelectorAll('.color-option');
+            const hiddenInputColor = document.getElementById('selected-color-id');
+            const hiddenInputVariant = document.getElementById('selected-product-variant-id');
+
+            let selectedSizeId = null;
+            let selectedColorId = null;
+
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    sizeOptions.forEach(opt => opt.classList.remove('active-color'));
+
+                    this.classList.add('active-color');
+
+                    // Gán giá trị cho selectedSizeId
+                    selectedSizeId = this.getAttribute('data-size-id');
+                    hiddenInputSize.value = selectedSizeId;
+                    console.log(selectedSizeId)
+                    updateProductVariant();
+                    filterColorsByStock();
+                });
+            });
+
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
+
+                    this.classList.add('cl-active-color');
+
+                    // Gán giá trị cho selectedColorId
+                    selectedColorId = this.getAttribute('data-color-id');
+                    hiddenInputColor.value = selectedColorId;
+                    updateProductVariant();
+                });
+            });
+
+            function updateProductVariant() {
+                if (selectedSizeId && selectedColorId) {
+                    const variants = @json($getDetail->variants);
+
+                    const selectedVariant = variants.find(variant =>
+                        variant.size_id == selectedSizeId && variant.color_id == selectedColorId
+                    );
+                    if (selectedVariant) {
+                        hiddenInputVariant.value = selectedVariant.product_variant_id;
+                    }
+                }
+            }
+
+            function filterColorsByStock() {
+                const variants = @json($getDetail->variants);
+
+                colorOptions.forEach(option => {
+                    const colorId = option.getAttribute('data-color-id');
+                    const matchingVariant = variants.find(variant =>
+                        variant.size_id == selectedSizeId && variant.color_id == colorId
+                    );
+
+                    if (matchingVariant && matchingVariant.quantity > 0) {
+                        option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
+                    } else {
+                        option.style.display = 'none'; // Ẩn màu nếu hết hàng
+                    }
+                });
+            }
+            function filterSizesByStock() {
+                const variants = @json($getDetail->variants);
+
+                sizeOptions.forEach(option => {
+                    const sizeId = option.getAttribute('data-size-id');
+                    const matchingVariant = variants.find(variant =>
+                        variant.color_id == selectedColorId && variant.size_id == sizeId
+                    );
+
+                    if (matchingVariant && matchingVariant.quantity > 0) {
+                        option.style.display = 'none'; // Hiển thị size nếu còn hàng
+                    } else {
+                        selectedSizeId.style.display = 'none';
+                        option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

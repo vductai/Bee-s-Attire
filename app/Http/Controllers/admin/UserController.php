@@ -22,11 +22,9 @@ class UserController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $list = User::all();
-        return response()->json([
-            'message' => 'list',
-            'data' => $list
-        ]);
+
+        $list = User::where('role_id', '=', 3)->get();
+        return view('admin.user.list-user', compact('list'));
     }
 
     /**

@@ -38,7 +38,7 @@
                         <div class="form-logo">
                             <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
                         </div>
-                        <form class="cr-content-form" action="{{route('client.login')}}" method="post">
+                        <form class="cr-content-form" action="{{route('client-login')}}" method="post">
                             @csrf
                             <div class="form-group">
                                 <label>Email Address*</label>
@@ -49,10 +49,11 @@
                                 <input type="password" name="password" placeholder="Enter Your password" class="cr-form-control">
                             </div>
                             <div class="form-group">
-                                @if(session('errorLogin'))
+                                @if(session()->has('errorsLogin'))
                                     <div class="alert alert-danger">
-                                        {{ session('errorLogin') }}
+                                        {{ session('errorsLogin') }}
                                     </div>
+                                    {{ session()->forget('errorsLogin') }}
                                 @endif
                             </div>
                             <div class="remember">
