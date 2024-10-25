@@ -52,7 +52,7 @@
                                         @foreach($getCart as $item)
                                             <tr>
                                                 <td class="cr-cart-name">
-                                                    <a href="javascript:void(0)">
+                                                    <a href="" data-idPro="{{$item->product_id}}">
                                                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                              alt="product-1" class="cr-cart-img">
                                                         <div>
@@ -63,7 +63,7 @@
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td class="cr-cart-price">
+                                                <td class="cr-cart-price" data-total="{{$item->product->sale_price}}">
                                                     <span class="amount product_price">{{number_format($item->product->sale_price)}} đ</span>
                                                 </td>
                                                 <td class="cr-cart-qty">
@@ -98,7 +98,7 @@
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
                                             <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
-                                            <a href="{{route('checkout')}}" class="cr-button">Check Out</a>
+                                            <a href="" class="cr-button checkout">Check Out</a>
                                         </div>
                                     </div>
                                 </div>
@@ -110,6 +110,7 @@
         </div>
     </section>
     <script !src="">
+
         document.addEventListener('DOMContentLoaded', function () {
             const plusButtons = document.querySelectorAll('.pluss');
             const minusButtons = document.querySelectorAll('.minuss');
@@ -170,6 +171,49 @@
                     }
                 });
             });
+
+            // update cart
+            const checkoutButton = document.querySelector('.checkout')
+            checkoutButton.addEventListener('click', function (e) {
+                e.preventDefault()
+                const cartItems = [];
+
+                // lấy dữ liệu cart
+                document.querySelectorAll('tbody tr').forEach((row, index) => {
+                    const productLink = row.querySelector('a');
+                    if (productLink) {
+                        const productId = row.querySelector('a').getAttribute('data-idPro').split('/').pop()
+                        const quantity = parseInt(row.querySelector('.quantityy').value)
+                        const totalprice = row.querySelector('.cr-cart-price').getAttribute('data-total')
+                        cartItems.push({
+                            product_id: parseInt(productId),
+                            quantity: quantity,
+                            price: totalp    rice * quantity
+                        })
+                    }
+                })
+
+                if (cartItems.length > 0) {
+                    fetch('{{route('update-cart')}}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({cartItems})
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (!data.success) {
+                                window.location.href = "{{route('checkout')}}"
+                            }else {
+                                alert('error chuyen huong')
+                            }
+                        }).catch(err => {
+                            alert('cart faild')
+                    })
+                }
+            })
         });
     </script>
 @endsection
