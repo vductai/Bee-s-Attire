@@ -38,7 +38,7 @@
                     <ul class="cr-footer-links cr-footer-dropdown">
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="track-order.html">Delivery Information</a></li>
-                        <li><a href="{{ route('policy') }}">Privacy Policy</a></li>
+                        <li><a href="policy.html">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms & Conditions</a></li>
                         <li><a href="contact-us.html">contact Us</a></li>
                         <li><a href="faq.html">Support Center</a></li>
@@ -172,6 +172,7 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/client/js/main.js')}}"></script>
+
 </body>
 <!-- Mirrored from maraviyainfotech.com/projects/carrot/carrot-v2/carrot-html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 17:46:40 GMT -->
 </html>

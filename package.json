@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "serve": "vite preview"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
@@ -17,6 +18,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "ckeditor5": "^43.1.0"
+        "ckeditor5": "^43.1.0",
+        "laravel-echo": "^1.16.1",
+        "pusher-js": "^8.4.0-rc2"
     }
 }

@@ -22,11 +22,9 @@ class UserController extends Controller
         } catch (AuthorizationException $e) {
         }
 
-        $list = User::all();
-        return response()->json([
-            'message' => 'list',
-            'data' => $list
-        ]);
+
+        $list = User::where('role_id', '=', 3)->get();
+        return view('admin.user.list-user', compact('list'));
     }
 
     /**
@@ -45,6 +43,7 @@ class UserController extends Controller
         $user = User::create([
             'email' => $request->email,
             'password' => $request->password,
+            'email' => $request->email,
             'role_id' => 3
         ]);
 
@@ -93,6 +92,7 @@ class UserController extends Controller
         $user = User::where('user_id', $id)->update([
             'email' => $request->email,
             'password' => $request->password,
+            'email' => $request->email,
         ]);
 
         return response()->json([
@@ -110,11 +110,11 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        // $user = User::delete($id);
+        $user = User::delete($id);
 
-        // return response()->json([
-        //     'message' => 'delete',
-        //     'data' => $user
-        // ]);
+        return response()->json([
+            'message' => 'delete',
+            'data' => $user
+        ]);
     }
 }

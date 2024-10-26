@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="cr-cart-content" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="row">
-                            <div >
+                            <div>
                                 <div class="cr-table-content">
                                     <table>
                                         <thead>
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,7 +117,6 @@
             const productPrices = document.querySelectorAll('.product_price');
             const totals = document.querySelectorAll('.total');
 
-            console.log(plusButtons)
 
             // Hàm chuyển đổi chuỗi có dấu phẩy (định dạng tiền tệ) về số thập phân
             function parseCurrency(str) {

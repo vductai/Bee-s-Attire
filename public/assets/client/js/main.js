@@ -1,3 +1,33 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const searchBox = document.getElementById('search-box');
+    const suggestionBox = document.getElementById('suggestion-box');
+
+    searchBox.addEventListener('input', function () {
+        const input = searchBox.value;
+
+        // Chỉ hiển thị hoặc ẩn suggestion box dựa trên độ dài input
+        if (input.length > 2) {
+            suggestionBox.classList.remove('hidden'); // Hiển thị box khi có dữ liệu nhập
+        } else {
+            suggestionBox.classList.add('hidden'); // Ẩn box khi không có dữ liệu
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        // Ẩn suggestion box khi click ra ngoài
+        if (!suggestionBox.contains(e.target) && !searchBox.contains(e.target)) {
+            suggestionBox.classList.add('hidden');
+        }
+    });
+});
+
+
+
+
+
+
+
+
 (function ($) {
     "use strict";
 
@@ -28,7 +58,7 @@
         });
 
         /* Minus and Plus Quantity */
-        /*$('.minus').on("click", function () {
+        $('.minus').on("click", function () {
             var $input = $(this).parent().find('input');
             var count = parseInt($input.val()) - 1;
             count = count < 1 ? 1 : count;
@@ -42,7 +72,7 @@
             $input.val(parseInt($input.val()) + 1);
             $input.change();
             return false;
-        });*/
+        });
 
         /* Onclick Remove Products */
         $(".cr-remove-product").on("click", function () {
@@ -325,14 +355,6 @@
 
     /*--------------------- Add to cart button notify js ---------------------- */
     $('.cr-shopping-bag').on("click", function () {
-        var isLoggedIn = false; // Thay bằng kiểm tra trạng thái đăng nhập thực tế
-        if (!isLoggedIn) {
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Bạn cần <a href="/auth/login">đăng nhập</a> để thêm sản phẩm vào giỏ hàng.</p></div>');
-            setTimeout(function () {
-                $('.cr-cart-notify').fadeOut();
-            }, 3000);
-            return;
-        }
         $('.cr-wish-notify').remove();
         $('.cr-compare-notify').remove();
         $('.cr-cart-notify').remove();
@@ -347,8 +369,13 @@
         }
         setTimeout(function () {
             $('.cr-cart-notify').fadeOut();
-        }, 10000);
+        }, 2000);
     });
+
+
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+
 
     /* Slider room details */
     $('.slider-for').slick({

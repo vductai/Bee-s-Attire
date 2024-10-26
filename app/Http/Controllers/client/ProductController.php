@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Comment;
 use App\Models\Size;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,19 +29,22 @@ class ProductController extends Controller
         $listAllCategory = Category::all();
 
         $category_id = $request->get('category_id', 'all');
-        if ($category_id === 'all'){
-            $listAllProduct = Product::all();
-        }else{
-            $listAllProduct = Product::where('category_id', $category_id)->get();
-
+        if ($category_id === 'all') {
+            $listAllProduct = Product::where('action', '=', 1)->get();
+        } else {
+            $listAllProduct = Product::where('category_id', $category_id)->where('action', '=', 1)->get();
         }
+
         return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id'));
     }
+
 
     public function getProductDetail($slug)
     {
         $getDetail = Product::where('slug', $slug)->first();
-        return view('client.product.detail-product', compact('getDetail'));
+        $getComment = Comment::where('product_id', $getDetail->product_id )->with('user')->get();
+        // dd($getComment);
+        return view('client.product.detail-product', compact('getDetail', 'getComment'));
     }
 
 
@@ -50,9 +56,9 @@ class ProductController extends Controller
 
         $listcategory = Category::withCount('product')->get();
         if ($category_id === 'all'){
-            $listAllProductShop = Product::all();
+            $listAllProductShop = Product::where('action', '=', 1)->get();
         }else{
-            $listAllProductShop = Product::where('category_id', $category_id)->get();
+            $listAllProductShop = Product::where('category_id', $category_id)->where('action', '=', 1)->get();
         }
         $listColor = Color::all();
         $listSize = Size::all();
@@ -60,5 +66,11 @@ class ProductController extends Controller
             'listcategory', 'listSize', 'listColor'));
     }
 
+    public function searchTag(Request $request)
+    {
+        $searchTerm = $request->input('query');
+        $tags = Tag::where('tag_name', 'like', '%' . $searchTerm . '%')->get();
 
+        return response()->json($tags);
+    }
 }

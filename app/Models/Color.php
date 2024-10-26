@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 class Color extends Model
 {
     use HasFactory;
 
     protected $table = 'colors';
-
     protected $primaryKey = 'color_id';
     protected $fillable = [
         'color_name',
@@ -25,6 +23,5 @@ class Color extends Model
     {
         return $this->hasMany(ProductVariant::class, 'color_id');
     }
-
 
 }

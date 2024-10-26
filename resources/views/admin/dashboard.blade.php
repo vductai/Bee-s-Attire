@@ -95,7 +95,11 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="row">
+=======
+    {{--<div class="row">
+>>>>>>> d7751cd (Add new features)
         <div class="col-xxl-8 col-xl-12">
             <div class="cr-card revenue-overview">
                 <div class="cr-card-header header-575">
@@ -172,6 +176,7 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     <div class="row">
         <div class="col-xxl-6 col-xl-12">
@@ -582,4 +587,7 @@
             </div>
         </div>
     </div>
+=======
+    </div>--}}
+>>>>>>> d7751cd (Add new features)
 @endsection

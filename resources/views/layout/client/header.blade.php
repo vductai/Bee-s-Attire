@@ -7,6 +7,8 @@
     <meta name="keywords" content="ecommerce, market, shop, mart, cart, deal, multipurpose, marketplace">
     <meta name="description" content="Carrot - Multipurpose eCommerce HTML Template.">
     <meta name="author" content="ashishmaraviya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Carrot - Multipurpose eCommerce HTML Template</title>
 
@@ -29,6 +31,7 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
+    <livewire:styles />
 </head>
 
 <body class="body-bg-6">
@@ -48,18 +51,7 @@
                         <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <form class="cr-search">
-                        <input class="search-input" type="text" placeholder="Search For items...">
-                        {{--<select class="form-select" aria-label="Default select example">
-                            <option selected>All Categories</option>
-                            <option value="1">Mens</option>
-                            <option value="2">Womens</option>
-                            <option value="3">Electronics</option>
-                        </select>--}}
-                        <a href="javascript:void(0)" class="search-btn">
-                            <i class="ri-search-line"></i>
-                        </a>
-                    </form>
+                    <livewire:tag-search />
                     <div class="cr-right-bar">
                         <ul class="navbar-nav">
                             @if(auth()->check())
@@ -74,6 +66,9 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
                                         </li>
                                         <li>
                                             <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
@@ -98,16 +93,21 @@
                                             <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('client.viewLogin')}}">Login</a>
+                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Login</a>
                                         </li>
                                     </ul>
                                 </li>
                             @endif
                         </ul>
-                        {{--<a href="wishlist.html" class="cr-right-bar-item">
-                            <i class="ri-heart-3-line"></i>
-                            <span>Wishlist</span>
-                        </a>--}}
+                        @if(auth()->check())
+                            <a href="{{route('list-wish')}}" class="cr-right-bar-item">
+                                <i class="ri-heart-3-line"></i>
+                                <span>Wishlist</span>
+                            </a>
+                        @else
+                            {{--  --}}
+                        @endif
+
                         <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
                             <i class="ri-shopping-cart-line"></i>
                             <span>Cart</span>
@@ -121,4 +121,5 @@
         @include('layout.client.navigation')
     </div>
 </header>
+<livewire:scripts />
 @include('layout.client.mobile-menu')

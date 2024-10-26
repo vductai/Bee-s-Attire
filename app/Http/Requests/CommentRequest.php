@@ -9,16 +9,14 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
-            'product_id' => 'required',
+            'comment' => 'required'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'user_id.required' => 'User id là bắt buộc!',
-            'product_id.required' => 'Product id là bắt buộc!',
+            'comment.required' => 'Hãy nhập bình luận'
         ];
     }
 

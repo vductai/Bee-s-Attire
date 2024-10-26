@@ -62,22 +62,29 @@ class AuthClientController extends Controller
     }
 
     public function loginClient(LoginRequest $request){
-
         $loginCustomers = $request->only('email', 'password');
         if (Auth::attempt($loginCustomers)) {
             $user = Auth::user();
             if ($user && is_null($user->email_verified_at)) {
                 Auth::guard('web')->logout();
-                return redirect()->route('client.viewLogin')
-                    ->with('errorLogin', 'Tài khoản này chưa được xác minh, vui lòng xác minh email để tiếp tục');
+                session()->put('errorsLogin', 'Tài khoản này chưa được xác minh, vui lòng xác minh email để tiếp tục');
+                return redirect()->route('client-viewLogin')->withErrors([]);
+            }
+
+            if ($user && $user->action == 0){
+                Auth::guard('web')->logout();
+                session()->put('errorsLogin', 'Tài khoản này đã bị vô hiệu hoá');
+                return redirect()->route('client-viewLogin');
             }
 
             $user->createToken('MyAppToken')->plainTextToken;
             return redirect()->route('home');
         } else {
-            return redirect()->route('client.viewLogin')->with('errorLogin', 'Email hoặc mật khẩu không đúng');
+            session()->put('errorsLogin', 'Email hoặc mật khẩu không đúng');
+            return redirect()->route('client-viewLogin');
         }
     }
+
 
     public function logoutClient() {
         // Xoá token của user đang đăng nhập

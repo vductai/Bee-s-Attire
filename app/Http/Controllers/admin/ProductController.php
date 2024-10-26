@@ -10,10 +10,12 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\Size;
+use App\Models\Tag;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;
 
 
@@ -33,7 +35,7 @@ class ProductController extends Controller
     }
 
 
-    public function show($id)
+    public function edit($id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
@@ -44,7 +46,7 @@ class ProductController extends Controller
         return view('admin.product.edit-product',compact('show', 'category'));
     }
 
-    public function create(ProductRequest $request)
+    public function create()
     {
         $category = Category::all();
         $color = Color::all();
@@ -59,6 +61,7 @@ class ProductController extends Controller
         } catch (AuthorizationException $e) {
 
         }
+
 
         $product = new Product();
         $product->product_name = $request->product_name;
@@ -95,18 +98,37 @@ class ProductController extends Controller
 
         $product->save(); // Lưu product trước để lấy được product_id
 
+
+        // add tag
+        if (!empty($request->tag_name)){
+            // tách chuổi = dấu , và loại bỏ khoảng trắng
+            $tagArr = array_map('trim', explode(',', $request->tag_name));
+
+            $tagId = [];
+
+            foreach ($tagArr as $item){
+                $tag = Tag::firstOrCreate([
+                   'tag_name' => $item
+                ]);
+
+                // thêm tag_id vào mảng
+                $tagId[] = $tag->tag_id;
+            }
+
+            // lieen keets tag với các snar phẩm
+            $product->tags()->sync($tagId);
+        }
+
+
         if ($request->has('color_id') && $request->has('size_id')) {
-            // Assuming color_id and size_id are arrays of equal length
             foreach ($request->color_id as $index => $color_id) {
                 $size_id = $request->size_id[$index];
-
-                // Ensure that both color_id and size_id exist before creating the variant
                 if ($color_id && $size_id) {
                     ProductVariant::create([
                         'product_id' => $product->product_id,
                         'size_id' => $size_id,
                         'color_id' => $color_id,
-                        'quantity' => $request->quantity[$index] ?? 0  // Ensure quantity is handled correctly
+                        'quantity' => $request->quantity[$index] ?? 0
                     ]);
                 }
             }
