@@ -1,6 +1,11 @@
 @extends('layout.client.home')
 @section('content_client')
 
+@if(session('message'))  
+<div class="alert alert-info">  
+    {{ session('message') }}  
+</div>  
+@endif  
     <section class="section-breadcrumb">
         <div class="cr-breadcrumb-image">
             <div class="container">
@@ -49,6 +54,10 @@
                                 <div class="cr-brand">
                                     <a href="shop-left-sidebar.html">{{ $item->product->category->category_name }}</a>
                                 </div>
+                                <div id="wishlist-icon">
+                                    <span id="wishlist-notification-dot"></span>
+                                </div>
+                                
                                 <a href="{{ route('detail', ['slug' => $item->product->slug]) }}" class="title">{{ $item->product->product_name }}</a>
                                 <p class="cr-price">
                                     <span class="new-price">{{ number_format($item->product->sale_price) }} đ</span>
@@ -66,31 +75,27 @@
             </div>
         </div>
     </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            //console.log(window.Echo); 
-            const userId = {{ Auth::id() ?? 'null' }};
-
-            // if (userId !== 'null') {
-            //     window.Echo.channel('wishlist.' + userId)
-            //         .listen('.product-added', (e) => {
-            //             alert('Sản phẩm đã được thêm vào wishlist của bạn');
-            //         });
-            // } 
-            if (userId !== 'null') {
-                window.Echo.channel('wishlist.' + userId)
-                    .listen('.product-added', (e) => {
-                        const notification = document.getElementById('notification');
-                        notification.textContent = 'Sản phẩm đã được thêm vào wishlist của bạn!';
-                        notification.classList.remove('invisible'); 
-                        notification.style.display = 'block';
-                        setTimeout(() => {
-                            notification.style.display = 'none';
-                        }, 3000);
-                    });
-            }
-        });
-    </script>
-       
+    
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const userIdMeta = document.querySelector('meta[name="user-id"]');
+    const userId = userIdMeta ? userIdMeta.getAttribute('content') : null;
+
+    if (userId) {
+        window.Echo.private(`wishlist.${userId}`)
+            .listen('.ProductAdded', (e) => {
+      
+                const notification = document.getElementById('notification');
+                notification.innerText = `Sản phẩm "${e.productName}" đã được thêm vào wishlist bởi ${e.username}.`;
+                notification.style.display = 'block';
+
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+            });
+    } else {
+        console.error('User ID không tồn tại.');
+    }
+});
+</script>

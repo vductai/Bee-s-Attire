@@ -35,6 +35,16 @@
     <livewire:styles />
 
      @vite('resources/js/app.js')
+     <style>
+.cr-brand {
+    display: inline-block; 
+    margin-right: 10; 
+}
+.wishlist-indicator {
+    color: green;              
+    font-size:20px;     
+}
+    </style>
 </head>
 
 <body class="body-bg-6">
@@ -126,3 +136,5 @@
 </header>
 <livewire:scripts />
 @include('layout.client.mobile-menu')
+<div id="notification" class="alert alert-success" style="position: fixed; display: none; top: 20px; right: 20px; z-index: 1000;">
+</div>

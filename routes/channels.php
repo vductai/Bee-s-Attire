@@ -19,11 +19,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 
-
-Broadcast::channel('notification', function ($user) {
-    return $user !=null;
+Broadcast::channel('wishlist.{userId}', function ($user) {
+    return $user !== null;
 });
-
 
 
 

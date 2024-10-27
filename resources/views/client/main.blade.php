@@ -58,37 +58,37 @@
                                                 <i class="ri-eye-line"></i>
                                             </a>
                                         </div>
-                                     {{-- wishlist--}}
+                                        {{-- wishlist --}}
                                         <a class="cr-shopping-bag">
-                                            <form action="{{ route('add-wishlist') }}" method="POST" id="wishlist-form" style="display: inline;">
+                                            <form action="{{ route('add-wishlist') }}" method="POST" id="wishlist-form"
+                                                style="display: inline;">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $item->product_id }}">
-                                                <button type="submit" title="Add to Wishlist" style="background: none; border: none;">
+                                                <button type="submit" title="Add to Wishlist"
+                                                    style="background: none; border: none;">
                                                     <i class="ri-heart-line"></i>
                                                 </button>
                                             </form>
                                         </a>
-                                        
-                                    </div>
 
+                                    </div>
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
                                             <a href="shop-left-sidebar.html">{{ $item->category->category_name }}</a>
-                                            {{-- <div class="cr-star">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <p>(4.5)</p>
-                                            </div> --}}
                                         </div>
-                                        <a href="{{ route('detail', ['slug' => $item->slug]) }}"
-                                            class="title">{{ $item->product_name }}</a>
-                                        <p class="cr-price"><span class="new-price">{{ number_format($item->sale_price) }}
-                                                đ</span> <span class="old-price">{{ number_format($item->product_price) }}
-                                                đ</span></p>
+                                            <span class="wishlist-indicator" 
+                                                  id="wishlist-indicator-{{ $item->product_id }}" 
+                                                  style="display: {{ in_array($item->product_id, $wishlistProducts) ? 'inline' : 'none' }};"> ● </span>
+                                        
+                                        <a href="{{ route('detail', ['slug' => $item->slug]) }}" class="title">{{ $item->product_name }}</a>
+                                        <p class="cr-price">
+                                            <span class="new-price">{{ number_format($item->sale_price) }} đ</span>
+                                            <span class="old-price">{{ number_format($item->product_price) }} đ</span>
+                                        </p>
                                     </div>
+                                    
+                                    
+                                    
                                 </div>
                             </div>
                         @endforeach

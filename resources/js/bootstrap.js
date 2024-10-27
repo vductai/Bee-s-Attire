@@ -1,6 +1,5 @@
 import axios from 'axios';
 window.axios = axios;
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Echo from 'laravel-echo';
@@ -19,4 +18,38 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const userIdMeta = document.querySelector('meta[name="user-id"]');
+    const userId = userIdMeta ? userIdMeta.getAttribute('content') : null;
+
+    if (userId) {
+        window.Echo.private(`wishlist.${userId}`)
+            .listen('.ProductUpdated', (e) => {
+                const notification = document.getElementById('notification');
+                if (e.action === 'add') {
+                    notification.innerText = `Sản phẩm "${e.productName}" đã được thêm vào wishlist bởi ${e.username}.`;
+                    const wishlistIndicator = document.getElementById(`wishlist-indicator-${e.productId}`);
+                    if (wishlistIndicator) {
+                        wishlistIndicator.style.display = 'inline';
+                    }
+                } else if (e.action === 'remove') {
+                    notification.innerText = `Sản phẩm "${e.productName}" đã bị xóa khỏi wishlist bởi ${e.username}.`;
+                    const wishlistIndicator = document.getElementById(`wishlist-indicator-${e.productId}`);
+                    if (wishlistIndicator) {
+                        wishlistIndicator.style.display = 'none';
+                    }
+                }
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 4000);
+            });
+    }
+});
+
+
+
+
+
+    
 

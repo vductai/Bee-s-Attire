@@ -9,7 +9,9 @@ use App\Models\Color;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\Tag;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -27,24 +29,19 @@ class ProductController extends Controller
     {
         $listAllCategory = Category::all();
         $banners = Banner::all();
-    
+        
         $category_id = $request->get('category_id', 'all');
         if ($category_id === 'all') {
             $listAllProduct = Product::all();
         } else {
             $listAllProduct = Product::where('category_id', $category_id)->get();
         }
-    
-        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id', 'banners'));
+        $userId = Auth::id();
+        
+        $wishlistProducts = Wishlist::where('user_id', $userId)->pluck('product_id')->toArray();
+        
+        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id', 'banners', 'wishlistProducts'));
     }
-
-
-    public function getProductDetail($slug)
-    {
-        $getDetail = Product::where('slug', $slug)->first();
-        return view('client.product.detail-product', compact('getDetail'));
-    }
-
 
     // list product shop
 
