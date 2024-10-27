@@ -142,15 +142,6 @@
                                     {{ session()->forget('errorCart') }}
                                 @endif
                             </div>
-                            {{--<div class="cr-card-icon">
-                                <a href="javascript:void(0)" class="wishlist">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <a class="model-oraganic-product" data-bs-toggle="modal" href="#quickview"
-                                   role="button">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                            </div>--}}
                         </div>
                     </div>
                 </form>
@@ -230,7 +221,6 @@
                                     <div id="viewComment">
 
                                     </div>
-                                    <h4 class="heading">Add a Review</h4>
                                     <form action="javascript:void(0)" id="formComment">
                                         <input type="hidden"
                                                id="user_id_comment"
@@ -240,26 +230,6 @@
                                                id="product_id_comment"
                                                name="product_id"
                                                value="{{$getDetail->product_id}}">
-                                    <div class="post">
-                                        <div class="content">
-                                            <img src="{{asset('assets/client/img/review/1.jpg')}}" alt="review">
-                                            <div class="details">
-                                                <span class="date">Jan 08, 2024</span>
-                                                <span class="name">Oreo Noman</span>
-                                            </div>
-                                            {{--<div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                            </div>--}}
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente doloribus debitis corporis, eaque dicta, repellat amet, illum
-                                            adipisci vel
-                                            perferendis dolor! quae vero in perferendis provident quis.</p>
-                                    </div>
                                     <h4 class="heading">Add a Review</h4>
                                     <form action="javascript:void(0)">
                                         <div class="cr-ratting-input form-submit">
