@@ -230,8 +230,6 @@
                                                id="product_id_comment"
                                                name="product_id"
                                                value="{{$getDetail->product_id}}">
-                                    <h4 class="heading">Add a Review</h4>
-                                    <form action="javascript:void(0)">
                                         <div class="cr-ratting-input form-submit">
                                             <textarea id="comment" name="comment"
                                                       placeholder="Enter Your Comment"></textarea>

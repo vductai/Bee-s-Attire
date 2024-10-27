@@ -139,7 +139,6 @@
                                         </li>
                                     @endif
 
-
                                     @if(is_null($detail->voucher_id))
                                         <li class="text-dark">Total
                                             <span class="d-inline-block float-right">
