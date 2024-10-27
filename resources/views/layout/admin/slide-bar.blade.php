@@ -88,7 +88,7 @@
                     <ul class="cr-sb-subdrop condense">
                         <li><a href="{{route('user.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List User</a></li>
-                        <li><a href="" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('user.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Add User</a></li>
                     </ul>
                 </li>

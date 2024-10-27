@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/swiper-bundle.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/jquery.slick.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/slick-theme.css')}}">
+    @vite('resources/js/comment.js')
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">

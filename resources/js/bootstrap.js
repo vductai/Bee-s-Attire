@@ -31,4 +31,6 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+console.log('kết nối thành công')
+
 

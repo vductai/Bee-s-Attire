@@ -25,7 +25,7 @@
                                         <p class="text-danger">
                                             {{$message}}
                                         </p>
-                                    @enderror
+                                        @enderror
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">

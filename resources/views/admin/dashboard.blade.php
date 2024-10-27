@@ -1,6 +1,24 @@
 @extends('layout.admin.home')
 @section('content_admin')
     <!-- Page title & breadcrumb -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+    
+        var pusher = new Pusher('88008db891eef10204ed', {
+          cluster: 'ap1'
+        });
+    
+        var channel = pusher.subscribe('notify-channel');
+        channel.bind('form-submit', function(data) {
+          alert(JSON.stringify(data));
+        });
+      </script>
+      
     <div class="cr-page-title">
         <div class="cr-breadcrumb">
             <h5>eCommerce</h5>
