@@ -70,6 +70,25 @@
                         <td>{{number_format($detail->total_price)}} đ</td>
                     </tr>
                     <tr>
+                        @if(is_null($detail->voucher_id))
+                            <td><strong>Voucher</strong></td>
+                            <td>0</td>
+                        @else
+                            <td><strong>Voucher</strong></td>
+                            <td>{{number_format($detail->total_price * ($detail->voucher->voucher_price / 100)) }} đ</td>
+                        @endif
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        @if(is_null($detail->voucher_id))
+                            <td>
+                                {{number_format($detail->total_price)}} đ
+                            </td>
+                        @else
+                            <td>
+                                {{number_format($detail->total_price - ($detail->total_price * ($detail->voucher->voucher_price / 100)))}} đ
+                            </td>
+                        @endif
                         <td><strong>Voucher ( {{$detail->voucher->voucher_price}} % )</strong></td>
                         <td>{{number_format($detail->total_price * ($detail->voucher->voucher_price / 100)) }} đ</td>
                     </tr>

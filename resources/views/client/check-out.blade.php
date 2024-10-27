@@ -89,10 +89,11 @@
                                         <span class="cr-del-option">
                                             <span>
                                                 <span class="cr-del-opt-head">Nhập mã giảm giá</span>
-                                                @if(session('voucherError'))
-                                                    <p class="text-danger">{{session('voucherError')}}</p>
-                                                @endif
                                                 <input type="text" class="form-control" name="voucher_code">
+                                                @if(session()->has('voucherError'))
+                                                    <div class="alert alert-danger">{{ session('voucherError') }}</div>
+                                                    {{ session()->forget('voucherError') }}
+                                                @endif
                                             </span>
                                         </span>
                                     </form>
@@ -142,7 +143,7 @@
                             <form action="{{route('check-payment-method')}}" method="post" class="cr-checkout-wrap">
                                 @csrf
                                 <input type="hidden" name="total_price" value="{{$totalAmount}}">
-                                <input type="hidden" name="voucher_id" value="{{$voucher_item_id ?? 0}}">
+                                <input type="hidden" name="voucher_id" value="{{$voucher_item_id ?? null}}">
                                 <input type="hidden" name="final_price" value="{{$total_after_discount}}">
                                 <input type="hidden" name="product" value="{{json_encode($selCart)}}">
                                 <div class="cr-checkout-block cr-check-bill">
@@ -193,7 +194,7 @@
 
         // Gắn sự kiện 'change' cho mỗi radio button
         paymentOptions.forEach(option => {
-            option.addEventListener('change', function() {
+            option.addEventListener('change', function () {
                 submitButton.name = this.value;
             });
         });

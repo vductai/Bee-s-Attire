@@ -30,25 +30,27 @@ class CheckPaymentMethodController extends Controller
         return $result;
     }
 
-    public function onlineCheckOut()
+    public function onlineCheckOut(Request $request)
     {
         if (isset($_POST['cod'])) {
+
             echo 'cod';
+
         } elseif (isset($_POST['vnpay'])) {
 
-
+            $voucherId = $_POST['voucher_id'] ?? null;
+            if ($voucherId === '') {
+                $voucherId = null;
+            }
             $order = Order::create([
                 'order_id' => time() . "",
                 'user_id' => Auth::user()->user_id,
-                'total_price' => $_POST['total_price'],
-                'voucher_id' => $_POST['voucher_id'],
-                'final_price' => $_POST['final_price']
+                'total_price' => $request->total_price,
+                'voucher_id' => $request->voucher_id,
+                'final_price' => $request->final_price
             ]);
-
             $order->save();
-
-            $total_after_discount = $_POST['final_price'];
-
+            $total_after_discount = $request->final_price;
             if (isset($_POST['product'])) {
                 $pro = json_decode($_POST['product']);
                 foreach ($pro as $item) {
@@ -60,11 +62,15 @@ class CheckPaymentMethodController extends Controller
                     ]);
                 }
             }
+            /*$vnp_Url = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+            $vnp_Returnurl = 'http://127.0.0.1:8000/order-success';
+            $vnp_TmnCode = 'JRD81S8P';
+            $vnp_HashSecret = 'OY5D5P9YTMDTJMGTZ41HDBMBGXFXB8HE';*/
 
-            $vnp_Url = env('VNP_URL');
-            $vnp_Returnurl = env('VNP_RETURN');
-            $vnp_TmnCode = env('VNP_TNMCODE');
-            $vnp_HashSecret = env('VNP_HASHSECRET');
+            $vnp_Url = env("VNP_URL");
+            $vnp_Returnurl = env("VNP_RETURN");
+            $vnp_TmnCode = env("VNP_TNMCODE");
+            $vnp_HashSecret = env("VNP_HASHSECRET");
 
             $vnp_TxnRef = $order->order_id;
             $vnp_OrderInfo = 'thanh toan hoa don';
@@ -73,7 +79,6 @@ class CheckPaymentMethodController extends Controller
             $vnp_Locale = 'vi';
             $vnp_BankCode = '';
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
             $inputData = array(
                 "vnp_Version" => "2.1.0",
                 "vnp_TmnCode" => $vnp_TmnCode,
@@ -88,11 +93,9 @@ class CheckPaymentMethodController extends Controller
                 "vnp_ReturnUrl" => $vnp_Returnurl,
                 "vnp_TxnRef" => $vnp_TxnRef
             );
-
             if (isset($vnp_BankCode) && $vnp_BankCode != "") {
                 $inputData['vnp_BankCode'] = $vnp_BankCode;
             }
-
             ksort($inputData);
             $hashdata = "";
             $query = "";
@@ -106,29 +109,21 @@ class CheckPaymentMethodController extends Controller
                 }
                 $query .= urlencode($key) . "=" . urlencode($value) . '&';
             }
-
             $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= "?" . $query . 'vnp_SecureHash=' . $vnpSecureHash;
-
             return redirect()->to($vnp_Url);
-
-
 
         } elseif (isset($_POST['payUrl'])) {
 
             $order = Order::create([
-                'order_id'=> time() . "",
+                'order_id' => time() . "",
                 'user_id' => Auth::user()->user_id,
-                'total_price' => $_POST['total_price'],
-                'final_price' => $_POST['final_price'],
-                'voucher_id' => $_POST['voucher_id']
+                'total_price' => $request->total_price,
+                'final_price' => $request->final_price,
+                'voucher_id' => $request->voucher_id
             ]);
-
-
             $order->save();
-
-            $total_after_discount = $_POST['final_price'];
-
+            $total_after_discount = $request->final_price;
             if (isset($_POST['product'])) {
                 $pro = json_decode($_POST['product']);
                 foreach ($pro as $item) {
@@ -140,14 +135,13 @@ class CheckPaymentMethodController extends Controller
                     ]);
                 }
             }
-
             $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
             $partnerCode = 'MOMOBKUN20180529';
             $accessKey = 'klm05TvNBzhg7h7j';
             $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 
             $orderInfo = "Thanh toán qua MoMo";
-            $amount = $total_after_discount;
+            $amount = (int)$total_after_discount;
             $orderId = time() . "";
             $redirectUrl = "http://127.0.0.1:8000/return-momo";
             $ipnUrl = "http://127.0.0.1:8000/return-momo";

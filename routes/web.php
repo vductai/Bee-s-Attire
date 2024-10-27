@@ -61,7 +61,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // delete cart
         Route::delete('/deleteCart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
         Route::delete('/deleteCartSlider/{id}', [CartController::class, 'deleteCartSlider'])->name('deleteCartSlider');
-
+        // add voucher
+        Route::get('/checkout', [CheckOutController::class, 'selectCart'])->name('checkout');
+        Route::post('/addVoucher', [CheckOutController::class, 'applyVoucher'])->name('addVoucher');
         // online checkout
         Route::post('online-checkout', [CheckPaymentMethodController::class, 'onlineCheckOut'])->name('check-payment-method');
 
@@ -81,7 +83,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     // route chỉ admin mới dùng được
-    Route::group(['middleware' => ['checkRole:admin', 'web']], function () {
+    Route::group(['middleware' => ['checkRole:admin']], function () {
 
         Route::prefix('admin')->group(function () {
             // voucher
@@ -96,7 +98,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             // crud size
             Route::resource('size', SizeAPIController::class);
             // crud user
-            Route::resource('user', UserController::class);
+            Route::resource('user',  UserController::class);
             // crud voucher
             Route::resource('coupon', VouchersAPIController::class);
             // crud color
@@ -122,8 +124,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         });
     });
-
-
 });
 /*admin*/
 
@@ -162,7 +162,7 @@ Route::prefix('auth')->group(function () {
     Route::get('reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
 
-})->middleware(['web']);
+});
 
 
 /*home*/
@@ -178,9 +178,7 @@ Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('pro
 Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 /* check out*/
 
-Route::get('/checkout', [CheckOutController::class, 'selectCart'])->name('checkout');
 
-Route::post('/addVoucher', [CheckOutController::class, 'applyVoucher'])->name('addVoucher');
 
 /*end check out*/
 Route::get('/about', function () {

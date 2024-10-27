@@ -121,9 +121,17 @@
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                    <button type="submit" class="cr-button cr-shopping-bag">Add to cart</button>
                                 @else
-                                    <button type="button" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                    <button type="button" class="cr-button cr-shopping-bag">Add to cart</button>
+                                @endif
+                            </div>
+                            <div class="cr-add-button">
+                                @if(session()->has('errorCart'))
+                                    <div class="alert alert-danger">
+                                        {{ session('errorCart') }}
+                                    </div>
+                                    {{ session()->forget('errorCart') }}
                                 @endif
                             </div>
                             <div class="cr-add-button">
@@ -180,7 +188,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
+                            {{--<div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
                                 <div class="cr-tab-content">
                                     <div class="cr-description">
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
@@ -202,9 +210,36 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                                 <div class="cr-tab-content-from">
+                                    @foreach($listPost as $post)
+                                        <div class="post">
+                                            <div class="content">
+                                                <img src="{{asset('upload/'. $post->user->avatar) }}" alt="review">
+                                                <div class="details">
+                                                    <span class="date">
+                                                        {{\Illuminate\Support\Carbon::parse($post->created_at)->diffForHumans()}}
+                                                    </span>
+                                                    <span class="name">{{$post->user->username}}</span>
+                                                </div>
+                                            </div>
+                                            <p>{{$post->comment}}</p>
+                                        </div>
+                                    @endforeach
+                                    <div id="viewComment">
+
+                                    </div>
+                                    <h4 class="heading">Add a Review</h4>
+                                    <form action="javascript:void(0)" id="formComment">
+                                        <input type="hidden"
+                                               id="user_id_comment"
+                                               name="user_id"
+                                               value="{{auth()->user()->user_id}}">
+                                        <input type="hidden"
+                                               id="product_id_comment"
+                                               name="product_id"
+                                               value="{{$getDetail->product_id}}">
                                     <div class="post">
                                         <div class="content">
                                             <img src="{{asset('assets/client/img/review/1.jpg')}}" alt="review">
@@ -228,8 +263,9 @@
                                     <h4 class="heading">Add a Review</h4>
                                     <form action="javascript:void(0)">
                                         <div class="cr-ratting-input form-submit">
-                                            <textarea name="your-commemt" placeholder="Enter Your Comment"></textarea>
-                                            <button class="cr-button" type="submit" value="Submit">Submit</button>
+                                            <textarea id="comment" name="comment"
+                                                      placeholder="Enter Your Comment"></textarea>
+                                            <button class="cr-button" type="submit">Submit</button>
                                         </div>
                                     </form>
                                 </div>
@@ -308,6 +344,7 @@
                     }
                 });
             }
+
             function filterSizesByStock() {
                 const variants = @json($getDetail->variants);
 

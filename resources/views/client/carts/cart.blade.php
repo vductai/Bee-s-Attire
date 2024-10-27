@@ -188,7 +188,8 @@
                         cartItems.push({
                             product_id: parseInt(productId),
                             quantity: quantity,
-                            price: totalp    rice * quantity
+                            price: totalprice * quantity
+                            price: totalprice * quantity
                         })
                     }
                 })

@@ -52,6 +52,7 @@ class VouchersAPIController extends Controller
         $add = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
+            'quantity' => $request->quantity,
             'voucher_desc' => $request->voucher_desc,
             'start_date' => $start_date,
             'end_date' => $end_date,
