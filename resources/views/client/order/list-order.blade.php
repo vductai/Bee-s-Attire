@@ -87,6 +87,8 @@
                                                     @else
                                                         <td>{{$item->voucher->voucher_price}} %</td>
                                                     @endif
+                                                    <td>{{$item->voucher->voucher_price}} %</td>
+
                                                     <td>{{number_format($item->final_price)}} đ</td>
                                                     <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('h:i:s d-m-Y')}}</td>
                                                     <td>

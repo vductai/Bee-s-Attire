@@ -188,3 +188,7 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
+
+Route::get('/order-detail', function () {
+    return view('client.order.orderDetail');
+})->name('contact');

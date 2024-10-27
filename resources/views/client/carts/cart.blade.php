@@ -189,6 +189,7 @@
                             product_id: parseInt(productId),
                             quantity: quantity,
                             price: totalprice * quantity
+                            price: totalprice * quantity
                         })
                     }
                 })
