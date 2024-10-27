@@ -34,9 +34,11 @@
                                     <td>{{$item->order_id}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{number_format($item->total_price)}} đ</td>
-                                    <td>
-                                        {{$item->voucher->voucher_code ? $item->voucher->voucher_code : 'Không dùng mã'}}
-                                    </td>
+                                    @if(is_null($item->voucher_id))
+                                        <td>Không có</td>
+                                    @else
+                                        <td>{{$item->voucher->voucher_price}} %</td>
+                                    @endif
                                     <td>{{number_format($item->final_price)}} đ</td>
                                     <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y')}}</td>
                                     <td class="order-status" data-id="{{$item->order_id}}">
