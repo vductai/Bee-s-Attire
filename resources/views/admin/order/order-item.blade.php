@@ -124,6 +124,7 @@
                                         <span
                                             class="d-inline-block float-right text-default">{{number_format($detail->total_price)}} đ</span>
                                     </li>
+
                                     @if(is_null($detail->voucher_id))
                                         <li class="mid pb-3 text-dark">Voucher
                                             <span
@@ -137,6 +138,7 @@
                                             >{{number_format($detail->total_price * ($detail->voucher->voucher_price / 100)) }} đ</span>
                                         </li>
                                     @endif
+
                                     @if(is_null($detail->voucher_id))
                                         <li class="text-dark">Total
                                             <span class="d-inline-block float-right">

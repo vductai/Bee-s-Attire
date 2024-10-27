@@ -142,15 +142,6 @@
                                     {{ session()->forget('errorCart') }}
                                 @endif
                             </div>
-                            {{--<div class="cr-card-icon">
-                                <a href="javascript:void(0)" class="wishlist">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <a class="model-oraganic-product" data-bs-toggle="modal" href="#quickview"
-                                   role="button">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                            </div>--}}
                         </div>
                     </div>
                 </form>
@@ -230,7 +221,6 @@
                                     <div id="viewComment">
 
                                     </div>
-                                    <h4 class="heading">Add a Review</h4>
                                     <form action="javascript:void(0)" id="formComment">
                                         <input type="hidden"
                                                id="user_id_comment"

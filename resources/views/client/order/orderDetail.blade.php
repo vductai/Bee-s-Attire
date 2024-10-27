@@ -82,7 +82,7 @@
                         <td><strong>Total</strong></td>
                         @if(is_null($detail->voucher_id))
                             <td>
-                                {{number_format($detail->total_price)}} đ
+                                {{number_format($detail->final_price)}} đ
                             </td>
                         @else
                             <td>
