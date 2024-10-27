@@ -105,11 +105,7 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-    @endforeach
-=======
    
->>>>>>> d7751cd (Add new features)
 
 @endsection
 @section('script')

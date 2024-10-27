@@ -13,15 +13,6 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add New Color</h3>
-<<<<<<< HEAD
-                                <form action="{{route('color.store')}}" method="post">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label>Color name</label>
-                                        <div class="col-12">
-                                            <input id="text" name="color_name"
-                                                   class="form-control here slug-title" type="text">
-=======
                                 <form id="formColor">
                                     <div class="form-group">
                                         <label>Color name</label>
@@ -29,24 +20,15 @@
                                             <input id="color_name" name="color_name"
                                                    class="form-control here slug-title" type="text">
                                             <p class="text-danger" id="errColorName"></p>
->>>>>>> d7751cd (Add new features)
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Color code</label>
                                         <div class="col-12">
-<<<<<<< HEAD
-                                            <input id="text" name="color_code"
-                                                   class="form-control here slug-title" type="color">
-                                        </div>
-                                    </div>
-
-=======
                                             <input id="color_code" name="color_code"
                                                    class="form-control here slug-title" type="color">
                                         </div>
                                     </div>
->>>>>>> d7751cd (Add new features)
                                     <div class="row">
                                         <div class="col-12 d-flex">
                                             <button type="submit" class="cr-btn-primary">Submit</button>
@@ -74,19 +56,11 @@
                             </thead>
                             <tbody>
                             @foreach($listColor as $item)
-<<<<<<< HEAD
-                                <tr>
-                                    <td>{{$loop->index}}</td>
-                                    <td>{{$item->color_name}}</td>
-                                    <td>
-                                        <input id="text" name="color_code"
-=======
                                 <tr data-id="{{$item->color_id}}">
                                     <td>{{$loop->index}}</td>
                                     <td class="colorName">{{$item->color_name}}</td>
                                     <td>
                                         <input id="colorCode" name="color_code"
->>>>>>> d7751cd (Add new features)
                                                class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
                                     </td>
                                     <td>
@@ -98,20 +72,9 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
-<<<<<<< HEAD
-
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('color.edit', $item->color_id)}}">Edit</a>
-                                                <form action="{{route('color.destroy', $item->color_id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>
-=======
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
                                                 <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
->>>>>>> d7751cd (Add new features)
                                             </div>
                                         </div>
                                     </td>

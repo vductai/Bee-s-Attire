@@ -28,7 +28,7 @@
                                         value="{{ strip_tags($policy->content_post) }}" disabled>
                                 </div>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>

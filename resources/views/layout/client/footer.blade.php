@@ -38,7 +38,7 @@
                     <ul class="cr-footer-links cr-footer-dropdown">
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="track-order.html">Delivery Information</a></li>
-                        <li><a href="policy.html">Privacy Policy</a></li>
+                        <li><a href="{{ route('policy') }}">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms & Conditions</a></li>
                         <li><a href="contact-us.html">contact Us</a></li>
                         <li><a href="faq.html">Support Center</a></li>

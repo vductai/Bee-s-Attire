@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\PolicyRequest;
 use App\Models\Policy;
+use App\Http\Requests\PolicyRequest;
 
 class PolicyController extends Controller
 {

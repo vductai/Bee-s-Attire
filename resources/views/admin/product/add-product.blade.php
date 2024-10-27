@@ -121,12 +121,9 @@
                                         <label for="inputEmail4" class="form-label">Product name</label>
                                         <input type="text" name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
-<<<<<<< HEAD
-=======
                                         @error('product_name')
                                             <p class="text-danger">{{$message}}</p>
                                         @enderror
->>>>>>> d7751cd (Add new features)
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Select Categories</label>
@@ -144,8 +141,6 @@
                                             <input id="slugs" class="form-control here set-slug" type="text" disabled>
                                         </div>
                                     </div>
-<<<<<<< HEAD
-=======
                                     <div class="col-md-12">
                                         <label class="form-label">
                                             Product Tags
@@ -154,7 +149,6 @@
                                         <input type="text" class="form-control" id="group_tag"
                                                name="tag_name" value="" placeholder="">
                                     </div>
->>>>>>> d7751cd (Add new features)
                                     <div class="col-md-6">
                                         <label class="form-label">Price</label>
                                         <input type="number" name="product_price" class="form-control" id="price1">
@@ -221,11 +215,6 @@
                     <hr>
                     <div class="col-md-6">
                         <label class="form-label">Color</label>
-<<<<<<< HEAD
-                        <select name="color_id[]" id="color_id" class="form-control form-select">
-                                <option>Chọn màu sắc</option>
-                        </select>
-=======
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <select name="color_id[]" id="color_id" class="form-control form-select">
@@ -236,7 +225,6 @@
                                 <input type="color"  disabled>
                             </div>
                         </div>
->>>>>>> d7751cd (Add new features)
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Size</label>

@@ -28,6 +28,9 @@ use App\Http\Controllers\client\VNPayController;
 use App\Http\Controllers\client\WishListController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\admin\PolicyController;
+use App\Http\Controllers\client\PolicyClientController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -98,6 +101,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::resource('color', ColorController::class);
             // crud product
             Route::resource('product', ProductController::class);
+            // crud policy
+            Route::resource('policies', PolicyController::class);
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
             // dashboard
@@ -185,5 +190,8 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
-
+// post comment
 Route::resource('comments', CommentController::class);
+
+// policy
+Route::get('policy', [PolicyClientController::class, 'policy'])->name('policy');
