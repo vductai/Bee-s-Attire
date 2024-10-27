@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\Tag;
@@ -41,7 +42,8 @@ class ProductController extends Controller
     public function getProductDetail($slug)
     {
         $getDetail = Product::where('slug', $slug)->first();
-        return view('client.product.detail-product', compact('getDetail'));
+        $listPost = Comment::all();
+        return view('client.product.detail-product', compact('getDetail', 'listPost'));
     }
 
 

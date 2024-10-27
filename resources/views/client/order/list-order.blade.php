@@ -82,7 +82,11 @@
                                                 <tr>
                                                     <td>{{$item->order_id}}</td>
                                                     <td>{{number_format($item->total_price)}} đ</td>
-                                                    <td>{{$item->voucher->voucher_price}} %</td>
+                                                    @if(is_null($item->voucher_id))
+                                                        <td>Không có</td>
+                                                    @else
+                                                        <td>{{$item->voucher->voucher_price}} %</td>
+                                                    @endif
                                                     <td>{{number_format($item->final_price)}} đ</td>
                                                     <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('h:i:s d-m-Y')}}</td>
                                                     <td>
