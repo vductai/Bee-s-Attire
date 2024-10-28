@@ -49,6 +49,16 @@ class User extends Authenticatable
         }
     }
 
+    public function whishlists()
+    {
+        return $this->hasMany(Whishlist::class, 'user_id');
+    }
+
+    public function whishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'whishlist',
+            'user_id', 'product_id');
+    }
 
     public function cart()
     {

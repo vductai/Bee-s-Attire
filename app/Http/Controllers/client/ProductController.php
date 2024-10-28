@@ -42,7 +42,8 @@ class ProductController extends Controller
     public function getProductDetail($slug)
     {
         $getDetail = Product::where('slug', $slug)->first();
-        $listPost = Comment::all();
+        $id = Product::select('product_id')->where('slug', $slug);
+        $listPost = Comment::where('product_id', $id)->get();
         return view('client.product.detail-product', compact('getDetail', 'listPost'));
     }
 

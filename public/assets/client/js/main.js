@@ -357,8 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.cr-shopping-bag').on("click", function () {
         $('.cr-wish-notify').remove();
         $('.cr-compare-notify').remove();
-        $('.cr-cart-notify').remove();
-
+        $('.cr-cart-notify').remove()
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
