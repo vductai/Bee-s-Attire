@@ -222,10 +222,17 @@
 
                                     </div>
                                     <form action="javascript:void(0)" id="formComment">
-                                        <input type="hidden"
-                                               id="user_id_comment"
-                                               name="user_id"
-                                               value="{{auth()->user()->user_id}}">
+                                        @if(auth()->check())
+                                            <input type="hidden"
+                                                   id="user_id_comment"
+                                                   name="user_id"
+                                                   value="{{auth()->user()->user_id}}">
+                                        @else
+                                            <input type="hidden"
+                                                   id="user_id_comment"
+                                                   name="user_id"
+                                                   value="">
+                                        @endif
                                         <input type="hidden"
                                                id="product_id_comment"
                                                name="product_id"

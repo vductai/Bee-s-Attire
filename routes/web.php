@@ -50,6 +50,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
         // wishlist
         Route::get('/wish-list', [WishListController::class, 'index'])->name('list-wish');
+        Route::get('/wish-list/{id}', [WishListController::class, 'show'])->name('show-wish');
+        // add whishlist
+        Route::post('/whishlist', [WishListController::class, 'store'])->name('whishlist-store');
+        // delete wichlist
+        Route::delete('/whishlist/{id}', [WishListController::class, 'delete'])->name('whishlist-del');
         //crud comment
         Route::post('/comment', [CommentController::class, 'comment']);
         // add cart
@@ -176,11 +181,7 @@ Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('pro
 
 /*and home*/
 Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
-/* check out*/
 
-
-
-/*end check out*/
 Route::get('/about', function () {
     return view('client.us.about');
 })->name('about');

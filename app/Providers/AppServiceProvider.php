@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Cart;
+use App\Models\Comment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Carbon::setLocale('vi');
+        View::composer('layout.client.testimonial', function ($comment) {
+            $commentTop = Comment::limit(3)->get();
+            $comment->with('comment', $commentTop);
+        });
         View::composer('client.carts.cart-slider', function ($view) {
             $user = Auth::user();
             if (Auth::check()){
