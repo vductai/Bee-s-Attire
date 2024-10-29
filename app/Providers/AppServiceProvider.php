@@ -29,6 +29,13 @@ class AppServiceProvider extends ServiceProvider
             $commentTop = Comment::limit(3)->get();
             $comment->with('comment', $commentTop);
         });
+
+        View::composer('client.product.quickview-modal', function ($voucher) {
+            $user = Auth::user();
+            $vouchers = $user->voucher;
+            $voucher->with('voucher', $vouchers);
+        });
+
         View::composer('client.carts.cart-slider', function ($view) {
             $user = Auth::user();
             if (Auth::check()){

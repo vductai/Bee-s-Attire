@@ -54,11 +54,13 @@
                             </div>
                             <div class="cr-product-details">
                                 <div class="cr-brand">
-                                    <a href="{{route('detail', ['slug' => $item->product->slug])}}">
+                                    <a href="">
                                         {{$item->product->category->category_name}}
                                     </a>
                                 </div>
-                                <a href="" class="title">{{$item->product->product_name}}</a>
+                                <a href="{{route('detail', ['slug' => $item->product->slug])}}" class="title">
+                                    {{$item->product->product_name}}
+                                </a>
                                 <p class="cr-price">
                                     <span class="new-price">{{number_format($item->product->sale_price)}} đ</span>
                                     <span class="old-price">{{number_format($item->product->product_price)}} đ</span>
