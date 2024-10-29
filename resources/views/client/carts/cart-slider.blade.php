@@ -57,7 +57,7 @@
             </div>
             <div class="cart_btn">
                 <a href="{{route('viewCart')}}" class="cr-button">View Cart</a>
-                <a href="checkout.html" class="cr-btn-secondary">Checkout</a>
+                <a href="{{route('checkout')}}" class="cr-btn-secondary">Checkout</a>
             </div>
         </div>
     </div>

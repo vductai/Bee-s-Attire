@@ -188,6 +188,7 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/admin/js/main.js')}}"></script>
+<script src="{{asset('assets/admin/app.js')}}"></script>
 <script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
 @yield('script')
 </body>

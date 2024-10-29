@@ -121,9 +121,9 @@
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button cr-shopping-bag">Add to cart</button>
+                                    <button type="submit" class="cr-button">Add to cart</button>
                                 @else
-                                    <button type="button" class="cr-button cr-shopping-bag">Add to cart</button>
+                                    <button type="button" class="cr-button">Add to cart</button>
                                 @endif
                             </div>
                             <div class="cr-add-button">
@@ -157,12 +157,6 @@
                                         aria-selected="true">Mô tả sản phẩm
                                 </button>
                             </li>
-                            {{--<li class="nav-item" role="presentation">
-                                <button class="nav-link" id="additional-tab" data-bs-toggle="tab"
-                                        data-bs-target="#additional" type="button" role="tab" aria-controls="additional"
-                                        aria-selected="false">Information
-                                </button>
-                            </li>--}}
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
                                         type="button" role="tab" aria-controls="review"
@@ -179,29 +173,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
-                                <div class="cr-tab-content">
-                                    <div class="cr-description">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente
-                                            doloribus debitis corporis, eaque dicta, repellat amet, illum adipisci vel
-                                            perferendis dolor! Quis vel consequuntur repellat distinctio rem. Corrupti
-                                            ratione alias odio, error dolore temporibus consequatur, nobis veniam odit
-                                            laborum dignissimos consectetur quae vero in perferendis provident quis.</p>
-                                    </div>
-                                    <div class="list">
-                                        <ul>
-                                            <li><label>Brand <span>:</span></label>ESTA BETTERU CO</li>
-                                            <li><label>Flavour <span>:</span></label>Super Saver Pack</li>
-                                            <li><label>Diet Type <span>:</span></label>Vegetarian</li>
-                                            <li><label>Weight <span>:</span></label>200 Grams</li>
-                                            <li><label>Speciality <span>:</span></label>Gluten Free, Sugar Free</li>
-                                            <li><label>Info <span>:</span></label>Egg Free, Allergen-Free</li>
-                                            <li><label>Items <span>:</span></label>1</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>--}}
                             <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                                 <div class="cr-tab-content-from">
                                     @foreach($listPost as $post)
@@ -252,91 +223,6 @@
         </div>
     </section>
     <script !src="">
-        document.addEventListener('DOMContentLoaded', function () {
-            const sizeOptions = document.querySelectorAll('.size-option');
-            const hiddenInputSize = document.getElementById('selected-size-id');
-            const colorOptions = document.querySelectorAll('.color-option');
-            const hiddenInputColor = document.getElementById('selected-color-id');
-            const hiddenInputVariant = document.getElementById('selected-product-variant-id');
-
-            let selectedSizeId = null;
-            let selectedColorId = null;
-
-            sizeOptions.forEach(option => {
-                option.addEventListener('click', function () {
-                    sizeOptions.forEach(opt => opt.classList.remove('active-color'));
-
-                    this.classList.add('active-color');
-
-                    // Gán giá trị cho selectedSizeId
-                    selectedSizeId = this.getAttribute('data-size-id');
-                    hiddenInputSize.value = selectedSizeId;
-                    console.log(selectedSizeId)
-                    updateProductVariant();
-                    filterColorsByStock();
-                });
-            });
-
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function () {
-                    colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
-
-                    this.classList.add('cl-active-color');
-
-                    // Gán giá trị cho selectedColorId
-                    selectedColorId = this.getAttribute('data-color-id');
-                    hiddenInputColor.value = selectedColorId;
-                    updateProductVariant();
-                });
-            });
-
-            function updateProductVariant() {
-                if (selectedSizeId && selectedColorId) {
-                    const variants = @json($getDetail->variants);
-
-                    const selectedVariant = variants.find(variant =>
-                        variant.size_id == selectedSizeId && variant.color_id == selectedColorId
-                    );
-                    if (selectedVariant) {
-                        hiddenInputVariant.value = selectedVariant.product_variant_id;
-                    }
-                }
-            }
-
-            function filterColorsByStock() {
-                const variants = @json($getDetail->variants);
-
-                colorOptions.forEach(option => {
-                    const colorId = option.getAttribute('data-color-id');
-                    const matchingVariant = variants.find(variant =>
-                        variant.size_id == selectedSizeId && variant.color_id == colorId
-                    );
-
-                    if (matchingVariant && matchingVariant.quantity > 0) {
-                        option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
-                    } else {
-                        option.style.display = 'none'; // Ẩn màu nếu hết hàng
-                    }
-                });
-            }
-
-            function filterSizesByStock() {
-                const variants = @json($getDetail->variants);
-
-                sizeOptions.forEach(option => {
-                    const sizeId = option.getAttribute('data-size-id');
-                    const matchingVariant = variants.find(variant =>
-                        variant.color_id == selectedColorId && variant.size_id == sizeId
-                    );
-
-                    if (matchingVariant && matchingVariant.quantity > 0) {
-                        option.style.display = 'none'; // Hiển thị size nếu còn hàng
-                    } else {
-                        selectedSizeId.style.display = 'none';
-                        option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
-                    }
-                });
-            }
-        });
+        const variants = @json($getDetail->variants);
     </script>
 @endsection

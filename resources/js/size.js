@@ -1,4 +1,3 @@
-import './bootstrap';
 import axios from "axios";
 
 const formSize = document.getElementById('formSize')

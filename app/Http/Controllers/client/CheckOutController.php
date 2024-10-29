@@ -62,6 +62,6 @@ class CheckOutController extends Controller
             $total_after_discount = $totalAmount;
         }
         return view('client.check-out', compact('selCart', 'totalAmount',
-            'discount', 'total_after_discount', 'voucher_item_id'));
+            'discount', 'total_after_discount', 'voucher_item_id', 'voucher'));
     }
 }

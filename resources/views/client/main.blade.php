@@ -44,25 +44,31 @@
                 <div class="col-xl-9 col-lg-8 col-12 mb-24">
                     <div class="row mb-minus-24">
                         @foreach($listAllProduct as $item)
-                            @php
-                                $isFavorite = \App\Models\Whishlist::where('user_id', auth()->user()->user_id)
-                                                                 ->where('product_id', $item->product_id)
-                                                                ->exists();
-                            @endphp
+                            @if(auth()->check())
+                                @php
+                                    $isFavorite = \App\Models\Whishlist::where('user_id', auth()->user()->user_id)
+                                                                     ->where('product_id', $item->product_id)
+                                                                    ->exists();
+                                @endphp
+                            @else
+                            @endif
                             <div class="mix category-{{$item->category->category_id}} col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
                                 <div class="cr-product-card">
                                     <div class="cr-product-image">
                                         <div class="cr-image-inner zoom-image-hover">
                                             <img src="{{asset('upload/'. $item->product_avatar)}}" alt="product-1">
                                         </div>
-                                        <a class="cr-shopping-bag {{$isFavorite ? 'active' : ''}}"
-                                           data-productId="{{$item->product_id}}"
-                                           href="javascript:void(0)">
-                                            <i class="ri-heart-line"></i>
-                                        </a>
-                                        <input type="hidden"
-                                               id="userBag"
-                                               value="{{auth()->user()->user_id}}">
+                                        @if(auth()->check())
+                                            <a class="cr-shopping-bag {{$isFavorite ? 'active' : ''}}"
+                                               data-productId="{{$item->product_id}}"
+                                               href="javascript:void(0)">
+                                                <i class="ri-heart-line"></i>
+                                            </a>
+                                            <input type="hidden"
+                                                   id="userBag"
+                                                   value="{{auth()->user()->user_id}}">
+                                        @else
+                                        @endif
                                     </div>
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
