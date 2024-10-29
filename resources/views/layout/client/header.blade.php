@@ -108,49 +108,24 @@
                                 <i class="ri-heart-3-line"></i>
                                 <span>Wishlist</span>
                             </a>
-                        @else
-                            {{--  --}}
-                        @endif
-
-                        {{--<a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
-                            <i class="ri-shopping-cart-line"></i>
-                            <span class="me-3">Cart</span>
-                            --}}{{--<span
-                                class="position-absolute top-10
-                                start-100 translate-middle badge rounded-pill
-                                 bg-danger text-white">
-                            </span>--}}{{--
-                            <span hidden
-                                  class="position-absolute top-10
-                                  start-100 translate-middle badge rounded-pill
-                                   bg-danger text-white">
-                            </span>
-                        </a>--}}
-
-                        <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
-                            <i class="ri-shopping-cart-line"></i>
-                            <span class="me-3">Cart</span>
-                            @if(auth()->check())
-                                @if(\App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::user()->user_id)->exists())
+                            <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
+                                <i class="ri-shopping-cart-line"></i>
+                                <span class="me-3">Cart</span>
+                                @if(\App\Models\Cart::where('user_id', auth()->user()->user_id)->exists())
                                     <span
-                                            class="position-absolute top-10 start-100 translate-middle
+                                        class="position-absolute top-10 start-100 translate-middle
                                         bg-danger border border-light rounded-circle" style="padding: 6px">
                                     </span>
                                 @else
                                     <span
-                                            class="position-absolute top-10 start-100 translate-middle
+                                        class="position-absolute top-10 start-100 translate-middle
                                         bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
                                     </span>
                                 @endif
-                            @else
-                                <span
-                                    class="position-absolute top-10 start-100 translate-middle
-                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
-                                    </span>
-                            @endif
-
-
-                        </a>
+                            </a>
+                        @else
+                            {{--  --}}
+                        @endif
                     </div>
                 </div>
             </div>

@@ -22,10 +22,7 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
         $list = Category::all();
-
         return view('admin.category.list-category', compact('list'));
     }
 
@@ -41,10 +38,7 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $category = Category::create($request->all());
-        broadcast(new CategoryEvent($category, 'create'))->toOthers();
-
         return response()->json($category);
     }
 
@@ -58,7 +52,6 @@ class CategoryAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
         $categories = Category::query()->findOrFail($id );
-
         return response()->json([
         'message' => 'fall',
         'data' => $categories,
@@ -81,13 +74,8 @@ class CategoryAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
         $categories = Category::findOrFail($id);
-
         $categories->update($request->all());
-
-        broadcast(new CategoryEvent($categories, 'update'))->toOthers();
-
         return response()->json($categories);
-
     }
 
     /**

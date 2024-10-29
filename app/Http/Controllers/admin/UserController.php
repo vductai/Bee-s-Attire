@@ -28,8 +28,6 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
         $list = User::all();
         return view('admin.user.list-user', compact('list'));
     }
@@ -83,7 +81,6 @@ class UserController extends Controller
             $user->avatar = $filename;
         }
         $user->save();
-        broadcast(new UserEvent($user, 'create'))->toOthers();
         return response()->json($user);
     }
 
@@ -158,13 +155,11 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $user = User::find($id);
         if ($user) {
             if (File::exists(public_path('upload/' . $user->avatar))) {
                 File::delete(public_path('upload/' . $user->avatar));
             }
-
             $user->delete();
         }
         return redirect()->route('user.index')->with('error', 'Xóa account thành công');

@@ -52,7 +52,7 @@
                                         @foreach($getCart as $item)
                                             <tr>
                                                 <td class="cr-cart-name">
-                                                    <a href="" data-idPro="{{$item->product_id}}">
+                                                    <a href="{{route('detail', ['slug' => $item->product->slug])}}" data-idPro="{{$item->product_id}}">
                                                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                              alt="product-1" class="cr-cart-img">
                                                         <div>
@@ -109,112 +109,4 @@
             </div>
         </div>
     </section>
-    <script !src="">
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const plusButtons = document.querySelectorAll('.pluss');
-            const minusButtons = document.querySelectorAll('.minuss');
-            const quantityInputs = document.querySelectorAll('.quantityy');
-            const productPrices = document.querySelectorAll('.product_price');
-            const totals = document.querySelectorAll('.total');
-
-
-            // Hàm chuyển đổi chuỗi có dấu phẩy (định dạng tiền tệ) về số thập phân
-            function parseCurrency(str) {
-                return parseFloat(str.replace(/[^0-9.-]+/g, '')); // Loại bỏ ký tự không phải số và chuyển về số thập phân
-            }
-
-            // Hàm định dạng số thành tiền tệ
-            function formatCurrency(num) {
-                return num.toLocaleString('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
-            }
-
-            // Hàm cập nhật tổng giá cho một hàng sản phẩm
-            function updateTotal(index) {
-                const quantity = parseInt(quantityInputs[index].value);
-                const productPrice = parseCurrency(productPrices[index].textContent); // Chuyển đổi giá trị thành số
-                const total = quantity * productPrice;
-                totals[index].textContent = formatCurrency(total); // Hiển thị giá trị với định dạng tiền tệ Việt Nam
-            }
-
-            // Sự kiện khi nhấn nút cộng
-            plusButtons.forEach((plusButton, index) => {
-                plusButton.addEventListener('click', function () {
-                    let currentQuantity = parseInt(quantityInputs[index].value);
-                    currentQuantity += 1; // Tăng số lượng lên 1
-                    quantityInputs[index].value = currentQuantity;
-                    updateTotal(index); // Cập nhật lại tổng giá
-                });
-            });
-
-            // Sự kiện khi nhấn nút trừ
-            minusButtons.forEach((minusButton, index) => {
-                minusButton.addEventListener('click', function () {
-                    let currentQuantity = parseInt(quantityInputs[index].value);
-                    if (currentQuantity > 1) {
-                        currentQuantity -= 1; // Giảm số lượng đi 1
-                        quantityInputs[index].value = currentQuantity;
-                        updateTotal(index); // Cập nhật lại tổng giá
-                    }
-                });
-            });
-
-            // Cập nhật tổng giá khi số lượng thay đổi trực tiếp
-            quantityInputs.forEach((quantityInput, index) => {
-                quantityInput.addEventListener('input', function () {
-                    let currentQuantity = parseInt(quantityInput.value);
-                    if (currentQuantity >= 1) {
-                        updateTotal(index); // Chỉ cập nhật nếu số lượng lớn hơn hoặc bằng 1
-                    }
-                });
-            });
-
-            // update cart
-            const checkoutButton = document.querySelector('.checkout')
-            checkoutButton.addEventListener('click', function (e) {
-                e.preventDefault()
-                const cartItems = [];
-
-                // lấy dữ liệu cart
-                document.querySelectorAll('tbody tr').forEach((row, index) => {
-                    const productLink = row.querySelector('a');
-                    if (productLink) {
-                        const productId = row.querySelector('a').getAttribute('data-idPro').split('/').pop()
-                        const quantity = parseInt(row.querySelector('.quantityy').value)
-                        const totalprice = row.querySelector('.cr-cart-price').getAttribute('data-total')
-                        cartItems.push({
-                            product_id: parseInt(productId),
-                            quantity: quantity,
-                            price: totalprice * quantity,
-                            price: totalprice * quantity
-                        })
-                    }
-                })
-
-                if (cartItems.length > 0) {
-                    fetch('{{route('update-cart')}}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({cartItems})
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (!data.success) {
-                                window.location.href = "{{route('checkout')}}"
-                            }else {
-                                alert('error chuyen huong')
-                            }
-                        }).catch(err => {
-                            alert('cart faild')
-                    })
-                }
-            })
-        });
-    </script>
 @endsection

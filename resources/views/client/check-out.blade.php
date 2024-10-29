@@ -33,15 +33,15 @@
                                         <span class="text-left">Tiền hàng</span>
                                         <span class="text-right">{{number_format($totalAmount)}} đ</span>
                                     </div>
-
                                     <div>
-                                        <span class="text-left">Giảm giá</span>
+                                        <span class="text-left">
+                                            Giảm giá ( {{$voucher->voucher->voucher_price ?? ''}} % )
+                                        </span>
                                         <span class="text-right">{{ number_format($discount) ?? 0}} đ</span>
                                     </div>
                                     <div class="cr-checkout-summary-total">
                                         <span class="text-left">Tổng tiền hàng</span>
-                                        <span
-                                            class="text-right">{{number_format($total_after_discount) ?? 0}} đ</span>
+                                        <span class="text-right">{{number_format($total_after_discount) ?? 0}} đ</span>
                                     </div>
                                 </div>
                                 <div class="cr-checkout-pro">
@@ -95,12 +95,19 @@
                                                     {{ session()->forget('voucherError') }}
                                                 @endif
                                             </span>
+                                            <span>
+                                                <a class="model-oraganic-product cr-button mt-4 mx-2"
+                                                   data-bs-toggle="modal" href="#quickview"
+                                                   role="button">
+                                                    Mã của bạn
+                                                </a>
+                                            </span>
                                         </span>
+                                        <button
+                                            form="addVoucher"
+                                            class="cr-button mt-2" type="submit">Add mã giảm giá
+                                        </button>
                                     </form>
-                                    <button
-                                        form="addVoucher"
-                                        class="btn btn-success mt-2" type="submit">Add mã giảm giá
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -187,16 +194,4 @@
             </div>
         </div>
     </section>
-    <script !src="">
-        // Lấy tất cả các input radio
-        const paymentOptions = document.querySelectorAll('input[name="radio-group"]');
-        const submitButton = document.getElementById('submitButton');
-
-        // Gắn sự kiện 'change' cho mỗi radio button
-        paymentOptions.forEach(option => {
-            option.addEventListener('change', function () {
-                submitButton.name = this.value;
-            });
-        });
-    </script>
 @endsection

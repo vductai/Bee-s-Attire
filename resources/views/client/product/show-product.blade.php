@@ -85,7 +85,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        {{--<div class="cr-shop-tags">
+{{--                        <div class="cr-shop-tags">
                             <h4 class="cr-shop-sub-title">Tages</h4>
                             <div class="cr-shop-tags-inner">
                                 <ul class="cr-tags">
