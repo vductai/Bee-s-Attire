@@ -32,7 +32,11 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('client.product.quickview-modal', function ($voucher) {
             $user = Auth::user();
-            $vouchers = $user->voucher;
+            if (Auth::check()){
+                $vouchers = $user->voucher;
+            }else{
+                $vouchers = collect();
+            }
             $voucher->with('voucher', $vouchers);
         });
 
