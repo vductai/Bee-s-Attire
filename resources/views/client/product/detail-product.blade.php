@@ -209,9 +209,13 @@
                                                name="product_id"
                                                value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
-                                            <textarea id="comment" name="comment"
-                                                      placeholder="Enter Your Comment"></textarea>
-                                            <button class="cr-button" type="submit">Submit</button>
+                                            @if(auth()->check())
+                                                <textarea id="comment" name="comment"
+                                                          placeholder="Nhập bình luận của bạn"></textarea>
+                                                <button class="cr-button" type="submit">Submit</button>
+                                            @else
+                                                <p class="alert alert-danger">Đăng nhập để bình luận</p>
+                                            @endif
                                         </div>
                                     </form>
                                 </div>

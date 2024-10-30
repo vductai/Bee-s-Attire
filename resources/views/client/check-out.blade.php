@@ -59,7 +59,7 @@
                                                 </div>
                                                 <div class="cr-pro-content cr-product-details">
                                                     <h5 class="cr-pro-title">
-                                                        <a href="product-left-sidebar.html">{{$item->product->product_name}}</a>
+                                                        <a href="{{route('detail', ['slug' => $item->product->slug])}}">{{$item->product->product_name}}</a>
                                                     </h5>
                                                     <div class="cr-pro-rating">
                                                         <p>x{{$item->quantity}}</p>
@@ -96,7 +96,7 @@
                                                 @endif
                                             </span>
                                             <span>
-                                                <a class="model-oraganic-product cr-button mt-4 mx-2"
+                                                <a class="model-oraganic-product cr-button mt-4 mx-2 btn-secondary"
                                                    data-bs-toggle="modal" href="#quickview"
                                                    role="button">
                                                     Mã của bạn
@@ -129,13 +129,13 @@
                                         <span class="cr-pay-option">
                                             <span>
                                                 <input type="radio" id="pay2" value="vnpay" name="radio-group">
-                                                <label for="pay2">Thanh toán qua VNPay</label>
+                                                <label for="pay2">Thanh toán qua <b style="color:#002C6D;">VNPay</b></label>
                                             </span>
                                         </span>
                                         <span class="cr-pay-option">
                                             <span>
                                                 <input type="radio" id="pay3" value="payUrl" name="radio-group">
-                                                <label for="pay3">Thanh toán qua MoMo</label>
+                                                <label for="pay3">Thanh toán qua <b style="color: #D82D8B">MoMo</b></label>
                                             </span>
                                         </span>
                                     </div>

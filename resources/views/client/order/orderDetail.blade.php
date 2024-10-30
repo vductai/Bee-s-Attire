@@ -1,6 +1,6 @@
 @extends('layout.client.home')
 @section('content_client')
-    <link rel="stylesheet" href="{{asset('assets/app.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/client/app.css')}}">
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="from">

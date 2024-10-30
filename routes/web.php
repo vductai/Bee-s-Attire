@@ -26,6 +26,7 @@ use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
 use App\Http\Controllers\client\VNPayController;
 use App\Http\Controllers\client\WishListController;
+use App\Jobs\SendMailVoucherExpiredJob;
 use Illuminate\Support\Facades\Route;
 
 /*
