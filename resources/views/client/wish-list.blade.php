@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Compare</h2>
-                            <span> <a href="index.html">Home</a> - Compare</span>
+                            <h2>Yêu thích</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> - Yêu thích</span>
                         </div>
                     </div>
                 </div>
