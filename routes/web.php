@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\OrderController as OrderAdmin;
 
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthClientController;
+use App\Http\Controllers\auth\GoogleController;
 use App\Http\Controllers\auth\PasswordController;
 use App\Http\Controllers\auth\VerificationController;
 use App\Http\Controllers\client\CartController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\client\CheckPaymentMethodController;
 use App\Http\Controllers\client\CommentController;
 use App\Http\Controllers\client\MoMoController;
 use App\Http\Controllers\client\OrderController;
+use App\Http\Controllers\client\ParentProductController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
 use App\Http\Controllers\client\VNPayController;
@@ -156,6 +158,11 @@ Route::get('/', [ProductClient::class, 'listAllProductMain'])->name('home');
 Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('detail');
 // shop product
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
+// product parent
+Route::get('/parent/{id}', [ParentProductController::class, 'getProductParent'])->name('parent');
+Route::get('/sss', function (){
+    return view('client.product.parent-product');
+});
 /*and home*/
 Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 Route::get('/about', function () {
@@ -165,3 +172,5 @@ Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
 
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
