@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Parent_Category;
 use App\Models\User;
 use App\Policies\CategoryPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CategoryAPIController extends Controller
 {
@@ -29,7 +31,8 @@ class CategoryAPIController extends Controller
 
     public function create(){
         $list = Category::all();
-        return view('admin.category.add-category', compact('list'));
+        $parent = Parent_Category::all();
+        return view('admin.category.add-category', compact('list', 'parent'));
     }
 
     public function store(CategoryRequest $request)
@@ -38,8 +41,17 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $category = Category::create($request->all());
-        return response()->json($category);
+        $category = Category::create([
+            'category_name' => $request->category_name,
+            'id' => $request->id
+        ]);
+        $parent = Parent_Category::find($request->id);
+        return response()->json(
+            [
+                'category' => $category,
+                'parent' => $parent
+            ]
+        );
     }
 
     /**
@@ -61,7 +73,8 @@ class CategoryAPIController extends Controller
     public function edit($id){
         $find = Category::findOrFail($id);
         $list = Category::all();
-        return view('admin.category.update-category', compact('find', 'list'));
+        $parent = Parent_Category::all();
+        return view('admin.category.update-category', compact('find', 'list', 'parent'));
     }
 
     /**
@@ -75,7 +88,13 @@ class CategoryAPIController extends Controller
         }
         $categories = Category::findOrFail($id);
         $categories->update($request->all());
-        return response()->json($categories);
+        $parent = Parent_Category::find($request->id);
+        return response()->json(
+            [
+                'category' => $categories,
+                'parent' => $parent
+            ]
+        );
     }
 
     /**
@@ -87,7 +106,7 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $categories = Category::query()->findOrFail($id );
+        $categories = Category::findOrFail($id );
         $categories->delete();
         return response()->json([
             'message' => 'Xoa thanh cong !',

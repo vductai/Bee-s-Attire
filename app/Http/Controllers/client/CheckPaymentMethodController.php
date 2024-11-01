@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendMailOrderJob;
 use App\Mail\OrderMail;
 use App\Models\Cart;
 use App\Models\Order;
@@ -202,7 +203,7 @@ class CheckPaymentMethodController extends Controller
                 $voucher->delete();
             }
             Cart::where('user_id', Auth::user()->user_id)->delete();
-            Mail::to(Auth::user()->email)->send(new OrderMail($order));
+            SendMailOrderJob::dispatch(Auth::user()->email, $order);
             return view('client.message.orderSuccess');
         } else {
             return redirect()->route('checkout');
@@ -249,7 +250,6 @@ class CheckPaymentMethodController extends Controller
                 ]);
             }
 
-
             $order = Order::where('order_id', $orderId)->first();
             if ($order && $order->voucher_id) {
                 // Xóa chỉ mã voucher đã áp dụng
@@ -258,7 +258,7 @@ class CheckPaymentMethodController extends Controller
                 $voucher->save();
             }
             Cart::where('user_id', Auth::user()->user_id)->delete();
-            Mail::to(Auth::user()->email)->send(new OrderMail($order));
+            SendMailOrderJob::dispatch(Auth::user()->email, $order);
             return view('client.message.orderMoMoSuccess');
         } else {
             return redirect()->route('checkout');

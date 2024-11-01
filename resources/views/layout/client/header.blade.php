@@ -60,17 +60,17 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                         <i class="ri-user-3-line"></i>
-                                        <span>Xin chào, {{auth()->user()->username}}</span>
+                                        <span>{{auth()->user()->username}}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                                            <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn hàng</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
                                         </li>
                                         <li>
                                             <form action="{{ route('client.logout') }}" method="POST"
@@ -78,7 +78,7 @@
                                                 @csrf
                                             </form>
                                             <a class="dropdown-item" href="#"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -86,18 +86,15 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                         <i class="ri-user-3-line"></i>
-                                        <span>Account</span>
+                                        <span>Tài khoản</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="dropdown-item"
-                                               href="{{route('client.viewRegister')}}">Register</a>
+                                               href="{{route('client.viewRegister')}}">Đăng kí</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Login</a>
+                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Đăng nhập</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -106,11 +103,11 @@
                         @if(auth()->check())
                             <a href="{{route('list-wish')}}" class="cr-right-bar-item">
                                 <i class="ri-heart-3-line"></i>
-                                <span>Wishlist</span>
+                                <span>Yêu thích</span>
                             </a>
                             <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
                                 <i class="ri-shopping-cart-line"></i>
-                                <span class="me-3">Cart</span>
+                                <span class="me-3">Giỏ hàng</span>
                                 @if(\App\Models\Cart::where('user_id', auth()->user()->user_id)->exists())
                                     <span
                                         class="position-absolute top-10 start-100 translate-middle
