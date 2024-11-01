@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Category</h5>
+            <h5>Danh mục</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -12,26 +12,16 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Add New Category</h3>
-                                <form id="formCategory">
+                                <h3>Chỉnh sửa danh mục chính</h3>
+                                <form id="formCategoryParentUpdate">
+                                    <input type="hidden" id="idParent" value="{{$upd->id}}">
                                     <div class="form-group">
-                                        <label>Parent category</label>
+                                        <label>Tên danh mục chính</label>
                                         <div class="col-12">
-                                            <select name="id" id="id" class="form-control form-select">
-                                                <option value="">Chọn danh mục gốc</option>
-                                                @foreach($parent as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                @endforeach
-                                            </select>
-                                            <p class="text-danger" id="errCategoryParent"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Name category</label>
-                                        <div class="col-12">
-                                            <input id="category_name" name="category_name"
+                                            <input id="category_main" name="category_main"
+                                                   value="{{$upd->name}}"
                                                    class="form-control here slug-title" type="text">
-                                            <p class="text-danger" id="errCategory"></p>
+                                            <p class="text-danger" id="errCategoryMain"></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -54,17 +44,15 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Category</th>
-                                <th>Main Category</th>
+                                <th>Danh mục cha</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($list as $item)
-                                <tr data-id="{{$item->category_id}}">
+                                <tr data-id="{{$item->id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td class="categoryName">{{$item->category_name}}</td>
-                                    <td class="categoryParent">{{$item->parent->name}}</td>
+                                    <td class="categoryParent">{{$item->name}}</td>
                                     <td>
                                         <div>
                                             <button type="button"
@@ -74,10 +62,9 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
-
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/categories/{{$item->category_id}}/edit">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->category_id}}">
+                                                <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->id}}">
                                                     Delete
                                                 </button>
                                             </div>

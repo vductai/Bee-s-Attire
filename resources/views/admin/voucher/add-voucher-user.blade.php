@@ -112,4 +112,12 @@
             </div>
         </div>
     </div>
+    <script !src="">
+        function selectUsername() {
+            const userSel = document.getElementById('user-select')
+            const selectedUsernames = Array.from(userSel.selectedOptions)
+                .map(option => option.getAttribute("data-username"));
+            document.getElementById("selected_usernames").value = selectedUsernames.join(", ")
+        }
+    </script>
 @endsection

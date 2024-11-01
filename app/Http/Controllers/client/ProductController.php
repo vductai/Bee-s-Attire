@@ -8,9 +8,12 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Comment;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
@@ -49,21 +52,47 @@ class ProductController extends Controller
 
 
     // list product shop
-
-    public function getProductShop(Request $request)
+    public function getProductShop()
     {
-        $category_id = $request->get('category_id', 'all');
-
         $listcategory = Category::withCount('product')->get();
-        if ($category_id === 'all'){
-            $listAllProductShop = Product::where('action', '=', 1)->get();
-        }else{
-            $listAllProductShop = Product::where('category_id', $category_id)->where('action', '=', 1)->get();
-        }
+        $listAllProductShop = Product::where('action', '=', 1)->get();
         $listColor = Color::all();
         $listSize = Size::all();
+        $tags = Tag::all();
         return view('client.product.show-product', compact('listAllProductShop',
-            'listcategory', 'listSize', 'listColor'));
+            'listcategory', 'listSize', 'listColor', 'tags'));
+    }
+
+    public function search(Request $request){
+        $categories = $request->input('categories', []);
+        $colors = $request->input('colors', []);
+        $sizes = $request->input('sizes', []);
+
+        // Lấy ProductVariant cùng với thông tin Product và Category
+        $query = ProductVariant::with('product.category');
+
+        if (!empty($categories)) {
+            $query->whereHas('product.category', function ($q) use ($categories) {
+                $q->whereIn('category_name', $categories);
+            });
+        }
+        if (!empty($colors)) {
+            $colorIds = Color::whereIn('color_name', $colors)->pluck('color_id')->toArray();
+            $query->whereIn('color_id', $colorIds);
+        }
+        if (!empty($sizes)) {
+            $sizeIds = Size::whereIn('size_name', $sizes)->pluck('size_id')->toArray();
+            $query->whereIn('size_id', $sizeIds);
+        }
+        $productVariants = $query->get();
+        // Lấy danh sách sản phẩm duy nhất với thông tin danh mục
+        $products = $productVariants->map(function ($variant) {
+            return [
+                'product' => $variant->product,
+                'category_name' => $variant->product->category->category_name ?? null,
+            ];
+        })->unique('product.id');
+        return response()->json($products);
     }
 
     public function searchTag(Request $request)

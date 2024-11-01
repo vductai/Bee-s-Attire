@@ -23,7 +23,7 @@
                 <div class="col-lg-12">
                     <div class="mb-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="cr-banner">
-                            <h2>Categories</h2>
+                            <h2>Danh mục</h2>
                         </div>
                         <div class="cr-banner-sub-title">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -32,38 +32,34 @@
                     </div>
                 </div>
             </div>
-            <div class="row mixshow" id="MixItUpDA2FB7">
+            <div class="row">
                 <div class="col-lg-3 col-12 md-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                     <div class="cr-shop-sideview">
                         <div class="cr-shop-categories">
-                            <h4 class="cr-shop-sub-title">Category</h4>
+                            <h4 class="cr-shop-sub-title">Danh mục</h4>
                             <div class="cr-checkbox">
-
-                                <div class="cr-product-tabs">
-                                    <ul>
-                                        <li data-filter="all">Tất cả sản phẩm</li>
-                                        @foreach($listcategory as $item)
-                                            <li data-filter=".category-{{$item->category_id}}">
-                                                {{$item->category_name}} ( {{ $item->product_count }} )
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                @foreach($listcategory as $item)
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="{{$item->category_name}}">
+                                        <label for="{{$item->category_name}}">{{$item->category_name}}</label>
+                                        <span>[{{$item->product_count}}]</span>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="cr-shop-price">
-                            <h4 class="cr-shop-sub-title">Price</h4>
+                            <h4 class="cr-shop-sub-title">Giá</h4>
                             <div class="price-range-slider">
                                 <div id="slider-range" class="range-bar"></div>
                                 <p class="range-value">
-                                    <label>Price :</label>
+                                    <label>Giá :</label>
                                     <input type="text" id="amount" placeholder="'" readonly>
                                 </p>
                                 <button type="button" class="cr-button">Filter</button>
                             </div>
                         </div>
                         <div class="cr-shop-color">
-                            <h4 class="cr-shop-sub-title">Color</h4>
+                            <h4 class="cr-shop-sub-title">Màu sắc</h4>
                             <div class="cr-checkbox">
                                 @foreach($listColor as $item)
                                     <div class="checkbox-group">
@@ -75,7 +71,7 @@
                             </div>
                         </div>
                         <div class="cr-shop-weight">
-                            <h4 class="cr-shop-sub-title">Size</h4>
+                            <h4 class="cr-shop-sub-title">Kích thước</h4>
                             <div class="cr-checkbox">
                                 @foreach($listSize as $item)
                                     <div class="checkbox-group">
@@ -85,19 +81,16 @@
                                 @endforeach
                             </div>
                         </div>
-{{--                        <div class="cr-shop-tags">
-                            <h4 class="cr-shop-sub-title">Tages</h4>
+                        <div class="cr-shop-tags">
+                            <h4 class="cr-shop-sub-title">Từ khoá</h4>
                             <div class="cr-shop-tags-inner">
                                 <ul class="cr-tags">
-                                    <li><a href="javascript:void(0)">Vegetables</a></li>
-                                    <li><a href="javascript:void(0)">juice</a></li>
-                                    <li><a href="javascript:void(0)">Food</a></li>
-                                    <li><a href="javascript:void(0)">Dry Fruits</a></li>
-                                    <li><a href="javascript:void(0)">Vegetables</a></li>
-                                    <li><a href="javascript:void(0)">juice</a></li>
+                                    @foreach($tags as $tag)
+                                        <li><a href="javascript:void(0)">{{$tag->tag_name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
-                        </div>--}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-12 md-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
@@ -129,23 +122,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row col-100 mb-minus-24">
+                    <div class="row col-100 mb-minus-24" id="product-results">
                         @foreach($listAllProductShop as $item)
-                            <div
-                                class="mix category-{{$item->category->category_id}} col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                            @if(auth()->check())
+                                @php
+                                    $isFavorite = \App\Models\Whishlist::where('user_id', auth()->user()->user_id)
+                                                                    ->where('product_id', $item->product_id)
+                                                                    ->exists();
+                                @endphp
+                            @else
+                            @endif
+                            <div class="col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
                                 <div class="cr-product-card">
                                     <div class="cr-product-image">
                                         <div class="cr-image-inner zoom-image-hover">
                                             <img src="{{asset('upload/'. $item->product_avatar)}}" alt="product-1">
-                                        </div>
-                                        <div class="cr-side-view">
-                                            {{--<a href="javascript:void(0)" class="wishlist">
-                                                <i class="ri-heart-line"></i>
-                                            </a>--}}
-                                            <a class="model-oraganic-product" data-bs-toggle="modal" href="#quickview"
-                                               role="button">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
                                         </div>
                                         <a class="cr-shopping-bag" href="javascript:void(0)">
                                             <i class="ri-shopping-bag-line"></i>
@@ -154,31 +145,10 @@
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
                                             <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
-                                            {{--<div class="cr-star">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <p>(4.5)</p>
-                                            </div>--}}
                                         </div>
                                         <a href="{{route('detail', ['slug' => $item->slug])}}" class="title">
                                             {{$item->product_name}}
                                         </a>
-                                        <ul class="list">
-
-                                            <li><label>Size :</label>
-                                                @foreach($item->variants->unique('size') as $size)
-                                                    {{$size->size->size_name}},
-                                                @endforeach
-                                            </li>
-                                            <li><label>Color :</label>
-                                                @foreach($item->variants->unique('color') as $color)
-                                                    {{$color->color->color_name}},
-                                                @endforeach
-                                            </li>
-                                        </ul>
                                         <p class="cr-price">
                                             <span class="new-price">{{number_format($item->sale_price) }} đ</span>
                                             <span class="old-price">{{number_format($item->product_price)}} đ</span>
@@ -207,4 +177,71 @@
             </div>
         </div>
     </section>
+    <script>
+        document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedCategories = Array.from(document.querySelectorAll('.cr-shop-categories input[type="checkbox"]:checked'))
+                    .map(el => el.id);
+                const selectedColors = Array.from(document.querySelectorAll('.cr-shop-color input[type="checkbox"]:checked'))
+                    .map(el => el.id);
+                const selectedSizes = Array.from(document.querySelectorAll('.cr-shop-weight input[type="checkbox"]:checked'))
+                    .map(el => el.id);
+
+                // Kiểm tra các giá trị đã chọn
+                console.log("Categories:", selectedCategories);
+                console.log("Colors:", selectedColors);
+                console.log("Sizes:", selectedSizes);
+
+                axios.post('/search-product', {
+                    categories: selectedCategories,
+                    colors: selectedColors,
+                    sizes: selectedSizes
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(res => {
+                    const products = res.data;
+                    console.log(products)
+                    let html = '';
+                    function format(amount) {
+                        return amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+                    }
+                    products.forEach(product => {
+                        const avatar = `${window.location.origin}/upload/${product.product.product_avatar}`
+                        html +=
+                            `
+                                <div class="col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                                    <div class="cr-product-card">
+                                        <div class="cr-product-image">
+                                            <div class="cr-image-inner zoom-image-hover">
+                                                <img src="${avatar}" alt="product-1">
+                                            </div>
+                                            <a class="cr-shopping-bag" href="javascript:void(0)">
+                                                <i class="ri-shopping-bag-line"></i>
+                                            </a>
+                                        </div>
+                                        <div class="cr-product-details">
+                                            <div class="cr-brand">
+                                                <a href="shop-left-sidebar.html">${product.category_name}</a>
+                                            </div>
+                                            <a href="/detail/${product.product.slug}" class="title">
+                                                ${product.product.product_name}
+                                            </a>
+                                            <p class="cr-price">
+                                                <span class="new-price">${format(product.product.sale_price)}</span>
+                                                <span class="old-price">${format(product.product.product_price)}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                    })
+                    document.getElementById('product-results').innerHTML = html
+                }).catch(error => {
+                    console.error('Có lỗi xảy ra:', error);
+                });
+            })
+        })
+    </script>
 @endsection

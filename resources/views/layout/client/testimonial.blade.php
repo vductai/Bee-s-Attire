@@ -3,11 +3,11 @@
         <div class="col-lg-12">
             <div class="mb-30" data-aos="fade-up" data-aos-duration="2000">
                 <div class="cr-banner">
-                    <h2>Great Words From People</h2>
+                    <h2>Những lời tuyệt vời từ mọi người</h2>
                 </div>
                 <div class="cr-banner-sub-title">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore lacus vel facilisis. </p>
+                    <p>Việc khách hàng nhận thức được nhu cầu của mình là rất quan trọng nhưng chúng
+                        cũng diễn ra đồng thời với công việc của chủ hoặc người chủ. </p>
                 </div>
             </div>
         </div>

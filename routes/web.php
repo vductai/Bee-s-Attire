@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\CategoryAPIController;
+use App\Http\Controllers\admin\CategoryParentController;
 use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\CouponUserController;
 use App\Http\Controllers\admin\ProductController;
@@ -93,6 +94,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::delete('/coupon-user/{id}', [CouponUserController::class, 'delete'])->name('delete-coupon');
             // crud categories
             Route::resource('categories', CategoryAPIController::class);
+            // category parent
+            Route::resource('category-parent', CategoryParentController::class);
             // crud role
             Route::resource('role', RolesController::class);
             // crud size
@@ -159,11 +162,12 @@ Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('
 // shop product
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 // product parent
-Route::get('/parent/{id}', [ParentProductController::class, 'getProductParent'])->name('parent');
-Route::get('/sss', function (){
-    return view('client.product.parent-product');
-});
+Route::get('/parent/{slug}', [ParentProductController::class, 'getProductParent'])->name('parent');
+// search
+Route::post('/search-product', [ProductClient::class, 'search']);
 /*and home*/
+
+
 Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 Route::get('/about', function () {
     return view('client.us.about');
