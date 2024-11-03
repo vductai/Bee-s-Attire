@@ -7,6 +7,7 @@
 </div>
 <form class="row" id="formUserUpdate" enctype="multipart/form-data">
     <input type="hidden" id="userId" value="{{$show->user_id}}">
+    <input type="text" name="_method" value="PUT">
     <div class="col-md-12">
         <div class="cr-card card-default">
             <div class="cr-card-content">
@@ -17,23 +18,22 @@
                                 <div class="avatar-upload">
                                     <div class="avatar-edit">
                                         <input type='file' name="avatar" id="avatar"
-                                               class="cr-image-upload"
-                                               accept=".png, .jpg, .jpeg" >
+                                            class="cr-image-upload" accept=".png, .jpg, .jpeg">
                                         <label><i class="ri-pencil-line"></i></label>
                                     </div>
                                     <div class="avatar-preview cr-preview">
                                         <div class="imagePreview cr-div-preview">
                                             <img class="cr-image-preview"
-                                                 src="{{ asset('upload/' . $show->avatar) }}"
-                                                 alt="edit">
+                                                src="{{ asset('upload/' . $show->avatar) }}"
+                                                alt="edit">
                                         </div>
                                     </div>
                                 </div>
+                                <p class="error-text text-danger" id="avatar-error"></p>
                             </div>
-                            <p class="error-text text-danger" id="avatar-error"></p>
-
                         </div>
                     </div>
+
                     <div class="col-lg-8">
                         <div class="cr-vendor-upload-detail">
                             <div class="row g-3">

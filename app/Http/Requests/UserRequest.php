@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'avatar.required' => 'Hình ảnh không hợp lệ.',
+            'avatar.required' => 'Vui lòng chọn hình ảnh.',
 
             'username.required' => 'Vui lòng điền tên',
             'username.max' => 'Tên không vượt quá 255 kí tự',

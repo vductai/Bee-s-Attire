@@ -57,11 +57,11 @@ class UserController extends Controller
     $user = User::create([
         'username' => $request->username,
         'phone' => $request->phone,
+        'role_id' => $request->role_id,
         'address' => $request->address,
         'email' => $request->email,
         'password' => $request->password,
         'birthday' => $request->birthday,
-        'role_id' => $request->role_id,
         'gender' => $request->gender,
     ]);
 
@@ -152,7 +152,7 @@ return response()->json($user);
         } else {
             $filename = $user->avatar;
         }
-
+        // dd($filename);  
         $user->update([
             'avatar' => $filename,
             'username' => $request->username,

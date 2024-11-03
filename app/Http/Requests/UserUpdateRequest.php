@@ -22,7 +22,7 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'required',
+            'avatar' => 'nullable',
             'username' => 'required|string|max:255',
             'email' => 'required|max:255',
             'gender' => 'required',
@@ -35,7 +35,7 @@ class UserUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'avatar.required' => 'Hình ảnh không hợp lệ.',
+            // 'avatar.required' => 'Hình ảnh không hợp lệ.',
 
             'username.required' => 'Vui lòng điền tên',
             'username.max' => 'Tên không vượt quá 255 kí tự',
