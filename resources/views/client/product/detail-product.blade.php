@@ -62,16 +62,6 @@
                         <p><label>Mã sản phẩm <span>:</span></label> {{$getDetail->product_id}}</p>
                     </div>
                     <div class="cr-size-and-weight">
-                        {{--<div class="cr-review-star">
-                            <div class="cr-star">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>( 75 Review )</p>
-                        </div>--}}
                         <div class="list">
                             <ul>
                                 <li><label>Danh mục <span>:</span></label>{{$getDetail->category->category_name}}</li>
@@ -121,9 +111,9 @@
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button">Add to cart</button>
+                                    <button type="submit" class="cr-button">Thêm vào giỏ hàng</button>
                                 @else
-                                    <button type="button" class="cr-button">Add to cart</button>
+                                    <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
                             </div>
                             <div class="cr-add-button">
