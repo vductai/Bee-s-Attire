@@ -165,6 +165,8 @@ Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('pro
 Route::get('/parent/{slug}', [ParentProductController::class, 'getProductParent'])->name('parent');
 // search
 Route::post('/search-product', [ProductClient::class, 'search']);
+// filter price
+Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 /*and home*/
 
 
