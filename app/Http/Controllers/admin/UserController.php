@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Events\UserEvent;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,8 +28,6 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
         $list = User::all();
         return view('admin.user.list-user', compact('list'));
     }
@@ -57,11 +56,11 @@ class UserController extends Controller
     $user = User::create([
         'username' => $request->username,
         'phone' => $request->phone,
-        'role_id' => $request->role_id,
         'address' => $request->address,
         'email' => $request->email,
         'password' => $request->password,
         'birthday' => $request->birthday,
+        'role_id' => $request->role_id,
         'gender' => $request->gender,
     ]);
 
@@ -118,28 +117,26 @@ return response()->json($user);
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
         $show = User::findOrFail($id);
-        return view('admin.user.edit-user',compact('show'));
+        return view('admin.user.edit-user', compact('show'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $user = User::findOrFail($id);
-        
         if ($request->hasFile('avatar')) {
             if (File::exists(public_path('upload/' . $user->avatar))) {
                 File::delete(public_path('upload/' . $user->avatar));
@@ -149,12 +146,10 @@ return response()->json($user);
             $file->move(public_path('/upload'), $filename);
             $request->merge(['avatar' => $filename]);
             $user->avatar = $filename;
-        } else {
-            $filename = $user->avatar;
         }
         // dd($filename);  
         $user->update([
-            'avatar' => $filename,
+            'avatar' => $user->avatar,
             'username' => $request->username,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -162,13 +157,9 @@ return response()->json($user);
             'birthday' => $request->birthday,
             'gender' => $request->gender,
         ]);
-
-        broadcast(new UserEvent($user, 'update'))->toOthers();
-
         return response()->json($user);
-
-        // return redirect()->route('user.index')->with('success', 'Sửa account thành công');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -179,13 +170,11 @@ return response()->json($user);
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        
         $user = User::find($id);
         if ($user) {
             if (File::exists(public_path('upload/' . $user->avatar))) {
                 File::delete(public_path('upload/' . $user->avatar));
             }
-
             $user->delete();
         }
         return redirect()->route('user.index')->with('error', 'Xóa account thành công');

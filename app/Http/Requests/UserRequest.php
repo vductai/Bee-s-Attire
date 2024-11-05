@@ -13,12 +13,12 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'required',
+            'avatar' => 'image',
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
-            'email' => 'required|max:255',
+            'email' => 'required|email',
             'gender' => 'required',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|numeric',
             'birthday' => 'required|date',
             'address' => 'required|string|max:255',
         ];
@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'avatar.required' => 'Vui lòng chọn hình ảnh.',
+            'avatar.required' => 'Hình ảnh không hợp lệ.',
 
             'username.required' => 'Vui lòng điền tên',
             'username.max' => 'Tên không vượt quá 255 kí tự',
@@ -41,7 +41,6 @@ class UserRequest extends FormRequest
             'gender.required' => 'Vui lòng chọn giới tính',
 
             'phone.required' => 'Vui lòng điền số điện thoại',
-            'phone.max' => 'Số điện thoại không vượt quá 255 kí tự',
 
 
             'birthday.required' => 'Vui lòng nhập ngày tháng năm',

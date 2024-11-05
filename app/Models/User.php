@@ -29,6 +29,7 @@ class User extends Authenticatable
         'birthday',
         'address',
         'role_id',
+        'google_id',
         'action'
     ];
 
@@ -42,13 +43,23 @@ class User extends Authenticatable
         'password' => 'hashed'
     ];
 
-    public function setPasswordAttribute($value)
+    // public function setPasswordAttribute($value)
+    // {
+    //     if (!empty($value)) {
+    //         $this->attributes['password'] = Hash::make($value);
+    //     }
+    // }
+
+    public function whishlists()
     {
-        if (!empty($value)) {
-            $this->attributes['password'] = Hash::make($value);
-        }
+        return $this->hasMany(Whishlist::class, 'user_id');
     }
 
+    public function whishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'whishlist',
+            'user_id', 'product_id');
+    }
 
     public function cart()
     {

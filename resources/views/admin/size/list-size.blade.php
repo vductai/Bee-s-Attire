@@ -5,15 +5,6 @@
             <h5>List size</h5>
         </div>
     </div>
-
-    @if(session('errorSize'))
-        <div class="text-danger">{{session('errorSize')}}</div>
-    @endif
-
-    @if(session('success'))
-        <div class="text-success">{{session('success')}}</div>
-    @endif
-
     <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default product-list">
@@ -43,12 +34,10 @@
                                             </button>
 
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
-                                                <form action="{{route('size.destroy', $item->size_id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>
+                                                <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                    Delete
+                                                </button>
                                             </div>
                                         </div>
                                     </td>

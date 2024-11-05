@@ -1,4 +1,3 @@
-import './bootstrap';
 import axios from "axios";
 
 const formSize = document.getElementById('formSize')
@@ -14,7 +13,7 @@ if (formSize) {
         if (errorMessage) {
             errorMessage.remove()
         };
-        axios.post('/admin/size', { 
+        axios.post('/admin/size', {
             size_name: name
         }, {
             headers: {
@@ -122,55 +121,6 @@ if (formSizeUpdate){
 
     })
 }
-
-// window.Echo.channel('sizes')
-//     .listen('size-updated', (e) => {
-//         const action = e.action
-//         const size = e.size
-//         if (action === 'create'){
-//             // Lấy số thứ tự của hàng cuối cùng
-//             const lastRow = tableSize.querySelector('tr:last-child');
-//             let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
-//             if (lastRow) {
-//                 const lastSttCell = lastRow.querySelector('td:first-child');
-//                 stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
-//             }
-//             const newRow = tableSize.insertRow()
-//             newRow.setAttribute('data-id', size.size_id)
-//             newRow.innerHTML =
-//                 `
-//                     <td>${stt}</td>
-//                     <td>${size.size_name}</td>
-//                     <td>
-//                         <div>
-//                             <button type="button"
-//                                     class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-//                                     data-bs-toggle="dropdown" aria-haspopup="true"
-//                                     aria-expanded="false" data-display="static">
-//                             <span class="sr-only">
-//                                 <i class="ri-settings-3-line"></i>
-//                             </span>
-//                             </button>
-//                             <div class="dropdown-menu">
-//                                 <a class="dropdown-item" href="/admin/size/${size.size_id}/edit">Edit</a>
-//                                 <button class="dropdown-item delete-btn" data-id="${size.size_id}">Delete</button>
-//                             </div>
-//                         </div>
-//                     </td>
-//             `;
-//
-//         }else if (action === 'update'){
-//             const row = document.querySelector(`tr[data-id='${size_id}']`)
-//             if (row){
-//                 row.querySelector('.sizeName').textContent = size.size_name
-//             }
-//         }else if (action === 'delete'){
-//             const row = document.querySelector(`tr[data-id='${category.id}']`);
-//             if (row) {
-//                 row.remove();
-//             }
-//         }
-//     })
 
 tableSize.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-btn')){

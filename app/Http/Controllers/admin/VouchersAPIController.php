@@ -40,26 +40,20 @@ class VouchersAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $start = $request->start_date;
         $end = $request->end_date;
-
         // convert date -> timestamp
         // dùng datetime local
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
-
         $add = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
+            'quantity' => $request->quantity,
             'voucher_desc' => $request->voucher_desc,
             'start_date' => $start_date,
             'end_date' => $end_date,
         ]);
-
-
-        broadcast(new VoucherEvent($add, 'create'))->toOthers();
-
         return response()->json($add);
     }
 
@@ -68,14 +62,11 @@ class VouchersAPIController extends Controller
      */
     public function show(string $id)
     {
-
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $vouchers = Vouchers::query()->findOrFail($id );
-
         return response()->json([
             'message' => 'show',
             'data' => $vouchers
@@ -93,30 +84,22 @@ class VouchersAPIController extends Controller
      */
     public function update(VouchersRequest $request,$id)
     {
-
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $start = $request->start_date;
         $end = $request->end_date;
-
         // convert date -> timestamp
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
-
         $voucher = Vouchers::findOrFail($id);
-
         $voucher->update([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
             'start_date' => $start_date,
             'end_date' => $end_date
         ]);
-
-        broadcast(new VoucherEvent($voucher, 'update'))->toOthers();
-
         return response()->json($voucher);
     }
 
@@ -129,10 +112,7 @@ class VouchersAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-        $vouchers = Vouchers::find($id)->delete();
-        broadcast(new VoucherEvent($vouchers, 'delete'))->toOthers();
-
+        Vouchers::find($id)->delete();
         return response()->json(['message' => 'Xóa thành công!']);
     }
 

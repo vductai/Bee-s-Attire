@@ -16,20 +16,20 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                                    <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                    <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
+                                    <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
                                         @csrf
                                     </form>
                                     <a class="dropdown-item" href="#"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                                 </li>
                             </ul>
                         </li>
@@ -37,17 +37,14 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                 <i class="ri-user-3-line"></i>
-                                <span>Account</span>
+                                <span>Tài khoản</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{route('client.viewRegister')}}">Register</a>
+                                    <a class="dropdown-item" href="{{route('client.viewRegister')}}">Đăng kí</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{route('client-viewLogin')}}">Login</a>
+                                    <a class="dropdown-item" href="{{route('client-viewLogin')}}">Đăng nhập</a>
                                 </li>
                             </ul>
                         </li>
@@ -64,30 +61,27 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('home')}}">
-                            Home
+                            Trang chủ
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('product')}}">
-                            Product
+                            Cửa hàng
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('about')}}">
-                            About Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('contact')}}">
-                            Contact Us
-                        </a>
-                    </li>
+                    @foreach($parent as $item)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('parent', ['slug' => $item->slug])}}">
+                                {{$item->name}}
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </nav>
         <div class="cr-calling">
-            <i class="ri-phone-line"></i>
-            <a href="javascript:void(0)">+123 ( 456 ) ( 7890 )</a>
+            {{--<i class="ri-phone-line"></i>
+            <a href="javascript:void(0)">+123 ( 456 ) ( 7890 )</a>--}}
         </div>
     </div>
 </div>

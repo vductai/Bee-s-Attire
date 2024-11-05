@@ -24,9 +24,8 @@ class SizeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'size_name.required' => 'Tên kích thước là bắt buộc.',
-            'size_name.string' => 'Tên kích thước phải là một chuỗi.',
-            'size_name.max' => 'Tên kích thước không được vượt quá 225 ký tự.',
+            'size_name.required' => 'Vui lòng chọn size quần áo.',
+            'size_name.string' => 'Tên Size phải là một chuỗi.',
         ];
     }
 

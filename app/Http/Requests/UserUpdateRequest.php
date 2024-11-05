@@ -22,40 +22,43 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'nullable',
+            'avatar' => 'required',
             'username' => 'required|string|max:255',
-            'email' => 'required|max:255',
+            'email' => 'required|email',
             'gender' => 'required',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|numeric',
             'birthday' => 'required|date',
             'address' => 'required|string|max:255',
+            'avatar'
         ];
     }
 
     public function messages(): array
     {
         return [
-            // 'avatar.required' => 'Hình ảnh không hợp lệ.',
+            'avatar.required' => 'Hình ảnh không hợp lệ.',
 
             'username.required' => 'Vui lòng điền tên',
             'username.max' => 'Tên không vượt quá 255 kí tự',
 
-            'email.required' => 'Vui lòng điền Email',
-            'email.max' => 'Email không vượt quá 255 kí tự',
+            'email.required' => 'Vui lòng điền Email.',
+            'email.email' => 'Email phải đúng định dạng.',
 
-            'gender.required' => 'Vui lòng chọn giới tính',
+            'gender.required' => 'Vui lòng chọn giới tính.',
 
-            'phone.required' => 'Vui lòng điền số điện thoại',
-            'phone.max' => 'Số điện thoại không vượt quá 255 kí tự',
+            'phone.required' => 'Vui lòng điền số điện thoại.',
+            'phone.numeric' => 'Số điện thoại phải là số.',
 
+            'birthday.required' => 'Vui lòng nhập ngày tháng năm sinh.',
+            'birthday.date' => 'Ngày sinh phải là định dạng ngày tháng hợp lệ.',
 
-            'birthday.required' => 'Vui lòng nhập ngày tháng năm',
-            'birthday.date' => 'Không đúng định dạng',
+            'address.required' => 'Vui lòng nhập địa chỉ.',
+            'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
 
-
-            'address.required' => 'Vui lòng nhập địa chỉ',
-            'address.max' => 'Địa chỉ không vượt quá 255 kí tự',
-
+            'avatar.image' => 'Avatar phải là file ảnh.',
+            'avatar.mimes' => 'Avatar phải có định dạng: jpeg, png, jpg, gif, svg.',
+            'avatar.max' => 'Avatar không được vượt quá 2MB.'
         ];
     }
 }

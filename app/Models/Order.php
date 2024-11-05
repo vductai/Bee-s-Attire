@@ -16,8 +16,12 @@ class Order extends Model
         'total_price',
         'voucher_id',
         'final_price',
+        'payment_status',
         'status'
     ];
+
+    const PAID = 'paid';
+    const UNPAID = 'unpaid';
 
     public function order_item()
     {
