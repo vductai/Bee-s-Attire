@@ -25,7 +25,9 @@ class ProductRequest extends FormRequest
             'size_id.*',
             'quantity',
             'action',
-            'tag_name'
+            'tag_name',
+            'featuredCategories',
+            'featuredCategories.*'
         ];
     }
 
@@ -44,7 +46,7 @@ class ProductRequest extends FormRequest
 
             'sale_price.required' => 'Vui lòng điền giá sale của sản phẩm',
             'sale_price.max' => 'Không được quá 255 kí tự',
-            
+
             'category_id.required' => 'Vui lòng chọn danh mục sản phẩm',
         ];
     }

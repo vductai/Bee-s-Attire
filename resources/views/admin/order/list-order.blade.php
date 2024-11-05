@@ -18,14 +18,14 @@
                         <table id="cat_data_table" class="table">
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>User</th>
-                                <th>Total price</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Người mua</th>
+                                <th>Tiền hàng</th>
                                 <th>Voucher</th>
-                                <th>Final price</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>Thành tiền</th>
+                                <th>Ngày mua</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,7 +34,6 @@
                                     <td>{{$item->order_id}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{number_format($item->total_price)}} đ</td>
-
                                     @if(is_null($item->voucher_id))
                                         <td>Không có</td>
                                     @else

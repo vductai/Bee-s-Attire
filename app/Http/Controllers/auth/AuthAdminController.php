@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 class AuthAdminController extends Controller
 {
     public function getProfile(){
-
         if (Auth::check()){
             return Auth::user();
         }

@@ -67,6 +67,9 @@
                                             <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                         </li>
                                         <li>
+                                            <a class="dropdown-item" href="">Thông báo</a>
+                                        </li>
+                                        <li>
                                             <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn hàng</a>
                                         </li>
                                         <li>
