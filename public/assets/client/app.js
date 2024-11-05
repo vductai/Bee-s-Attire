@@ -214,16 +214,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /*----------------------------------------------------- filter ----------------------------------------------*/
-
+// lấy tất cả checkbox trong danh mục
 document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbox => {
+    // thêm sự kiện mỗi thuộc tính
     checkbox.addEventListener('change', () => {
+        // array.form: chuyển đổi thành mảng thật
         const selectedCategories = Array.from(document.querySelectorAll('.cr-shop-categories input[type="checkbox"]:checked'))
-            .map(el => el.id);
+            .map(el => el.id); // lưu id được chọn
         const selectedColors = Array.from(document.querySelectorAll('.cr-shop-color input[type="checkbox"]:checked'))
-            .map(el => el.id);
+            .map(el => el.id); // lưu id được chọn
         const selectedSizes = Array.from(document.querySelectorAll('.cr-shop-weight input[type="checkbox"]:checked'))
-            .map(el => el.id);
-        // Kiểm tra các giá trị đã chọn
+            .map(el => el.id); // lưu id được chọn
+
         console.log("Categories:", selectedCategories);
         console.log("Colors:", selectedColors);
         console.log("Sizes:", selectedSizes);

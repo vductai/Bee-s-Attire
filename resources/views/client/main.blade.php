@@ -78,9 +78,15 @@
                                         </div>
                                         <a href="{{route('detail', ['slug' => $item->slug])}}"
                                            class="title">{{$item->product_name}}</a>
-                                        <p class="cr-price"><span class="new-price">{{number_format($item->sale_price)}} đ</span>
-                                            <span
-                                                class="old-price">{{number_format($item->product_price)}} đ</span></p>
+                                        <p class="cr-price">
+                                            <span class="new-price">{{number_format($item->sale_price)}} đ</span>
+                                            @if($item->product_price)
+                                                <span class="old-price">{{number_format($item->product_price)}} đ</span>
+                                            @else
+                                                <span class="old-price"></span>
+                                            @endif
+                                        </p>
+
                                     </div>
                                 </div>
                             </div>

@@ -49,7 +49,8 @@ class CheckPaymentMethodController extends Controller
                    'user_id' => Auth::user()->user_id,
                    'total_price' => $request->total_price,
                    'voucher_id' => $request->voucher_id,
-                   'final_price' => $request->final_price
+                   'final_price' => $request->final_price,
+                   'note' => $request->notes
                ],
                 'order_items' => json_decode($_POST['product']),
             ]);
@@ -108,7 +109,8 @@ class CheckPaymentMethodController extends Controller
                     'user_id' => Auth::user()->user_id,
                     'total_price' => $request->total_price,
                     'voucher_id' => $request->voucher_id,
-                    'final_price' => $request->final_price
+                    'final_price' => $request->final_price,
+                    'note' => $request->notes
                 ],
                 'order_items' => json_decode($_POST['product']),
             ]);
@@ -183,7 +185,9 @@ class CheckPaymentMethodController extends Controller
                 'user_id' => Auth::user()->user_id,
                 'total_price' => $order_data['total_price'],
                 'voucher_id' => $order_data['voucher_id'],
-                'final_price' => $order_data['final_price']
+                'final_price' => $order_data['final_price'],
+                'payment_method' => 'VNPay',
+                'note' => $order_data['note']
             ]);
             $order->save();
             foreach ($order_items as $item) {
@@ -191,7 +195,7 @@ class CheckPaymentMethodController extends Controller
                     'order_id' => $order->order_id,
                     'product_id' => $item->product->product_id,
                     'quantity' => $item->quantity,
-                    'price_per_item' => $order_data['final_price']
+                    'price_per_item' => $item->product->sale_price
                 ]);
             }
 
@@ -238,7 +242,9 @@ class CheckPaymentMethodController extends Controller
                 'user_id' => Auth::user()->user_id,
                 'total_price' => $order_data['total_price'],
                 'voucher_id' => $order_data['voucher_id'],
-                'final_price' => $order_data['final_price']
+                'final_price' => $order_data['final_price'],
+                'payment_method' => 'Momo',
+                'note' => $order_data['note']
             ]);
             $order->save();
             foreach ($order_items as $item) {
@@ -246,16 +252,16 @@ class CheckPaymentMethodController extends Controller
                     'order_id' => $order->order_id,
                     'product_id' => $item->product->product_id,
                     'quantity' => $item->quantity,
-                    'price_per_item' => $order_data['final_price']
+                    'price_per_item' => $item->product->sale_price
                 ]);
             }
 
             $order = Order::where('order_id', $orderId)->first();
             if ($order && $order->voucher_id) {
                 // Xóa chỉ mã voucher đã áp dụng
-                $voucher = Vouchers::where('voucher_id', $order->voucher_id)->first();
-                $voucher->quantity -= 1;
-                $voucher->save();
+                // Xóa chỉ mã voucher đã áp dụng
+                $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
+                $voucher->delete();
             }
             Cart::where('user_id', Auth::user()->user_id)->delete();
             SendMailOrderJob::dispatch(Auth::user()->email, $order);

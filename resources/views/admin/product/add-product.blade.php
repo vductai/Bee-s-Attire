@@ -144,7 +144,7 @@
                                     <div class="col-md-12">
                                         <label class="form-label">
                                             Product Tags
-                                            <span>( Type and make comma to separate tags )</span>
+                                            <span>( abc, cde, ... )</span>
                                         </label>
                                         <input type="text" class="form-control" id="group_tag"
                                                name="tag_name" value="" placeholder="">
@@ -156,6 +156,17 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Sale price</label>
                                         <input type="number" name="sale_price" class="form-control" id="price1">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Danh mục nổi bật</label>
+                                        <div class="form-checkbox-box">
+                                            @foreach($featured_categories as $item)
+                                                <div class="form-check form-check-inline">
+                                                    <input type="checkbox" name="featuredCategories[]" value="{{$item->featured_categories_id}}">
+                                                    <label>{{$item->featured_categories_name}}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                     <div id="variant-container">
                                         {{--biến thể--}}
