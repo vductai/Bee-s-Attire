@@ -35,7 +35,7 @@
     <livewire:styles />
 
      @vite('resources/js/app.js')
-     <style>
+     {{-- <style>
 .cr-brand {
     display: inline-block; 
     margin-right: 10; 
@@ -44,7 +44,7 @@
     color: green;              
     font-size:20px;     
 }
-    </style>
+    </style> --}}
 </head>
 
 <body class="body-bg-6">
@@ -112,14 +112,15 @@
                                 </li>
                             @endif
                         </ul>
+                        
                         @if(auth()->check())
-                            <a href="{{route('list-wish')}}" class="cr-right-bar-item">
-                                <i class="ri-heart-3-line"></i>
-                                <span>Wishlist</span>
-                            </a>
-                        @else
-                            {{--  --}}
-                        @endif
+                        <a href="{{ route('list-wish') }}" class="cr-right-bar-item" style="position: relative;">
+                            <i class="ri-heart-3-line"></i>
+                            <span>Wishlist</span>
+                            <span id="wishlist-common" style="display: {{ count($wishlistProducts) > 0 ? 'inline' : 'none' }};color: green;margin-bottom:3px;"> ● </span>
+                        </a>
+                    @else
+                    @endif
 
                         <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
                             <i class="ri-shopping-cart-line"></i>

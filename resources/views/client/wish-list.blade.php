@@ -77,25 +77,4 @@
     </section>
     
 @endsection
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const userIdMeta = document.querySelector('meta[name="user-id"]');
-    const userId = userIdMeta ? userIdMeta.getAttribute('content') : null;
 
-    if (userId) {
-        window.Echo.private(`wishlist.${userId}`)
-            .listen('.ProductAdded', (e) => {
-      
-                const notification = document.getElementById('notification');
-                notification.innerText = `Sản phẩm "${e.productName}" đã được thêm vào wishlist bởi ${e.username}.`;
-                notification.style.display = 'block';
-
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 5000);
-            });
-    } else {
-        console.error('User ID không tồn tại.');
-    }
-});
-</script>

@@ -26,26 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
         window.Echo.private(`wishlist.${userId}`)
             .listen('.ProductUpdated', (e) => {
                 const notification = document.getElementById('notification');
+                const wishlistCommon = document.getElementById('wishlist-common');
+
                 if (e.action === 'add') {
                     notification.innerText = `Sản phẩm "${e.productName}" đã được thêm vào wishlist bởi ${e.username}.`;
-                    const wishlistIndicator = document.getElementById(`wishlist-indicator-${e.productId}`);
-                    if (wishlistIndicator) {
-                        wishlistIndicator.style.display = 'inline';
-                    }
+                    wishlistCommon.style.display = 'inline'; 
                 } else if (e.action === 'remove') {
                     notification.innerText = `Sản phẩm "${e.productName}" đã bị xóa khỏi wishlist bởi ${e.username}.`;
-                    const wishlistIndicator = document.getElementById(`wishlist-indicator-${e.productId}`);
-                    if (wishlistIndicator) {
-                        wishlistIndicator.style.display = 'none';
-                    }
+                    
+                    const allIndicators = document.querySelectorAll('.wishlist-indicator');
+                    const anyVisible = Array.from(allIndicators).some(indicator => indicator.style.display === 'inline');
+                    wishlistCommon.style.display = anyVisible ? 'inline' : 'none';
                 }
+
                 notification.style.display = 'block';
                 setTimeout(() => {
                     notification.style.display = 'none';
-                }, 4000);
+                }, 2000);
             });
     }
 });
+
 
 
 

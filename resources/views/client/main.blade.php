@@ -76,9 +76,9 @@
                                         <div class="cr-brand">
                                             <a href="shop-left-sidebar.html">{{ $item->category->category_name }}</a>
                                         </div>
-                                            <span class="wishlist-indicator" 
+                                            {{-- <span class="wishlist-indicator" 
                                                   id="wishlist-indicator-{{ $item->product_id }}" 
-                                                  style="display: {{ in_array($item->product_id, $wishlistProducts) ? 'inline' : 'none' }};"> ● </span>
+                                                  style="display: {{ in_array($item->product_id, $wishlistProducts) ? 'inline' : 'none' }};"> ● </span> --}}
                                         
                                         <a href="{{ route('detail', ['slug' => $item->slug]) }}" class="title">{{ $item->product_name }}</a>
                                         <p class="cr-price">
@@ -86,9 +86,7 @@
                                             <span class="old-price">{{ number_format($item->product_price) }} đ</span>
                                         </p>
                                     </div>
-                                    
-                                    
-                                    
+                         
                                 </div>
                             </div>
                         @endforeach
