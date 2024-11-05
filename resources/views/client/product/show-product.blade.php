@@ -159,7 +159,11 @@
                                         </a>
                                         <p class="cr-price">
                                             <span class="new-price">{{number_format($item->sale_price) }} đ</span>
-                                            <span class="old-price">{{number_format($item->product_price)}} đ</span>
+                                            @if($item->product_price)
+                                                <span class="old-price">{{number_format($item->product_price)}} đ</span>
+                                            @else
+                                                <span class="old-price"></span>
+                                            @endif
                                         </p>
                                     </div>
                                 </div>

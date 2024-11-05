@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // get profile
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
         // update profile
-        Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile');
+        Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile-user');
         // wishlist
         Route::get('/wish-list', [WishListController::class, 'index'])->name('list-wish');
         Route::get('/wish-list/{id}', [WishListController::class, 'show'])->name('show-wish');

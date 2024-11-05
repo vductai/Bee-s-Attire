@@ -13,7 +13,6 @@ class VerificationController extends Controller
     public function verify(Request $request, $id, $hash)
     {
         $user = User::findOrFail($id);
-
         if (!hash_equals((string) $hash, sha1($user->email))) {
             return redirect('')->with('error', 'Thời gian xác minh đã hết hạn');
         }
@@ -21,9 +20,7 @@ class VerificationController extends Controller
         if ($user->hasVerifiedEmail()) {
             return redirect('/auth/error')->with('status', 'Tài khoản này đã được xác minh');
         }
-
         $user->markEmailAsVerified();
-
         return redirect()->route('success');
     }
 }
