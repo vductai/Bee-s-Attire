@@ -15,6 +15,18 @@
                                 <h3>Add New Category</h3>
                                 <form id="formCategory">
                                     <div class="form-group">
+                                        <label>Parent category</label>
+                                        <div class="col-12">
+                                            <select name="id" id="id" class="form-control form-select">
+                                                <option value="">Chọn danh mục gốc</option>
+                                                @foreach($parent as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            <p class="text-danger" id="errCategoryParent"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Name category</label>
                                         <div class="col-12">
                                             <input id="category_name" name="category_name"
@@ -43,6 +55,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Category</th>
+                                <th>Main Category</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -51,6 +64,7 @@
                                 <tr data-id="{{$item->category_id}}">
                                     <td>{{$loop->index}}</td>
                                     <td class="categoryName">{{$item->category_name}}</td>
+                                    <td class="categoryParent">{{$item->parent->name}}</td>
                                     <td>
                                         <div>
                                             <button type="button"

@@ -28,10 +28,12 @@
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/swiper-bundle.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/jquery.slick.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/slick-theme.css')}}">
+    @vite('resources/js/comment.js')
+    @vite('resources/js/whishlist.js')
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
-    <livewire:styles />
+    <livewire:styles/>
 </head>
 
 <body class="body-bg-6">
@@ -51,31 +53,35 @@
                         <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <livewire:tag-search />
+                    <livewire:tag-search/>
                     <div class="cr-right-bar">
                         <ul class="navbar-nav">
                             @if(auth()->check())
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                         <i class="ri-user-3-line"></i>
-                                        <span>Xin chào, {{auth()->user()->username}}</span>
+                                        <span>{{auth()->user()->username}}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                                            <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
+                                            <a class="dropdown-item" href="">Thông báo</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Order</a>
+                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn hàng</a>
                                         </li>
                                         <li>
-                                            <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('client.logout') }}" method="POST"
+                                                  style="display: none;" id="logout-form">
                                                 @csrf
                                             </form>
                                             <a class="dropdown-item" href="#"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -83,17 +89,15 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                         <i class="ri-user-3-line"></i>
-                                        <span>Account</span>
+                                        <span>Tài khoản</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{route('client.viewRegister')}}">Register</a>
+                                            <a class="dropdown-item"
+                                               href="{{route('client.viewRegister')}}">Đăng kí</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Checkout</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Login</a>
+                                            <a class="dropdown-item" href="{{route('client-viewLogin')}}">Đăng nhập</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -102,16 +106,26 @@
                         @if(auth()->check())
                             <a href="{{route('list-wish')}}" class="cr-right-bar-item">
                                 <i class="ri-heart-3-line"></i>
-                                <span>Wishlist</span>
+                                <span>Yêu thích</span>
+                            </a>
+                            <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
+                                <i class="ri-shopping-cart-line"></i>
+                                <span class="me-3">Giỏ hàng</span>
+                                @if(\App\Models\Cart::where('user_id', auth()->user()->user_id)->exists())
+                                    <span
+                                        class="position-absolute top-10 start-100 translate-middle
+                                        bg-danger border border-light rounded-circle" style="padding: 6px">
+                                    </span>
+                                @else
+                                    <span
+                                        class="position-absolute top-10 start-100 translate-middle
+                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
+                                    </span>
+                                @endif
                             </a>
                         @else
                             {{--  --}}
                         @endif
-
-                        <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
-                            <i class="ri-shopping-cart-line"></i>
-                            <span>Cart</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -121,5 +135,5 @@
         @include('layout.client.navigation')
     </div>
 </header>
-<livewire:scripts />
+<livewire:scripts/>
 @include('layout.client.mobile-menu')

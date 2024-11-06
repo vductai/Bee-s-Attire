@@ -93,7 +93,6 @@ class AuthClientController extends Controller
             $user->tokens()->delete();
             Auth::guard('web')->logout();
             Session::flush(); // Xóa toàn bộ dữ liệu session
-
             // Xóa cookie liên quan đến xác thực
             Cookie::queue(Cookie::forget('sanctum_token'));
 

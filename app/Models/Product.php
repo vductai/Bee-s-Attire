@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\client\WishListController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,8 +22,26 @@ class Product extends Model
         'sale_price',
         'category_id',
         'slug',
-        'action'
+        'action',
+        'is_featured'
     ];
+
+    public function featuredCategories()
+    {
+        return $this->belongsToMany(Featured_categories::class,
+            'product_featured_category', 'product_id', 'featured_categories_id');
+    }
+
+    public function whishlists()
+    {
+        return $this->hasMany(Whishlist::class, 'product_id');
+    }
+
+    public function userWhishlist()
+    {
+        return $this->belongsToMany(User::class, 'whishlist',
+            'product_id', 'user_id');
+    }
 
     public function tags()
     {

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\userRequest;
+use App\Events\UserEvent;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\role;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController extends Controller
 {
@@ -21,9 +28,7 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
-        $list = User::where('role_id', '=', 3)->get();
+        $list = User::all();
         return view('admin.user.list-user', compact('list'));
     }
 
@@ -32,7 +37,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $list = User::all();
+        $role = role::all();
+        return view('admin.user.add-user', compact('list', 'role'));
     }
 
     /**
@@ -40,17 +47,41 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
         $user = User::create([
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'address' => $request->address,
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => 3
+            'birthday' => $request->birthday,
+            'role_id' => $request->role_id,
+            'gender' => $request->gender,
         ]);
-
-        return response()->json([
-           'message' => 'add',
-           'data' => $user
-        ]);
-
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = public_path('/upload');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+            $image = Image::read($file);
+            $image->resize(600, 600)->save($path . '/' . $filename);
+            $user->avatar = $filename;
+        } else {
+            $defaultAvatarPath = public_path('error-image-default.jpg');
+            $filename = time() . '-default-avatar.jpg';
+            $destinationPath = public_path('/upload/' . $filename);
+            if (File::exists($defaultAvatarPath)) {
+                File::copy($defaultAvatarPath, $destinationPath);
+            }
+            $user->avatar = $filename;
+        }
+        $user->save();
+        return response()->json($user);
     }
 
     /**
@@ -72,32 +103,48 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
+        $show = User::findOrFail($id);
+        return view('admin.user.edit-user', compact('show'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-        $user = User::where('user_id', $id)->update([
+        $user = User::findOrFail($id);
+        if ($request->hasFile('avatar')) {
+            if (File::exists(public_path('upload/' . $user->avatar))) {
+                File::delete(public_path('upload/' . $user->avatar));
+            }
+            $file = $request->file('avatar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/upload'), $filename);
+            $request->merge(['avatar' => $filename]);
+            $user->avatar = $filename;
+        }
+        $user->update([
+            'avatar' => $user->avatar,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'address' => $request->address,
             'email' => $request->email,
-            'password' => $request->password,
+            'birthday' => $request->birthday,
+            'gender' => $request->gender,
         ]);
-
-        return response()->json([
-            'message' => 'update',
-            'data' => $user
-        ]);
+        return response()->json($user);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -108,11 +155,13 @@ class UserController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        // $user = User::delete($id);
-
-        // return response()->json([
-        //     'message' => 'delete',
-        //     'data' => $user
-        // ]);
+        $user = User::find($id);
+        if ($user) {
+            if (File::exists(public_path('upload/' . $user->avatar))) {
+                File::delete(public_path('upload/' . $user->avatar));
+            }
+            $user->delete();
+        }
+        return redirect()->route('user.index')->with('error', 'Xóa account thành công');
     }
 }

@@ -22,25 +22,29 @@
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-copyright-line"></i></i><span class="condense">Category<i
+                        <i class="ri-copyright-line"></i></i><span class="condense">Danh mục<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('categories.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>List category</a></li>
+                        <li><a href="{{route('category-parent.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Danh mục chính</a></li>
                         <li><a href="{{route('categories.create')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Create category</a></li>
+                                    class="ri-checkbox-blank-circle-line"></i>Danh mục phụ</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-remixicon-line"></i></i><span class="condense">Variant<i
+                        <i class="ri-remixicon-line"></i></i><span class="condense">Biến thể<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
                         <li><a href="{{route('product-variant.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>List variant</a></li>
+                                    class="ri-checkbox-blank-circle-line"></i>Danh sách</a></li>
+                        <li><a href="{{route('color.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Màu sắc</a></li>
+                        <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Kích thước</a></li>
                     </ul>
                 </li>
-                <li class="cr-sb-item sb-subdrop-item">
+                {{--<li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-palette-line"></i></i><span class="condense">Color<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
@@ -61,7 +65,7 @@
                         <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Create size</a></li>
                     </ul>
-                </li>
+                </li>--}}
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-ticket-line"></i></i><span class="condense">Voucher<i
@@ -88,7 +92,7 @@
                     <ul class="cr-sb-subdrop condense">
                         <li><a href="{{route('user.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List User</a></li>
-                        <li><a href="" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('user.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Add User</a></li>
                     </ul>
                 </li>

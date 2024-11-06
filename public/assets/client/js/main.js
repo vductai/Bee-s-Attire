@@ -22,12 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-
-
-
-
-
 (function ($) {
     "use strict";
 
@@ -357,8 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.cr-shopping-bag').on("click", function () {
         $('.cr-wish-notify').remove();
         $('.cr-compare-notify').remove();
-        $('.cr-cart-notify').remove();
-
+        $('.cr-cart-notify').remove()
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
@@ -374,7 +367,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
 
 
     /* Slider room details */
@@ -450,22 +442,86 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.zoom-image-hover').zoom();
 
     /* Range Slider */
+    function formatCurrency(num) {
+        num = Number(num) || 0;
+        return num.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).replace(/\s₫/, ' đ');
+    }
+
     $(function () {
         $("#slider-range").slider({
             range: true,
-            min: 20,
-            max: 300,
-            values: [0, 250],
+            min: lowestPrice,
+            max: highestPrice,
+            values: [lowestPrice, highestPrice],
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#amount").val(formatCurrency(ui.values[0]) + " - " + formatCurrency(ui.values[1]));
             },
         });
         $("#amount").val(
-            "$" +
-            $("#slider-range").slider("values", 0) +
-            " - $" +
-            $("#slider-range").slider("values", 1)
+            formatCurrency($("#slider-range").slider("values", 0)) +
+            " - " +
+            formatCurrency($("#slider-range").slider("values", 1))
         );
+        $(".cr-filter").click(function () {
+            var priceRange = $("#amount").val();
+            var prices = priceRange.split(" - ");
+            var minPrice = prices[0].trim();
+            var maxPrice = prices[1].trim();
+
+            axios.get('/filter-price', {
+                params: {
+                    min_price: minPrice,
+                    max_price: maxPrice
+                }
+            }).then(function (res) {
+                const products = res.data;
+                console.log(products)
+                var html = '';
+                function formatCurrency(num) {
+                    num = Number(num) || 0;
+                    return num.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
+                }
+                if (products.length === 0){
+                    html = `<div>
+                                    <h3 class="text-center text-danger" style="margin: 380px 0;">Không có sản phẩm nào phù hợp với bộ lọc</h3>
+                            </div>`
+                }else {
+                    products.forEach(data => {
+                        const avatar = `${window.location.origin}/upload/${data.product_avatar}`;
+                        html += `
+                        <div class="col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                             <div class="cr-product-card">
+                                 <div class="cr-product-image">
+                                     <div class="cr-image-inner zoom-image-hover">
+                                         <img src="${avatar}" alt="product-1">
+                                     </div>
+                                 </div>
+                                 <div class="cr-product-details">
+                                     <div class="cr-brand">
+                                         <a href="shop-left-sidebar.html">${data.category.category_name}</a>
+                                     </div>
+                                     <a href="/detail/${data.slug}" class="title">
+                                         ${data.product_name}
+                                     </a>
+                                     <p class="cr-price">
+                                         <span class="new-price">${formatCurrency(data.sale_price)}</span>
+                                         <span class="old-price">${formatCurrency(data.product_price)}</span>
+                                     </p>
+                                 </div>
+                             </div>
+                        </div>
+                    `;
+                    })
+                }
+                document.getElementById('product-results').innerHTML = html
+            })
+        });
     });
 
     /* Tab to top */
