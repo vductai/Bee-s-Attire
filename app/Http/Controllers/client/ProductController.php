@@ -3,103 +3,152 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
-<<<<<<< Updated upstream
-=======
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
->>>>>>> Stashed changes
+use App\Models\Comment;
 use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\Size;
+use App\Models\Tag;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
+use function PhpOffice\PhpSpreadsheet\Cell\AddressHelper;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $list =  Product::all();
+        $list = Product::all();
         return response()->json([
-           'message' => 'list',
-           'data' => $list
+            'message' => 'list',
+            'data' => $list
         ]);
     }
 
-<<<<<<< Updated upstream
 
-    public function showDetailProduct(){
-
-    }
-    public function store(Request $request)
-{
-    $request->validate([
-        'product_name' => 'required|string|max:255',
-        'price' => 'required|numeric|min:0',
-        'sale_price' => 'nullable|numeric|min:0',
-        'desc' => 'required|string',
-        'main_image' => 'required|image|mimes:jpg,jpeg,png|max:2048', 
-    ]);
-}
-=======
     public function listAllProductMain(Request $request)
     {
         $listAllCategory = Category::all();
-        $banners = Banner::all();
-    
+
         $category_id = $request->get('category_id', 'all');
         if ($category_id === 'all') {
-            $listAllProduct = Product::all();
+            $listAllProduct = Product::where('action', '=', 1)->get();
         } else {
-            $listAllProduct = Product::where('category_id', $category_id)->get();
+            $listAllProduct = Product::where('category_id', $category_id)->where('action', '=', 1)->get();
         }
-    
-        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id', 'banners'));
+
+        return view('client.main', compact('listAllProduct', 'listAllCategory', 'category_id'));
     }
+
 
     public function getProductDetail($slug)
     {
         $getDetail = Product::where('slug', $slug)->first();
-        return view('client.product.detail-product', compact('getDetail'));
+        $id = Product::select('product_id')->where('slug', $slug);
+        $listPost = Comment::where('product_id', $id)->get();
+        return view('client.product.detail-product', compact('getDetail', 'listPost'));
     }
+
 
     // list product shop
     public function getProductShop(Request $request)
     {
-        // Lấy danh sách category, màu sắc và kích thước
+        $searchTerm = $request->input('searchTerm');
+
+        $listAllProductShop = Product::where('action', '=', 1)
+            ->when($searchTerm, function ($query, $searchTerm) {
+                return $query->where(function ($query) use ($searchTerm) {
+                    $query->where('product_name', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhereHas('tags', function ($query) use ($searchTerm) {
+                            $query->where('tag_name', 'LIKE', '%' . $searchTerm . '%');
+                        });
+                });
+            })
+            ->get();
+
         $listcategory = Category::withCount('product')->get();
         $listColor = Color::all();
         $listSize = Size::all();
+        $tags = Tag::all();
+        $priceRange = Product::selectRaw('MIN(sale_price) as min_price, MAX(sale_price) as max_price')->first();
+        $lowestPrice = $priceRange->min_price;
+        $highestPrice = $priceRange->max_price;
 
-        // Khởi tạo truy vấn sản phẩm
-        $query = Product::with(['variants.color', 'variants.size']);
-
-        // Lọc theo category
-        $category_id = $request->get('category_id', 'all');
-        if ($category_id !== 'all') {
-            $query->where('category_id', $category_id);
-        }
-
-        // Lọc sản phẩm theo màu sắc
-        if ($request->has('colors') && !empty($request->colors)) {
-            $query->whereHas('variants', function($q) use ($request) {
-                $q->whereIn('color_id', $request->input('colors'));
-            });
-        }
-
-        // Lọc sản phẩm theo kích thước
-        if ($request->has('sizes') && !empty($request->sizes)) {
-            $query->whereHas('variants', function($q) use ($request) {
-                $q->whereIn('size_id', $request->input('sizes'));
-            });
-        }
-
-        // Lọc sản phẩm theo giá
-        if ($request->has('price_min') && $request->has('price_max')) {
-            $priceMin = $request->input('price_min');
-            $priceMax = $request->input('price_max');
-            $query->whereBetween('sale_price', [$priceMin, $priceMax]);
-        }
-
-        // Lấy sản phẩm
-        $listAllProductShop = $query->paginate(10);
-        return view('client.product.show-product', compact('listAllProductShop', 'listcategory', 'listSize', 'listColor'));
+        return view('client.product.show-product', compact(
+            'listAllProductShop',
+            'listcategory',
+            'listSize',
+            'listColor',
+            'tags',
+            'lowestPrice',
+            'highestPrice'
+        ));
     }
->>>>>>> Stashed changes
+
+
+
+    public function search(Request $request)
+    {
+        $categories = $request->input('categories', []);
+        $colors = $request->input('colors', []);
+        $sizes = $request->input('sizes', []);
+        // Lấy ProductVariant cùng với thông tin Product và Category
+        $query = ProductVariant::with('product.category');
+
+        if (empty($categories) && empty($colors) && empty($sizes)) {
+            $products = Product::with('category')->get();
+            return response()->json([
+                'products' => $products
+            ]);
+        } else {
+            if (!empty($categories)) {
+                $query->whereHas('product.category', function ($q) use ($categories) {
+                    $categoryIds = Category::whereIn('category_name', $categories)->pluck('category_id')->toArray();
+                    $q->whereIn('category_id', $categoryIds);
+                });
+            }
+            if (!empty($colors)) {
+                $colorIds = Color::whereIn('color_name', $colors)->pluck('color_id')->toArray();
+                $query->whereIn('color_id', $colorIds);
+            }
+            if (!empty($sizes)) {
+                $sizeIds = Size::whereIn('size_name', $sizes)->pluck('size_id')->toArray();
+                $query->whereIn('size_id', $sizeIds);
+            }
+            $productVariants = $query->get();
+        }
+        // Lấy danh sách sản phẩm duy nhất với thông tin danh mục
+        $products = $productVariants->map(function ($variant) {
+            return $variant->product;
+        })->unique('product_id');
+        return response()->json([
+            'products' => $products
+        ]);
+    }
+
+    public function filterPrice(Request $request)
+    {
+        $min = $request->input('min_price');
+        $max = $request->input('max_price');
+        function convert($price)
+        {
+            $price = str_replace([' đ', '.'], '', $price);
+            // chuyển đổi sang số nguyên
+            return intval($price);
+        }
+        $minPrice = convert($min);
+        $maxPrice = convert($max);
+        $filter = Product::whereBetween('sale_price', [$minPrice, $maxPrice])
+            ->with('category')->get();
+        return response()->json($filter);
+    }
+
+    public function searchTag(Request $request)
+    {
+        $searchTerm = $request->input('query');
+        $tags = Tag::where('tag_name', 'like', '%' . $searchTerm . '%')->get();
+        return response()->json($tags);
+    }
 }

@@ -20,7 +20,7 @@
     - Notify-bar
     - Tools-sidebar
 
-03. Layout 
+03. Layout
     - Cards
     - All-chart
     - Tables
@@ -222,6 +222,21 @@ input::-ms-input-placeholder, .form-control::-ms-input-placeholder {
 input::placeholder,
 .form-control::placeholder {
   color: #999;
+}
+
+.ppp  {
+    font-family: "Poppins, sans-serif";
+    font-size: 16px;
+    line-height: 1.75;
+}
+.ppp  .new-price {
+    color: #64b496;
+    font-weight: 700;
+}
+.ppp  .old-price {
+    margin-left: 5px;
+    font-size: 13px;
+    text-decoration: line-through;
 }
 
 textarea {

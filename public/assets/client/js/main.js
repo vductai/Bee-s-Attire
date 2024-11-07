@@ -1,3 +1,27 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const searchBox = document.getElementById('search-box');
+    const suggestionBox = document.getElementById('suggestion-box');
+
+    searchBox.addEventListener('input', function () {
+        const input = searchBox.value;
+
+        // Chỉ hiển thị hoặc ẩn suggestion box dựa trên độ dài input
+        if (input.length > 2) {
+            suggestionBox.classList.remove('hidden'); // Hiển thị box khi có dữ liệu nhập
+        } else {
+            suggestionBox.classList.add('hidden'); // Ẩn box khi không có dữ liệu
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        // Ẩn suggestion box khi click ra ngoài
+        if (!suggestionBox.contains(e.target) && !searchBox.contains(e.target)) {
+            suggestionBox.classList.add('hidden');
+        }
+    });
+});
+
+
 (function ($) {
     "use strict";
 
@@ -69,8 +93,7 @@
             if (crCurScroll > crPrevScroll) {
                 //scrolled up
                 crDirection = 2;
-            }
-            else if (crCurScroll < crPrevScroll) {
+            } else if (crCurScroll < crPrevScroll) {
                 //scrolled down
                 crDirection = 1;
             }
@@ -87,8 +110,7 @@
             if (crDirection === 2 && crCurScroll > -46) {
                 crPrevDirection = crDirection;
                 $("#cr-main-menu-desk").addClass("menu_fixed_up");
-            }
-            else if (crDirection === 1) {
+            } else if (crDirection === 1) {
                 crPrevDirection = crDirection;
                 $("#cr-main-menu-desk").addClass("menu_fixed");
                 $("#cr-main-menu-desk").removeClass("menu_fixed_up");
@@ -101,8 +123,7 @@
 
             if ($window.scrollTop() <= distance + 5) {
                 $("#cr-main-menu-desk").removeClass("menu_fixed");
-            }
-            else {
+            } else {
                 checkScroll();
             }
         });
@@ -330,20 +351,23 @@
     $('.cr-shopping-bag').on("click", function () {
         $('.cr-wish-notify').remove();
         $('.cr-compare-notify').remove();
-        $('.cr-cart-notify').remove();
-
+        $('.cr-cart-notify').remove()
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in  Cart Successfully!</p></div>');
         } else {
             $(this).addClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in <a href="cart.html"> Cart</a> Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in Cart Successfully!</p></div>');
         }
         setTimeout(function () {
             $('.cr-cart-notify').fadeOut();
         }, 2000);
     });
+
+
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
 
     /* Slider room details */
     $('.slider-for').slick({
@@ -418,22 +442,86 @@
     $('.zoom-image-hover').zoom();
 
     /* Range Slider */
+    function formatCurrency(num) {
+        num = Number(num) || 0;
+        return num.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).replace(/\s₫/, ' đ');
+    }
+
     $(function () {
         $("#slider-range").slider({
             range: true,
-            min: 20,
-            max: 300,
-            values: [0, 250],
+            min: lowestPrice,
+            max: highestPrice,
+            values: [lowestPrice, highestPrice],
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#amount").val(formatCurrency(ui.values[0]) + " - " + formatCurrency(ui.values[1]));
             },
         });
         $("#amount").val(
-            "$" +
-            $("#slider-range").slider("values", 0) +
-            " - $" +
-            $("#slider-range").slider("values", 1)
+            formatCurrency($("#slider-range").slider("values", 0)) +
+            " - " +
+            formatCurrency($("#slider-range").slider("values", 1))
         );
+        $(".cr-filter").click(function () {
+            var priceRange = $("#amount").val();
+            var prices = priceRange.split(" - ");
+            var minPrice = prices[0].trim();
+            var maxPrice = prices[1].trim();
+
+            axios.get('/filter-price', {
+                params: {
+                    min_price: minPrice,
+                    max_price: maxPrice
+                }
+            }).then(function (res) {
+                const products = res.data;
+                console.log(products)
+                var html = '';
+                function formatCurrency(num) {
+                    num = Number(num) || 0;
+                    return num.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
+                }
+                if (products.length === 0){
+                    html = `<div>
+                                    <h3 class="text-center text-danger" style="margin: 380px 0;">Không có sản phẩm nào phù hợp với bộ lọc</h3>
+                            </div>`
+                }else {
+                    products.forEach(data => {
+                        const avatar = `${window.location.origin}/upload/${data.product_avatar}`;
+                        html += `
+                        <div class="col-xxl-3 col-xl-4 col-6 cr-product-box mb-24">
+                             <div class="cr-product-card">
+                                 <div class="cr-product-image">
+                                     <div class="cr-image-inner zoom-image-hover">
+                                         <img src="${avatar}" alt="product-1">
+                                     </div>
+                                 </div>
+                                 <div class="cr-product-details">
+                                     <div class="cr-brand">
+                                         <a href="shop-left-sidebar.html">${data.category.category_name}</a>
+                                     </div>
+                                     <a href="/detail/${data.slug}" class="title">
+                                         ${data.product_name}
+                                     </a>
+                                     <p class="cr-price">
+                                         <span class="new-price">${formatCurrency(data.sale_price)}</span>
+                                         <span class="old-price">${formatCurrency(data.product_price)}</span>
+                                     </p>
+                                 </div>
+                             </div>
+                        </div>
+                    `;
+                    })
+                }
+                document.getElementById('product-results').innerHTML = html
+            })
+        });
     });
 
     /* Tab to top */
@@ -497,6 +585,11 @@
         $(this).addClass("active-color");
     });
 
+    $(".cl-kg ul li").on("click", function () {
+        $("ul li").removeClass("cl-active-color");
+        $(this).addClass("cl-active-color");
+    });
+
     /* Counter */
     $('.elementor-counter-number').each(function () {
         var size = $(this).text().split(".")[1] ? $(this).text().split(".")[1].length : 0;
@@ -521,15 +614,23 @@
         var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
         var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
         var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
-        if (hours < "10") { hours = "0" + hours; }
-        if (minutes < "10") { minutes = "0" + minutes; }
-        if (seconds < "10") { seconds = "0" + seconds; }
+        if (hours < "10") {
+            hours = "0" + hours;
+        }
+        if (minutes < "10") {
+            minutes = "0" + minutes;
+        }
+        if (seconds < "10") {
+            seconds = "0" + seconds;
+        }
         $("#days").html(days);
         $("#hours").html(hours);
         $("#minutes").html(minutes);
         $("#seconds").html(seconds);
     };
-    setInterval(function () { makeTimer(); }, 1000);
+    setInterval(function () {
+        makeTimer();
+    }, 1000);
 
     /* Products-page model */
     $(".model-oraganic-product").on("click", function () {
@@ -564,6 +665,9 @@
     var portfolioContent = $(".product-content");
     portfolioContent.mixItUp();
 
+    var show = $(".mixshow");
+    show.mixItUp()
+
     /* Footer year */
     var date = new Date().getFullYear();
 
@@ -596,7 +700,7 @@
     });
     jQuery('.back-to-top-wrap').on('click', function (event) {
         event.preventDefault();
-        jQuery('html, body').animate({ scrollTop: 0 }, duration);
+        jQuery('html, body').animate({scrollTop: 0}, duration);
         return false;
     })
 

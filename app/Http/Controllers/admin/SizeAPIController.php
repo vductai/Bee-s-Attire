@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\SizeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
+use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -20,14 +22,15 @@ class SizeAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
+        $list = Size::all();
+        return view('admin.size.list-size', compact('list'));
 
-        $sizes = Size::all();
-        return response()->json([
-            'message' => 'list',
-            'data' => $sizes
-        ]);
     }
 
+    public function create(){
+        $list = Size::all();
+        return view('admin.size.add-size', compact('list'));
+    }
 
     public function store(SizeRequest $request)
     {
@@ -35,11 +38,11 @@ class SizeAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-        $size = Size::create($request->validated());
+        $size = Size::create([
+            'size_name' => $request->size_name
+        ]);
         return response()->json($size);
     }
-
 
     public function show($size_id)
     {
@@ -47,48 +50,41 @@ class SizeAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
         $size = Size::find($size_id);
-
         if (!$size) {
             return response()->json(['message' => 'Không tìm thấy Size.'], Response::HTTP_NOT_FOUND);
         }
-
         return response()->json($size);
     }
 
+    public function edit($id){
+        $sizes = Size::all();
+        $edit = Size::findOrFail($id);
+        return view('admin.size.update-size', compact('edit', 'sizes'));
+    }
 
-    public function update(SizeRequest $request, Size $size)
+
+    public function update(SizeRequest $request, $id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
-        $data = $request->validated();
-
-        $size->update($data);
-        return response()->json($size);
+        $find = Size::findOrFail($id);
+        $find->update([
+           'size_name' => $request->size_name
+        ]);
+        return response()->json($find);
     }
 
 
-    public function destroy($id)
+    public function destroy(Size $size)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
-        $size = Size::find($id);
-
-        if (!$size) {
-            return response()->json(['message' => 'Không tìm thấy Size.']);
-        }
-
         $size->delete();
-        return response()->json(['message' => 'Size deleted successfully.']);
+        return response()->json(['mesage' => 'done']);
     }
 }

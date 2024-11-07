@@ -13,22 +13,22 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add New Color</h3>
-                                <form>
+                                <form id="formColor">
                                     <div class="form-group">
                                         <label>Color name</label>
                                         <div class="col-12">
-                                            <input id="text" name="text"
+                                            <input id="color_name" name="color_name"
                                                    class="form-control here slug-title" type="text">
+                                            <p class="text-danger" id="errColorName"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Color code</label>
                                         <div class="col-12">
-                                            <input id="text" name="text"
+                                            <input id="color_code" name="color_code"
                                                    class="form-control here slug-title" type="color">
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-12 d-flex">
                                             <button type="submit" class="cr-btn-primary">Submit</button>
@@ -55,28 +55,31 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Clothes</td>
-                                <td>Top</td>
-                                <td>Top</td>
-                                <td>
-                                    <div>
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($listColor as $item)
+                                <tr data-id="{{$item->color_id}}">
+                                    <td>{{$loop->index}}</td>
+                                    <td class="colorName">{{$item->color_name}}</td>
+                                    <td>
+                                        <input id="colorCode" name="color_code"
+                                               class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
-
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('updateColor')}}">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

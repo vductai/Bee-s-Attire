@@ -10,7 +10,7 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="product_list" class="table" style="width:100%">
+                        <table id="cat_data_table" class="table">
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -19,25 +19,30 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mens t-shirt</td>
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($list as $item)
+                                <tr data-id="{{$item->size_id}}">
+                                    <td>{{$loop->index}}</td>
+                                    <td class="sizeName">{{$item->size_name}}</td>
+                                    <td>
+                                        <div>
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('updateSize')}}">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            </button>
+
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

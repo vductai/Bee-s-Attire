@@ -5,48 +5,53 @@
                 <i class="ri-dashboard-3-line"></i><span class="condense">Dashboard<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
-{{--                <li><a href="index.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>ecommerce</a></li>
-                <li><a href="product-list.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Product list</a></li>
-                <li><a href="add-product.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Add Product</a></li>
-                <li><a href="add-category.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Add Category</a></li>
-                <li><a href="add-sub-category.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Add Sub Category</a></li>
-                <li><a href="order-list.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Order List</a></li>--}}
+                <li>
+                    <a href="{{route('dashboard')}}" class="cr-page-link drop">
+                        <i class="ri-bar-chart-2-line"></i>Statistical</a>
+                </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-product-hunt-line"></i></i><span class="condense">Product<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('listProduct')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('product.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List Product</a></li>
-                        <li><a href="{{route('addProduct')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('product.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Add Product</a></li>
-                        <li><a href="{{route('editProduct')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Update Product</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-remixicon-line"></i></i><span class="condense">Variant<i
+                        <i class="ri-copyright-line"></i></i><span class="condense">Danh mục<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('addVariant')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Create variant</a></li>
+                        <li><a href="{{route('category-parent.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Danh mục chính</a></li>
+                        <li><a href="{{route('categories.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Danh mục phụ</a></li>
                     </ul>
                 </li>
                 <li class="cr-sb-item sb-subdrop-item">
+                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
+                        <i class="ri-remixicon-line"></i></i><span class="condense">Biến thể<i
+                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+                    <ul class="cr-sb-subdrop condense">
+                        <li><a href="{{route('product-variant.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Danh sách</a></li>
+                        <li><a href="{{route('color.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Màu sắc</a></li>
+                        <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Kích thước</a></li>
+                    </ul>
+                </li>
+                {{--<li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-palette-line"></i></i><span class="condense">Color<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('listColor')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('color.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List color</a></li>
-                        <li><a href="{{route('addColor')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('color.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Create color</a></li>
                     </ul>
                 </li>
@@ -55,86 +60,53 @@
                         <i class="ri-font-size-2"></i></i><span class="condense">Size<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('listSize')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('size.index')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>List size</a></li>
-                        <li><a href="{{route('addSize')}}" class="cr-page-link subdrop"><i
+                        <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Create size</a></li>
                     </ul>
-                </li>
-                {{--<li class="cr-sb-item sb-subdrop-item">
+                </li>--}}
+                <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-shield-user-line"></i><span class="condense">Vendor<i
+                        <i class="ri-ticket-line"></i></i><span class="condense">Voucher<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="vendor-profile.html" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Profile</a></li>
-                        <li><a href="vendor-update.html" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Vendor Update</a></li>
-                        <li><a href="vendor-list.html" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Vendor List</a></li>
-                        <li><a href="invoice.html" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Invoice</a></li>
+                        <li><a href="{{route('add-form-coupon-user')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Create user coupon</a></li>
+                        <li><a href="{{route('coupon.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Create voucher</a></li>
                     </ul>
-                </li>--}}
+                </li>
             </ul>
         </li>
         <li class="cr-sb-item-separator"></li>
-        <li class="cr-sb-title condense">Pages</li>
         <li class="cr-sb-item sb-drop-item">
             <a href="javascript:void(0)" class="cr-drop-toggle">
-                <i class="ri-pages-line"></i><span class="condense">Authentication<i
+                <i class="ri-shield-keyhole-line"></i><span class="condense">Authentication<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
-                <li><a href="signin.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i></i>Login</a></li>
-                <li><a href="signup.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Signup</a></li>
-                <li><a href="forgot.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Forgot password</a></li>
-                <li><a href="two-factor.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>two factor</a></li>
-                <li><a href="reset-password.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Reset password</a></li>
-                <li><a href="remember.html" class="cr-page-link drop"><i
-                            class="ri-checkbox-blank-circle-line"></i>Remember</a></li>
+                <li class="cr-sb-item sb-subdrop-item">
+                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
+                        <i class="ri-user-line"></i></i><span class="condense">User<i
+                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+                    <ul class="cr-sb-subdrop condense">
+                        <li><a href="{{route('user.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>List User</a></li>
+                        <li><a href="{{route('user.create')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Add User</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
         <li class="cr-sb-item-separator"></li>
-        <li class="cr-sb-title condense">Elements</li>
-        <li class="cr-sb-item">
-            <a href="remix-icons.html" class="cr-page-link">
-                <i class="ri-remixicon-line"></i><span class="condense"><span class="hover-title">remix
-										icons</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="material-icons.html" class="cr-page-link">
-                <i class="mdi mdi-material-ui"></i><span class="condense"><span
-                        class="hover-title">Material icons</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="apexchart.html" class="cr-page-link">
-                <i class="ri-bar-chart-grouped-line"></i><span class="condense"><span
-                        class="hover-title">Apexcharts</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="buttons.html" class="cr-page-link">
-                <i class="ri-radio-button-line"></i><span class="condense"><span
-                        class="hover-title">Buttons</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="accordions.html" class="cr-page-link">
-                <i class="ri-play-list-add-line"></i><span class="condense"><span
-                        class="hover-title">Accordions</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="typography.html" class="cr-page-link">
-                <i class="ri-file-text-line"></i><span class="condense"><span
-                        class="hover-title">Typography</span></span></a>
-        </li>
-        <li class="cr-sb-item">
-            <a href="alert-popup.html" class="cr-page-link">
-                <i class="ri-file-warning-line"></i><span class="condense"><span
-                        class="hover-title">Alert Popup</span></span></a>
+        <li class="cr-sb-item sb-drop-item">
+            <a href="javascript:void(0)" class="cr-drop-toggle">
+                <i class="ri-shopping-bag-3-line"></i><span class="condense">Order<i
+                        class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+            <ul class="cr-sb-drop condense">
+                <li><a href="{{route('admin-list-order')}}" class="cr-page-link subdrop"><i
+                            class="ri-checkbox-blank-circle-line"></i>List Order</a></li>
+            </ul>
         </li>
     </ul>
 </div>

@@ -5,7 +5,7 @@
             <h5>Add Product</h5>
         </div>
     </div>
-    <form class="row" id="productForm" action="{{ route('storeProduct') }}" method="POST" enctype="multipart/form-data">
+    <form class="row" method="post" action="{{route('product.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="col-md-12">
             <div class="cr-card card-default">
@@ -16,35 +16,100 @@
                                 <div class="cr-vendor-main-img">
                                     <div class="avatar-upload">
                                         <div class="avatar-edit">
-                                            <input type='file' id="product_main" name="main_image" class="cr-image-upload"
-                                                   accept=".png, .jpg, .jpeg" required>
+                                            <input type='file' name="product_avatar" id="product_main"
+                                                   class="cr-image-upload"
+                                                   accept=".png, .jpg, .jpeg">
                                             <label><i class="ri-pencil-line"></i></label>
                                         </div>
                                         <div class="avatar-preview cr-preview">
                                             <div class="imagePreview cr-div-preview">
                                                 <img class="cr-image-preview"
-                                                     src="{{ asset('assets/admin/img/product/preview.jpg') }}"
+                                                     src="{{asset('assets/admin/img/product/preview.jpg')}}"
                                                      alt="edit">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="thumb-upload-set colo-md-12">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <div class="thumb-upload">
-                                                <div class="thumb-edit">
-                                                    <input type='file' id="thumbUpload0{{ $i }}" name="thumb_images[]"
-                                                           class="cr-image-upload" accept=".png, .jpg, .jpeg">
-                                                    <label><i class="ri-pencil-line"></i></label>
-                                                </div>
-                                                <div class="thumb-preview cr-preview">
-                                                    <div class="image-thumb-preview">
-                                                        <img class="image-thumb-preview cr-image-preview"
-                                                             src="{{ asset('assets/admin/img/product/preview-2.jpg') }}"
-                                                             alt="edit">
-                                                    </div>
+                                        <div class="thumb-upload">
+                                            <div class="thumb-edit">
+                                                <input type='file' id="thumbUpload01"
+                                                       class="cr-image-upload"
+                                                       name="product_images[]"
+                                                       accept=".png, .jpg, .jpeg">
+                                                <label><i class="ri-pencil-line"></i></label>
+                                            </div>
+                                            <div class="thumb-preview cr-preview">
+                                                <div class="image-thumb-preview">
+                                                    <img class="image-thumb-preview cr-image-preview"
+                                                         src="{{asset('assets/admin/img/product/preview-2.jpg')}}"
+                                                         alt="edit">
                                                 </div>
                                             </div>
-                                        @endfor
+                                        </div>
+                                        <div class="thumb-upload">
+                                            <div class="thumb-edit">
+                                                <input type='file' id="thumbUpload02"
+                                                       class="cr-image-upload"
+                                                       name="product_images[]"
+                                                       accept=".png, .jpg, .jpeg">
+                                                <label><i class="ri-pencil-line"></i></label>
+                                            </div>
+                                            <div class="thumb-preview cr-preview">
+                                                <div class="image-thumb-preview">
+                                                    <img class="image-thumb-preview cr-image-preview"
+                                                         src="{{asset('assets/admin/img/product/preview-2.jpg')}}"
+                                                         alt="edit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="thumb-upload">
+                                            <div class="thumb-edit">
+                                                <input type='file' id="thumbUpload03"
+                                                       class="cr-image-upload"
+                                                       name="product_images[]"
+                                                       accept=".png, .jpg, .jpeg">
+                                                <label><i class="ri-pencil-line"></i></label>
+                                            </div>
+                                            <div class="thumb-preview cr-preview">
+                                                <div class="image-thumb-preview">
+                                                    <img class="image-thumb-preview cr-image-preview"
+                                                         src="{{asset('assets/admin/img/product/preview-2.jpg')}}"
+                                                         alt="edit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="thumb-upload">
+                                            <div class="thumb-edit">
+                                                <input type='file' id="thumbUpload05"
+                                                       class="cr-image-upload"
+                                                       name="product_images[]"
+                                                       accept=".png, .jpg, .jpeg">
+                                                <label><i class="ri-pencil-line"></i></label>
+                                            </div>
+                                            <div class="thumb-preview cr-preview">
+                                                <div class="image-thumb-preview">
+                                                    <img class="image-thumb-preview cr-image-preview"
+                                                         src="{{asset('assets/admin/img/product/preview-2.jpg')}}"
+                                                         alt="edit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="thumb-upload">
+                                            <div class="thumb-edit">
+                                                <input type='file' id="thumbUpload05"
+                                                       class="cr-image-upload"
+                                                       name="product_images[]"
+                                                       accept=".png, .jpg, .jpeg">
+                                                <label><i class="ri-pencil-line"></i></label>
+                                            </div>
+                                            <div class="thumb-preview cr-preview">
+                                                <div class="image-thumb-preview">
+                                                    <img class="image-thumb-preview cr-image-preview"
+                                                         src="{{asset('assets/admin/img/product/preview-2.jpg')}}"
+                                                         alt="edit">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -53,29 +118,67 @@
                             <div class="cr-vendor-upload-detail">
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="productName" class="form-label">Product name</label>
-                                        <input type="text" class="form-control slug-title" id="productName" name="product_name" required>
+                                        <label for="inputEmail4" class="form-label">Product name</label>
+                                        <input type="text" name="product_name" class="form-control slug-title"
+                                               id="inputEmail4">
+                                        @error('product_name')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Select Categories</label>
-                                        <select class="form-control form-select" name="category" required>
-                                            <optgroup label="Fashion">
-                                                <option value="t-shirt">T-shirt</option>
-                                                <option value="dress">Dress</option>
-                                            </optgroup>
+                                        <select name="category_id" class="form-control form-select">
+                                            @foreach($category as $item)
+                                                <option value="{{$item->category_id}}">{{$item->category_name}}</option>
+                                            @endforeach
                                         </select>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="slug" class="col-12 col-form-label">Slug</label>
+                                        <div class="col-12">
+                                            <input name="slug" id="slug" class="form-control here set-slug"
+                                                   type="hidden">
+                                            <input id="slugs" class="form-control here set-slug" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">
+                                            Product Tags
+                                            <span>( abc, cde, ... )</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="group_tag"
+                                               name="tag_name" value="" placeholder="">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Price</label>
-                                        <input type="number" class="form-control" id="price" name="price" required min="0">
+                                        <input type="number" name="product_price" class="form-control" id="price1">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Sale price</label>
-                                        <input type="number" class="form-control" id="salePrice" name="sale_price" min="0">
+                                        <input type="number" name="sale_price" class="form-control" id="price1">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Danh mục nổi bật</label>
+                                        <div class="form-checkbox-box">
+                                            @foreach($featured_categories as $item)
+                                                <div class="form-check form-check-inline">
+                                                    <input type="checkbox" name="featuredCategories[]" value="{{$item->featured_categories_id}}">
+                                                    <label>{{$item->featured_categories_name}}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div id="variant-container">
+                                        {{--biến thể--}}
+                                    </div>
+                                    <div class="col-md-12 d-flex justify-content-center align-content-center">
+                                        <button type="button" id="add-variant-btn" class="btn cr-btn-primary">
+                                            Thêm biến thể
+                                        </button>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Desc</label>
-                                        <textarea name="desc" id="editor1" cols="80" rows="70" required></textarea>
+                                        <textarea name="product_desc" id="editor1" cols="80" rows="70"></textarea>
                                     </div>
                                     <div class="col-md-12">
                                         <button type="submit" class="btn cr-btn-primary">Submit</button>
@@ -88,51 +191,21 @@
             </div>
         </div>
     </form>
+    <script !src="">
+        var selColor = @json($color);
+        var selSize = @json($size);
+    </script>
 @endsection
-
 @section('script')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
-
     <script>
-        let editor; 
         ClassicEditor
             .create(document.querySelector('#editor1'))
-            .then(createdEditor => {
-                editor = createdEditor; 
+            .then(editor => {
+                console.log(editor);
             })
             .catch(error => {
                 console.error(error);
             });
-
-        document.getElementById('productForm').addEventListener('submit', function (event) {
-            event.preventDefault(); 
-
-         
-            const productName = document.getElementById('productName').value.trim();
-            const price = document.getElementById('price').value;
-            const salePrice = document.getElementById('salePrice').value;
-            const desc = editor.getData().trim(); 
-            let isValid = true; 
-
-            if (productName === '') {
-                isValid = false;
-                alert('Product name is required.');
-            }
-            if (price === '' || price < 0) {
-                isValid = false;
-                alert('Price must be a positive number.');
-            }
-            if (salePrice !== '' && salePrice < 0) {
-                isValid = false;
-                alert('Sale price cannot be negative.');
-            }
-            if (desc === '') {
-                isValid = false;
-                alert('Description cannot be empty.');
-            }
-            if (isValid) {
-                this.submit(); 
-            }
-        });
     </script>
 @endsection

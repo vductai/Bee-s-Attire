@@ -20,8 +20,6 @@ class CheckRole
             return $next($request);
         }
 
-        return \response()->json([
-           'message' => 'khong co quyen truy cap'
-        ]);
+        return view('errors.403');
     }
 }

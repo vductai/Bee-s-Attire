@@ -7,6 +7,8 @@
     <meta name="keywords" content="admin, dashboard, ecommerce, panel"/>
     <meta name="description" content="Carrot - Admin.">
     <meta name="author" content="ashishmaraviya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Carrot - Admin.</title>
 
@@ -19,9 +21,9 @@
     <link href="{{asset('assets/admin/css/vendor/owl.carousel.min.css')}}" rel="stylesheet">
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--}}
     <!-- Vendor CSS -->
-    <link href='{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}' rel='stylesheet'>
-    <link href='{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}' rel='stylesheet'>
-    <link href='{{asset('assets/admin/css/vendor/daterangepicker.css')}}' rel='stylesheet'>
+    <link href="{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/css/vendor/daterangepicker.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/simplebar.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/apexcharts.css')}}" rel="stylesheet">
@@ -32,7 +34,13 @@
     {{--Tailwind css--}}{{--
     @vite('public/assets/app.css')
 --}}
-
+    @vite('resources/js/size.js')
+    @vite('resources/js/color.js')
+    @vite('resources/js/category.js')
+    @vite('resources/js/status.js')
+    @vite('resources/js/voucher.js')
+    @vite('resources/js/user.js')
+    @vite('resources/js/category-parent.js')
 </head>
 
 <body>
@@ -64,62 +72,6 @@
                     </div>
                 </div>
                 <div class="right-header">
-                    {{--                    <div class="cr-right-tool cr-flag-drop language">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <img class="flag" src="{{asset('assets/admin/img/flag/us.png')}}" alt="flag">
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/us.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/in.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/de.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/it.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/jp.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="cr-right-tool apps">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <i class="ri-apps-2-line"></i>
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <h6 class="title">Apps</h6>
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/1.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/2.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/3.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/4.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/5.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/6.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>--}}
                     <div class="cr-right-tool display-screen">
                         <a class="cr-screen full" href="javascript:void(0)"><i
                                 class="ri-fullscreen-line"></i></a>
@@ -143,15 +95,25 @@
                             </div>
                             <div class="cr-hover-drop-panel right">
                                 <div class="details">
-                                    <h6>Wiley Waites</h6>
-                                    <p>wiley@example.com</p>
+                                    @if(auth()->check())
+                                        <h6>{{auth()->user()->username}}</h6>
+                                        <p>{{auth()->user()->email}}</p>
+                                    @endif
+
                                 </div>
                                 <ul class="border-top">
                                     <li><a href="team-profile.html">Profile</a></li>
                                     <li><a href="project-overview.html">Projects</a></li>
                                 </ul>
                                 <ul class="border-top">
-                                    <li><a href="signin.html"><i class="ri-logout-circle-r-line"></i>Logout</a></li>
+                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
+                                        @csrf
+                                    </form>
+                                    <li>
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <i class="ri-logout-circle-r-line"></i>Logout
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -205,6 +167,7 @@
     </div>
 </main>
 
+
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
@@ -226,6 +189,7 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/admin/js/main.js')}}"></script>
+<script src="{{asset('assets/admin/app.js')}}"></script>
 <script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
 @yield('script')
 </body>

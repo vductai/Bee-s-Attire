@@ -33,6 +33,7 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
+    // Liệu session có được duy trì sau khi đóng trình duyệt hay không
     'expire_on_close' => false,
 
     /*
@@ -168,7 +169,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', false),
 
     /*
     |--------------------------------------------------------------------------

@@ -13,16 +13,20 @@
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
                                 <h3>Add New Size</h3>
-                                <form>
+                                <form id="formSize">
                                     <div class="form-group">
                                         <label>Name size</label>
                                         <div class="col-12">
-                                            <input id="text" name="text"
+                                            <input id="size_name" name="size_name"
                                                    class="form-control here slug-title" type="text">
+                                            <p class="text-danger" id="errSize"></p>
                                         </div>
+                                        @error('size_name')
+                                        <p class="text-danger">
+                                            {{$message}}
+                                        </p>
+                                        @enderror
                                     </div>
-
-
                                     <div class="row">
                                         <div class="col-12 d-flex">
                                             <button type="submit" class="cr-btn-primary">Submit</button>
@@ -48,27 +52,30 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Clothes</td>
-                                <td>Top</td>
-                                <td>
-                                    <div>
-                                        <button type="button"
-                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false" data-display="static">
+                            @foreach($list as $item)
+                                <tr data-id="{{$item->size_id}}">
+                                    <td>{{$loop->index}}</td>
+                                    <td class="sizeName">{{$item->size_name}}</td>
+                                    <td>
+                                        <div>
+                                            <button type="button"
+                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                        </button>
+                                            </button>
 
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('updateSize')}}">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
