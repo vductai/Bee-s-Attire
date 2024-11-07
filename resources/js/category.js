@@ -3,19 +3,22 @@ import axios from "axios";
 
 const formCategory = document.getElementById('formCategory')
 const category_name_create = document.getElementById('category_name')
+const category_parent_create = document.getElementById('id')
 const tableCategory = document.getElementById('cat_data_table').getElementsByTagName('tbody')[0]
 
 if (formCategory) {
     formCategory.addEventListener('submit', function (e) {
         e.preventDefault()
         const name = category_name_create.value;
+        const id = category_parent_create.value;
         // kiểm tra coi hiện lỗi chưa
         const errorMessage = document.querySelector('#errCategory');
         if (errorMessage) {
             errorMessage.remove()
         };
         axios.post('/admin/categories', {
-            category_name: name
+            category_name: name,
+            id: id
         }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -34,7 +37,8 @@ if (formCategory) {
             newRow.innerHTML =
                 `
                     <td>${stt}</td>
-                    <td>${category.category_name}</td>
+                    <td>${category.category.category_name}</td>
+                    <td>${category.parent.name}</td>
                     <td>
                         <div>
                             <button type="button"
@@ -80,29 +84,35 @@ if (formCategory) {
 // update
 const formCategoryUpdate = document.getElementById('formCategoryUpdate')
 const category_name_update = document.getElementById('category_name')
+const category_parent_update = document.getElementById('id')
 
 if (formCategoryUpdate){
     formCategoryUpdate.addEventListener('submit', function (e) {
         e.preventDefault()
         const category_id = document.getElementById('category_id').value
         const name = category_name_update.value
+        const id = category_parent_update.value
         const errorMessage = document.querySelector('#errCategory');
         if (errorMessage) {
             errorMessage.remove()
         };
         axios.put(`/admin/categories/${category_id}`, {
-            category_name: name
+            category_name: name,
+            id: id
         }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
             const category = res.data
+            console.log(category)
             const row = document.querySelector(`tr[data-id='${category_id}']`)
             if (row){
-                row.querySelector('.categoryName').textContent = category.category_name
+                row.querySelector('.categoryName').textContent = category.category.category_name
+                row.querySelector('.categoryParent').textContent = category.parent.name
             }
             category_name_update.value = '';
+            category_parent_update.value = '';
         }).catch(error => {
             if (error.response && error.response.status === 422){
                 const errors = error.response.data.errors
@@ -187,4 +197,3 @@ tableCategory.addEventListener('click', function (e) {
         })
     }
 })
-

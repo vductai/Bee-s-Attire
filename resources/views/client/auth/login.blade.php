@@ -69,6 +69,27 @@
                                     Signup?
                                 </a>
                             </div>
+                            <div class="form-group ">
+                                <div class="d-flex justify-content-center align-items-center m-2">
+                                    <div style="width: 40%;height: 1px;background-color: #dbdbdb"></div>
+                                    <div style="margin: 0 6px; color: #c0bfbf">Hoặc</div>
+                                    <div style="width: 40%;height: 1px;background-color: #dbdbdb"></div>
+                                </div>
+                                <div class="cr-btn-bw">
+                                    <a href="{{route('auth.google')}}" class="custom-btn btn-1 d-flex
+                                    justify-content-center align-items-center">
+                                        {{--<i class="ri-google-fill mx-2"></i>--}}
+                                        <div class="" style="width: 30px;height: 30px;margin-right: 10px">
+                                            <img src="{{asset('google-logo.png')}}"
+                                                 class="w-100 h-100"
+                                                 style="filter: brightness(1.2); object-fit: cover">
+                                        </div>
+                                        <p>
+                                            google
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

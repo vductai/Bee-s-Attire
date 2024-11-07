@@ -29,6 +29,7 @@ class User extends Authenticatable
         'birthday',
         'address',
         'role_id',
+        'google_id',
         'action'
     ];
 
@@ -49,6 +50,16 @@ class User extends Authenticatable
         }
     }
 
+    public function whishlists()
+    {
+        return $this->hasMany(Whishlist::class, 'user_id');
+    }
+
+    public function whishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'whishlist',
+            'user_id', 'product_id');
+    }
 
     public function cart()
     {

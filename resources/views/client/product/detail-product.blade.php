@@ -62,16 +62,6 @@
                         <p><label>Mã sản phẩm <span>:</span></label> {{$getDetail->product_id}}</p>
                     </div>
                     <div class="cr-size-and-weight">
-                        {{--<div class="cr-review-star">
-                            <div class="cr-star">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <p>( 75 Review )</p>
-                        </div>--}}
                         <div class="list">
                             <ul>
                                 <li><label>Danh mục <span>:</span></label>{{$getDetail->category->category_name}}</li>
@@ -114,27 +104,34 @@
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
                                 <input type="text" placeholder="."
-                                       name="quantity" value="1" minlength="1" maxlength="20"
+                                       name="quantity" value="1" minlength="1" maxlength="5"
                                        class="quantity">
                                 <button type="button" class="plus">+</button>
                                 <button type="button" class="minus">-</button>
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                    <button type="submit" class="cr-button">Thêm vào giỏ hàng</button>
                                 @else
-                                    <button type="button" class="cr-button cr-shopping-bag" >Add to cart</button>
+                                    <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
                             </div>
-                            {{--<div class="cr-card-icon">
-                                <a href="javascript:void(0)" class="wishlist">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <a class="model-oraganic-product" data-bs-toggle="modal" href="#quickview"
-                                   role="button">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                            </div>--}}
+                            <div class="cr-add-button">
+                                @if(session()->has('errorCart'))
+                                    <div class="alert alert-danger">
+                                        {{ session('errorCart') }}
+                                    </div>
+                                    {{ session()->forget('errorCart') }}
+                                @endif
+                            </div>
+                            <div class="cr-add-button">
+                                @if(session()->has('errorCart'))
+                                    <div class="alert alert-danger">
+                                        {{ session('errorCart') }}
+                                    </div>
+                                    {{ session()->forget('errorCart') }}
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -150,12 +147,6 @@
                                         aria-selected="true">Mô tả sản phẩm
                                 </button>
                             </li>
-                            {{--<li class="nav-item" role="presentation">
-                                <button class="nav-link" id="additional-tab" data-bs-toggle="tab"
-                                        data-bs-target="#additional" type="button" role="tab" aria-controls="additional"
-                                        aria-selected="false">Information
-                                </button>
-                            </li>--}}
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
                                         type="button" role="tab" aria-controls="review"
@@ -172,91 +163,49 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
-                                <div class="cr-tab-content">
-                                    <div class="cr-description">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente
-                                            doloribus debitis corporis, eaque dicta, repellat amet, illum adipisci vel
-                                            perferendis dolor! Quis vel consequuntur repellat distinctio rem. Corrupti
-                                            ratione alias odio, error dolore temporibus consequatur, nobis veniam odit
-                                            laborum dignissimos consectetur quae vero in perferendis provident quis.</p>
-                                    </div>
-                                    <div class="list">
-                                        <ul>
-                                            <li><label>Brand <span>:</span></label>ESTA BETTERU CO</li>
-                                            <li><label>Flavour <span>:</span></label>Super Saver Pack</li>
-                                            <li><label>Diet Type <span>:</span></label>Vegetarian</li>
-                                            <li><label>Weight <span>:</span></label>200 Grams</li>
-                                            <li><label>Speciality <span>:</span></label>Gluten Free, Sugar Free</li>
-                                            <li><label>Info <span>:</span></label>Egg Free, Allergen-Free</li>
-                                            <li><label>Items <span>:</span></label>1</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                                 <div class="cr-tab-content-from">
-                                    <div class="post">
-                                        <div class="content">
-                                            <img src="{{asset('assets/client/img/review/1.jpg')}}" alt="review">
-                                            <div class="details">
-                                                <span class="date">Jan 08, 2024</span>
-                                                <span class="name">Oreo Noman</span>
+                                    @foreach($listPost as $post)
+                                        <div class="post">
+                                            <div class="content">
+                                                <img src="{{asset('upload/'. $post->user->avatar) }}" alt="review">
+                                                <div class="details">
+                                                    <span class="date">
+                                                        {{\Illuminate\Support\Carbon::parse($post->created_at)->diffForHumans()}}
+                                                    </span>
+                                                    <span class="name">{{$post->user->username}}</span>
+                                                </div>
                                             </div>
-                                            {{--<div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                            </div>--}}
+                                            <p>{{$post->comment}}</p>
                                         </div>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente doloribus debitis corporis, eaque dicta, repellat amet, illum
-                                            adipisci vel
-                                            perferendis dolor! quae vero in perferendis provident quis.</p>
-                                        <div class="content mt-30">
-                                            <img src="{{asset('assets/client/img/review/2.jpg')}}" alt="review">
-                                            <div class="details">
-                                                <span class="date">Mar 22, 2024</span>
-                                                <span class="name">Lina Wilson</span>
-                                            </div>
-                                            {{--<div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-line"></i>
-                                            </div>--}}
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in vero
-                                            sapiente doloribus debitis corporis, eaque dicta, repellat amet, illum
-                                            adipisci vel
-                                            perferendis dolor! quae vero in perferendis provident quis.</p>
-                                    </div>
+                                    @endforeach
+                                    <div id="viewComment">
 
-                                    <h4 class="heading">Add a Review</h4>
-                                    <form action="javascript:void(0)">
-                                        {{--<div class="cr-ratting-star">
-                                            <span>Your rating :</span>
-                                            <div class="cr-t-review-rating">
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-fill"></i>
-                                                <i class="ri-star-s-line"></i>
-                                                <i class="ri-star-s-line"></i>
-                                                <i class="ri-star-s-line"></i>
-                                            </div>
-                                        </div>--}}
-                                        <div class="cr-ratting-input">
-                                            <input name="your-name" placeholder="Name" type="text">
-                                        </div>
-                                        <div class="cr-ratting-input">
-                                            <input name="your-email" placeholder="Email*" type="email" required="">
-                                        </div>
+                                    </div>
+                                    <form action="javascript:void(0)" id="formComment">
+                                        @if(auth()->check())
+                                            <input type="hidden"
+                                                   id="user_id_comment"
+                                                   name="user_id"
+                                                   value="{{auth()->user()->user_id}}">
+                                        @else
+                                            <input type="hidden"
+                                                   id="user_id_comment"
+                                                   name="user_id"
+                                                   value="">
+                                        @endif
+                                        <input type="hidden"
+                                               id="product_id_comment"
+                                               name="product_id"
+                                               value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
-                                            <textarea name="your-commemt" placeholder="Enter Your Comment"></textarea>
-                                            <button class="cr-button" type="submit" value="Submit">Submit</button>
+                                            @if(auth()->check())
+                                                <textarea id="comment" name="comment"
+                                                          placeholder="Nhập bình luận của bạn"></textarea>
+                                                <button class="cr-button" type="submit">Submit</button>
+                                            @else
+                                                <p class="alert alert-danger">Đăng nhập để bình luận</p>
+                                            @endif
                                         </div>
                                     </form>
                                 </div>
@@ -268,90 +217,6 @@
         </div>
     </section>
     <script !src="">
-        document.addEventListener('DOMContentLoaded', function () {
-            const sizeOptions = document.querySelectorAll('.size-option');
-            const hiddenInputSize = document.getElementById('selected-size-id');
-            const colorOptions = document.querySelectorAll('.color-option');
-            const hiddenInputColor = document.getElementById('selected-color-id');
-            const hiddenInputVariant = document.getElementById('selected-product-variant-id');
-
-            let selectedSizeId = null;
-            let selectedColorId = null;
-
-            sizeOptions.forEach(option => {
-                option.addEventListener('click', function () {
-                    sizeOptions.forEach(opt => opt.classList.remove('active-color'));
-
-                    this.classList.add('active-color');
-
-                    // Gán giá trị cho selectedSizeId
-                    selectedSizeId = this.getAttribute('data-size-id');
-                    hiddenInputSize.value = selectedSizeId;
-                    console.log(selectedSizeId)
-                    updateProductVariant();
-                    filterColorsByStock();
-                });
-            });
-
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function () {
-                    colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
-
-                    this.classList.add('cl-active-color');
-
-                    // Gán giá trị cho selectedColorId
-                    selectedColorId = this.getAttribute('data-color-id');
-                    hiddenInputColor.value = selectedColorId;
-                    updateProductVariant();
-                });
-            });
-
-            function updateProductVariant() {
-                if (selectedSizeId && selectedColorId) {
-                    const variants = @json($getDetail->variants);
-
-                    const selectedVariant = variants.find(variant =>
-                        variant.size_id == selectedSizeId && variant.color_id == selectedColorId
-                    );
-                    if (selectedVariant) {
-                        hiddenInputVariant.value = selectedVariant.product_variant_id;
-                    }
-                }
-            }
-
-            function filterColorsByStock() {
-                const variants = @json($getDetail->variants);
-
-                colorOptions.forEach(option => {
-                    const colorId = option.getAttribute('data-color-id');
-                    const matchingVariant = variants.find(variant =>
-                        variant.size_id == selectedSizeId && variant.color_id == colorId
-                    );
-
-                    if (matchingVariant && matchingVariant.quantity > 0) {
-                        option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
-                    } else {
-                        option.style.display = 'none'; // Ẩn màu nếu hết hàng
-                    }
-                });
-            }
-            function filterSizesByStock() {
-                const variants = @json($getDetail->variants);
-
-                sizeOptions.forEach(option => {
-                    const sizeId = option.getAttribute('data-size-id');
-                    const matchingVariant = variants.find(variant =>
-                        variant.color_id == selectedColorId && variant.size_id == sizeId
-                    );
-
-                    if (matchingVariant && matchingVariant.quantity > 0) {
-                        option.style.display = 'none'; // Hiển thị size nếu còn hàng
-                    } else {
-                        selectedSizeId.style.display = 'none';
-                        option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
-                    }
-                });
-            }
-        });
+        const variants = @json($getDetail->variants);
     </script>
 @endsection

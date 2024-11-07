@@ -34,19 +34,22 @@
                                     <td>{{$item->order_id}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{number_format($item->total_price)}} đ</td>
-                                    <td>
-                                        {{$item->voucher->voucher_code ? $item->voucher->voucher_code : 'Không dùng mã'}}
-                                    </td>
+
+                                    @if(is_null($item->voucher_id))
+                                        <td>Không có</td>
+                                    @else
+                                        <td>{{$item->voucher->voucher_price}} %</td>
+                                    @endif
                                     <td>{{number_format($item->final_price)}} đ</td>
                                     <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y')}}</td>
                                     <td class="order-status" data-id="{{$item->order_id}}">
-                                            @if($item->status === 'Đang sử lý')
-                                                <span class="badge text-warning">{{$item->status}}</span>
-                                            @elseif($item->status === 'Đã xác nhận')
-                                                <span class="badge text-primary">{{$item->status}}</span>
-                                            @elseif($item->status === 'Đã giao hàng')
-                                                <span class="badge text-success">{{$item->status}}</span>
-                                            @endif
+                                        @if($item->status === 'Đang sử lý')
+                                            <span class="badge text-warning">{{$item->status}}</span>
+                                        @elseif($item->status === 'Đã xác nhận')
+                                            <span class="badge text-primary">{{$item->status}}</span>
+                                        @elseif($item->status === 'Đã giao hàng')
+                                            <span class="badge text-success">{{$item->status}}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div>
@@ -61,16 +64,20 @@
                                                 <button
                                                     data-status="Đang sử lý" data-id="{{$item->order_id}}"
                                                     class="dropdown-item update-status btn btn-warning"
-                                                >Đang sử lý</button>
+                                                >Đang sử lý
+                                                </button>
                                                 <button
                                                     data-status="Đã xác nhận" data-id="{{$item->order_id}}"
                                                     class="dropdown-item update-status btn btn-primary"
-                                                >Đã xác nhận</button>
+                                                >Đã xác nhận
+                                                </button>
                                                 <button
                                                     data-status="Đã giao hàng" data-id="{{$item->order_id}}"
                                                     class="dropdown-item update-status btn btn-success"
-                                                >Đã giao hàng</button>
-                                                <a href="{{route('admin-order-detail', $item->order_id)}}" class="dropdown-item">Chi tiết</a>
+                                                >Đã giao hàng
+                                                </button>
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
                                                 <button class="dropdown-item delete-btn" data-id="">
                                                     Delete
                                                 </button>

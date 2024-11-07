@@ -13,6 +13,7 @@ class user_voucher extends Model
     protected $fillable = [
         'user_id',
         'voucher_id',
+        'end_date'
     ];
 
     public function voucher()

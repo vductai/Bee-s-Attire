@@ -1,73 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\client;
 
-use App\Events\ProductAddedToWishlist;
-use App\Models\Wishlist;
-use App\Models\Product;
+use App\Http\Controllers\Controller;
+use App\Models\Whishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 
 class WishListController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
-        $wishlists = Wishlist::where('user_id', $userId)->with('product')->get();
-
-        return view('client.wish-list', compact('wishlists'));
+        $list = Whishlist::where('user_id', Auth::user()->user_id)->get();
+        return view('client.wish-list', compact('list'));
     }
-    public function addToWishlist(Request $request)
-    {
-        $userId = Auth::id();
-        $existingWishlistItem = Wishlist::where('user_id', $userId)
+
+    public function store(Request $request){
+        $wishListItem = Whishlist::where('user_id', $request->user_id)
             ->where('product_id', $request->product_id)
             ->first();
-    
-        if ($existingWishlistItem) {
-           // Log::info("Sản phẩm đã có trong wishlist: " . $request->product_id);
-            return redirect()->back()->with('message', 'Sản phẩm đã có trong wishlist.');
+        if ($wishListItem){
+            $wishListItem->delete();
+            return response()->json(['success' => true,'message' => 'done']);
+        } else{
+            Whishlist::create([
+                'user_id' => $request->user_id,
+                'product_id' => $request->product_id
+            ]);
+            return response()->json(['success' => true ,'message' => 'add']);
         }
-    
-        $wishlist = new Wishlist();
-        $wishlist->user_id = $userId;
-        $wishlist->product_id = $request->product_id;
-        $wishlist->save();
-    
-        $product = Product::where('product_id', $request->product_id)->firstOrFail();
-        $productName = $product->product_name;
-    
-        $user = Auth::user(); 
-        $username = $user->username;
-    
-        event(new ProductAddedToWishlist($userId, $username, $productName, $request->product_id, 'add'));
-    
-        return redirect()->back()->with('message', 'Sản phẩm được thêm vào wishlist thành công.');
     }
-    
-    public function deleteWishlist($id)
-    {
-        $userId = Auth::id();
-    
-        $wishlistItem = Wishlist::where('user_id', $userId)
-            ->where('product_id', $id)
-            ->first();
-    
-        if ($wishlistItem) {
-            $productName = $wishlistItem->product->product_name;
-            $wishlistItem->delete();
-    
-            $user = Auth::user();
-            $username = $user->username;
-    
-            event(new ProductAddedToWishlist($userId, $username, $productName, $id, 'remove'));
-            
-            return redirect()->back()->with('message', 'Sản phẩm đã bị xóa khỏi wishlist.');
-        }
-    
-        return redirect()->back()->with('message', 'Sản phẩm không tồn tại trong wishlist.');
+
+    public function show($id){
+        $show = Whishlist::findOrFail($id);
+        return response()->json($show);
     }
-    
+
+    public function delete($id){
+        $del = Whishlist::findOrFail($id);
+        $del->delete();
+        return response()->json(['message' => 'done']);
+    }
 }

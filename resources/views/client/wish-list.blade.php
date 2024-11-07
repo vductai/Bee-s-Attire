@@ -1,19 +1,14 @@
 @extends('layout.client.home')
 @section('content_client')
-
-@if(session('message'))  
-<div class="alert alert-info">  
-    {{ session('message') }}  
-</div>  
-@endif  
+    <!-- Breadcrumb -->
     <section class="section-breadcrumb">
         <div class="cr-breadcrumb-image">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Wishlist</h2>
-                            <span><a href="index.html">Home</a> - Wishlist</span>
+                            <h2>Yêu thích</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> - Yêu thích</span>
                         </div>
                     </div>
                 </div>
@@ -21,60 +16,60 @@
         </div>
     </section>
 
+    <!-- Compare -->
     <section class="section-compare padding-tb-100">
         <div class="container">
-            <div class="row mb-minus-24">
-                @foreach($wishlists as $item)
+            <div class="row d-none">
+                <div class="col-lg-12">
+                    <div class="mb-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
+                        <div class="cr-banner">
+                            <h2>Compare</h2>
+                        </div>
+                        <div class="cr-banner-sub-title">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore lacus vel facilisis. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-minus-24" data-aos="fade-up" data-aos-duration="2000"
+                 data-aos-delay="400">
+                @foreach($list as $item)
                     <div class="col-lg-3 col-6 cr-product-box mb-24">
                         <div class="cr-product-card">
                             <div class="cr-product-image">
                                 <div class="cr-image-inner zoom-image-hover">
-                                    <img src="{{ asset('upload/' . $item->product->product_avatar) }}" alt="{{ $item->product->product_name }}">
+                                    <img src="{{asset('upload/' . $item->product->product_avatar)}}" alt="product-1">
                                 </div>
                                 <div class="cr-side-view">
-                                    <a class="cr-remove-product" href="#" 
-                                       onclick="event.preventDefault(); 
-                                       if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi wishlist?')) {
-                                           document.getElementById('remove-wishlist-form-{{ $item->product_id }}').submit();
-                                       }">
-                                       <i class="ri-close-line"></i>
+                                    <a class="cr-remove-product"
+                                       data-wishlistId="{{$item->wishlist_id}}"
+                                       href="javascript:void(0)">
+                                        <i class="ri-close-line"></i>
                                     </a>
-                                    <a class="wishlist" href="javascript:void(0)">
-                                        <i class="ri-heart-line"></i>
-                                    </a>
-                                    <a class="model-oraganic-product" data-bs-toggle="modal" href="#quickview" role="button">
-                                        <i class="ri-eye-line"></i>
-                                    </a>
+                                    <input type="hidden"
+                                           id="userBagDel"
+                                           value="{{auth()->user()->user_id}}">
                                 </div>
-                                <a class="cr-shopping-bag" href="javascript:void(0)">
-                                    <i class="ri-shopping-bag-line"></i>
-                                </a>
                             </div>
                             <div class="cr-product-details">
                                 <div class="cr-brand">
-                                    <a href="shop-left-sidebar.html">{{ $item->product->category->category_name }}</a>
+                                    <a href="">
+                                        {{$item->product->category->category_name}}
+                                    </a>
                                 </div>
-                                <div id="wishlist-icon">
-                                    <span id="wishlist-notification-dot"></span>
-                                </div>
-                                
-                                <a href="{{ route('detail', ['slug' => $item->product->slug]) }}" class="title">{{ $item->product->product_name }}</a>
+                                <a href="{{route('detail', ['slug' => $item->product->slug])}}" class="title">
+                                    {{$item->product->product_name}}
+                                </a>
                                 <p class="cr-price">
-                                    <span class="new-price">{{ number_format($item->product->sale_price) }} đ</span>
-                                    <span class="old-price">{{ number_format($item->product->product_price) }} đ</span>
+                                    <span class="new-price">{{number_format($item->product->sale_price)}} đ</span>
+                                    <span class="old-price">{{number_format($item->product->product_price)}} đ</span>
                                 </p>
                             </div>
                         </div>
                     </div>
-
-                    <form id="remove-wishlist-form-{{ $item->product_id }}" action="{{ route('delete-wishlist', $item->product_id) }}" method="POST" style="display: none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
                 @endforeach
             </div>
         </div>
     </section>
-    
 @endsection
-

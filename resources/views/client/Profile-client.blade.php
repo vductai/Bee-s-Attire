@@ -1,58 +1,6 @@
 @extends('layout.client.home')
 @section('content_client')
-    <style>
-        .voucher-card {
-            border: 2px dashed #FFA500; /* Đường viền gạch */
-            padding: 15px;
-            width: 200px; /* Giảm kích thước chiều rộng */
-            text-align: center;
-            background-color: #fdf8e1; /* Màu nền nhẹ */
-            font-family: Arial, sans-serif;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
-        }
-
-        .voucher-title {
-            font-size: 18px; /* Giảm kích thước chữ */
-            font-weight: bold;
-            color: #FF4500; /* Màu chữ nổi bật */
-        }
-
-        .voucher-discount {
-            font-size: 24px; /* Giảm kích thước chữ */
-            font-weight: bold;
-            color: #32CD32; /* Màu cho phần giảm giá */
-            margin: 10px 0;
-        }
-
-        .voucher-expiry {
-            font-size: 12px; /* Giảm kích thước chữ */
-            color: #666;
-        }
-
-        .voucher-details {
-            font-size: 14px; /* Giảm kích thước chữ */
-            color: #333;
-            margin-top: 10px;
-        }
-
-        /* Nút sử dụng hình chữ nhật */
-        .use-btn {
-            background-color: #FF4500;
-            color: white;
-            padding: 8px 15px; /* Giảm kích thước nút */
-            border: none;
-            cursor: pointer;
-            font-size: 14px; /* Giảm kích thước chữ */
-            margin-top: 10px;
-            width: 100%; /* Chiều rộng của nút bằng 100% */
-            transition: background-color 0.3s ease;
-        }
-
-        .use-btn:hover {
-            background-color: #e63900; /* Màu khi hover */
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('assets/client/css/voucher-item.css')}}">
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-4">
@@ -65,8 +13,8 @@
                         <h5 class="card-title mb-0" id="userName">{{auth()->user()->username}}</h5>
                         <p class="text-muted mb-1" id="userEmail">{{auth()->user()->email}}</p>
                         <div class="d-flex justify-content-center mb-2">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editProfileModal">Edit Profile
+                            <button type="button" class="cr-button" data-bs-toggle="modal"
+                                    data-bs-target="#editProfileModal">Chỉnh sửa
                             </button>
                             {{--<button type="button" class="btn btn-outline-primary ms-2">Message</button>--}}
                         </div>
@@ -150,7 +98,10 @@
                                                         <div class="voucher-title">{{$item->voucher_desc}}</div>
                                                         <div class="voucher-discount">{{$item->voucher_price}}% OFF</div>
                                                         <div class="voucher-details">Use code: <strong>{{$item->voucher_code}}</strong></div>
-                                                        <div class="voucher-expiry mb-3">Expires on: {{$item->end_date}}</div>
+                                                        <div class="voucher-expiry mb-3">
+                                                            Hạn dùng mã: <br>
+                                                            <b>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</b>
+                                                        </div>
                                                         <a href="{{route('home')}}" class="use-btn">Sử dụng</a>
                                                     </div>
                                                 </div>
@@ -171,7 +122,7 @@
                                     <input type="password" class="form-control" id="confirmPassword"
                                            placeholder="Confirm new password">
                                 </div>
-                                <button type="button" class="btn btn-primary">Update Password</button>
+                                <button type="button" class="cr-button btn-primary">Update Password</button>
                             </div>
                         </div>
                     </div>
@@ -212,7 +163,6 @@
                                     id="editGender">
                                 <option>Nam</option>
                                 <option>Nữ</option>
-                                <option>LGBT</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -237,8 +187,8 @@
                             <input type="file" name="avatar" class="form-control" id="editProfilePicture">
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="saveProfileChanges">Save changes</button>
+                            <button type="button" class="cr-button btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="cr-button btn-primary" id="saveProfileChanges">Save changes</button>
                         </div>
                     </form>
                 </div>

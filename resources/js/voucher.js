@@ -11,6 +11,7 @@ if (formVoucher) {
         e.preventDefault()
         const voucherCode = document.getElementById('voucher_code')
         const voucherPrice = document.getElementById('voucher_price')
+        const quantity = document.getElementById('quantity')
         const startDate = document.getElementById('start_date')
         const endDate = document.getElementById('end_date')
         const voucherDesc = document.getElementById('voucher_desc')
@@ -24,6 +25,7 @@ if (formVoucher) {
         axios.post('/admin/coupon', {
             voucher_code: voucherCode.value,
             voucher_price: voucherPrice.value,
+            quantity: quantity.value,
             start_date: startDate.value,
             end_date: endDate.value,
             voucher_desc: voucherDesc.value
@@ -47,6 +49,7 @@ if (formVoucher) {
                     <td>${stt}</td>
                     <td class="voucher_code">${voucher.voucher_code}</td>
                     <td class="voucher_price">${voucher.voucher_price}</td>
+                    <td class="quantity">${voucher.quantity}</td>
                     <td class="voucher_desc">${voucher.voucher_desc}</td>
                     <td class="start_date">${voucher.start_date}</td>
                     <td class="end_date">${voucher.end_date}</td>
@@ -69,6 +72,7 @@ if (formVoucher) {
                 `;
             voucherCode.value = ''
             voucherPrice.value = ''
+            quantity.value = ''
             startDate.value = ''
             endDate.value = ''
             voucherDesc.value = ''
@@ -92,6 +96,7 @@ if (formVoucherUpdate){
         const voucherId = document.getElementById('voucherId').value
         const voucherCodeUpdate = document.getElementById('voucher_code')
         const voucherPriceUpdate = document.getElementById('voucher_price')
+        const quantityUpdate = document.getElementById('quantity')
         const startDateUpdate = document.getElementById('start_date')
         const endDateUpdate = document.getElementById('end_date')
         const voucherDescUpdate = document.getElementById('voucher_desc')
@@ -103,6 +108,7 @@ if (formVoucherUpdate){
         axios.put(`/admin/coupon/${voucherId}`, {
             voucher_code: voucherCodeUpdate.value,
             voucher_price: voucherPriceUpdate.value,
+            quantity: quantityUpdate.value,
             start_date: startDateUpdate.value,
             end_date: endDateUpdate.value,
             voucher_desc: voucherDescUpdate.value
@@ -118,12 +124,14 @@ if (formVoucherUpdate){
                 row.querySelector('.voucherCode').textContent = voucher.voucher_code
                 row.querySelector('.voucherPrice').textContent = voucher.voucher_price
                 row.querySelector('.voucherDesc').textContent = voucher.voucher_desc
+                row.querySelector('.quantity').textContent = voucher.quantity
                 row.querySelector('.startDate').textContent = voucher.start_date
                 row.querySelector('.endDate').textContent = voucher.end_date
             }
             voucherCodeUpdate.value = ''
             voucherPriceUpdate.value = ''
             startDateUpdate.value = ''
+            quantityUpdate.value = ''
             endDateUpdate.value = ''
             voucherDescUpdate.value = ''
         }).catch(err =>{

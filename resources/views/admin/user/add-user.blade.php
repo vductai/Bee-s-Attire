@@ -2,87 +2,91 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Color</h5>
+            <h5>Add user</h5>
         </div>
     </div>
-    <div class="row cr-category">
-        <div class="col-xl-4 col-lg-12">
-            <div class="team-sticky-bar">
-                <div class="col-md-12">
-                    <div class="cr-cat-list cr-card card-default mb-24px">
-                        <div class="cr-card-content">
-                            <div class="cr-cat-form">
-                                <h3>Add New Color</h3>
-                                <form id="formColor">
-                                    <div class="form-group">
-                                        <label>Color name</label>
-                                        <div class="col-12">
-                                            <input id="color_name" name="color_name"
-                                                   class="form-control here slug-title" type="text">
-                                            <p class="text-danger" id="errColorName"></p>
+    <form id="formUser" enctype="multipart/form-data">
+        <div class="col-md-12">
+            <div class="cr-card card-default">
+                <div class="cr-card-content">
+                    <div class="row cr-product-uploads">
+                        <div class="col-lg-4 mb-991">
+                            <div class="cr-vendor-img-upload">
+                                <div class="cr-vendor-main-img">
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' name="avatar" id="avatar"
+                                                   class="cr-image-upload" accept=".png, .jpg, .jpeg">
+                                            <label><i class="ri-pencil-line"></i></label>
+                                        </div>
+                                        <div class="avatar-preview cr-preview">
+                                            <div class="imagePreview cr-div-preview">
+                                                <img class="cr-image-preview"
+                                                     src="{{ asset('assets/admin/img/product/preview.jpg') }}"
+                                                     alt="edit">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Color code</label>
-                                        <div class="col-12">
-                                            <input id="color_code" name="color_code"
-                                                   class="form-control here slug-title" type="color">
-                                        </div>
+                                    <p class="error-text text-danger" id="avatar-error"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="cr-vendor-upload-detail">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">User Name</label>
+                                        <input type="text" class="form-control" name="username" id="username">
+                                        <p class="error-text text-danger" id="username-error"></p>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control slug-title"
+                                               id="email">
+                                        <p class="error-text text-danger" id="email-error"></p>
                                     </div>
-                                </form>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control slug-title"
+                                               id="password">
+                                        <p class="error-text text-danger" id="password-error"></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Select gender</label>
+                                        <select name="gender" class="form-control form-select" id="gender">
+                                            <option value="" selected>-- Choose gender --</option>
+                                            <option value="1">Nam</option>
+                                            <option value="0">Nữ</option>
+                                        </select>
+                                        <p class="error-text text-danger" id="gender-error"></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Phone</label>
+                                        <input type="number" name="phone" class="form-control slug-title"
+                                               id="phone">
+                                        <p class="error-text text-danger" id="phone-error"></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Birthday</label>
+                                        <input type="date" name="birthday" class="form-control slug-title"
+                                               id="birthday">
+                                        <p class="error-text text-danger" id="birthday-error"></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Address</label>
+                                        <input type="text" name="address" class="form-control slug-title"
+                                               id="address">
+                                        <p class="error-text text-danger" id="address-error"></p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn cr-btn-primary">Submit</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 col-lg-12">
-            <div class="cr-cat-list cr-card card-default">
-                <div class="cr-card-content ">
-                    <div class="table-responsive tbl-800">
-                        <table id="cat_data_table" class="table">
-                            <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Color name</th>
-                                <th>Color code</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr data-id="">
-                                    <td></td>
-                                    <td class="colorName"></td>
-                                    <td>
-                                        <input id="colorCode" name="color_code"
-                                               class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <button type="button"
-                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false" data-display="static">
-															<span class="sr-only"><i
-                                                                    class="ri-settings-3-line"></i></span>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="">Delete</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
 @endsection

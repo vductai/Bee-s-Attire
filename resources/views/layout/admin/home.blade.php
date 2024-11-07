@@ -39,7 +39,8 @@
     @vite('resources/js/category.js')
     @vite('resources/js/status.js')
     @vite('resources/js/voucher.js')
-    @vite('resources/js/product.js')
+    @vite('resources/js/user.js')
+    @vite('resources/js/category-parent.js')
 </head>
 
 <body>
@@ -188,6 +189,7 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/admin/js/main.js')}}"></script>
+<script src="{{asset('assets/admin/app.js')}}"></script>
 <script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
 @yield('script')
 </body>

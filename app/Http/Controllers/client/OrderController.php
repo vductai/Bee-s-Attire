@@ -15,4 +15,14 @@ class OrderController extends Controller
             ->where('user_id', $getUser->user_id)->get();
         return view('client.order.list-order', compact('getOrder', 'getUser'));
     }
+
+    public function orderDetail($id){
+        $detail = Order::findOrFail($id);
+        $quantity = $detail->order_item->sum('quantity');
+        return view('client.order.orderDetail', compact('detail', 'quantity'));
+    }
+
+    public function trackOrder(){
+        return view('client.order.track-order');
+    }
 }

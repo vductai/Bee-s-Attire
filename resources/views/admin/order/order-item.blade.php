@@ -86,7 +86,6 @@
                                         <th>#</th>
                                         <th>Image</th>
                                         <th>Item</th>
-                                        <th>Description</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Total</th>
@@ -101,7 +100,6 @@
                                                      src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                      alt="product-image"></td>
                                             <td>{{$item->product->product_name}}</td>
-                                            <td>Half Sleeve men T-shirt with cap in Dark Blue Color.</td>
                                             <td>{{$item->quantity}}</td>
                                             <td>{{number_format($item->product->sale_price)}} đ</td>
                                             <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>
@@ -127,17 +125,33 @@
                                             class="d-inline-block float-right text-default">{{number_format($detail->total_price)}} đ</span>
                                     </li>
 
-                                    <li class="mid pb-3 text-dark">Voucher ( {{$detail->voucher->voucher_price}} % )
-                                        <span
-                                            class="d-inline-block float-right text-default"
-                                        >{{number_format($detail->total_price * ($detail->voucher->voucher_price / 100)) }} đ</span>
-                                    </li>
+                                    @if(is_null($detail->voucher_id))
+                                        <li class="mid pb-3 text-dark">Voucher
+                                            <span
+                                                class="d-inline-block float-right text-default"
+                                            >0</span>
+                                        </li>
+                                    @else
+                                        <li class="mid pb-3 text-dark">Voucher ( {{$detail->voucher->voucher_price}} % )
+                                            <span
+                                                class="d-inline-block float-right text-default"
+                                            >{{number_format($detail->total_price * ($detail->voucher->voucher_price / 100)) }} đ</span>
+                                        </li>
+                                    @endif
 
-                                    <li class="text-dark">Total
-                                        <span class="d-inline-block float-right">
+                                    @if(is_null($detail->voucher_id))
+                                        <li class="text-dark">Total
+                                            <span class="d-inline-block float-right">
+                                            {{number_format($detail->final_price)}} đ
+                                        </span>
+                                        </li>
+                                    @else
+                                        <li class="text-dark">Total
+                                            <span class="d-inline-block float-right">
                                             {{number_format($detail->total_price - ($detail->total_price * ($detail->voucher->voucher_price / 100)))}} đ
                                         </span>
-                                    </li>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

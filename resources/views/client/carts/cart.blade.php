@@ -52,7 +52,7 @@
                                         @foreach($getCart as $item)
                                             <tr>
                                                 <td class="cr-cart-name">
-                                                    <a href="javascript:void(0)">
+                                                    <a href="{{route('detail', ['slug' => $item->product->slug])}}" data-idPro="{{$item->product_id}}">
                                                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                              alt="product-1" class="cr-cart-img">
                                                         <div>
@@ -63,7 +63,7 @@
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td class="cr-cart-price">
+                                                <td class="cr-cart-price" data-total="{{$item->product->sale_price}}">
                                                     <span class="amount product_price">{{number_format($item->product->sale_price)}} đ</span>
                                                 </td>
                                                 <td class="cr-cart-qty">
@@ -98,7 +98,7 @@
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
                                             <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
-                                            <a href="{{route('checkout')}}" class="cr-button">Check Out</a>
+                                            <a href="" class="cr-button checkout">Check Out</a>
                                         </div>
                                     </div>
                                 </div>
@@ -109,6 +109,7 @@
             </div>
         </div>
     </section>
+<<<<<<< HEAD
     <script !src="">
         document.addEventListener('DOMContentLoaded', function () {
             const plusButtons = document.querySelectorAll('.pluss');
@@ -172,4 +173,6 @@
             });
         });
     </script>
+=======
+>>>>>>> 050a147a7b8da9d9a84ba4aa4603696c19359b41
 @endsection

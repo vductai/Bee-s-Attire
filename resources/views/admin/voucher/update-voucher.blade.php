@@ -30,6 +30,13 @@
                                         <p class="error-text text-danger" id="voucher_price-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
+                                        <label>Quantity</label>
+                                        <div class="col-12">
+                                            <input id="quantity" value="{{$find->quantity}}" name="quantity" class="form-control here slug-title" type="number">
+                                        </div>
+                                        <p class="error-text text-danger" id="quantity-error"></p> <!-- Sửa id -->
+                                    </div>
+                                    <div class="form-group">
                                         <label>Start date</label>
                                         <div class="col-12">
                                             <input id="start_date" value="{{$find->start_date}}" name="start_date" class="form-control here slug-title" type="datetime-local">
@@ -72,6 +79,7 @@
                                 <th>STT</th>
                                 <th>Voucher code</th>
                                 <th>Discount</th>
+                                <th>Quantity</th>
                                 <th>Desc</th>
                                 <th>Start date</th>
                                 <th>End date</th>
@@ -84,6 +92,7 @@
                                     <td>{{$loop->index}}</td>
                                     <td class="voucherCode">{{$item->voucher_code}}</td>
                                     <td class="voucherPrice">{{$item->voucher_price}} %</td>
+                                    <td class="quantity">{{$item->quantity}}</td>
                                     <td class="voucherDesc">{{$item->voucher_desc}}</td>
                                     <td class="startDate">{{$item->start_date}}</td>
                                     <td class="endDate">{{$item->end_date}}</td>

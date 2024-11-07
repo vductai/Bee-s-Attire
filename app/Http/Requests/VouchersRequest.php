@@ -22,6 +22,7 @@ class VouchersRequest extends FormRequest
             'voucher_desc' => 'required|string|max:255',
             'start_date' => 'required|date|max:255',
             'end_date' => 'required|date|max:255',
+            'quantity' => 'required'
         ];
     }
 
@@ -29,6 +30,7 @@ class VouchersRequest extends FormRequest
     {
         return [
             'voucher_desc.required' => 'Mô tả voucher bắt buộc điền',
+            'quantity.required' => 'Nhập số lượng',
             'voucher_code.required' => 'Mã code voucher bắt buộc điền',
             'voucher_price.required' => 'Giá voucher bắt buộc điền',
             'start_date.required' => 'Nhập ngày bắt đầu',

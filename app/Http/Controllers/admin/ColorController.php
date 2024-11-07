@@ -50,9 +50,6 @@ class ColorController extends Controller
             'color_name' =>$request->color_name,
             'color_code' => $request->color_code
         ]);
-
-        broadcast(new ColorEvent($create, 'create'))->toOthers();
-
         return response()->json($create);
     }
 
@@ -67,16 +64,11 @@ class ColorController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $find = Color::findOrFail($id);
-
         $find->update([
             'color_name' => $request->color_name,
            'color_code' => $request->color_code
         ]);
-
-        broadcast(new ColorEvent($find, 'update'))->toOthers();
-
         return response()->json($find);
     }
 
@@ -85,10 +77,7 @@ class ColorController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
         $color->delete();
-        broadcast(new ColorEvent($color, 'delete'))->toOthers();
         return response()->json(['message' => 'done']);
     }
-
 }

@@ -1,5 +1,3 @@
-/* ====== Chart ====== */
-
 (function ($) {
     "use strict";
     function newrevenueChart() {
@@ -10,11 +8,10 @@
                 stacked: false,
                 foreColor: '#373d3f',
                 sparkline: {
-                    enabled: !1
+                    enabled: false
                 },
                 dropShadow: {
                     enabled: true,
-                    enabledOnSeries: undefined,
                     top: 5,
                     left: 5,
                     blur: 3,
@@ -22,23 +19,25 @@
                     opacity: 0.1
                 },
                 toolbar: {
-                    show: !1
+                    show: false
                 }
             },
             dataLabels: {
-                enabled: !1
+                enabled: false
             },
             series: [
                 {
-                    name: 'Revenue',
-                    data: [25, 65, 42, 52, 14, 32, 54, 12, 24, 63, 24],
-                }, {
                     name: 'Orders',
-                    data: [15, 65 ,45, 44, 65, 85, 23, 74, 53, 65, 75],
+                    data: ordersPerMonth,
                 }, {
-                    name: 'Expence',
-                    data: [12, 31, 40, 39, 54, 74, 20, 48, 50, 25, 43],
+                    name: 'Products Sold',
+                    data: productsSoldPerMonth, 
+                }, {
+                    name: 'Views',
+                    data: viewsPerMonth, 
                 },
+                
+                
             ],
             plotOptions: {
                 bar: {
@@ -63,24 +62,24 @@
             },
             colors: ["#3f51b5", "#50d1f8", "#5caf90"],
             xaxis: {
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 
                 axisTicks: {
-                    show: !1
+                    show: false
                 },
                 axisBorder: {
-                    show: !1
+                    show: false
                 }
             },
             yaxis: {
                 labels: {
                     formatter: function (e) {
-                        return e + "k"
+                        return e;
                     },
                     offsetX: -15
                 }
             },
             legend: {
-                show: !0,
+                show: true,
                 horizontalAlign: "center",
                 offsetX: 0,
                 offsetY: -5,
@@ -95,15 +94,15 @@
                 }
             },
             grid: {
-                show: !1,
+                show: false,
                 xaxis: {
                     lines: {
-                        show: !1
+                        show: false
                     }
                 },
                 yaxis: {
                     lines: {
-                        show: !1
+                        show: false
                     }
                 },
                 padding: {
@@ -130,7 +129,11 @@
     }
     function newcampaignsChart() {
         var options = {
-            series: [44, 55, 67],
+            series: [
+                ordersPerMonth.reduce((a, b) => a + b, 0),  
+                productsSoldPerMonth.reduce((a, b) => a + b, 0), 
+                viewsPerMonth.reduce((a, b) => a + b, 0)
+            ],
             chart: {
                 height: 350,
                 type: 'radialBar',
@@ -148,23 +151,24 @@
                             show: true,
                             label: 'Total',
                             formatter: function (w) {
-                                return 249
+         
+                                return w.series.reduce((a, b) => a + b, 0);
                             }
                         }
                     }
                 }
             },
-            labels: ['Social', 'Referral', 'Organic'],
+            labels: ['Orders', 'Products Sold', 'Product Views'],
             colors: ["#3f51b5", "#50d1f8", "#5caf90"],
         };
-
+    
         var newcampaignsChart = new ApexCharts(document.querySelector("#newcampaignsChart"), options);
         newcampaignsChart.render();
     }
+    
 
     jQuery(window).on('load', function () {
         newrevenueChart();
         newcampaignsChart();
     });
-
 })(jQuery);
