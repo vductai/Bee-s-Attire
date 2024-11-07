@@ -104,6 +104,7 @@
                                 <ul class="border-top">
                                     <li><a href="team-profile.html">Profile</a></li>
                                     <li><a href="project-overview.html">Projects</a></li>
+                                    <li><a href="project-overview.html">Your order</a></li>
                                 </ul>
                                 <ul class="border-top">
                                     <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
