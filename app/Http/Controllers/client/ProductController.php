@@ -53,33 +53,56 @@ class ProductController extends Controller
 
 
     // list product shop
-    public function getProductShop()
+    public function getProductShop(Request $request)
     {
+        $searchTerm = $request->input('searchTerm');
+
+        $listAllProductShop = Product::where('action', '=', 1)
+            ->when($searchTerm, function ($query, $searchTerm) {
+                return $query->where(function ($query) use ($searchTerm) {
+                    $query->where('product_name', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhereHas('tags', function ($query) use ($searchTerm) {
+                            $query->where('tag_name', 'LIKE', '%' . $searchTerm . '%');
+                        });
+                });
+            })
+            ->get();
+
         $listcategory = Category::withCount('product')->get();
-        $listAllProductShop = Product::where('action', '=', 1)->get();
         $listColor = Color::all();
         $listSize = Size::all();
         $tags = Tag::all();
         $priceRange = Product::selectRaw('MIN(sale_price) as min_price, MAX(sale_price) as max_price')->first();
         $lowestPrice = $priceRange->min_price;
         $highestPrice = $priceRange->max_price;
-        return view('client.product.show-product', compact('listAllProductShop',
-            'listcategory', 'listSize', 'listColor', 'tags', 'lowestPrice', 'highestPrice'));
+
+        return view('client.product.show-product', compact(
+            'listAllProductShop',
+            'listcategory',
+            'listSize',
+            'listColor',
+            'tags',
+            'lowestPrice',
+            'highestPrice'
+        ));
     }
 
-    public function search(Request $request){
+
+
+    public function search(Request $request)
+    {
         $categories = $request->input('categories', []);
         $colors = $request->input('colors', []);
         $sizes = $request->input('sizes', []);
         // Lấy ProductVariant cùng với thông tin Product và Category
         $query = ProductVariant::with('product.category');
 
-        if (empty($categories) && empty($colors) && empty($sizes)){
+        if (empty($categories) && empty($colors) && empty($sizes)) {
             $products = Product::with('category')->get();
             return response()->json([
                 'products' => $products
             ]);
-        }else{
+        } else {
             if (!empty($categories)) {
                 $query->whereHas('product.category', function ($q) use ($categories) {
                     $categoryIds = Category::whereIn('category_name', $categories)->pluck('category_id')->toArray();
@@ -101,14 +124,16 @@ class ProductController extends Controller
             return $variant->product;
         })->unique('product_id');
         return response()->json([
-            'products' =>  $products
+            'products' => $products
         ]);
     }
 
-    public function filterPrice(Request $request){
+    public function filterPrice(Request $request)
+    {
         $min = $request->input('min_price');
         $max = $request->input('max_price');
-        function convert($price){
+        function convert($price)
+        {
             $price = str_replace([' đ', '.'], '', $price);
             // chuyển đổi sang số nguyên
             return intval($price);

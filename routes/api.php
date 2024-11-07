@@ -16,6 +16,7 @@ use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\client\ProductController as ProductClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\product\FindProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::prefix('find')->group(function () {
+    Route::get('/slug/product', [FindProductController::class, 'index'])->name('search.product');
+});
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

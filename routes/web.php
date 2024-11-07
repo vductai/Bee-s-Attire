@@ -170,7 +170,6 @@ Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 /*and home*/
 
 
-Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 Route::get('/about', function () {
     return view('client.us.about');
 })->name('about');
@@ -180,3 +179,5 @@ Route::get('/contact', function () {
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
