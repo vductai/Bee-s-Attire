@@ -22,7 +22,10 @@ class CartController extends Controller
 
     public function addCart(Request $request)
     {
-        $request->all();
+        if (!$request->has('product_variant_id') || empty($request->product_variant_id)) {
+            session()->put('errorCart', 'Vui lòng chọn biến thể sản phẩm');
+            return back();
+        }
         // lấy biến thể được chọn
         $variantQuantity = ProductVariant::where('product_variant_id', $request->product_variant_id)->first();
 

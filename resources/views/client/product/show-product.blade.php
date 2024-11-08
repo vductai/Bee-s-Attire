@@ -154,7 +154,11 @@
                                         <div class="cr-brand">
                                             <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
                                         </div>
-                                        <a href="{{route('detail', ['slug' => $item->slug])}}" class="title">
+                                        <a href="{{route('detail', ['slug' => $item->slug])}}"
+                                           style="display: -webkit-box;
+                                            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                                            overflow: hidden; text-overflow: ellipsis; white-space: normal"
+                                           class="title">
                                             {{$item->product_name}}
                                         </a>
                                         <p class="cr-price">

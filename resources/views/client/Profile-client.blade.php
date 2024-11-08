@@ -96,8 +96,11 @@
                                                     <div class="col">
                                                         <div class="voucher-card">
                                                             <div class="voucher-title">{{$item->voucher_desc}}</div>
-                                                            <div class="voucher-discount">{{$item->voucher_price}}% OFF</div>
-                                                            <div class="voucher-details">Use code: <strong>{{$item->voucher_code}}</strong></div>
+                                                            <div class="voucher-discount">{{$item->voucher_price}}%
+                                                                OFF
+                                                            </div>
+                                                            <div class="voucher-details">Use code:
+                                                                <strong>{{$item->voucher_code}}</strong></div>
                                                             <div class="voucher-expiry mb-3">
                                                                 Hạn dùng mã: <br>
                                                                 <b>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</b>
@@ -109,25 +112,28 @@
                                             </div>
                                         </div>
                                     @else
-                                        <h3 class="text-center text-danger" style="margin: 50px 0;">Bạn không có mã giảm giá nào</h3>
+                                        <h3 class="text-center text-danger" style="margin: 50px 0;">Bạn không có mã giảm
+                                            giá nào</h3>
                                     @endif
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                                <div class="">
+                                <form id="formchangePassword">
                                     <h6>Thay đổi mật khẩu</h6>
                                     <div class="mb-3">
-                                        <label for="changePassword" class="form-label">Mật khẩu cũ:</label>
-                                        <input type="password" class="form-control" id="changePassword"
+                                        <label for="changePassword" class="form-label">Nhập mật khẩu mới:</label>
+                                        <input type="password" name="changePassword" class="form-control" id="changePassword"
                                                placeholder="">
+                                        <p class="error-text text-danger" id="changePassword-error"></p>
                                     </div>
                                     <div class="mb-3">
                                         <label for="confirmPassword" class="form-label">Xác nhận mật khẩu:</label>
-                                        <input type="password" class="form-control" id="confirmPassword"
+                                        <input type="password" name="confirmPassword" class="form-control" id="confirmPassword"
                                                placeholder="">
+                                        <p class="error-text text-danger" id="confirmPassword-error"></p>
                                     </div>
-                                    <button type="button" class="cr-button btn-primary">Thay đổi mật khẩu</button>
-                                </div>
+                                    <button type="submit" class="cr-button btn-primary">Thay đổi mật khẩu</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -135,7 +141,6 @@
             </div>
         </div>
     </div>
-
     <!-- Edit Profile Modal -->
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
          aria-hidden="true">
@@ -190,7 +195,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="cr-button btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                            <button type="submit" class="cr-button btn-primary" id="saveProfileChanges">Lưu thay đổi</button>
+                            <button type="submit" class="cr-button btn-primary" id="saveProfileChanges">Lưu thay đổi
+                            </button>
                         </div>
                     </form>
                 </div>

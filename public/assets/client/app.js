@@ -184,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 cartItems.push({
                     product_id: parseInt(productId),
                     quantity: quantity,
-                    price: totalprice * quantity,
                     price: totalprice * quantity
                 })
             }
@@ -293,3 +292,33 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
         });
     })
 })
+
+/*-------------------------------------------------------- change password profile -------------------------------------------*/
+
+const formchangePassword = document.getElementById('formchangePassword')
+const changePassword = document.getElementById('changePassword')
+const confirmPassword = document.getElementById('confirmPassword')
+if (formchangePassword) {
+    formchangePassword.addEventListener('submit', function (e) {
+        e.preventDefault()
+        document.querySelectorAll('.error-text').forEach(function (e) {
+            e.textContent = ''
+        })
+        axios.put('/changePassword', {
+            changePassword: changePassword.value,
+            confirmPassword: confirmPassword.value
+        }, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).catch(err => {
+            if (err.response && err.response.data.errors){
+                let errors = err.response.data.errors
+                for (let field in errors){
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0]
+                }
+            }
+        })
+        this.reset();
+    })
+}

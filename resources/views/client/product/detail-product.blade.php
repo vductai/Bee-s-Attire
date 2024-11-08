@@ -124,14 +124,6 @@
                                     {{ session()->forget('errorCart') }}
                                 @endif
                             </div>
-                            <div class="cr-add-button">
-                                @if(session()->has('errorCart'))
-                                    <div class="alert alert-danger">
-                                        {{ session('errorCart') }}
-                                    </div>
-                                    {{ session()->forget('errorCart') }}
-                                @endif
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -200,8 +192,8 @@
                                                value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
                                             @if(auth()->check())
-                                                <textarea id="comment" name="comment"
-                                                          placeholder="Nhập bình luận của bạn"></textarea>
+                                                <textarea id="comment" name="comment" placeholder="Nhập bình luận của bạn"></textarea>
+                                                <p class="text-danger error-text" id="comment-error"></p>
                                                 <button class="cr-button" type="submit">Submit</button>
                                             @else
                                                 <p class="alert alert-danger">Đăng nhập để bình luận</p>

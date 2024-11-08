@@ -18,7 +18,9 @@
     <!-- Icon CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/remixicon.css')}}">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Vendor -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/animate.css')}}">
@@ -28,12 +30,11 @@
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/swiper-bundle.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/jquery.slick.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/slick-theme.css')}}">
-    @vite('resources/js/comment.js')
-    @vite('resources/js/whishlist.js')
+@vite('resources/js/comment.js')
+@vite('resources/js/whishlist.js')
 
-    <!-- Main CSS -->
+<!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
-    <livewire:styles/>
 </head>
 
 <body class="body-bg-6">
@@ -53,7 +54,14 @@
                         <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <livewire:tag-search/>
+                    <form class="cr-search">
+                        <input class="search-input"
+                               id="search-box"
+                               type="text" placeholder="Search For items...">
+                        <a href="javascript:void(0)" class="search-btn">
+                            <i class="ri-search-line"></i>
+                        </a>
+                    </form>
                     <div class="cr-right-bar">
                         <ul class="navbar-nav">
                             @if(auth()->check())
@@ -70,10 +78,12 @@
                                             <a class="dropdown-item" href="">Thông báo</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn hàng</a>
+                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn
+                                                hàng</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của
+                                                bạn</a>
                                         </li>
                                         <li>
                                             <form action="{{ route('client.logout') }}" method="POST"
@@ -81,7 +91,8 @@
                                                 @csrf
                                             </form>
                                             <a class="dropdown-item" href="#"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng
+                                                xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -119,7 +130,8 @@
                                 @else
                                     <span
                                         class="position-absolute top-10 start-100 translate-middle
-                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
+                                        bg-danger border border-light rounded-circle"
+                                        style="padding: 6px; display:none;">
                                     </span>
                                 @endif
                             </a>
@@ -135,5 +147,4 @@
         @include('layout.client.navigation')
     </div>
 </header>
-<livewire:scripts/>
 @include('layout.client.mobile-menu')

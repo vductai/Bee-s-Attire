@@ -45,8 +45,15 @@ class ProductController extends Controller
 
     public function getProductDetail($slug)
     {
+        session(['url.intended' => url()->current()]);
         $getDetail = Product::where('slug', $slug)->first();
-        $id = Product::select('product_id')->where('slug', $slug);
+        $id = $getDetail->product_id;
+        // tăng lượt xem
+        $productKey = 'product_' . $id;
+        if (!session()->has($productKey)){
+            $getDetail->increment('views');
+            session([$productKey => true]);
+        }
         $listPost = Comment::where('product_id', $id)->get();
         return view('client.product.detail-product', compact('getDetail', 'listPost'));
     }
