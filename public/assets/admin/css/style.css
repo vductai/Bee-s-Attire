@@ -39,6 +39,12 @@
 -----------------------------------------------------------------------------------*/
 /*=== Typography ===*/
 /*--  Poppins font  --*/
+*{
+    font-family: Be Vietnam Pro, Sans-Serif !important;
+    font-weight: 450 !important;
+    font-style: normal !important;
+}
+
 @font-face {
   font-family: "Poppins, sans-serif";
   src: url("../fonts/poppins/Poppins-Thin.ttf") format("truetype");

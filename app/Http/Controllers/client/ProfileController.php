@@ -52,5 +52,24 @@ class ProfileController extends Controller
         }
     }
 
+    public function changePasswordProfile(Request $request){
+        $id = Auth::user()->user_id;
+        $change = User::findOrFail($id);
+        $request->validate(
+            [
+                'changePassword' => ['required'],
+                'confirmPassword' => ['required', 'same:changePassword']
+            ],
+            [
+                'changePassword.required' => 'Không được để trống',
+                'confirmPassword.required' => 'Không được để trống',
+                'confirmPassword.same' => 'Không khớp với mật khẩu trước'
+            ]
+        );
+        $change->update([
+            'password' => $request->changePassword
+        ]);
+        return response()->json(['message' => 'done']);
+    }
 
 }

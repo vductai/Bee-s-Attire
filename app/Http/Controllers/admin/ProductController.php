@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Featured_categories;
+use App\Models\Parent_Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
@@ -47,7 +48,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $category = Category::all();
+        $category = Parent_Category::all();
         $color = Color::all();
         $size = Size::all();
         $featured_categories = Featured_categories::all();

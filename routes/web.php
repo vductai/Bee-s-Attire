@@ -27,6 +27,7 @@ use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\ParentProductController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
+use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\client\VNPayController;
 use App\Http\Controllers\client\WishListController;
 use App\Jobs\SendMailVoucherExpiredJob;
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // get profile
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
         // update profile
+        Route::put('/changePassword', [ProfileController::class, 'changePasswordProfile']);
         Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('update-profile-user');
         // wishlist
         Route::get('/wish-list', [WishListController::class, 'index'])->name('list-wish');
@@ -164,7 +166,7 @@ Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('pro
 // product parent
 Route::get('/parent/{slug}', [ParentProductController::class, 'getProductParent'])->name('parent');
 // search
-Route::post('/search-product', [ProductClient::class, 'search']);
+Route::get('/search-product', [SearchController::class, 'searchProduct']);
 // filter price
 Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 /*and home*/
