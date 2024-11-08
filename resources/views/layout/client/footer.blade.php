@@ -168,7 +168,6 @@
 <script src="{{asset('assets/client/js/vendor/aos.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/swiper-bundle.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/slick.min.js')}}"></script>
-
 <!-- Main Custom -->
 <script src="{{asset('assets/client/js/main.js')}}"></script>
 <script src="{{asset('assets/client/app.js')}}"></script>

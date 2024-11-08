@@ -97,7 +97,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
-                                            <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
+                                            <a href="{{route('home')}}" class="cr-links">Tiếp tục mua sắm</a>
                                             <a href="" class="cr-button checkout">Check Out</a>
                                         </div>
                                     </div>

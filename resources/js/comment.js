@@ -10,6 +10,9 @@ if (formComment){
         const userId = document.getElementById('user_id_comment').value
         const comment = document.getElementById('comment')
         const productId = document.getElementById('product_id_comment').value
+        document.querySelectorAll('.error-text').forEach(function (e) {
+            e.textContent = ''
+        })
         axios.post('/comment',{
             user_id: userId,
             comment: comment.value,
@@ -59,6 +62,13 @@ if (formComment){
             `
             viewComment.appendChild(commentPost)
             //console.log(data)
+        }).catch(err => {
+            if (err.response && err.response.data.errors){
+                let errors = err.response.data.errors
+                for (let field in errors){
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0]
+                }
+            }
         })
         // xoa dữ liệu cũ khi submit
         this.reset();

@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Add Product</h5>
+            <h5>Thêm sản phẩm</h5>
         </div>
     </div>
     <form class="row" method="post" action="{{route('product.store')}}" enctype="multipart/form-data">
@@ -118,7 +118,7 @@
                             <div class="cr-vendor-upload-detail">
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="inputEmail4" class="form-label">Product name</label>
+                                        <label for="inputEmail4" class="form-label">Tên sản phẩm</label>
                                         <input type="text" name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
                                         @error('product_name')
@@ -126,15 +126,19 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Select Categories</label>
-                                        <select name="category_id" class="form-control form-select">
+                                        <label class="form-label">Danh mục</label>
+                                        <select class="form-control form-select">
                                             @foreach($category as $item)
-                                                <option value="{{$item->category_id}}">{{$item->category_name}}</option>
+                                                <optgroup label="{{$item->name}}">
+                                                    @foreach($item->children as $children)
+                                                        <option value="{{$children->category_id}}">{{$children->category_name}}</option>
+                                                    @endforeach
+                                                </optgroup>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-12">
-                                        <label for="slug" class="col-12 col-form-label">Slug</label>
+                                        <label for="slug" class="col-12 col-form-label">Đường dẫn</label>
                                         <div class="col-12">
                                             <input name="slug" id="slug" class="form-control here set-slug"
                                                    type="hidden">
@@ -143,18 +147,18 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">
-                                            Product Tags
+                                            Từ khoá sản phẩm
                                             <span>( abc, cde, ... )</span>
                                         </label>
                                         <input type="text" class="form-control" id="group_tag"
                                                name="tag_name" value="" placeholder="">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Price</label>
+                                        <label class="form-label">Giá</label>
                                         <input type="number" name="product_price" class="form-control" id="price1">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Sale price</label>
+                                        <label class="form-label">Giá khuyến mãi</label>
                                         <input type="number" name="sale_price" class="form-control" id="price1">
                                     </div>
                                     <div class="col-md-12">
@@ -177,11 +181,11 @@
                                         </button>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="form-label">Desc</label>
+                                        <label class="form-label">Mô tả sản phẩm</label>
                                         <textarea name="product_desc" id="editor1" cols="80" rows="70"></textarea>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn cr-btn-primary">Submit</button>
+                                        <button type="submit" class="btn cr-btn-primary">Thêm sản phẩm</button>
                                     </div>
                                 </div>
                             </div>

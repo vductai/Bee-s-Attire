@@ -70,15 +70,13 @@ class AuthClientController extends Controller
                 session()->put('errorsLogin', 'Tài khoản này chưa được xác minh, vui lòng xác minh email để tiếp tục');
                 return redirect()->route('client-viewLogin')->withErrors([]);
             }
-
             if ($user && $user->action == 0){
                 Auth::guard('web')->logout();
                 session()->put('errorsLogin', 'Tài khoản này đã bị vô hiệu hoá');
                 return redirect()->route('client-viewLogin');
             }
-
             $user->createToken('MyAppToken')->plainTextToken;
-            return redirect()->route('home');
+            return redirect()->intended('/');
         } else {
             session()->put('errorsLogin', 'Email hoặc mật khẩu không đúng');
             return redirect()->route('client-viewLogin');
