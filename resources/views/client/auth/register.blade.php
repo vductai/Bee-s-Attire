@@ -58,6 +58,12 @@
                                         <input type="password" name="password_confirmation" placeholder="Enter Your forgot password" class="cr-form-control">
                                     </div>
                                 </div>
+                                <div class="col-12 mb-3">
+                                    <a href="{{route('auth.google')}}" class="cr-button">
+                                        <i class="ri-google-fill mx-2"></i>
+                                        google
+                                    </a>
+                                </div>
                                 <div class="cr-register-buttons">
                                     <button type="submit" class="cr-button">Signup</button>
                                     <a href="login.html" class="link">

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\CategoryEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Parent_Category;
 use App\Models\User;
 use App\Policies\CategoryPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CategoryAPIController extends Controller
 {
@@ -21,33 +24,34 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
-
-        $categoreis = Category::all();
-
-        return response()->json([
-            'message' => 'list',
-            'data' => $categoreis
-        ]);
+        $list = Category::all();
+        return view('admin.category.list-category', compact('list'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+    public function create(){
+        $list = Category::all();
+        $parent = Parent_Category::all();
+        return view('admin.category.add-category', compact('list', 'parent'));
+    }
+
     public function store(CategoryRequest $request)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $param = $request->all();
-
-        $category = Category::create($param);
-
-        return response()->json([
-            'message' => 'Them moi thanh cong !',
-            'data' => $category,
+        $category = Category::create([
+            'category_name' => $request->category_name,
+            'id' => $request->id
         ]);
+        $parent = Parent_Category::find($request->id);
+        return response()->json(
+            [
+                'category' => $category,
+                'parent' => $parent
+            ]
+        );
     }
 
     /**
@@ -60,32 +64,37 @@ class CategoryAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
         $categories = Category::query()->findOrFail($id );
-
         return response()->json([
         'message' => 'fall',
         'data' => $categories,
     ]);;
     }
 
+    public function edit($id){
+        $find = Category::findOrFail($id);
+        $list = Category::all();
+        $parent = Parent_Category::all();
+        return view('admin.category.update-category', compact('find', 'list', 'parent'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $categories = Category::query()->findOrFail($id);
-
-        $param = $request->all();
-
-        $categories->update($param);
-
-        return response()->json([
-            'data' => $categories,
-            'message' => 'Sua thanh cong !',
-        ]);
+        $categories = Category::findOrFail($id);
+        $categories->update($request->all());
+        $parent = Parent_Category::find($request->id);
+        return response()->json(
+            [
+                'category' => $categories,
+                'parent' => $parent
+            ]
+        );
     }
 
     /**
@@ -97,7 +106,7 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $categories = Category::query()->findOrFail($id );
+        $categories = Category::findOrFail($id );
         $categories->delete();
         return response()->json([
             'message' => 'Xoa thanh cong !',

@@ -10,11 +10,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\DatabaseNotification; // Đây là lớp Notification cơ bản của Laravel
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    use Notifiable;
 
     protected $primaryKey = 'user_id';
     protected $table = 'users';
@@ -29,6 +30,8 @@ class User extends Authenticatable
         'birthday',
         'address',
         'role_id',
+        'google_id',
+        'action'
     ];
 
     protected $hidden = [
@@ -48,6 +51,16 @@ class User extends Authenticatable
         }
     }
 
+    public function whishlists()
+    {
+        return $this->hasMany(Whishlist::class, 'user_id');
+    }
+
+    public function whishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'whishlist',
+            'user_id', 'product_id');
+    }
 
     public function cart()
     {
@@ -74,5 +87,26 @@ class User extends Authenticatable
         return $this->forceFill([
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function voucher()
+    {
+        return $this->belongsToMany(Vouchers::class, 'user_voucher',
+            'user_id', 'voucher_id');
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->whereNull('read_at');
     }
 }

@@ -1,13 +1,7 @@
 @extends('layout.admin.home')
 @section('content_admin')
     @if(session('errorColor'))
-        <script>
-            console.log('{{session('errorColor')}}')
-            console.log('day la loi')
-            window.addEventListener('DOMContentLoaded', function() {
-                alert("{{ session('errorColor') }}");
-            });
-        </script>
+        <h1>{{session('errorColor')}}</h1>
     @endif
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
@@ -19,27 +13,26 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="product_list" class="table" style="width:100%">
+                        <table id="cat_data_table" class="table">
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Color_name</th>
-                                <th>Color_code</th>
+                                <th>Color name</th>
+                                <th>Color code</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-
                             @foreach($listColor as $item)
-                                <tr>
+                                <tr data-id="{{$item->color_id}}">
                                     <td>{{$loop->index}}</td>
-                                    <td>{{$item->color_name}}</td>
+                                    <td class="colorName">{{$item->color_name}}</td>
                                     <td>
-                                        <input id="text" name="color_code"
+                                        <input id="colorCode" name="color_code"
                                                class="form-control here slug-title" type="color" value="{{$item->color_code}}" disabled>
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center">
+                                        <div>
                                             <button type="button"
                                                     class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
                                                     data-bs-toggle="dropdown" aria-haspopup="true"
@@ -48,13 +41,8 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('color.edit', $item->color_id)}}">Edit</a>
-                                                <form action="{{route('color.destroy', $item->color_id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>
-{{--                                                <a  href="{{route('color.destroy', $item->color_id)}}">Delete</a>--}}
+                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
                                             </div>
                                         </div>
                                     </td>

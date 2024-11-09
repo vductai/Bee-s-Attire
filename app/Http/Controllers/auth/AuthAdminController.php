@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\auth;
 
+use App\Events\AuthEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\LoginAdminRequest;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -11,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 class AuthAdminController extends Controller
 {
     public function getProfile(){
-
         if (Auth::check()){
             return Auth::user();
         }
@@ -51,5 +53,26 @@ class AuthAdminController extends Controller
             return redirect()->route('admin.viewLogin');
         }
 
+    }
+
+
+    public function toggleUserStatus($id){
+        $user = User::find($id);
+        $user->action = !$user->action;
+        $user->update();
+
+        broadcast(new AuthEvent($user))->toOthers();
+
+        return redirect()->back();
+    }
+
+    public function toggleProductStatus($id){
+        $product = Product::find($id);
+        $product->action = !$product->action;
+        $product->update();
+
+        broadcast(new AuthEvent($product))->toOthers();
+
+        return redirect()->back();
     }
 }

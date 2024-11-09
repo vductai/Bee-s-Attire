@@ -9,7 +9,10 @@
                         <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </div>
-                    <p>Carrot is the biggest market of grocery products. Get your daily needs from our store.</p>
+                    <p>
+                        Bee's Attire là một trang bán hàng chuyên về thời trang nam đa dạng về mẫu mã,
+                        phù hợp với nhiều lứa tuổi
+                    </p>
                 </div>
                 <div class="cr-footer">
                     <h4 class="cr-sub-title cr-title-hidden">
@@ -18,13 +21,14 @@
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">
                         <li class="location-icon">
-                            51 Green St.Huntington ohaio beach ontario, NY 11746 KY 4783, USA.
+                            Cổng số 1, Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô,
+                            phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội .
                         </li>
                         <li class="mail-icon">
-                            <a href="javascript:void(0)">example@email.com</a>
+                            <a href="javascript:void(0)">taivdph43863@fpt.edu.vn</a>
                         </li>
                         <li class="phone-icon">
-                            <a href="javascript:void(0)"> +91 123 4567890</a>
+                            <a href="javascript:void(0)">024 8582 0808</a>
                         </li>
                     </ul>
                 </div>
@@ -32,39 +36,36 @@
             <div class="col-xl-2 col-lg-3 col-sm-12 col-12 cr-footer-border">
                 <div class="cr-footer">
                     <h4 class="cr-sub-title">
-                        Company
+                        Hỗ trợ khách hàng
                         <span class="cr-heading-res"></span>
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="track-order.html">Delivery Information</a></li>
-                        <li><a href="policy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                        <li><a href="contact-us.html">contact Us</a></li>
-                        <li><a href="faq.html">Support Center</a></li>
+                        <li><a href="{{route('about')}}">Về chúng tôi</a></li>
+                        <li><a href="track-order.html">Thông tin giao hàng</a></li>
+                        <li><a href="policy.html">Chính sách bảo mật</a></li>
+                        <li><a href="terms.html">Điều khoản & Điều kiện</a></li>
+                        <li><a href="{{route('contact')}}">Liên hệ với chúng tôi</a></li>
+{{--                        <li><a href="faq.html">Support Center</a></li>--}}
                     </ul>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-3 col-sm-12 col-12 cr-footer-border">
                 <div class="cr-footer">
                     <h4 class="cr-sub-title">
-                        Category
+                        Danh mục
                         <span class="cr-heading-res"></span>
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">
-                        <li><a href="shop-left-sidebar.html">Dairy & Bakery</a></li>
-                        <li><a href="shop-left-sidebar.html">Fruits & Vegetable</a></li>
-                        <li><a href="shop-left-sidebar.html">Snack & Spice</a></li>
-                        <li><a href="shop-left-sidebar.html">Juice & Drinks</a></li>
-                        <li><a href="shop-left-sidebar.html">Chicken & Meat</a></li>
-                        <li><a href="shop-left-sidebar.html">Fast Food</a></li>
+                        @foreach($Category as $item)
+                            <li><a href="javascript:void(0)">{{$item->category_name}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
             <div class="col-xl-4 col-lg-12 col-sm-12 col-12 cr-footer-border">
                 <div class="cr-footer cr-newsletter">
                     <h4 class="cr-sub-title">
-                        Subscribe Our Newsletter
+                        Đăng ký nhận bản tin của chúng tôi
                         <span class="cr-heading-res"></span>
                     </h4>
                     <div class="cr-footer-links cr-footer-dropdown">
@@ -77,7 +78,6 @@
                     </div>
                     <div class="cr-social-media">
                         <span><a href="javascript:void(0)"><i class="ri-facebook-line"></i></a></span>
-                        <span><a href="javascript:void(0)"><i class="ri-twitter-x-line"></i></a></span>
                         <span><a href="javascript:void(0)"><i class="ri-dribbble-line"></i></a></span>
                         <span><a href="javascript:void(0)"><i class="ri-instagram-line"></i></a></span>
                     </div>
@@ -139,7 +139,7 @@
             </div>
         </div>
         <div class="cr-last-footer">
-            <p>&copy; <span id="copyright_year"></span> <a href="index.html">Carrot</a>, All rights reserved.</p>
+            <p>&copy; <span id="copyright_year"></span> <a href="{{route('home')}}">Bee's Attire</a>, Mọi quyền được bảo lưu.</p>
         </div>
     </div>
 </footer>
@@ -153,7 +153,6 @@
         </svg>
     </div>
 </a>
-
 <!-- Model -->
 @include('client.product.quickview-modal')
 <!-- Cart -->
@@ -172,6 +171,6 @@
 
 <!-- Main Custom -->
 <script src="{{asset('assets/client/js/main.js')}}"></script>
+<script src="{{asset('assets/client/app.js')}}"></script>
 </body>
-<!-- Mirrored from maraviyainfotech.com/projects/carrot/carrot-v2/carrot-html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jun 2024 17:46:40 GMT -->
 </html>

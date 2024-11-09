@@ -42,11 +42,11 @@
             ],
             plotOptions: {
                 bar: {
-                  horizontal: false,
-                  columnWidth: '20%',
+                    horizontal: false,
+                    columnWidth: '20%',
                 }
-              },
-              stroke: {
+            },
+            stroke: {
                 width: [2, 2, 2],
                 curve: "smooth",
             },
@@ -132,32 +132,32 @@
         var options = {
             series: [44, 55, 67],
             chart: {
-            height: 350,
-            type: 'radialBar',
-          },
-          plotOptions: {
-            radialBar: {
-              dataLabels: {
-                name: {
-                  fontSize: '22px',
-                },
-                value: {
-                  fontSize: '16px',
-                },
-                total: {
-                  show: true,
-                  label: 'Total',
-                  formatter: function (w) {
-                    return 249
-                  }
+                height: 350,
+                type: 'radialBar',
+            },
+            plotOptions: {
+                radialBar: {
+                    dataLabels: {
+                        name: {
+                            fontSize: '22px',
+                        },
+                        value: {
+                            fontSize: '16px',
+                        },
+                        total: {
+                            show: true,
+                            label: 'Total',
+                            formatter: function (w) {
+                                return 249
+                            }
+                        }
+                    }
                 }
-              }
-            }
-          },
-          labels: ['Social', 'Referral', 'Organic'],
-          colors: ["#3f51b5", "#50d1f8", "#5caf90"],
-          };
-  
+            },
+            labels: ['Social', 'Referral', 'Organic'],
+            colors: ["#3f51b5", "#50d1f8", "#5caf90"],
+        };
+
         var newcampaignsChart = new ApexCharts(document.querySelector("#newcampaignsChart"), options);
         newcampaignsChart.render();
     }

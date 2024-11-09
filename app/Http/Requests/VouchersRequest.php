@@ -18,10 +18,11 @@ class VouchersRequest extends FormRequest
     {
         return [
             'voucher_code' => 'required|string|max:255',
-            'voucher_price' => 'required|string|max:255',
-            'voucher_desc' => 'required|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'voucher_price' => 'required|numeric',
+            'voucher_desc' => 'required|string|max:255',
+            'start_date' => 'required|date|max:255',
+            'end_date' => 'required|date|max:255',
+            'quantity' => 'required'
         ];
     }
 
@@ -29,12 +30,11 @@ class VouchersRequest extends FormRequest
     {
         return [
             'voucher_desc.required' => 'Mô tả voucher bắt buộc điền',
+            'quantity.required' => 'Nhập số lượng',
             'voucher_code.required' => 'Mã code voucher bắt buộc điền',
             'voucher_price.required' => 'Giá voucher bắt buộc điền',
-            'start_date.required' => 'Vui lòng điền ngày bắt đầu voucher!',
-            'end_date.required' => 'Vui lòng điền ngày kết thúc voucher!',
-            'voucher_code.max' => 'Code voucher không được quá 255 kí tự',
-            'voucher_price.max' => 'Giá voucher không được quá 255 kí tự',
+            'start_date.required' => 'Nhập ngày bắt đầu',
+            'end_date.required' => 'Nhập ngày hết hạn',
         ];
     }
 }

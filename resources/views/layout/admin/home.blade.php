@@ -7,6 +7,8 @@
     <meta name="keywords" content="admin, dashboard, ecommerce, panel"/>
     <meta name="description" content="Carrot - Admin.">
     <meta name="author" content="ashishmaraviya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Carrot - Admin.</title>
 
@@ -32,7 +34,13 @@
     {{--Tailwind css--}}{{--
     @vite('public/assets/app.css')
 --}}
-
+    @vite('resources/js/size.js')
+    @vite('resources/js/color.js')
+    @vite('resources/js/category.js')
+    @vite('resources/js/status.js')
+    @vite('resources/js/voucher.js')
+    @vite('resources/js/user.js')
+    @vite('resources/js/category-parent.js')
 </head>
 
 <body>
@@ -64,62 +72,6 @@
                     </div>
                 </div>
                 <div class="right-header">
-                    {{--                    <div class="cr-right-tool cr-flag-drop language">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <img class="flag" src="{{asset('assets/admin/img/flag/us.png')}}" alt="flag">
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/us.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/in.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/de.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/it.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="flag"
-                                                                                              src="{{asset('assets/admin/img/flag/jp.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="cr-right-tool apps">
-                                            <div class="cr-hover-drop">
-                                                <div class="cr-hover-tool">
-                                                    <i class="ri-apps-2-line"></i>
-                                                </div>
-                                                <div class="cr-hover-drop-panel right">
-                                                    <h6 class="title">Apps</h6>
-                                                    <ul>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/1.png')}}"
-                                                                                              alt="flag">English</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/2.png')}}"
-                                                                                              alt="flag">Hindi</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/3.png')}}"
-                                                                                              alt="flag"> Deutsch</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/4.png')}}"
-                                                                                              alt="flag">Italian</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/5.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                        <li><a href="javascript:void(0)"><img class="app"
-                                                                                              src="{{asset('assets/admin/img/apps/6.png')}}"
-                                                                                              alt="flag">Japanese</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>--}}
                     <div class="cr-right-tool display-screen">
                         <a class="cr-screen full" href="javascript:void(0)"><i
                                 class="ri-fullscreen-line"></i></a>
@@ -150,7 +102,7 @@
 
                                 </div>
                                 <ul class="border-top">
-                                    <li><a href="/admin/profile">Profile</a></li>
+                                    <li><a href="team-profile.html">Profile</a></li>
                                     <li><a href="project-overview.html">Projects</a></li>
                                 </ul>
                                 <ul class="border-top">
@@ -215,28 +167,30 @@
     </div>
 </main>
 
+
 <!-- Vendor Custom -->
-<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}"></script>
 <!-- Data Tables -->
-<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/datatables.responsive.min.js')}}"></script>
 <!-- Caleddar -->
-<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/jquery.simple-calendar.js')}}"></script>
 <!-- Date Range Picker -->
-<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}" async></script>
-<script src="{{asset('assets/admin/js/vendor/date-range.js')}}" async></script>
+<script src="{{asset('assets/admin/js/vendor/moment.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/daterangepicker.js')}}"></script>
+<script src="{{asset('assets/admin/js/vendor/date-range.js')}}"></script>
 
 <!-- Main Custom -->
-<script src="{{asset('assets/admin/js/main.js')}}" async></script>
-<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}" async></script>
+<script src="{{asset('assets/admin/js/main.js')}}"></script>
+<script src="{{asset('assets/admin/app.js')}}"></script>
+<script src="{{asset('assets/admin/js/data/ecommerce-chart-data.js')}}"></script>
 @yield('script')
 </body>
 </html>
