@@ -8,17 +8,17 @@
 
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-    
+
         var pusher = new Pusher('88008db891eef10204ed', {
           cluster: 'ap1'
         });
-    
+
         var channel = pusher.subscribe('notify-channel');
         channel.bind('form-submit', function(data) {
           alert(JSON.stringify(data));
         });
       </script>
-      
+
     <div class="cr-page-title">
         <div class="cr-breadcrumb">
             <h5>eCommerce</h5>
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    {{--<div class="row">
+    <div class="row">
         <div class="col-xxl-8 col-xl-12">
             <div class="cr-card revenue-overview">
                 <div class="cr-card-header header-575">
@@ -190,5 +190,5 @@
                 </div>
             </div>
         </div>
-    </div>--}}
+    </div>
 @endsection

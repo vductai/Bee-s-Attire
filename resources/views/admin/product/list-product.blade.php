@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Product List</h5>
+            <h5>Danh sách sản phẩm</h5>
         </div>
     </div>
     <div class="row">
@@ -14,12 +14,12 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Avatar</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Danh mục</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
                             </tr>
                             </thead>
                             <tbody>
