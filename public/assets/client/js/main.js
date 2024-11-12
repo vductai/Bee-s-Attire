@@ -355,10 +355,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var isAddtocart = $(this).hasClass("active");
         if (isAddtocart) {
             $(this).removeClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Remove product in  Cart Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Xoá sản phẩm khỏi yêu thích thành công!</p></div>');
         } else {
             $(this).addClass("active");
-            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Add product in Cart Successfully!</p></div>');
+            $('footer').after('<div class="cr-cart-notify"><p class="compare-note">Thêm sản phẩm vào yêu thích thành công</p></div>');
         }
         setTimeout(function () {
             $('.cr-cart-notify').fadeOut();

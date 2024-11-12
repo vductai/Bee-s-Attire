@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>List user</h5>
+            <h5>Danh sách người dùng</h5>
         </div>
     </div>
 
@@ -15,12 +15,12 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Avatar</th>
-                                    <th>User</th>
+                                    <th>Ảnh đai diện</th>
+                                    <th>Tên</th>
                                     <th>Email</th>
-                                    <th>Date Create</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,9 +51,7 @@
                                                     <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a href="{{route('user.edit', $item->user_id)}}" class="dropdown-item">Edit</a>
-
-                                                    
+                                                    <a href="{{route('user.edit', $item->user_id)}}" class="dropdown-item">Sửa</a>
                                                     <button class="dropdown-item statusToggle"
                                                         data-id="{{ $item->user_id }}">
                                                         {{ $item->action ? 'Khoá tài khoản' : 'Mở khoá' }}

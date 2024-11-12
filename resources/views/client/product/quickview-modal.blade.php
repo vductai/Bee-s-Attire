@@ -20,7 +20,7 @@
                                                 Hạn dùng mã: <br>
                                                 <b>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</b>
                                             </div>
-                                            <button class="use-btn" data-copys="{{$item->voucher_code}}">Copy code</button>
+                                            <button class="use-btn rounded-2" data-copys="{{$item->voucher_code}}">Copy code</button>
                                         </div>
                                     </div>
                                 @endforeach

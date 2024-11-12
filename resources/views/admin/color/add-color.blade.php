@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Color</h5>
+            <h5>Màu sắc</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -12,10 +12,10 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Add New Color</h3>
+                                <h3>Thêm màu sắc</h3>
                                 <form id="formColor">
                                     <div class="form-group">
-                                        <label>Color name</label>
+                                        <label>Tên màu</label>
                                         <div class="col-12">
                                             <input id="color_name" name="color_name"
                                                    class="form-control here slug-title" type="text">
@@ -23,7 +23,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Color code</label>
+                                        <label>Mã màu</label>
                                         <div class="col-12">
                                             <input id="color_code" name="color_code"
                                                    class="form-control here slug-title" type="color">
@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
+                                            <button type="submit" class="cr-btn-primary">Thêm</button>
                                         </div>
                                     </div>
                                 </form>
@@ -49,9 +49,9 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Color name</th>
-                                <th>Color code</th>
-                                <th>Action</th>
+                                <th>Tên</th>
+                                <th>Mã</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -73,8 +73,8 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
+                                                <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Chỉnh sửa</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Xoá</button>
                                             </div>
                                         </div>
                                     </td>

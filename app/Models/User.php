@@ -50,6 +50,11 @@ class User extends Authenticatable
         }
     }
 
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notifications::class, 'user_id');
+    }
+
     public function whishlists()
     {
         return $this->hasMany(Whishlist::class, 'user_id');

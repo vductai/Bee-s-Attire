@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Checkout</h2>
-                            <span> <a href="index.html">Home</a> - Checkout</span>
+                            <h2>Thanh toán</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Thanh toán</span>
                         </div>
                     </div>
                 </div>
@@ -171,35 +171,33 @@
                                         <h3 class="cr-checkout-title">Chi tiết thanh toán</h3>
                                         <div class="cr-bl-block-content">
                                             <div class="cr-check-bill-form mb-minus-24">
-                                                <div>
                                                 <span class="cr-bill-wrap">
-                                                    <label>UserName</label>
+                                                    <label>Tên người nhận</label>
                                                     <input type="text" value="{{$item->user->username}}"
                                                            name="username"
-                                                           placeholder="Enter your username" required>
+                                                           placeholder="Enter your username">
                                                 </span>
-                                                    <span class="cr-bill-wrap">
-                                                    <label>Address</label>
+                                                <span class="cr-bill-wrap">
+                                                    <label>Địa chỉ nhận hàng</label>
                                                     <input type="text" name="address" value="{{$item->user->address}}"
                                                            placeholder="Address">
                                                 </span>
-                                                    <span class="cr-bill-wrap ">
-                                                    <label>Phone</label>
+                                                <span class="cr-bill-wrap ">
+                                                    <label>Số điện thoại</label>
                                                     <input type="number" value="{{$item->user->phone}}" name="phone"
                                                            placeholder="Phone">
                                                 </span>
-                                                    <span class="cr-bill-wrap ">
+                                                <span class="cr-bill-wrap ">
                                                     <label>Email</label>
                                                     <input type="email" value="{{$item->user->email}}" name="email"
                                                            placeholder="Email">
                                                 </span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <span class="cr-check-order-btn">
                                     <button class="cr-button mt-30" id="submitButton" name="cod"
-                                            type="submit">place order</button>
+                                            type="submit">Đặt hàng</button>
                                 </span>
                                 </form>
                             </div>

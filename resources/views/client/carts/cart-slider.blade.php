@@ -4,7 +4,7 @@
     <div class="cr-cart-inner">
         <div class="cr-cart-top">
             <div class="cr-cart-title">
-                <h6>My Cart</h6>
+                <h6>Giỏ hàng</h6>
                 <button type="button" class="close-cart">×</button>
             </div>
             <ul class="crcart-pro-items">
@@ -56,8 +56,8 @@
                 </table>
             </div>
             <div class="cart_btn">
-                <a href="{{route('viewCart')}}" class="cr-button">View Cart</a>
-                <a href="{{route('checkout')}}" class="cr-btn-secondary">Checkout</a>
+                <a href="{{route('viewCart')}}" class="cr-button">Xem giỏ hàng</a>
+                <a href="{{route('checkout')}}" class="cr-btn-secondary">Thanh toán</a>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\client\LoginRequest;
 use App\Http\Requests\client\RegisterRequest;
 use App\Jobs\DeleteUnverifiedUser;
+use App\Jobs\SendMailRegisterJob;
 use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -30,10 +31,7 @@ class AuthClientController extends Controller
 
     public function register(RegisterRequest $request)
     {
-
         $username = 'user_' . rand(1000, 9999);
-
-
         $create = User::create([
             'username' => $username,
             'password' => $request->password,
@@ -41,24 +39,19 @@ class AuthClientController extends Controller
             'role_id' => 3,
             'email_verified_at' => null
         ]);
-
         // Tạo URL xác minh
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(5), // thoi gian xác thực
             ['id' => $create->user_id, 'hash' => sha1($create->email)]
         );
-
-
         // Gửi email xác minh
-        Mail::to($create->email)->send(new WelcomeMail($create, $verificationUrl));
-
-        // Dispatch job xóa tài khoản sau 2 phút
+        //Mail::to($create->email)->send(new WelcomeMail($create, $verificationUrl));
+        SendMailRegisterJob::dispatch($create->email, $create, $verificationUrl);
+        // Dispatch job xóa tài khoản sau 6 phút
         DeleteUnverifiedUser::dispatch($create->user_id)->delay(now()->addMinutes(6));
-
         $email = $create->email;
         return view('client.auth.message.verify-email', compact('email'));
-
     }
 
     public function loginClient(LoginRequest $request){
