@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
@@ -54,8 +55,20 @@ class ProductController extends Controller
             $getDetail->increment('views');
             session([$productKey => true]);
         }
+
+        $hasPurchased = false;
+        if (auth()->check()) {
+            $userId = auth()->user()->user_id;
+            $hasPurchased = Order::where('user_id', $userId)
+                ->whereHas('order_item', function ($query) use ($id) {
+                    $query->where('product_id', $id);
+                })
+                ->exists();
+        }
+
         $listPost = Comment::where('product_id', $id)->get();
-        return view('client.product.detail-product', compact('getDetail', 'listPost'));
+        return view('client.product.detail-product', compact('getDetail',
+            'listPost', 'hasPurchased'));
     }
 
 

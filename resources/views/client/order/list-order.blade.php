@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Checkout</h2>
-                            <span> <a href="index.html">Home</a> - Checkout</span>
+                            <h2>Đơn hàng</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Đơn hàng của bạn</span>
                         </div>
                     </div>
                 </div>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\client;
 
+use App\Events\OrderEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendMailOrderJob;
 use App\Mail\OrderMail;
 use App\Models\Cart;
+use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\order_item;
 use App\Models\user_voucher;
@@ -39,8 +41,39 @@ class CheckPaymentMethodController extends Controller
     public function onlineCheckOut(Request $request)
     {
         if (isset($_POST['cod'])) {
-
-            echo 'cod';
+            $order_items = json_decode($request['product']);
+            $order = Order::create([
+                'order_id' => rand(0000000000, 999999999),
+                'user_id' => Auth::user()->user_id,
+                'total_price' => $request['total_price'],
+                'voucher_id' => $request['voucher_id'],
+                'final_price' => $request['final_price'],
+                'payment_method' => 'Tiền mặt khi giao hàng',
+                'note' => $request['note']
+            ]);
+            $order->save();
+            foreach ($order_items as $item) {
+                order_item::create([
+                    'order_id' => $order->order_id,
+                    'product_id' => $item->product->product_id,
+                    'quantity' => $item->quantity,
+                    'price_per_item' => $item->product->sale_price
+                ]);
+            }
+            Notifications::create([
+                'user_id' => $order->user_id,
+                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+            ]);
+            $order = Order::where('order_id', $order->order_id)->first();
+            if ($order && $order->voucher_id) {
+                // Xóa chỉ mã voucher đã áp dụng
+                $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
+                $voucher->delete();
+            }
+            Cart::where('user_id', Auth::user()->user_id)->delete();
+            SendMailOrderJob::dispatch(Auth::user()->email, $order);
+            event(new OrderEvent($order));
+            return redirect()->route('success-checkout');
 
         } elseif (isset($_POST['vnpay'])) {
 
@@ -198,7 +231,10 @@ class CheckPaymentMethodController extends Controller
                     'price_per_item' => $item->product->sale_price
                 ]);
             }
-
+            Notifications::create([
+                'user_id' => $order->user_id,
+                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+            ]);
             // Tìm đơn hàng dựa trên vnp_TxnRef (order_id)
             $order = Order::where('order_id', $vnp_TxnRef)->first();
             if ($order && $order->voucher_id) {
@@ -208,7 +244,8 @@ class CheckPaymentMethodController extends Controller
             }
             Cart::where('user_id', Auth::user()->user_id)->delete();
             SendMailOrderJob::dispatch(Auth::user()->email, $order);
-            return view('client.message.orderSuccess');
+            event(new OrderEvent($order));
+            return redirect()->route('success-checkout');
         } else {
             return redirect()->route('checkout');
         }
@@ -255,7 +292,10 @@ class CheckPaymentMethodController extends Controller
                     'price_per_item' => $item->product->sale_price
                 ]);
             }
-
+            Notifications::create([
+                'user_id' => $order->user_id,
+                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+            ]);
             $order = Order::where('order_id', $orderId)->first();
             if ($order && $order->voucher_id) {
                 // Xóa chỉ mã voucher đã áp dụng
@@ -265,7 +305,8 @@ class CheckPaymentMethodController extends Controller
             }
             Cart::where('user_id', Auth::user()->user_id)->delete();
             SendMailOrderJob::dispatch(Auth::user()->email, $order);
-            return view('client.message.orderMoMoSuccess');
+            event(new OrderEvent($order));
+            return redirect()->route('success-checkout');
         } else {
             return redirect()->route('checkout');
         }

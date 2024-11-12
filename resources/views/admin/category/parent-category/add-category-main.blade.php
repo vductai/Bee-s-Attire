@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Danh mục</h5>
+            <h5>Danh mục chính</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -61,9 +61,9 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Edit</a>
+                                                <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Chỉnh sửa</a>
                                                 <button class="dropdown-item delete-btn" data-id="{{$item->id}}">
-                                                    Delete
+                                                    Xoá
                                                 </button>
                                             </div>
                                         </div>
