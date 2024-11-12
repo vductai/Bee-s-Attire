@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
     function filterColorsByStock() {
         colorOptions.forEach(option => {
             const colorId = option.getAttribute('data-color-id');
@@ -198,16 +199,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({cartItems})
             })
-        .then(res => res.json())
+                .then(res => res.json())
                 .then(data => {
                     if (!data.success) {
                         window.location.href = "/checkout"
-                    }else {
+                    } else {
                         alert('error chuyen huong')
                     }
                 }).catch(err => {
-                    alert('cart faild')
-                })
+                alert('cart faild')
+            })
         }
     })
 });
@@ -229,7 +230,7 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
         console.log("Colors:", selectedColors);
         console.log("Sizes:", selectedSizes);
 
-        axios.post('/search-product', {
+        axios.post('/filter-product', {
             categories: selectedCategories,
             colors: selectedColors,
             sizes: selectedSizes
@@ -242,10 +243,11 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
             let products = data.products;
             console.log(products)
             // Chuyển đổi `products` thành mảng nếu nó là đối tượng
-            if (!Array.isArray(products)){
+            if (!Array.isArray(products)) {
                 products = Object.values(products)
             }
             let html = '';
+
             function formatCurrency(num) {
                 num = Number(num) || 0;
                 return num.toLocaleString('vi-VN', {
@@ -253,11 +255,12 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
                     currency: 'VND'
                 }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
             }
-            if (products.length === 0){
+
+            if (products.length === 0) {
                 html = `<div>
                              <h3 class="text-center text-danger" style="margin: 380px 0;">Không có sản phẩm nào phù hợp với bộ lọc</h3>
                         </div>`
-            }else {
+            } else {
                 products.forEach(productData => {
                     const avatar = `${window.location.origin}/upload/${productData.product_avatar}`;
                     html +=
@@ -273,7 +276,11 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
                                             <div class="cr-brand">
                                                 <a href="shop-left-sidebar.html">${productData.category.category_name}</a>
                                             </div>
-                                            <a href="/detail/${productData.slug}" class="title">
+                                            <a href="/detail/${productData.slug}"
+                                            style="display: -webkit-box;
+                                            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                                            overflow: hidden; text-overflow: ellipsis; white-space: normal"
+                                                class="title">
                                                 ${productData.product_name}
                                             </a>
                                             <p class="cr-price">
@@ -312,9 +319,9 @@ if (formchangePassword) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).catch(err => {
-            if (err.response && err.response.data.errors){
+            if (err.response && err.response.data.errors) {
                 let errors = err.response.data.errors
-                for (let field in errors){
+                for (let field in errors) {
                     document.querySelector(`#${field}-error`).textContent = errors[field][0]
                 }
             }
@@ -322,3 +329,48 @@ if (formchangePassword) {
         this.reset();
     })
 }
+
+/*---------------------------------------------- status noti -----------------------------------------------*/
+
+const notiBtn = document.querySelectorAll('.noti-button')
+if (notiBtn){
+    notiBtn.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault()
+            const notiId = btn.dataset.notiId
+            console.log(notiId)
+            axios.put(`/noti/${notiId}`,{}, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(res => {
+                const notiItem = document.querySelector(`.noti-item[data-span-id="${notiId}"]`)
+                const notiBtn = document.querySelector(`.noti-button[data-noti-id='${notiId}']`)
+                if (notiBtn){
+                    notiBtn.style.display = 'none'
+                }
+
+                if (notiItem){
+                    notiItem.innerHTML = 'Đã đọc';
+                    notiItem.classList.remove('text-bg-danger')
+                    notiItem.classList.add('text-bg-success')
+                }
+            })
+        })
+    })
+}
+
+/*--------------------------------------------------- del all noti -----------------------------------------------------*/
+
+document.getElementById('del-all-noti').addEventListener('click', function (e) {
+    e.preventDefault()
+    axios.delete('/del-noti',{
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }).then(res => {
+        document.getElementById('list-all-noti').innerHTML = 'Bạn không có thông báo nào'
+        document.getElementById('list-all-noti').style.color = 'Red'
+        document.getElementById('list-all-noti').classList.add('text-center')
+    })
+})

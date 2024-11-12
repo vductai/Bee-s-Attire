@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Size</h5>
+            <h5>Kích thước</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -12,11 +12,11 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Update Size</h3>
+                                <h3>chỉnh sửa kích thước</h3>
                                 <form id="formSizeUpdate">
                                     <input type="hidden" name="" id="size_id" value="{{$edit->size_id}}">
                                     <div class="form-group">
-                                        <label>Name size</label>
+                                        <label>Tên</label>
                                         <div class="col-12">
                                             <input id="size_name" name="size_name" value="{{$edit->size_name}}"
                                                    class="form-control here slug-title" type="text">
@@ -24,8 +24,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
-                                            <a href="{{route('size.create')}}" class="cr-btn-primary">Quay lại</a>
+                                            <button type="submit" class="cr-btn-primary">Sửa</button>
                                         </div>
                                     </div>
                                 </form>
@@ -43,8 +42,8 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Size</th>
-                                <th>Action</th>
+                                <th>Kích thước</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,13 +62,8 @@
                                             </button>
 
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Edit</a>
-                                                {{--<form action="{{route('size.destroy', $item->size_id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
-                                                </form>--}}
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">Delete</button>
+                                                <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Sửa</a>
+                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">Xoá</button>
                                             </div>
                                         </div>
                                     </td>

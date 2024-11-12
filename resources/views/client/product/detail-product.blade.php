@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Product</h2>
-                            <span> <a href="index.html">Home</a> - product</span>
+                            <h2>Sản phẩm</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Chi tiết sản phẩm</span>
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
                                         type="button" role="tab" aria-controls="review"
-                                        aria-selected="false">Review
+                                        aria-selected="false">Đánh giá
                                 </button>
                             </li>
                         </ul>
@@ -191,12 +191,10 @@
                                                name="product_id"
                                                value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
-                                            @if(auth()->check())
+                                            @if($hasPurchased)
                                                 <textarea id="comment" name="comment" placeholder="Nhập bình luận của bạn"></textarea>
                                                 <p class="text-danger error-text" id="comment-error"></p>
                                                 <button class="cr-button" type="submit">Submit</button>
-                                            @else
-                                                <p class="alert alert-danger">Đăng nhập để bình luận</p>
                                             @endif
                                         </div>
                                     </form>

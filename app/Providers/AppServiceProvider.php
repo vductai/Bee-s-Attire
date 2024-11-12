@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Notifications;
 use App\Models\Parent_Category;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,31 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::composer('layout.client.header', function ($count) {
+            if (Auth::check()){
+                $counts = Notifications::where('user_id', Auth::user()->user_id)
+                    ->where('is_read', 'Chưa đọc')->count();
+            }else{
+                $counts = collect();
+            }
+            $count->with('counts', $counts);
+
+        });
+
+        View::composer('layout.client.header', function ($notifycation) {
+            if (Auth::check()){
+                $notifications = Notifications::where('user_id', Auth::user()->user_id)
+                    ->where('is_read', 'Chưa đọc')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(6)
+                    ->get();
+            }else{
+                $notifications = collect();
+            }
+            $notifycation->with('noti', $notifications);
+        });
+
+
         Carbon::setLocale('vi');
         View::composer('layout.client.navigation', function ($parent){
             $selParentCategory = Parent_Category::limit(5)->get();

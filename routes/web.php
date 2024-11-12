@@ -23,6 +23,7 @@ use App\Http\Controllers\client\CheckOutController;
 use App\Http\Controllers\client\CheckPaymentMethodController;
 use App\Http\Controllers\client\CommentController;
 use App\Http\Controllers\client\MoMoController;
+use App\Http\Controllers\client\NotificationController;
 use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\ParentProductController;
 use App\Http\Controllers\client\ProfileController;
@@ -49,6 +50,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // route admin và user dùng chung
     Route::group(['middleware' => ['checkRole:user,admin', 'web']], function () {
         Route::post('/logout', [AuthAdminController::class, 'logoutAdmin'])->name('admin.logout');
+        // thong báo
+        Route::get('/notification', [NotificationController::class, 'index'])->name('notification');
+        // check notifycation
+        Route::get('/check-new-notifications', [NotificationController::class, 'checkNewNotifications']);
+        // update noti
+        Route::put('/noti/{id}', [NotificationController::class, 'updateStatusNoti']);
+        //del noti
+        Route::delete('/del-noti', [NotificationController::class, 'delAllNoti']);
         // get profile
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
         // update profile
@@ -165,10 +174,12 @@ Route::get('/detail/{slug}', [ProductClient::class, 'getProductDetail'])->name('
 Route::get('/shop-product', [ProductClient::class, 'getProductShop'])->name('product');
 // product parent
 Route::get('/parent/{slug}', [ParentProductController::class, 'getProductParent'])->name('parent');
-// search
-Route::get('/search-product', [SearchController::class, 'searchProduct']);
+// filter product
+Route::post('/filter-product', [ProductClient::class, 'search']);
 // filter price
 Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
+// search product
+Route::get('/search-product', [SearchController::class, 'searchProduct']);
 /*and home*/
 
 
@@ -179,6 +190,8 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
-
+Route::get('/success', function (){
+    return view('client.message.orderSuccess');
+})->name('success-checkout');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

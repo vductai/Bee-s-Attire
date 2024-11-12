@@ -2,7 +2,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Variant list</h5>
+            <h5>Danh sách biến thể</h5>
         </div>
     </div>
     <div class="row">
@@ -14,11 +14,11 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Product</th>
-                                <th>Color</th>
-                                <th>Size</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
+                                <th>Sản phẩm</th>
+                                <th>Màu</th>
+                                <th>Kích thước</th>
+                                <th>Số lượng</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -42,8 +42,8 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="#">Chỉnh sửa</a>
+                                                <a class="dropdown-item" href="#">Xoá</a>
                                             </div>
                                         </div>
                                     </td>
