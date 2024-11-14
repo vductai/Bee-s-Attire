@@ -369,8 +369,85 @@ document.getElementById('del-all-noti').addEventListener('click', function (e) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     }).then(res => {
-        document.getElementById('list-all-noti').innerHTML = 'Bạn không có thông báo nào'
-        document.getElementById('list-all-noti').style.color = 'Red'
-        document.getElementById('list-all-noti').classList.add('text-center')
+        const dataNoti = res.data
+        const datas = dataNoti.notis
+        console.log(dataNoti)
+        console.log(datas)
+        // tính toán thời gian
+        function timeAgo(date) {
+            // lấy second
+            const seconds = Math.floor((new Date() - new Date(date)) / 1000) // milions
+            const intervals = [
+                { label: 'năm', seconds: 31536000 },
+                { label: 'tháng', seconds: 2592000 },
+                { label: 'ngày', seconds: 86400 },
+                { label: 'giờ', seconds: 3600 },
+                { label: 'phút', seconds: 60 },
+                { label: 'giây', seconds: 1 }
+            ]
+            for (const interval of intervals){
+                // tính số thời gian trôi qua
+                const count = Math.floor(seconds / interval.seconds)
+                if (count >= 1){
+                    return `${count} ${interval.label} trước`;
+                }
+            }
+            return "Vừa xong";
+        }
+
+        if (datas.length === 0){
+            document.getElementById('list-all-noti').innerHTML = `
+                    Bạn không có thông báo nào
+                `;
+            document.getElementById('list-all-noti').innerHTML = 'Bạn không có thông báo nào'
+            document.getElementById('list-all-noti').style.color = 'Red'
+            document.getElementById('list-all-noti').classList.add('text-center')
+        }
+        datas.forEach(data => {
+            console.log(data)
+            console.log(data.message)
+            const timeAgoText = timeAgo(data.created_at)
+            let span = '';
+            let check = '';
+            let display = '';
+            if (data.is_read ==='Đã đọc'){
+                span = 'Đã đọc'
+            }else {
+                span = 'Mới'
+            }
+            if (data.is_read === 'Chưa đọc'){
+                check = 'text-bg-danger'
+            }else {
+                check = 'text-bg-success'
+            }
+            if (data.is_read === 'Đã đọc'){
+                display = 'd-none'
+            }
+            document.getElementById('list-all-noti').innerHTML = `
+            <div class="post rounded-2 border p-3 d-flex justify-content-between align-items-center">
+                 <div>
+                     <div class="content">
+                         <div class="details">
+                         <span
+                             class="date">${timeAgoText}</span>
+                         </div>
+                     </div>
+                     <p class="text-black">
+                     <span
+                         class="noti-item badge ${check} mx-2"
+                         data-span-id="${data.id}">${span}</span></a>
+                         ${data.message}
+                     </p>
+                 </div>
+                 <div>
+                     <button
+                         data-noti-id="${data.id}"
+                         class="cr-button noti-button ${display}">
+                         Đánh dấu là đã đọc
+                     </button>
+                 </div>
+            </div>
+        `
+        })
     })
 })

@@ -58,8 +58,8 @@
                             </div>
                             <div class="remember">
                                 <span class="form-group custom">
-                                    <input type="checkbox" id="html">
-                                    <label for="html">Lưu thông tin</label>
+                                    <input type="checkbox" name="remember" id="remember">
+                                    <label for="remember">Lưu thông tin</label>
                                 </span>
                                 <a class="link" href="{{route('password.request')}}">Quên mật khẩu ?</a>
                             </div><br>
