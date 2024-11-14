@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // route admin và user dùng chung
-    Route::group(['middleware' => ['checkRole:user,admin', 'web']], function () {
+    Route::group(['middleware' => ['checkRole:user,admin']], function () {
         Route::post('/logout', [AuthAdminController::class, 'logoutAdmin'])->name('admin.logout');
         // thong báo
         Route::get('/notification', [NotificationController::class, 'index'])->name('notification');
@@ -88,6 +88,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('online-checkout', [CheckPaymentMethodController::class, 'onlineCheckOut'])->name('check-payment-method');
         // vnpay
         Route::get('/order-success', [CheckPaymentMethodController::class, 'handlePaymentReturn'])->name('vnpay-return');
+        Route::get('/success', function (){
+            return view('client.message.orderSuccess');
+        })->name('success-checkout');
         // momo
         Route::get('/return-momo', [CheckPaymentMethodController::class, 'orderSuccessMono'])->name('momo-return');
         // get order
@@ -190,8 +193,5 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('client.us.contact');
 })->name('contact');
-Route::get('/success', function (){
-    return view('client.message.orderSuccess');
-})->name('success-checkout');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

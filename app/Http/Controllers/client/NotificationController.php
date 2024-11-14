@@ -5,6 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Notifications;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
@@ -34,7 +35,13 @@ class NotificationController extends Controller
     }
 
     public function delAllNoti(){
-        $del = Notifications::where('user_id', Auth::user()->user_id)->delete();
-        return response()->json(['message' => 'done']);
+        Notifications::where('user_id', Auth::user()->user_id)
+            ->where('is_read', 'Đã đọc')
+            ->delete();
+        $notiRead = Notifications::where('user_id', Auth::user()->user_id)
+            ->where('is_read', 'Chưa đọc')
+            ->get();
+        Log::info([$notiRead]);
+        return response()->json(['notis' => $notiRead]);
     }
 }

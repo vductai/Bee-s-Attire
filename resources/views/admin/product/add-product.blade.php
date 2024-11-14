@@ -127,11 +127,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Danh mục</label>
-                                        <select class="form-control form-select">
+                                        <select class="form-control form-select" name="category_id">
                                             @foreach($category as $item)
                                                 <optgroup label="{{$item->name}}">
-                                                    @foreach($item->children as $children)
-                                                        <option value="{{$children->category_id}}">{{$children->category_name}}</option>
+                                                    @foreach($item->children as $childrens)
+                                                        <option value="{{$childrens->category_id}}">{{$childrens->category_name}}</option>
                                                     @endforeach
                                                 </optgroup>
                                             @endforeach
