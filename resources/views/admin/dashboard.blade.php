@@ -1,4 +1,6 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
+
 @section('content_admin')
     <!-- Page title & breadcrumb -->
 

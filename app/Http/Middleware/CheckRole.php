@@ -18,8 +18,8 @@ class CheckRole
     {
         if (auth()->check() && in_array(auth()->user()->role->role_name, $roles)){
             return $next($request);
+        }else{
+            return response()->view('errors.403', [], 403);
         }
-
-        return view('errors.403');
     }
 }

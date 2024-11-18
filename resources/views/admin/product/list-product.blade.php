@@ -1,4 +1,6 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
+
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
@@ -47,7 +49,7 @@
                                     </td>
                                     <td>{{$item->category->category_name}}</td>
                                     <td>
-                                        <span class="badgeProduct badge {{ $item->action ? 'text-success' : 'text-danger' }}"
+                                        <span class="badgeProduct badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
                                               data-status="{{ $item->action ? 'active' : 'inactive' }}">
                                             {{$item->action ? 'Public' : 'Private'}}
                                         </span>

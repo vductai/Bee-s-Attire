@@ -1,4 +1,5 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">

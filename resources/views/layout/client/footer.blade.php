@@ -155,7 +155,7 @@
 </a>
 <!-- Model -->
 @include('client.product.quickview-modal')
-@include('modal.voucher-modal')
+@include('modal.modal-view')
 <!-- Cart -->
 @include('client.carts.cart-slider')
 <!-- Side-tool -->

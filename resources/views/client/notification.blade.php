@@ -65,6 +65,9 @@
                             </div>
                         </div>
                     @endforeach
+                    <nav aria-label="" class="cr-pagination">
+                        {{$notifications->links()}}
+                    </nav>
                 @else
                     <p class="text-danger text-center">Bạn không có thông báo nào</p>
                 @endif
