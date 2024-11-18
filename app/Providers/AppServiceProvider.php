@@ -6,8 +6,10 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Notifications;
+use App\Models\Notify_manager;
 use App\Models\Parent_Category;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // admin
+        View::composer('layout.admin.notify-slider', function ($noti){
+            $notis = Notify_manager::orderBy('created_at', 'desc')->get();
+            $noti->with('notis', $notis);
+        });
+        /*---------------------------------------------------------------------------------------------------*/
         View::composer('layout.client.header', function ($count) {
             if (Auth::check()){
                 $counts = Notifications::where('user_id', Auth::user()->user_id)
@@ -53,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         Carbon::setLocale('vi');
+        Paginator::useBootstrapFive();
         View::composer('layout.client.navigation', function ($parent){
             $selParentCategory = Parent_Category::limit(5)->get();
             $parent->with('parent', $selParentCategory);

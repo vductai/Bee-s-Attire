@@ -44,28 +44,6 @@
                                     class="ri-checkbox-blank-circle-line"></i>Kích thước</a></li>
                     </ul>
                 </li>
-                {{--<li class="cr-sb-item sb-subdrop-item">
-                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-palette-line"></i></i><span class="condense">Color<i
-                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
-                    <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('color.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>List color</a></li>
-                        <li><a href="{{route('color.create')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Create color</a></li>
-                    </ul>
-                </li>
-                <li class="cr-sb-item sb-subdrop-item">
-                    <a href="javascript:void(0)" class="cr-sub-drop-toggle">
-                        <i class="ri-font-size-2"></i></i><span class="condense">Size<i
-                                class="drop-arrow ri-arrow-down-s-line"></i></span></a>
-                    <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('size.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>List size</a></li>
-                        <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Create size</a></li>
-                    </ul>
-                </li>--}}
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-ticket-line"></i></i><span class="condense">Mã giảm giá<i
@@ -106,6 +84,18 @@
             <ul class="cr-sb-drop condense">
                 <li><a href="{{route('admin-list-order')}}" class="cr-page-link subdrop"><i
                             class="ri-checkbox-blank-circle-line"></i>Danh sách đơn hàng</a></li>
+            </ul>
+        </li>
+        <li class="cr-sb-item-separator"></li>
+        <li class="cr-sb-item sb-drop-item">
+            <a href="javascript:void(0)" class="cr-drop-toggle">
+                <i class="ri-article-line"></i><span class="condense">Bài viết<i
+                        class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+            <ul class="cr-sb-drop condense">
+                <li><a href="{{route('post.index')}}" class="cr-page-link subdrop"><i
+                            class="ri-checkbox-blank-circle-line"></i>Danh sách bài viết</a></li>
+                <li><a href="{{route('post.create')}}" class="cr-page-link subdrop"><i
+                            class="ri-checkbox-blank-circle-line"></i>Tạo bài viết</a></li>
             </ul>
         </li>
     </ul>

@@ -153,3 +153,4 @@
         </div>
     </div>
 @endsection
+@include('toast.admin-toast')

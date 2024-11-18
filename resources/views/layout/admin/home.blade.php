@@ -43,6 +43,7 @@
     @vite('resources/js/voucher.js')
     @vite('resources/js/user.js')
     @vite('resources/js/category-parent.js')
+    @vite('resources/js/admin-notify.js')
 </head>
 
 <body>

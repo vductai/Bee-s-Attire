@@ -61,7 +61,11 @@
                                                     </div>
                                                     <div class="cr-pro-content cr-product-details">
                                                         <h5 class="cr-pro-title">
-                                                            <a href="{{route('detail', ['slug' => $item->product->slug])}}">{{$item->product->product_name}}</a>
+                                                            <a href="{{route('detail', ['slug' => $item->product->slug])}}"
+                                                               style="display: -webkit-box;
+                                                                -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                                                                overflow: hidden; text-overflow: ellipsis; white-space: normal"
+                                                            >{{$item->product->product_name}}</a>
                                                         </h5>
                                                         <div class="cr-pro-rating">
                                                             <p>x{{$item->quantity}}</p>

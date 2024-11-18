@@ -1,4 +1,5 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
@@ -43,11 +44,21 @@
                                     <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y')}}</td>
                                     <td class="order-status" data-id="{{$item->order_id}}">
                                         @if($item->status === 'Đang sử lý')
-                                            <span class="badge text-warning">{{$item->status}}</span>
+                                            <span
+                                                data-orId="{{$item->order_id}}"
+                                                class="badge text-bg-warning oro">{{$item->status}}</span>
                                         @elseif($item->status === 'Đã xác nhận')
-                                            <span class="badge text-primary">{{$item->status}}</span>
+                                            <span
+                                                data-orId="{{$item->order_id}}"
+                                                class="badge text-bg-primary oro">{{$item->status}}</span>
                                         @elseif($item->status === 'Đã giao hàng')
-                                            <span class="badge text-success">{{$item->status}}</span>
+                                            <span
+                                                data-orId="{{$item->order_id}}"
+                                                class="badge text-bg-success oro">{{$item->status}}</span>
+                                        @elseif($item->status === 'Yêu cầu huỷ đơn hàng')
+                                            <span
+                                                data-orId="{{$item->order_id}}"
+                                                class="badge text-bg-danger oro">{{$item->status}}</span>
                                         @endif
                                     </td>
                                     <td>

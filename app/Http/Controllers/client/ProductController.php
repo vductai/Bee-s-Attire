@@ -76,7 +76,7 @@ class ProductController extends Controller
     public function getProductShop()
     {
         $listcategory = Category::withCount('product')->get();
-        $listAllProductShop = Product::where('action', '=', 1)->get();
+        $listAllProductShop = Product::where('action', '=', 1)->paginate(16);
         $listColor = Color::all();
         $listSize = Size::all();
         $tags = Tag::all();

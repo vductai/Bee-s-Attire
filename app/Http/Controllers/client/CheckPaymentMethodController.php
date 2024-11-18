@@ -53,7 +53,7 @@ class CheckPaymentMethodController extends Controller
     {
         $order_items = json_decode($request['product']);
         $order = Order::create([
-            'order_id' => rand(00000000000, 9999999999),
+            'order_id' => rand(0000000000, 999999999),
             'user_id' => Auth::user()->user_id,
             'total_price' => $request['total_price'],
             'voucher_id' => $request['voucher_id'],
@@ -83,7 +83,7 @@ class CheckPaymentMethodController extends Controller
         Cart::where('user_id', Auth::user()->user_id)->delete();
         SendMailOrderJob::dispatch(Auth::user()->email, $order);
         event(new OrderEvent($order));
-        return redirect()->route('success-checkout');
+        return redirect()->route('home');
     }
 
     private function vnPay(Request $request)
@@ -256,7 +256,7 @@ class CheckPaymentMethodController extends Controller
             Cart::where('user_id', Auth::user()->user_id)->delete();
             SendMailOrderJob::dispatch(Auth::user()->email, $order);
             event(new OrderEvent($order));
-            return redirect()->route('success-checkout');
+            return redirect()->route('home');
         } else {
             return redirect()->route('checkout');
         }
@@ -316,7 +316,7 @@ class CheckPaymentMethodController extends Controller
             Cart::where('user_id', Auth::user()->user_id)->delete();
             SendMailOrderJob::dispatch(Auth::user()->email, $order);
             event(new OrderEvent($order));
-            return redirect()->route('success-checkout');
+            return redirect()->route('home');
         } else {
             return redirect()->route('checkout');
         }
