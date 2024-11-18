@@ -42,7 +42,7 @@
                                     <div class="checkbox-group">
                                         <input type="checkbox" id="{{$item->category_name}}">
                                         <label for="{{$item->category_name}}">{{$item->category_name}}</label>
-                                        <span>[{{$item->product_count}}]</span>
+                                        {{--<span>[{{$item->product_count}}]</span>--}}
                                     </div>
                                 @endforeach
                             </div>
@@ -174,20 +174,8 @@
                             </div>
                         @endforeach
                     </div>
-                    <nav aria-label="..." class="cr-pagination">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                            <li class="page-item active" aria-current="page">
-                                <span class="page-link">1</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
+                    <nav aria-label="" class="cr-pagination">
+                        {{$listAllProductShop->links()}}
                     </nav>
                 </div>
             </div>
@@ -196,6 +184,5 @@
     <script>
         const lowestPrice = {{$lowestPrice}};
         const highestPrice = {{$highestPrice}};
-
     </script>
 @endsection

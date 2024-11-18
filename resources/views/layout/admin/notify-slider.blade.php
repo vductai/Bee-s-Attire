@@ -1,12 +1,12 @@
 <div class="cr-bar-title">
-    <h6>Notifications<span class="label">12</span></h6>
+    <h6>Thông báo<span class="label">12</span></h6>
     <a href="javascript:void(0)" class="close-notify"><i class="ri-close-line"></i></a>
 </div>
 <div class="cr-bar-content">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="alert-tab" data-bs-toggle="tab" data-bs-target="#alert"
-                    type="button" role="tab" aria-controls="alert" aria-selected="true">Alert
+                    type="button" role="tab" aria-controls="alert" aria-selected="true">Đơn hàng
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -24,69 +24,23 @@
         <div class="tab-pane fade show active" id="alert" role="tabpanel" aria-labelledby="alert-tab">
             <div class="cr-alert-list">
                 <ul>
-                    <li>
-                        <div class="icon cr-alert">
-                            <i class="ri-alarm-warning-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Your final report is overdue</div>
-                            <p class="time">Just now</p>
-                            <p class="message">Please submit your quarterly report before - June 15.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="icon cr-warn">
-                            <i class="ri-error-warning-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Your product campaign is stop!</div>
-                            <p class="time">5:45AM - 25/05/2023</p>
-                            <p class="message">Please submit your quarterly report before Jun 15.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="icon cr-success">
-                            <i class="ri-check-double-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Your payment is successfully processed</div>
-                            <p class="time">9:20PM - 19/06/2023</p>
-                            <p class="message">Check your account wallet. if there is any issue, create
-                                support ticket.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="icon cr-warn">
-                            <i class="ri-error-warning-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Budget threshold exceeded!</div>
-                            <p class="time">4:15AM - 01/04/2023</p>
-                            <p class="message">Budget threshold was exceeded for project "Carrot" B612
-                                elements.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="icon cr-warn">
-                            <i class="ri-close-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Project submission was decline!</div>
-                            <p class="time">4:15AM - 01/04/2023</p>
-                            <p class="message">Your project "B126" is declined by Theresa Mayeras.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="icon cr-success">
-                            <i class="ri-check-double-line"></i>
-                        </div>
-                        <div class="detail">
-                            <div class="title">Your payment is successfully processed</div>
-                            <p class="time">9:20PM - 19/06/2023</p>
-                            <p class="message">Check your account wallet. if there is any issue, create
-                                support ticket.</p>
-                        </div>
-                    </li>
+                    <div id="noti-manager-view">
+
+                    </div>
+                    @foreach($notis as $item)
+                        <li>
+                            <div class="icon cr-alert">
+                                <i class="ri-alarm-warning-line"></i>
+                            </div>
+                            <div class="detail">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <p class="time mx-3">{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</p>
+                                    <span class="badge text-bg-danger">Mới</span>
+                                </div>
+                                <p class="message">{{$item->message}}</p>
+                            </div>
+                        </li>
+                    @endforeach
                     <li class="check"><a class="cr-primary-btn" href="chatapp.html">View all</a></li>
                 </ul>
             </div>

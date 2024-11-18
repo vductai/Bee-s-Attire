@@ -38,23 +38,19 @@
                         <div class="form-logo">
                             <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
                         </div>
-                        <form class="cr-content-form" action="{{route('client-login')}}" method="post">
-                            @csrf
+                        <form class="cr-content-form" id="loginFormClient">
                             <div class="form-group">
                                 <label>Email*</label>
-                                <input type="email" name="email" placeholder="Nhập email" class="cr-form-control">
+                                <input type="email" name="email" id="emailClient" placeholder="Nhập email"
+                                       class="cr-form-control">
+                                <p class="text-danger es" id="email-error"></p>
                             </div>
                             <div class="form-group">
                                 <label>Mật khẩu*</label>
-                                <input type="password" name="password" placeholder="Nhập mật khẩu" class="cr-form-control">
-                            </div>
-                            <div class="form-group">
-                                @if(session()->has('errorsLogin'))
-                                    <div class="alert alert-danger">
-                                        {{ session('errorsLogin') }}
-                                    </div>
-                                    {{ session()->forget('errorsLogin') }}
-                                @endif
+                                <input type="password" name="password" id="passwordClient" placeholder="Nhập mật khẩu"
+                                       class="cr-form-control">
+                                <p class="text-danger es" id="password-error"></p>
+                                <p class="text-danger es" id="e-error"></p>
                             </div>
                             <div class="remember">
                                 <span class="form-group custom">
@@ -62,9 +58,12 @@
                                     <label for="remember">Lưu thông tin</label>
                                 </span>
                                 <a class="link" href="{{route('password.request')}}">Quên mật khẩu ?</a>
-                            </div><br>
+                            </div>
+                            <br>
                             <div class="login-buttons">
-                                <button type="submit" class="cr-button">Đăng nhập</button>
+                                <button type="submit" class="cr-button" id="sub-login">
+                                    Đăng nhập
+                                </button>
                                 <a href="{{route('client.viewRegister')}}" class="link">
                                     Đăng kí ?
                                 </a>
@@ -97,3 +96,4 @@
         </div>
     </section>
 @endsection
+@include('toast.auth-toast')

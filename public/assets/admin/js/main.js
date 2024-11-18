@@ -1073,11 +1073,11 @@
                     statusBadge.empty(); // Xóa nội dung cũ
 
                     if (status === 'Đang sử lý') {
-                        statusBadge.append('<span class="badge text-warning">Đang sử lý</span>');
+                        statusBadge.append('<span class="badge text-bg-warning">Đang sử lý</span>');
                     } else if (status === 'Đã xác nhận') {
-                        statusBadge.append('<span class="badge text-primary">Đã xác nhận</span>');
+                        statusBadge.append('<span class="badge text-bg-primary">Đã xác nhận</span>');
                     } else if (status === 'Đã giao hàng') {
-                        statusBadge.append('<span class="badge text-success">Đã giao hàng</span>');
+                        statusBadge.append('<span class="badge text-bg-success">Đã giao hàng</span>');
                     }
 
                 },

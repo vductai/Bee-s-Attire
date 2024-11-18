@@ -74,7 +74,7 @@
 </svg>
 </use>
 <h1>403</h1>
-<h2>Not this time, access forbidden!</h2>
+<h2>Bạn không có quyền truy cập!</h2>
 </body>
 </html>
 

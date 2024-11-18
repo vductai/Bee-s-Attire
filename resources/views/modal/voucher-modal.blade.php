@@ -11,10 +11,3 @@
         </div>
     </div>
 </div>
-
-
-{{--
-// Hiển thị modal
-        const voucherModal = new bootstrap.Modal(document.getElementById('voucherModal'));
-        voucherModal.show();
---}}
