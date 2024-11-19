@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Chat;
 use App\Models\Comment;
 use App\Models\Notifications;
 use App\Models\Notify_manager;
@@ -32,7 +33,12 @@ class AppServiceProvider extends ServiceProvider
         // admin
         View::composer('layout.admin.notify-slider', function ($noti){
             $notis = Notify_manager::orderBy('created_at', 'desc')->get();
-            $noti->with('notis', $notis);
+            $chats = Chat::whereHas('receiver.role', function ($query){
+                $query->where('role_name', 'admin');
+            })
+                ->orderBy('created_at', 'desc')
+                ->get();
+            $noti->with(compact('chats', 'notis'));
         });
         /*---------------------------------------------------------------------------------------------------*/
         View::composer('layout.client.header', function ($count) {

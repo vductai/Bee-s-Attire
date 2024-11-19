@@ -63,6 +63,11 @@
                 <i class="ri-shield-keyhole-line"></i><span class="condense">Xác thực<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
+                <li>
+                    <a href="javascript:void(0)" data-bs-toggle="modal"
+                       data-bs-target="#replyModal" class="cr-page-link drop">
+                        <i class="ri-chat-3-line"></i>Tin nhắn</a>
+                </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-user-line"></i></i><span class="condense">Người dùng<i
