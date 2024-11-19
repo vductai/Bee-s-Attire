@@ -11,14 +11,14 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages"
-                    type="button" role="tab" aria-controls="messages" aria-selected="false">Messages
+                    type="button" role="tab" aria-controls="messages" aria-selected="false">Tin nhắn
             </button>
         </li>
-        <li class="nav-item" role="presentation">
+        {{--<li class="nav-item" role="presentation">
             <button class="nav-link" id="log-tab" data-bs-toggle="tab" data-bs-target="#log" type="button"
                     role="tab" aria-controls="log" aria-selected="false">Log
             </button>
-        </li>
+        </li>--}}
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="alert" role="tabpanel" aria-labelledby="alert-tab">
@@ -48,111 +48,29 @@
         <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
             <div class="cr-message-list">
                 <ul>
-                    <li>
-                        <a href="chatapp.html" class="reply">Reply</a>
-                        <div class="user">
-                            <img src="{{asset('assets/admin/img/user/9.jpg')}}" alt="user">
-                            <span class="label online"></span>
-                        </div>
-                        <div class="detail">
-                            <a href="chatapp.html" class="name">Boris Whisli</a>
-                            <p class="time">5:30AM, Today</p>
-                            <p class="message">Hello, I am sending some file. Please use this in landing
-                                page. And make sure this all files are comppress.</p>
-                            <span class="download-files">
-											<span class="download">
-												<img src="{{asset('assets/admin/img/other/1.jpg')}}" alt="image">
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-											<span class="download">
-												<img src="{{asset('assets/admin/img/other/2.jpg')}}" alt="image">
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-											<span class="download">
-												<span class="file">
-													<i class="ri-file-ppt-line"></i>
-												</span>
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-										</span>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="chatapp.html" class="reply">Reply</a>
-                        <div class="user">
-                            <img src="{{asset('assets/admin/img/user/8.jpg')}}" alt="user">
-                            <span class="label offline"></span>
-                        </div>
-                        <div class="detail">
-                            <a href="chatapp.html" class="name">Frank N. Stein</a>
-                            <p class="time">8:30PM, 05/12/2023</p>
-                            <p class="message">Please take a look on landing page. There is some bus to open
-                                popup model. and save form data.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="chatapp.html" class="reply">Reply</a>
-                        <div class="user">
-                            <img src="{{asset('assets/admin/img/user/7.jpg')}}" alt="user">
-                            <span class="label busy"></span>
-                        </div>
-                        <div class="detail">
-                            <a href="chatapp.html" class="name">Frank N. Stein</a>
-                            <p class="time">8:30PM, 05/12/2023</p>
-                            <p class="message">Please take a look on landing page. There is some bus to open
-                                popup model. and save form data.</p>
-                            <span class="download-files">
-											<span class="download">
-												<span class="file">
-													<i class="ri-file-zip-line"></i>
-												</span>
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-											<span class="download">
-												<span class="file">
-													<i class="ri-file-text-line"></i>
-												</span>
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-											<span class="download">
-												<span class="file">
-													<i class="ri-file-ppt-line"></i>
-												</span>
-												<a href="javascript:void(0)"><i class="ri-download-2-line"></i></a>
-											</span>
-										</span>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="chatapp.html" class="reply">Reply</a>
-                        <div class="user">
-                            <img src="{{asset('assets/admin/img/user/6.jpg')}}" alt="user">
-                            <span class="label busy"></span>
-                        </div>
-                        <div class="detail">
-                            <a href="chatapp.html" class="name">Paige Turner</a>
-                            <p class="time">4:30PM, 12/12/2023</p>
-                            <p class="message">Landing page issues are done. and now i am working on admin
-                                user module.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="chatapp.html" class="reply">Reply</a>
-                        <div class="user">
-                            <img src="{{asset('assets/admin/img/user/5.jpg')}}" alt="user">
-                            <span class="label busy"></span>
-                        </div>
-                        <div class="detail">
-                            <a href="chatapp.html" class="name">Allie Grater</a>
-                            <p class="time">8:30PM, 05/12/2023</p>
-                            <p class="message">Take marketing module task.</p>
-                        </div>
-                    </li>
-                    <li class="check"><a class="cr-primary-btn" href="chatapp.html">View all</a></li>
+                    <div id="view-chat-admin">
+
+                    </div>
+                    @foreach($chats as $chat)
+                        <li>
+                            <a href="javascript:void(0)" data-sender="{{$chat->sender_id}}" data-bs-toggle="modal"
+                               data-bs-target="#replyModal" class="reply">Reply</a>
+                            <div class="user">
+                                <img src="{{asset('upload/' . $chat->sender->avatar)}}" alt="user">
+                                <span class="label online"></span>
+                            </div>
+                            <div class="detail">
+                                <a href="" class="name">{{$chat->sender->username}}</a>
+                                <p class="time">{{\Carbon\Carbon::parse($chat->created_at)->diffForHumans()}}</p>
+                                <p class="message">{{$chat->message}}</p>
+                            </div>
+                        </li>
+                    @endforeach
+                    <li class="check"><a class="cr-primary-btn" href="">View all</a></li>
                 </ul>
             </div>
         </div>
-        <div class="tab-pane fade" id="log" role="tabpanel" aria-labelledby="log-tab">
+        {{--<div class="tab-pane fade" id="log" role="tabpanel" aria-labelledby="log-tab">
             <div class="cr-activity-list activity-list">
                 <ul>
                     <li>
@@ -239,6 +157,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>--}}
     </div>
 </div>

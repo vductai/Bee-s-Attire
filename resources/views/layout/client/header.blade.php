@@ -40,6 +40,7 @@
 @vite('resources/js/voucherassigned.js')
 @vite('resources/js/order-status.js')
 @vite('resources/js/auth.js')
+@vite('resources/js/chat.js')
 
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">

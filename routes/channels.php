@@ -28,3 +28,7 @@ Broadcast::channel('order-status.{userId}', function ($user, $userId){
 Broadcast::channel('admin-cancel-order', function ($user){
     return $user->role && in_array($user->role->role_name, ['admin', 'user']);
 });
+
+Broadcast::channel('chat.{receiverId}', function ($user, $receiverId){
+    return (int) $user->user_id === (int) $receiverId || $user->isManager();
+});

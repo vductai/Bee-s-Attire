@@ -115,7 +115,15 @@
                                 @else
                                     <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
+                                    <a href="javascript:void(0)" type="button" class="cr-button btn-primary"
+                                            data-sender="{{auth()->user()->user_id}}"
+                                            id="replys"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#chatModal">
+                                        trò truyện với chúng tôi
+                                    </a>
                             </div>
+
                             <div class="cr-add-button">
                                 @if(session()->has('errorCart'))
                                     <div class="alert alert-danger">
@@ -192,7 +200,8 @@
                                                value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
                                             @if($hasPurchased)
-                                                <textarea id="comment" name="comment" placeholder="Nhập bình luận của bạn"></textarea>
+                                                <textarea id="comment" name="comment"
+                                                          placeholder="Nhập bình luận của bạn"></textarea>
                                                 <p class="text-danger error-text" id="comment-error"></p>
                                                 <button class="cr-button" type="submit">Submit</button>
                                             @endif

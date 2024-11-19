@@ -44,6 +44,8 @@
     @vite('resources/js/user.js')
     @vite('resources/js/category-parent.js')
     @vite('resources/js/admin-notify.js')
+    @vite('resources/js/pusher-amin.js')
+    @vite('resources/js/reply.js')
 </head>
 
 <body>
@@ -170,7 +172,7 @@
     </div>
 </main>
 
-
+@include('modal.reply')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>
