@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Forgot Password</h2>
-                            <span> <a href="index.html">Home</a> - Forgot Password</span>
+                            <h2>Đặt lại mật khẩu</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Đặt lại mật khẩu</span>
                         </div>
                     </div>
                 </div>
@@ -36,21 +36,18 @@
                 <div class="col-12">
                     <div class="cr-login" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="form-logo">
-                            <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
+                            <img src="{{asset('full-logo.png')}}" alt="logo">
                         </div>
-                        <form class="cr-content-form" action="{{route('password.email')}}" method="post">
-                            @csrf
+                        <form class="cr-content-form" id="form-password-email">
                             <div class="form-group">
-                                <label>Email Address*</label>
-                                <input type="email" name="email" placeholder="Enter Your Email" class="cr-form-control">
+                                <label>Email*</label>
+                                <input type="email" id="emailPassword" name="email" placeholder="Nhập email" class="cr-form-control">
+                                <p class="text-danger es" id="email-error"></p>
                             </div>
-                            @if ($errors->has('email'))
-                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                            @endif
                             <div class="login-buttons">
-                                <button type="submit" class="cr-button">Submit</button>
-                                <a href="register.html" class="link">
-                                    Signup?
+                                <button type="submit" id="subEmail" class="cr-button">Xác nhận</button>
+                                <a href="{{route('client.viewRegister')}}" class="link">
+                                    Đăng kí?
                                 </a>
                             </div>
                         </form>

@@ -124,7 +124,7 @@
                                         <input type="text" name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
                                         @error('product_name')
-                                            <p class="text-danger">{{$message}}</p>
+                                        <p class="text-danger">{{$message}}</p>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
@@ -133,7 +133,8 @@
                                             @foreach($category as $item)
                                                 <optgroup label="{{$item->name}}">
                                                     @foreach($item->children as $childrens)
-                                                        <option value="{{$childrens->category_id}}">{{$childrens->category_name}}</option>
+                                                        <option
+                                                            value="{{$childrens->category_id}}">{{$childrens->category_name}}</option>
                                                     @endforeach
                                                 </optgroup>
                                             @endforeach
@@ -168,7 +169,8 @@
                                         <div class="form-checkbox-box">
                                             @foreach($featured_categories as $item)
                                                 <div class="form-check form-check-inline">
-                                                    <input type="checkbox" name="featuredCategories[]" value="{{$item->featured_categories_id}}">
+                                                    <input type="checkbox" name="featuredCategories[]"
+                                                           value="{{$item->featured_categories_id}}">
                                                     <label>{{$item->featured_categories_name}}</label>
                                                 </div>
                                             @endforeach

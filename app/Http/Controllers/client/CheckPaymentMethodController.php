@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\order_item;
+use App\Models\ProductVariant;
 use App\Models\user_voucher;
 use App\Models\Vouchers;
 use Illuminate\Http\Request;
@@ -62,6 +63,8 @@ class CheckPaymentMethodController extends Controller
             'note' => $request['note']
         ]);
         $order->save();
+        // Mảng để lưu trữ các product_variant_id đã xử lý
+        $processedVariants = [];
         foreach ($order_items as $item) {
             order_item::create([
                 'order_id' => $order->order_id,
@@ -69,6 +72,22 @@ class CheckPaymentMethodController extends Controller
                 'quantity' => $item->quantity,
                 'price_per_item' => $item->product->sale_price
             ]);
+            // xóa biến thể
+            $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                ->where('product_id', $item->product->product_id)
+                ->get();
+            foreach ($cartItems as $cartItem){
+                if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                    continue; // Nếu đã xử lý, bỏ qua
+                }
+                $variant = ProductVariant::find($cartItem->product_variant_id);
+                if ($variant){
+                    $variant->quantity -= $cartItem->quantity;
+                    $variant->save();
+                    // Đánh dấu biến thể này đã được xử lý
+                    $processedVariants[] = $cartItem->product_variant_id;
+                }
+            }
         }
         Notifications::create([
             'user_id' => $order->user_id,
@@ -81,7 +100,7 @@ class CheckPaymentMethodController extends Controller
             $voucher->delete();
         }
         Cart::where('user_id', Auth::user()->user_id)->delete();
-        SendMailOrderJob::dispatch(Auth::user()->email, $order);
+        //SendMailOrderJob::dispatch(Auth::user()->email, $order);
         event(new OrderEvent($order));
         return redirect()->route('home');
     }
@@ -234,6 +253,7 @@ class CheckPaymentMethodController extends Controller
                 'note' => $order_data['note']
             ]);
             $order->save();
+            $processedVariants = [];
             foreach ($order_items as $item) {
                 order_item::create([
                     'order_id' => $order->order_id,
@@ -241,6 +261,22 @@ class CheckPaymentMethodController extends Controller
                     'quantity' => $item->quantity,
                     'price_per_item' => $item->product->sale_price
                 ]);
+                // xóa biến thể
+                $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                    ->where('product_id', $item->product->product_id)
+                    ->get();
+                foreach ($cartItems as $cartItem){
+                    if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                        continue; // Nếu đã xử lý, bỏ qua
+                    }
+                    $variant = ProductVariant::find($cartItem->product_variant_id);
+                    if ($variant){
+                        $variant->quantity -= $cartItem->quantity;
+                        $variant->save();
+                        // Đánh dấu biến thể này đã được xử lý
+                        $processedVariants[] = $cartItem->product_variant_id;
+                    }
+                }
             }
             Notifications::create([
                 'user_id' => $order->user_id,
@@ -294,6 +330,7 @@ class CheckPaymentMethodController extends Controller
                 'note' => $order_data['note']
             ]);
             $order->save();
+            $processedVariants = [];
             foreach ($order_items as $item) {
                 order_item::create([
                     'order_id' => $order->order_id,
@@ -301,6 +338,22 @@ class CheckPaymentMethodController extends Controller
                     'quantity' => $item->quantity,
                     'price_per_item' => $item->product->sale_price
                 ]);
+                // xóa biến thể
+                $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                    ->where('product_id', $item->product->product_id)
+                    ->get();
+                foreach ($cartItems as $cartItem){
+                    if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                        continue; // Nếu đã xử lý, bỏ qua
+                    }
+                    $variant = ProductVariant::find($cartItem->product_variant_id);
+                    if ($variant){
+                        $variant->quantity -= $cartItem->quantity;
+                        $variant->save();
+                        // Đánh dấu biến thể này đã được xử lý
+                        $processedVariants[] = $cartItem->product_variant_id;
+                    }
+                }
             }
             Notifications::create([
                 'user_id' => $order->user_id,

@@ -3,3 +3,4 @@
 @include('modal.payment-successful')
 @include('modal.chat')
 @include('modal.reply')
+@include('modal.noti-verify-email')

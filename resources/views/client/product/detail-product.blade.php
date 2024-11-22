@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', $getDetail->product_name)
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -100,7 +101,10 @@
                                 <input type="hidden" name="color_id" id="selected-color-id">
                             </div>
                         </div>
-
+                        <div class="cr-color-weight">
+                            <h5><span>Số lượng kho</span>:</h5>
+                            <div class="cl-kg" id="variant-quantity">Chọn biến thể</div>
+                        </div>
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
                                 <input type="text" placeholder="."
@@ -115,13 +119,6 @@
                                 @else
                                     <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
-                                    <a href="javascript:void(0)" type="button" class="cr-button btn-primary"
-                                            data-sender="{{auth()->user()->user_id}}"
-                                            id="replys"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#chatModal">
-                                        trò truyện với chúng tôi
-                                    </a>
                             </div>
 
                             <div class="cr-add-button">

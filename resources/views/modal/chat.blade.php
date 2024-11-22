@@ -1,7 +1,7 @@
 <style>
     /* Custom styles for the chat messages */
     .chat-box {
-        height: 500px;
+        height: 200px;
         overflow-y: auto;
         background-color: #f8f9fa;
         border-radius: 8px;
@@ -45,8 +45,16 @@
         color: #6c757d;
         margin-top: 2px;
     }
+    #chatModal .modal-dialog{
+        width: 400px;
+        transform: none !important;
+        position: fixed;
+        bottom: 130px;
+        right: 10px;
+    }
 </style>
-<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+<div class="modal fade" id="chatModal" tabindex="-1"
+     aria-labelledby="chatModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,7 +76,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="chatInput"
                                placeholder="Nhắn tin" required/>
-                        <button class="btn btn-primary" type="submit">Gửi</button>
+                        <button class="cr-button btn-primary" type="submit">Gửi</button>
                     </div>
                 </form>
             </div>

@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Thanh toán đơn hàng')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -67,8 +68,11 @@
                                                                 overflow: hidden; text-overflow: ellipsis; white-space: normal"
                                                             >{{$item->product->product_name}}</a>
                                                         </h5>
-                                                        <div class="cr-pro-rating">
-                                                            <p>x{{$item->quantity}}</p>
+                                                        <div class="cr-pro-rating d-flex
+                                                        justify-content-between align-content-center">
+                                                            <p>{{$item->productVariant->size->size_name ?? 'Trống'}}
+                                                                , {{$item->productVariant->color->color_name ?? 'Trống'}}</p>
+                                                            <p style="">x{{$item->quantity}}</p>
                                                         </div>
                                                         <p class="cr-price">
                                                             <span class="new-price">{{number_format($item->product->sale_price)}} đ</span>
