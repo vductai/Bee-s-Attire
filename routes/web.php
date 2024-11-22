@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
     // route admin và user dùng chung
     Route::group(['middleware' => ['checkRole:user,admin']], function () {
-        Route::post('/logout', [AuthAdminController::class, 'logoutAdmin'])->name('admin.logout');
+        Route::post('/logout', [AuthClientController::class, 'logoutClient']);
         // chat
         Route::post('/send-message', [ChatController::class, 'sendMessage']);
         Route::get('/get-chat/{senderId}', [ChatController::class, 'getChatUserAdmin']);

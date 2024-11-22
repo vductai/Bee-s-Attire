@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Giỏ hàng')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -68,10 +69,10 @@
                                                 </td>
                                                 <td class="cr-cart-qty">
                                                     <div class="cart-qty-plus-minus">
-                                                        <button type="button" class="pluss">+</button>
+                                                        <button type="button" class="minuss">-</button>
                                                         <input type="text" placeholder="." value="{{$item->quantity}}"
                                                                maxlength="20" class="quantityy">
-                                                        <button type="button" class="minuss">-</button>
+                                                        <button type="button" class="pluss">+</button>
                                                     </div>
                                                 </td>
                                                 <td class="cr-cart-subtotal total">

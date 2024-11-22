@@ -603,6 +603,22 @@
     var responsiveDataTable = $("#cat_data_table");
     if (responsiveDataTable.length !== 0) {
         responsiveDataTable.DataTable({
+            language: {
+                decimal: ",",
+                thousands: ".",
+                lengthMenu: "_MENU_",
+                zeroRecords: "Không tìm thấy dữ liệu",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                infoEmpty: "Không có dữ liệu để hiển thị",
+                infoFiltered: "(lọc từ _MAX_ mục)",
+                search: "",
+                paginate: {
+                    first: "Đầu",
+                    last: "Cuối",
+                    next: "Tiếp",
+                    previous: "Trước",
+                },
+            },
             "aLengthMenu": [[10, 20, 30, 50, 75, -1], [10, 20, 30, 50, 75, "All"]],
             "pageLength": 10,
             "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">'

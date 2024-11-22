@@ -27,9 +27,9 @@ if (formLoginClient) {
             if (res.data.success) {
                 document.querySelector('#toast-content').textContent = 'Đăng nhập thành công'
                 toast.show();
-                setTimeout(()=>{
+                setTimeout(() => {
                     window.location.href = res.data.redirect || '/'
-                }, 2000)
+                }, 1000)
             } else {
                 document.getElementById('e-error').innerText = res.data.message
             }
@@ -51,7 +51,7 @@ const emailRegister = document.getElementById('emailRegister')
 const pwdRegister = document.getElementById('passwordRegister')
 const pwdConfirmation = document.getElementById('password_confirmation')
 
-if (formRegister){
+if (formRegister) {
     formRegister.addEventListener('submit', function (e) {
         e.preventDefault()
         document.getElementById('sub-res').innerText = ''
@@ -61,20 +61,20 @@ if (formRegister){
         document.querySelectorAll('.es').forEach(p => {
             p.textContent = ''
         })
-        axios.post('/auth/register',{
+        axios.post('/auth/register', {
             email: emailRegister.value,
             password: pwdRegister.value,
             password_confirmation: pwdConfirmation.value
-        },{
+        }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
             document.getElementById('sub-res').innerHTML = 'Đăng kí'
 
-            if (res.data.success === false){
+            if (res.data.success === false) {
                 document.getElementById('email-exit').innerText = res.data.message
-            }else {
+            } else {
                 document.querySelectorAll('.es').forEach(p => {
                     p.textContent = ''
                 })
@@ -88,9 +88,9 @@ if (formRegister){
             }
         }).catch(err => {
             document.getElementById('sub-res').innerHTML = 'Đăng kí'
-            if (err.response && err.response.data.errors){
+            if (err.response && err.response.data.errors) {
                 const error = err.response.data.errors
-                for (let feild in error){
+                for (let feild in error) {
                     document.querySelector(`#${feild}-error`).textContent = error[feild][0];
                 }
             }
@@ -98,3 +98,17 @@ if (formRegister){
     })
 }
 
+/*----------------------------------------------------- logout -------------------------------------------------------------*/
+
+const btnLogout = document.getElementById('btnLogout')
+btnLogout.addEventListener('click', function (e) {
+    e.preventDefault()
+    axios.post('/logout', {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }).then(res => {
+        localStorage.clear()
+        window.location.href = '/'
+    })
+})

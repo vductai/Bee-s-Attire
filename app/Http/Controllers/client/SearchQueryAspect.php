@@ -18,6 +18,9 @@ class SearchQueryAspect extends SearchAspect
                         $parentQuery->where('name', 'LIKE', "%{$term}%");
                     });
             })
+            ->orWhereHas('tags', function ($query) use ($term){
+                $query->where('tag_name', 'LIKE', "%{$term}%");
+            })
             ->get();
     }
 }

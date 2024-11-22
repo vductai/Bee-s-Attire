@@ -46,6 +46,8 @@ if (formCategoryParent) {
                         </div>
                     </td>
                 `
+        }).catch(err => {
+
         })
     })
 }
