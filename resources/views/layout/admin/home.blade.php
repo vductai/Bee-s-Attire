@@ -111,11 +111,8 @@
                                     <li><a href="project-overview.html">Projects</a></li>
                                 </ul>
                                 <ul class="border-top">
-                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
-                                        @csrf
-                                    </form>
                                     <li>
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <a href="#">
                                             <i class="ri-logout-circle-r-line"></i>Logout
                                         </a>
                                     </li>

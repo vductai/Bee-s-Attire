@@ -35,18 +35,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorOptions = document.querySelectorAll('.color-option');
     const hiddenInputColor = document.getElementById('selected-color-id');
     const hiddenInputVariant = document.getElementById('selected-product-variant-id');
+    const variantQuantity = document.getElementById('variant-quantity')
 
+    // khởi tạo biến lưu trữ
     let selectedSizeId = null;
     let selectedColorId = null;
 
     sizeOptions.forEach(option => {
         option.addEventListener('click', function () {
+            // loại bỏ class active
             sizeOptions.forEach(opt => opt.classList.remove('active-color'));
-            this.classList.add('active-color');
-            // Gán giá trị cho selectedSizeId
-            selectedSizeId = this.getAttribute('data-size-id');
-            hiddenInputSize.value = selectedSizeId;
-            console.log(selectedSizeId)
+            this.classList.add('active-color');   // thêm class active vào pt được chọn
+            selectedSizeId = this.getAttribute('data-size-id');  // lấy pt được chọn và Gán giá trị cho biến lưu chữ
+            hiddenInputSize.value = selectedSizeId; // gán gt vào pt ẩn
             updateProductVariant();
             filterColorsByStock();
         });
@@ -56,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', function () {
             colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
             this.classList.add('cl-active-color');
-            // Gán giá trị cho selectedColorId
             selectedColorId = this.getAttribute('data-color-id');
             hiddenInputColor.value = selectedColorId;
             updateProductVariant();
@@ -67,9 +67,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedSizeId && selectedColorId) {
             const selectedVariant = variants.find(variant =>
                 variant.size_id == selectedSizeId && variant.color_id == selectedColorId
-            );
+            ); // tìm kiếm biến thể
             if (selectedVariant) {
                 hiddenInputVariant.value = selectedVariant.product_variant_id;
+                variantQuantity.textContent = selectedVariant.quantity
+            }else {
+                variantQuantity.innerHTML = '<p class="text-danger">Hết hàng</p>'
             }
         }
     }
@@ -79,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const colorId = option.getAttribute('data-color-id');
             const matchingVariant = variants.find(variant =>
                 variant.size_id == selectedSizeId && variant.color_id == colorId
-            );
+            ); // tìm biến thể có size và color tương ứng
 
             if (matchingVariant && matchingVariant.quantity > 0) {
                 option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng

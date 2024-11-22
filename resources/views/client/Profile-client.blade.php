@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Hồ sơ')
 @section('content_client')
     <link rel="stylesheet" href="{{asset('assets/client/css/voucher-item.css')}}">
     <div class="container mt-5">
