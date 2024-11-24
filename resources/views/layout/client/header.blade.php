@@ -7,18 +7,21 @@
     <meta name="keywords" content="ecommerce, market, shop, mart, cart, deal, multipurpose, marketplace">
     <meta name="description" content="Carrot - Multipurpose eCommerce HTML Template.">
     <meta name="author" content="ashishmaraviya">
+    @if(auth()->check())
+        <meta name="user-id" content="{{auth()->user()->user_id}}">
+    @endif
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
-    <title>Carrot - Multipurpose eCommerce HTML Template</title>
-
+    <title>@yield('title', 'Trang chủ')</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/client/img/logo/favicon.png')}}">
 
     <!-- Icon CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/remixicon.css')}}">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <!-- Vendor -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/animate.css')}}">
@@ -28,14 +31,29 @@
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/swiper-bundle.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/jquery.slick.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/slick-theme.css')}}">
-    @vite('resources/js/comment.js')
-    @vite('resources/js/whishlist.js')
+@vite('resources/js/comment.js')
+@vite('resources/js/whishlist.js')
+@vite('resources/js/order.js')
+@vite('resources/js/voucherassigned.js')
+@vite('resources/js/order-status.js')
+@vite('resources/js/auth.js')
+@vite('resources/js/chat.js')
+@vite('resources/js/password.js')
 
-    <!-- Main CSS -->
+<!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
-    <livewire:styles/>
 </head>
-
+<style>
+    body.modal-open{
+        overflow: auto !important;
+    }
+    .modal{
+        pointer-events: auto !important;
+    }
+    .modal-backdrop{
+        display: none !important;
+    }
+</style>
 <body class="body-bg-6">
 
 <!-- Loader -->
@@ -50,35 +68,100 @@
             <div class="col-lg-12">
                 <div class="top-header">
                     <a href="{{route('home')}}" class="cr-logo">
-                        <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
+                        <img src="{{asset('full-logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <livewire:tag-search/>
+                    <form class="cr-search">
+                        <input class="search-input"
+                               id="search-box"
+                               type="text" placeholder="Tìm kiếm mục...">
+                        <a href="javascript:void(0)" class="search-btn">
+                            <i class="ri-search-line"></i>
+                        </a>
+                    </form>
                     <div class="cr-right-bar">
+                        @if(auth()->check())
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle cr-right-bar-item"
+                                       href="{{route('notification')}}">
+                                        <i class="ri-notification-4-line"></i>
+                                        <span class="position-relative">
+                                        Thông báo
+                                            <span
+                                                id="notis-badge"
+                                                class="position-absolute top-0 start-100 translate-middle
+                                                    bg-danger border border-light rounded-circle"
+                                                style="padding: 6px; margin-left: 12px; display: {{$counts ? 'inline' : 'none'}}">
+                                            </span>
+                                    </span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @if($noti->isEmpty())
+                                            <li id="noti-null">
+                                                <a href="javascript:void(0)" class="dropdown-item">
+                                                    Bạn không có thông báo mới nào
+                                                </a>
+                                            </li>
+                                        @else
+                                            @foreach($noti as $item)
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       href="{{route('notification')}}">
+                                                        @if($item->is_read === 'Chưa đọc')
+                                                            <span class="badge text-bg-danger">Mới</span>
+                                                        @endif
+                                                        {{$item->message}}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                        <div id="noti-header-view">
+
+                                        </div>
+                                    </ul>
+                                </li>
+                            </ul>
+                        @endif
                         <ul class="navbar-nav">
                             @if(auth()->check())
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle cr-right-bar-item" href="javascript:void(0)">
                                         <i class="ri-user-3-line"></i>
-                                        <span>{{auth()->user()->username}}</span>
+                                        <span class="position-relative">
+                                            {{auth()->user()->username}}
+                                             <span
+                                                 class="position-absolute top-10 start-100 translate-middle
+                                                    bg-danger border border-light rounded-circle"
+                                                 style="padding: 6px; margin-left: 12px; display: none">
+                                            </span>
+                                        </span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                         </li>
+                                        @if(auth()->user()->role_id === 4)
+                                            <li>
+                                                <a class="dropdown-item" href="{{route('dashboard')}}">Trang quản
+                                                    trị</a>
+                                            </li>
+                                        @endif
                                         <li>
-                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn hàng</a>
+                                            <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán đơn
+                                                hàng</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
+                                            <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của
+                                                bạn</a>
                                         </li>
                                         <li>
                                             <form action="{{ route('client.logout') }}" method="POST"
                                                   style="display: none;" id="logout-form">
                                                 @csrf
                                             </form>
-                                            <a class="dropdown-item" href="#"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                            <a class="dropdown-item" href="javascript:void(0)"
+                                               id="btnLogout">Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -116,7 +199,8 @@
                                 @else
                                     <span
                                         class="position-absolute top-10 start-100 translate-middle
-                                        bg-danger border border-light rounded-circle" style="padding: 6px; display:none;">
+                                        bg-danger border border-light rounded-circle"
+                                        style="padding: 6px; display:none;">
                                     </span>
                                 @endif
                             </a>
@@ -132,5 +216,5 @@
         @include('layout.client.navigation')
     </div>
 </header>
-<livewire:scripts/>
 @include('layout.client.mobile-menu')
+@include('toast.auth-toast')

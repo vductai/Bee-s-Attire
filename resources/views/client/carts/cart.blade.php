@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Giỏ hàng')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -7,8 +8,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Cart</h2>
-                            <span> <a href="index.html">Home</a> / Cart</span>
+                            <h2>Giỏ hàng</h2>
+                            <span> <a href="index.html">Trang chủ</a> / Giỏ hàng</span>
                         </div>
                     </div>
                 </div>
@@ -41,11 +42,11 @@
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th class="text-center">Quantity</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th>Sản phầm</th>
+                                            <th>Giá</th>
+                                            <th class="text-center">Số lượng</th>
+                                            <th>Thành tiền</th>
+                                            <th>Hành động</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -57,7 +58,7 @@
                                                              alt="product-1" class="cr-cart-img">
                                                         <div>
                                                             <span class="amount"
-                                                                  style="font-size: 25px">{{$item->product->product_name}}</span>
+                                                                  style="font-size: 18px">{{$item->product->product_name}}</span>
                                                             <p>{{$item->productVariant->size->size_name ?? 'Trống'}}
                                                                 , {{$item->productVariant->color->color_name ?? 'Trống'}}</p>
                                                         </div>
@@ -68,10 +69,10 @@
                                                 </td>
                                                 <td class="cr-cart-qty">
                                                     <div class="cart-qty-plus-minus">
-                                                        <button type="button" class="pluss">+</button>
+                                                        <button type="button" class="minuss">-</button>
                                                         <input type="text" placeholder="." value="{{$item->quantity}}"
                                                                maxlength="20" class="quantityy">
-                                                        <button type="button" class="minuss">-</button>
+                                                        <button type="button" class="pluss">+</button>
                                                     </div>
                                                 </td>
                                                 <td class="cr-cart-subtotal total">
@@ -97,8 +98,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
-                                            <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
-                                            <a href="" class="cr-button checkout">Check Out</a>
+                                            <a href="{{route('home')}}" class="cr-links">Tiếp tục mua sắm</a>
+                                            <a href="" class="cr-button checkout">Thanh toán</a>
                                         </div>
                                     </div>
                                 </div>
@@ -109,70 +110,4 @@
             </div>
         </div>
     </section>
-<<<<<<< HEAD
-    <script !src="">
-        document.addEventListener('DOMContentLoaded', function () {
-            const plusButtons = document.querySelectorAll('.pluss');
-            const minusButtons = document.querySelectorAll('.minuss');
-            const quantityInputs = document.querySelectorAll('.quantityy');
-            const productPrices = document.querySelectorAll('.product_price');
-            const totals = document.querySelectorAll('.total');
-
-
-            // Hàm chuyển đổi chuỗi có dấu phẩy (định dạng tiền tệ) về số thập phân
-            function parseCurrency(str) {
-                return parseFloat(str.replace(/[^0-9.-]+/g, '')); // Loại bỏ ký tự không phải số và chuyển về số thập phân
-            }
-
-            // Hàm định dạng số thành tiền tệ
-            function formatCurrency(num) {
-                return num.toLocaleString('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
-            }
-
-            // Hàm cập nhật tổng giá cho một hàng sản phẩm
-            function updateTotal(index) {
-                const quantity = parseInt(quantityInputs[index].value);
-                const productPrice = parseCurrency(productPrices[index].textContent); // Chuyển đổi giá trị thành số
-                const total = quantity * productPrice;
-                totals[index].textContent = formatCurrency(total); // Hiển thị giá trị với định dạng tiền tệ Việt Nam
-            }
-
-            // Sự kiện khi nhấn nút cộng
-            plusButtons.forEach((plusButton, index) => {
-                plusButton.addEventListener('click', function () {
-                    let currentQuantity = parseInt(quantityInputs[index].value);
-                    currentQuantity += 1; // Tăng số lượng lên 1
-                    quantityInputs[index].value = currentQuantity;
-                    updateTotal(index); // Cập nhật lại tổng giá
-                });
-            });
-
-            // Sự kiện khi nhấn nút trừ
-            minusButtons.forEach((minusButton, index) => {
-                minusButton.addEventListener('click', function () {
-                    let currentQuantity = parseInt(quantityInputs[index].value);
-                    if (currentQuantity > 1) {
-                        currentQuantity -= 1; // Giảm số lượng đi 1
-                        quantityInputs[index].value = currentQuantity;
-                        updateTotal(index); // Cập nhật lại tổng giá
-                    }
-                });
-            });
-
-            // Cập nhật tổng giá khi số lượng thay đổi trực tiếp
-            quantityInputs.forEach((quantityInput, index) => {
-                quantityInput.addEventListener('input', function () {
-                    let currentQuantity = parseInt(quantityInput.value);
-                    if (currentQuantity >= 1) {
-                        updateTotal(index); // Chỉ cập nhật nếu số lượng lớn hơn hoặc bằng 1
-                    }
-                });
-            });
-        });
-    </script>
-=======
->>>>>>> 050a147a7b8da9d9a84ba4aa4603696c19359b41
 @endsection

@@ -30,6 +30,7 @@
                     name: 'Products Sold',
                     data: productsSoldPerMonth, 
                 },
+
                 {
                     name: 'Most Viewed Product Views',
                     data: mostViewedProductData, 
@@ -37,6 +38,7 @@
             ],
             plotOptions: { bar: { horizontal: false, columnWidth: '20%' } },
             stroke: { width: [2, 2, 2], curve: "smooth" },
+
             fill: {
                 opacity: [1, 1, 1],
                 gradient: { inverseColors: false, shade: 'light', type: "vertical", opacityFrom: .45, opacityTo: .05, stops: [50, 100, 100, 100] }
@@ -149,12 +151,11 @@
         var weeklyChart = new ApexCharts(document.querySelector("#weeklyChart"), options);
         weeklyChart.render();
     }
-
-    
     // Khởi tạo biểu đồ 
     $(document).ready(function() {
         newrevenueChart();
         newWeeklyChart();
 
     });
+
 })(jQuery);

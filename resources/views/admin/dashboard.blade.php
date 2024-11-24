@@ -1,14 +1,19 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
+
 @section('content_admin')
     <!-- Page title & breadcrumb -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
+
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
 
         var pusher = new Pusher('88008db891eef10204ed', {
+
             cluster: 'ap1'
+
         });
 
         var channel = pusher.subscribe('notify-channel');
@@ -219,6 +224,7 @@
                             </h5>
                         </div>
                          --}}
+
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Shop')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -7,8 +8,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Shop</h2>
-                            <span> <a href="index.html">Home</a> - Shop</span>
+                            <h2>Cửa hàng</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Cửa hàng</span>
                         </div>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
                                     <div class="checkbox-group">
                                         <input type="checkbox" id="{{$item->category_name}}">
                                         <label for="{{$item->category_name}}">{{$item->category_name}}</label>
-                                        <span>[{{$item->product_count}}]</span>
+                                        {{--<span>[{{$item->product_count}}]</span>--}}
                                     </div>
                                 @endforeach
                             </div>
@@ -154,32 +155,28 @@
                                         <div class="cr-brand">
                                             <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
                                         </div>
-                                        <a href="{{route('detail', ['slug' => $item->slug])}}" class="title">
+                                        <a href="{{route('detail', ['slug' => $item->slug])}}"
+                                           style="display: -webkit-box;
+                                            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                                            overflow: hidden; text-overflow: ellipsis; white-space: normal"
+                                           class="title">
                                             {{$item->product_name}}
                                         </a>
                                         <p class="cr-price">
                                             <span class="new-price">{{number_format($item->sale_price) }} đ</span>
-                                            <span class="old-price">{{number_format($item->product_price)}} đ</span>
+                                            @if($item->product_price)
+                                                <span class="old-price">{{number_format($item->product_price)}} đ</span>
+                                            @else
+                                                <span class="old-price"></span>
+                                            @endif
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <nav aria-label="..." class="cr-pagination">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                            <li class="page-item active" aria-current="page">
-                                <span class="page-link">1</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
+                    <nav aria-label="" class="cr-pagination">
+                        {{$listAllProductShop->links()}}
                     </nav>
                 </div>
             </div>
@@ -188,6 +185,5 @@
     <script>
         const lowestPrice = {{$lowestPrice}};
         const highestPrice = {{$highestPrice}};
-
     </script>
 @endsection

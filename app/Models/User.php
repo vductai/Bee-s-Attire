@@ -43,11 +43,22 @@ class User extends Authenticatable
         'password' => 'hashed'
     ];
 
+
     public function setPasswordAttribute($value)
     {
         if (!empty($value)) {
             $this->attributes['password'] = Hash::make($value);
         }
+    }
+
+    public function isManager()
+    {
+        return $this->role->role_name === 'admin';
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notifications::class, 'user_id');
     }
 
     public function whishlists()

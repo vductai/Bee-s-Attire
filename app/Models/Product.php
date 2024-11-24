@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchAspect;
+use Spatie\Searchable\SearchResult;
 
-class Product extends Model
+class Product extends Model implements Searchable
 {
     use HasFactory;
 
@@ -20,11 +23,26 @@ class Product extends Model
         'product_price',
         'product_desc',
         'sale_price',
-        'views',
         'category_id',
         'slug',
-        'action'
+        'action',
+        'views'
     ];
+
+    public function getSearchResult():SearchResult
+    {
+        return new SearchResult(
+          $this,
+          $this->product_name,
+          null
+        );
+    }
+
+    public function featuredCategories()
+    {
+        return $this->belongsToMany(Featured_categories::class,
+            'product_featured_category', 'product_id', 'featured_categories_id');
+    }
 
     public function whishlists()
     {

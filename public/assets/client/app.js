@@ -35,18 +35,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorOptions = document.querySelectorAll('.color-option');
     const hiddenInputColor = document.getElementById('selected-color-id');
     const hiddenInputVariant = document.getElementById('selected-product-variant-id');
+    const variantQuantity = document.getElementById('variant-quantity')
 
+    // khởi tạo biến lưu trữ
     let selectedSizeId = null;
     let selectedColorId = null;
 
     sizeOptions.forEach(option => {
         option.addEventListener('click', function () {
+            // loại bỏ class active
             sizeOptions.forEach(opt => opt.classList.remove('active-color'));
-            this.classList.add('active-color');
-            // Gán giá trị cho selectedSizeId
-            selectedSizeId = this.getAttribute('data-size-id');
-            hiddenInputSize.value = selectedSizeId;
-            console.log(selectedSizeId)
+            this.classList.add('active-color');   // thêm class active vào pt được chọn
+            selectedSizeId = this.getAttribute('data-size-id');  // lấy pt được chọn và Gán giá trị cho biến lưu chữ
+            hiddenInputSize.value = selectedSizeId; // gán gt vào pt ẩn
             updateProductVariant();
             filterColorsByStock();
         });
@@ -56,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', function () {
             colorOptions.forEach(opt => opt.classList.remove('cl-active-color'));
             this.classList.add('cl-active-color');
-            // Gán giá trị cho selectedColorId
             selectedColorId = this.getAttribute('data-color-id');
             hiddenInputColor.value = selectedColorId;
             updateProductVariant();
@@ -67,18 +67,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedSizeId && selectedColorId) {
             const selectedVariant = variants.find(variant =>
                 variant.size_id == selectedSizeId && variant.color_id == selectedColorId
-            );
+            ); // tìm kiếm biến thể
             if (selectedVariant) {
                 hiddenInputVariant.value = selectedVariant.product_variant_id;
+                variantQuantity.textContent = selectedVariant.quantity
+            }else {
+                variantQuantity.innerHTML = '<p class="text-danger">Hết hàng</p>'
             }
         }
     }
+
     function filterColorsByStock() {
         colorOptions.forEach(option => {
             const colorId = option.getAttribute('data-color-id');
             const matchingVariant = variants.find(variant =>
                 variant.size_id == selectedSizeId && variant.color_id == colorId
-            );
+            ); // tìm biến thể có size và color tương ứng
 
             if (matchingVariant && matchingVariant.quantity > 0) {
                 option.style.display = 'inline-block'; // Hiển thị màu nếu còn hàng
@@ -184,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 cartItems.push({
                     product_id: parseInt(productId),
                     quantity: quantity,
-                    price: totalprice * quantity,
                     price: totalprice * quantity
                 })
             }
@@ -199,36 +202,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({cartItems})
             })
-        .then(res => res.json())
+                .then(res => res.json())
                 .then(data => {
                     if (!data.success) {
                         window.location.href = "/checkout"
-                    }else {
+                    } else {
                         alert('error chuyen huong')
                     }
                 }).catch(err => {
-                    alert('cart faild')
-                })
+                alert('cart faild')
+            })
         }
     })
 });
 
 /*----------------------------------------------------- filter ----------------------------------------------*/
-
+// lấy tất cả checkbox trong danh mục
 document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbox => {
+    // thêm sự kiện mỗi thuộc tính
     checkbox.addEventListener('change', () => {
+        // array.form: chuyển đổi thành mảng thật
         const selectedCategories = Array.from(document.querySelectorAll('.cr-shop-categories input[type="checkbox"]:checked'))
-            .map(el => el.id);
+            .map(el => el.id); // lưu id được chọn
         const selectedColors = Array.from(document.querySelectorAll('.cr-shop-color input[type="checkbox"]:checked'))
-            .map(el => el.id);
+            .map(el => el.id); // lưu id được chọn
         const selectedSizes = Array.from(document.querySelectorAll('.cr-shop-weight input[type="checkbox"]:checked'))
-            .map(el => el.id);
-        // Kiểm tra các giá trị đã chọn
+            .map(el => el.id); // lưu id được chọn
+
         console.log("Categories:", selectedCategories);
         console.log("Colors:", selectedColors);
         console.log("Sizes:", selectedSizes);
 
-        axios.post('/search-product', {
+        axios.post('/filter-product', {
             categories: selectedCategories,
             colors: selectedColors,
             sizes: selectedSizes
@@ -241,10 +246,11 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
             let products = data.products;
             console.log(products)
             // Chuyển đổi `products` thành mảng nếu nó là đối tượng
-            if (!Array.isArray(products)){
+            if (!Array.isArray(products)) {
                 products = Object.values(products)
             }
             let html = '';
+
             function formatCurrency(num) {
                 num = Number(num) || 0;
                 return num.toLocaleString('vi-VN', {
@@ -252,11 +258,12 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
                     currency: 'VND'
                 }).replace(/\s₫/, ' đ'); // Định dạng tiền tệ VN
             }
-            if (products.length === 0){
+
+            if (products.length === 0) {
                 html = `<div>
                              <h3 class="text-center text-danger" style="margin: 380px 0;">Không có sản phẩm nào phù hợp với bộ lọc</h3>
                         </div>`
-            }else {
+            } else {
                 products.forEach(productData => {
                     const avatar = `${window.location.origin}/upload/${productData.product_avatar}`;
                     html +=
@@ -272,7 +279,11 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
                                             <div class="cr-brand">
                                                 <a href="shop-left-sidebar.html">${productData.category.category_name}</a>
                                             </div>
-                                            <a href="/detail/${productData.slug}" class="title">
+                                            <a href="/detail/${productData.slug}"
+                                            style="display: -webkit-box;
+                                            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                                            overflow: hidden; text-overflow: ellipsis; white-space: normal"
+                                                class="title">
                                                 ${productData.product_name}
                                             </a>
                                             <p class="cr-price">
@@ -289,5 +300,157 @@ document.querySelectorAll('.cr-checkbox input[type="checkbox"]').forEach(checkbo
         }).catch(error => {
             console.error('Có lỗi xảy ra:', error);
         });
+    })
+})
+
+/*-------------------------------------------------------- change password profile -------------------------------------------*/
+
+const formchangePassword = document.getElementById('formchangePassword')
+const changePassword = document.getElementById('changePassword')
+const confirmPassword = document.getElementById('confirmPassword')
+if (formchangePassword) {
+    formchangePassword.addEventListener('submit', function (e) {
+        e.preventDefault()
+        document.querySelectorAll('.error-text').forEach(function (e) {
+            e.textContent = ''
+        })
+        axios.put('/changePassword', {
+            changePassword: changePassword.value,
+            confirmPassword: confirmPassword.value
+        }, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).catch(err => {
+            if (err.response && err.response.data.errors) {
+                let errors = err.response.data.errors
+                for (let field in errors) {
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0]
+                }
+            }
+        })
+        this.reset();
+    })
+}
+
+/*---------------------------------------------- status noti -----------------------------------------------*/
+
+const notiBtn = document.querySelectorAll('.noti-button')
+if (notiBtn){
+    notiBtn.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault()
+            const notiId = btn.dataset.notiId
+            console.log(notiId)
+            axios.put(`/noti/${notiId}`,{}, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(res => {
+                const notiItem = document.querySelector(`.noti-item[data-span-id="${notiId}"]`)
+                const notiBtn = document.querySelector(`.noti-button[data-noti-id='${notiId}']`)
+                if (notiBtn){
+                    notiBtn.style.display = 'none'
+                }
+
+                if (notiItem){
+                    notiItem.innerHTML = 'Đã đọc';
+                    notiItem.classList.remove('text-bg-danger')
+                    notiItem.classList.add('text-bg-success')
+                }
+            })
+        })
+    })
+}
+
+/*--------------------------------------------------- del all noti -----------------------------------------------------*/
+
+document.getElementById('del-all-noti').addEventListener('click', function (e) {
+    e.preventDefault()
+    axios.delete('/del-noti',{
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }).then(res => {
+        const dataNoti = res.data
+        const datas = dataNoti.notis
+        console.log(dataNoti)
+        console.log(datas)
+        // tính toán thời gian
+        function timeAgo(date) {
+            // lấy second
+            const seconds = Math.floor((new Date() - new Date(date)) / 1000) // milions
+            const intervals = [
+                { label: 'năm', seconds: 31536000 },
+                { label: 'tháng', seconds: 2592000 },
+                { label: 'ngày', seconds: 86400 },
+                { label: 'giờ', seconds: 3600 },
+                { label: 'phút', seconds: 60 },
+                { label: 'giây', seconds: 1 }
+            ]
+            for (const interval of intervals){
+                // tính số thời gian trôi qua
+                const count = Math.floor(seconds / interval.seconds)
+                if (count >= 1){
+                    return `${count} ${interval.label} trước`;
+                }
+            }
+            return "Vừa xong";
+        }
+
+        if (datas.length === 0){
+            document.getElementById('list-all-noti').innerHTML = `
+                    Bạn không có thông báo nào
+                `;
+            document.getElementById('list-all-noti').innerHTML = 'Bạn không có thông báo nào'
+            document.getElementById('list-all-noti').style.color = 'Red'
+            document.getElementById('list-all-noti').classList.add('text-center')
+        }
+        datas.forEach(data => {
+            console.log(data)
+            console.log(data.message)
+            const timeAgoText = timeAgo(data.created_at)
+            let span = '';
+            let check = '';
+            let display = '';
+            if (data.is_read ==='Đã đọc'){
+                span = 'Đã đọc'
+            }else {
+                span = 'Mới'
+            }
+            if (data.is_read === 'Chưa đọc'){
+                check = 'text-bg-danger'
+            }else {
+                check = 'text-bg-success'
+            }
+            if (data.is_read === 'Đã đọc'){
+                display = 'd-none'
+            }
+            document.getElementById('list-all-noti').innerHTML = `
+            <div class="post rounded-2 border p-3 d-flex justify-content-between align-items-center">
+                 <div>
+                     <div class="content">
+                         <div class="details">
+                         <span
+                             class="date">${timeAgoText}</span>
+                         </div>
+                     </div>
+                     <p class="text-black">
+                     <span
+                         class="noti-item badge ${check} mx-2"
+                         data-span-id="${data.id}">${span}</span></a>
+                         ${data.message}
+                     </p>
+                 </div>
+                 <div>
+                     <button
+                         data-noti-id="${data.id}"
+                         class="cr-button noti-button ${display}">
+                         Đánh dấu là đã đọc
+                     </button>
+                 </div>
+            </div>
+        `
+        })
     })
 })

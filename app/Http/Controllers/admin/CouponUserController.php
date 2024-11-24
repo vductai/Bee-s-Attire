@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\VoucherAssignedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendMailVoucherJob;
 use App\Mail\VoucherMail;
+use App\Models\Notifications;
 use App\Models\User;
 use App\Models\user_voucher;
 use App\Models\Vouchers;
@@ -42,6 +44,13 @@ class CouponUserController extends Controller
                 'voucher_id' => $request->voucher_id,
                 'end_date' => Carbon::parse($request->end_date)->format('Y-m-d H:i:s')
             ]);
+            $user = User::find($userId);
+            $voucher = Vouchers::find($request->voucher_id);
+            Notifications::create([
+                'user_id' => $userId,
+                'message' => "Bạn vừa nhận được mã giảm giá {$voucher->voucher_price} %, hãy mua sắm ngay để tiếp kiệm nhiều hơn"
+            ]);
+            broadcast(new VoucherAssignedEvent($user, $voucher, $addVoucherUser->end_date));
             $selEmail = User::where('user_id', $userId)->value('email');
             SendMailVoucherJob::dispatch($selEmail, $addVoucherUser);
         }

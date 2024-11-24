@@ -22,7 +22,7 @@
                             <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
                         </div>
                         <div class="cr-content-form text-center">
-                            <h6>Mật khẩu của bạn đã được đặt lại thành công, nhấn <a href="{{route('client.viewLogin')}}" class="text-primary">vào đây</a> để đăng nhập</h6>
+                            <h6>Mật khẩu của bạn đã được đặt lại thành công, nhấn <a href="{{route('client-viewLogin')}}" class="text-primary">vào đây</a> để đăng nhập</h6>
                         </div>
                     </div>
                 </div>

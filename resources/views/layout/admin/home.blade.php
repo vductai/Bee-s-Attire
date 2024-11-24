@@ -14,7 +14,9 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/admin/img/favicon/favicon.ico')}}">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Icon CSS -->
     <link href="{{asset('assets/admin/css/vendor/materialdesignicons.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/remixicon.css')}}" rel="stylesheet">
@@ -41,6 +43,9 @@
     @vite('resources/js/voucher.js')
     @vite('resources/js/user.js')
     @vite('resources/js/category-parent.js')
+    @vite('resources/js/admin-notify.js')
+    @vite('resources/js/pusher-amin.js')
+    @vite('resources/js/reply.js')
 </head>
 
 <body>
@@ -60,7 +65,7 @@
 								<span class="inner-ring"></span>
 							</span>
                     </a>
-                    <div class="header-search-box">
+                    {{--<div class="header-search-box">
                         <div class="header-search-drop">
                             <a href="javascript:void(0)" class="open-search"><i class="ri-search-line"></i></a>
                             <form class="cr-search">
@@ -69,7 +74,7 @@
                                 </a>
                             </form>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
                 <div class="right-header">
                     <div class="cr-right-tool display-screen">
@@ -106,11 +111,8 @@
                                     <li><a href="project-overview.html">Projects</a></li>
                                 </ul>
                                 <ul class="border-top">
-                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
-                                        @csrf
-                                    </form>
                                     <li>
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <a href="#">
                                             <i class="ri-logout-circle-r-line"></i>Logout
                                         </a>
                                     </li>
@@ -151,14 +153,14 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+    {{--<footer>
         <div class="container-fluid">
             <div class="copyright">
                 <p><span id="copyright_year"></span> © Carrot, All rights Reserved.</p>
                 <p>Design by MaraviyaInfotech.</p>
             </div>
         </div>
-    </footer>
+    </footer>--}}
 
     <!-- Feature tools -->
     <div class="cr-tools-sidebar-overlay"></div>
@@ -167,7 +169,7 @@
     </div>
 </main>
 
-
+@include('modal.reply')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>

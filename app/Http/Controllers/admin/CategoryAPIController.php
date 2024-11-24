@@ -71,6 +71,11 @@ class CategoryAPIController extends Controller
     }
 
     public function edit($id){
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
+
         $find = Category::findOrFail($id);
         $list = Category::all();
         $parent = Parent_Category::all();

@@ -1,4 +1,17 @@
-
+@if(auth()->check())
+    @if(auth()->user()->role->role_name === 'admin')
+    @else
+        <a href="javascript:void(0)" type="button"
+           class="cr-button shadow rounded-circle position-fixed"
+           style="bottom: 93px; right: 12px; width: 50px;height: 50px;border-radius: 50%; z-index: 1050"
+           data-sender="{{auth()->user()->user_id}}"
+           id="replys"
+           data-bs-toggle="modal"
+           data-bs-target="#chatModal">
+            <i class="ri-question-answer-line fs-5"></i>
+        </a>
+    @endif
+@endif
 <!-- Footer -->
 <footer class="footer padding-t-100 bg-off-white">
     <div class="container">
@@ -45,7 +58,7 @@
                         <li><a href="policy.html">Chính sách bảo mật</a></li>
                         <li><a href="terms.html">Điều khoản & Điều kiện</a></li>
                         <li><a href="{{route('contact')}}">Liên hệ với chúng tôi</a></li>
-{{--                        <li><a href="faq.html">Support Center</a></li>--}}
+                        {{--                        <li><a href="faq.html">Support Center</a></li>--}}
                     </ul>
                 </div>
             </div>
@@ -139,7 +152,8 @@
             </div>
         </div>
         <div class="cr-last-footer">
-            <p>&copy; <span id="copyright_year"></span> <a href="{{route('home')}}">Bee's Attire</a>, Mọi quyền được bảo lưu.</p>
+            <p>&copy; <span id="copyright_year"></span> <a href="{{route('home')}}">Bee's Attire</a>, Mọi quyền được bảo
+                lưu.</p>
         </div>
     </div>
 </footer>
@@ -149,12 +163,13 @@
     <i class="ri-arrow-up-line"></i>
     <div class="back-to-top-wrap">
         <svg viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
         </svg>
     </div>
 </a>
 <!-- Model -->
 @include('client.product.quickview-modal')
+@include('modal.modal-view')
 <!-- Cart -->
 @include('client.carts.cart-slider')
 <!-- Side-tool -->
@@ -168,7 +183,6 @@
 <script src="{{asset('assets/client/js/vendor/aos.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/swiper-bundle.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/slick.min.js')}}"></script>
-
 <!-- Main Custom -->
 <script src="{{asset('assets/client/js/main.js')}}"></script>
 <script src="{{asset('assets/client/app.js')}}"></script>

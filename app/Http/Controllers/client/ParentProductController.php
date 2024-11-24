@@ -11,6 +11,7 @@ class ParentProductController extends Controller
     {
         $get = Parent_Category::with('product')->where('slug',$slug)->first();
         $product = $get->product;
-        return view('client.product.parent-product', compact('product'));
+        $slugs = $slug;
+        return view('client.product.parent-product', compact('product', 'slugs'));
     }
 }

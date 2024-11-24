@@ -16,7 +16,9 @@ class Order extends Model
         'total_price',
         'voucher_id',
         'final_price',
-        'status'
+        'status',
+        'payment_method',
+        'note'
     ];
 
     public function order_item()

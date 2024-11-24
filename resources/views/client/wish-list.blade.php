@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Yêu thích')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">

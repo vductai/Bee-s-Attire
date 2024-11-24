@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -20,8 +21,9 @@ class ProfileController extends Controller
     }
 
 
-    public function updateProfile(UserRequest $request)
+    public function updateProfile(Request $request)
     {
+        Log::info($request->all());
         try {
             $this->authorize('manageClient', Auth::user());
         } catch (AuthorizationException $e) {
@@ -30,18 +32,14 @@ class ProfileController extends Controller
 
         if (Auth::check()) {
             $userId = Auth::user()->user_id;
-
-            // Lấy avatar hiện tại nếu không có file mới được upload
-            $user = User::find($userId);
+            $user = User::findOrFail($userId);
             $imageName = $user->avatar;
-
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
                 $imageName = time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('/upload'), $imageName);
                 $request->merge(['avatar' => $imageName]);
             }
-
             $user->update([
                 'avatar' => $imageName,
                 'username' => $request->username,
@@ -50,12 +48,28 @@ class ProfileController extends Controller
                 'birthday' => $request->birthday,
                 'address' => $request->address,
             ]);
-
-            $update = User::find($userId);
-
             return redirect()->route('profile');
         }
     }
 
+    public function changePasswordProfile(Request $request){
+        $id = Auth::user()->user_id;
+        $change = User::findOrFail($id);
+        $request->validate(
+            [
+                'changePassword' => ['required'],
+                'confirmPassword' => ['required', 'same:changePassword']
+            ],
+            [
+                'changePassword.required' => 'Không được để trống',
+                'confirmPassword.required' => 'Không được để trống',
+                'confirmPassword.same' => 'Không khớp với mật khẩu trước'
+            ]
+        );
+        $change->update([
+            'password' => $request->changePassword
+        ]);
+        return response()->json(['message' => 'done']);
+    }
 
 }

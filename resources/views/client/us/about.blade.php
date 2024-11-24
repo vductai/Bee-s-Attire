@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>About Us</h2>
-                            <span> <a href="index.html">Home</a> - About Us</span>
+                            <h2>Về chúng tôi</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Về chúng tôi</span>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="cr-about" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
-                        <h4 class="heading">About The Carrot</h4>
+                        <h4 class="heading">Giới thiệu về Bee Attire</h4>
                         <div class="cr-about-content">
                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione, recusandae
                                 necessitatibus quasi incidunt alias adipisci pariatur earum iure beatae assumenda

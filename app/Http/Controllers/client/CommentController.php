@@ -12,6 +12,15 @@ class CommentController extends Controller
 {
 
     public function comment(CommentRequest $request){
+        $request->validate(
+            [
+                'comment' => ['required', 'min:5']
+            ],
+            [
+              'comment.required' => 'Vui lòng nhập',
+              'comment.min' => 'Nhập tối thiểu 5 kí tự'
+            ]
+        );
         if (Auth::check()){
             $user = Auth::user();
             $comment = Comment::create([

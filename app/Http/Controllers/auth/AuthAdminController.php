@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 class AuthAdminController extends Controller
 {
     public function getProfile(){
-
         if (Auth::check()){
             return Auth::user();
         }
@@ -40,20 +39,21 @@ class AuthAdminController extends Controller
         }
     }
 
-    public function logoutAdmin() {
-        // Xoá token của user đang đăng nhập
-        if (Auth::guard('web')->check()){
-            $user = Auth::guard('web')->user();
-            $user->tokens()->delete();
-            Auth::guard('web')->logout();
-            Session::flush(); // Xóa toàn bộ dữ liệu session
 
-            // Xóa cookie liên quan đến xác thực
-            Cookie::queue(Cookie::forget('sanctum_token'));
 
-            return redirect()->route('admin.viewLogin');
-        }
 
+    public function toggleUserStatus($id){
+        $user = User::find($id);
+        $user->action = !$user->action;
+        $user->update();
+        return redirect()->back();
+    }
+
+    public function toggleProductStatus($id){
+        $product = Product::find($id);
+        $product->action = !$product->action;
+        $product->update();
+        return redirect()->back();
     }
 
 
