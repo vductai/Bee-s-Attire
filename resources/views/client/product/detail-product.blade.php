@@ -120,7 +120,20 @@
                                     <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
                             </div>
-
+                            <div class="cr-card-icon">
+                                <a href="javascript:void(0)" id="share">
+                                    <i class="ri-share-forward-line"></i>
+                                </a>
+                                <script>
+                                    document.getElementById('share').addEventListener('click', async ()=>{
+                                        await navigator.share({
+                                            title: '{{$getDetail->product_name}}',
+                                            text: '{{$getDetail->product_name}}',
+                                            url: '{{route('detail', $getDetail->slug)}}'
+                                        })
+                                    })
+                                </script>
+                            </div>
                             <div class="cr-add-button">
                                 @if(session()->has('errorCart'))
                                     <div class="alert alert-danger">

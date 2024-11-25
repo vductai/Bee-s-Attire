@@ -34,10 +34,27 @@ class CouponUserController extends Controller
 
     public function store(Request $request){
         try {
-            $this->authorize('manageAdmin', Auth::user());
+            $this->authorize(    'manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-
+        $request->validate([
+            'user_id' => ['required'],
+            'voucher_id' => ['required'],
+            'end_date' => ['required']
+        ],[
+            'user_id' => 'Vui lòng nhập',
+            'voucher_id' => 'Vui lòng nhập',
+            'end_date' => ' Vui lòng nhập',
+        ]);
+        $endDate = Carbon::parse($request->end_date);
+        $now = Carbon::now()->startOfDay();
+        if ($endDate->lessThanOrEqualTo($now)){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ngày hết hạn không phù hợp'
+            ]);
+        }
+        $voucher = Vouchers::find($request->voucher_id);
         foreach ($request->user_id as $index => $userId){
             $addVoucherUser = user_voucher::create([
                 'user_id' => $userId,
@@ -45,7 +62,6 @@ class CouponUserController extends Controller
                 'end_date' => Carbon::parse($request->end_date)->format('Y-m-d H:i:s')
             ]);
             $user = User::find($userId);
-            $voucher = Vouchers::find($request->voucher_id);
             Notifications::create([
                 'user_id' => $userId,
                 'message' => "Bạn vừa nhận được mã giảm giá {$voucher->voucher_price} %, hãy mua sắm ngay để tiếp kiệm nhiều hơn"
@@ -54,7 +70,7 @@ class CouponUserController extends Controller
             $selEmail = User::where('user_id', $userId)->value('email');
             SendMailVoucherJob::dispatch($selEmail, $addVoucherUser);
         }
-        return redirect()->back();
+        return response()->json(['message' => 'done']);
     }
 
     public function delete($id){

@@ -183,17 +183,17 @@
                                                     <label>Tên người nhận</label>
                                                     <input type="text" value="{{$item->user->username}}"
                                                            name="username"
-                                                           placeholder="Enter your username">
+                                                           placeholder="Họ và tên">
                                                 </span>
                                                 <span class="cr-bill-wrap">
                                                     <label>Địa chỉ nhận hàng</label>
                                                     <input type="text" name="address" value="{{$item->user->address}}"
-                                                           placeholder="Address">
+                                                           placeholder="Địa chỉ">
                                                 </span>
                                                 <span class="cr-bill-wrap ">
                                                     <label>Số điện thoại</label>
                                                     <input type="number" value="{{$item->user->phone}}" name="phone"
-                                                           placeholder="Phone">
+                                                           placeholder="Số điện thoại">
                                                 </span>
                                                 <span class="cr-bill-wrap ">
                                                     <label>Email</label>
@@ -206,7 +206,7 @@
                                     <span class="cr-check-order-btn">
                                     <button class="cr-button mt-30" id="submitButton" name="cod"
                                             type="submit">Đặt hàng</button>
-                                </span>
+                                    </span>
                                 </form>
                             </div>
                         </div>

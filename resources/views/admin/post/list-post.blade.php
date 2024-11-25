@@ -4,7 +4,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Danh sách người dùng</h5>
+            <h5>Danh sách bài viết</h5>
         </div>
     </div>
 
@@ -25,17 +25,18 @@
                             </thead>
                             <tbody>
                             @foreach ($list as $item)
-                                <tr data-id="{{ $item->user_id }}">
+                                <tr data-id="{{ $item->id }}">
                                     <td>{{ $loop->index }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{{ \Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y') }}
+                                    <td>
+                                        {{ \Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y') }}
                                     </td>
                                     <td>
-                                            <span
-                                                class="statusBadge badge {{ $item->action ? 'text-success' : 'text-danger' }}"
-                                                data-status="{{ $item->action ? 'active' : 'inactive' }}">
-                                                {{ $item->action ? 'Public' : 'Private' }}
-                                            </span>
+                                        <span
+                                            class="statusBadge badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
+                                            data-status="{{ $item->action ? 'active' : 'inactive' }}">
+                                            {{ $item->action ? 'Public' : 'Private' }}
+                                        </span>
                                     </td>
                                     <td>
                                         <div>
@@ -46,7 +47,13 @@
                                                 <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a href="{{route('post.edit', $item->id)}}" class="dropdown-item">Sửa</a>
+                                                <a href="{{route('post.edit', $item->id)}}"
+                                                   class="dropdown-item">Sửa</a>
+                                                <button
+                                                    data-id="{{ $item->id }}"
+                                                    class="dropdown-item delete-post">
+                                                    Xóa
+                                                </button>
                                                 <button class="dropdown-item statusToggle"
                                                         data-id="{{ $item->id }}">
                                                     {{ $item->action ? 'Private' : 'Public' }}

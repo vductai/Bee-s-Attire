@@ -109,17 +109,6 @@
                                 <div class="center-content">
                                     <span></span>
                                 </div>
-                                <div class="cr-select">
-                                    <label>Sort By :</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Featured</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
