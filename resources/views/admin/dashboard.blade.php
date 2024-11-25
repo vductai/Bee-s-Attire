@@ -2,31 +2,13 @@
 @include('toast.admin-toast')
 
 @section('content_admin')
-    <!-- Page title & breadcrumb -->
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('88008db891eef10204ed', {
-
-            cluster: 'ap1'
-
-        });
-
-        var channel = pusher.subscribe('notify-channel');
-        channel.bind('form-submit', function(data) {
-            // Xử lý thông báo
-            console.log(data);
-        });
-    </script>
     <script>
         var ordersPerMonth = @json($ordersPerMonth);
         var dailyOrders = @json($dailyOrders);
         var revenuePerMonth = @json($revenuePerMonth);
         var dailyOrdersLastWeek = @json($dailyOrdersLastWeek); 
+        var mostViewedProducts = @json($mostViewedProducts);
+        var mostSoldProducts = @json($mostSoldProducts);
     </script>
 
     <div class="cr-page-title">
@@ -131,6 +113,8 @@
                                         <option value="areaChartLastWeek">Biểu đồ Đơn hàng tuần trước</option>
                                         <option value="monthlyOrders">Biểu đồ Đơn hàng theo tháng trong năm</option>
                                         <option value="monthlyRevenue">Biểu đồ Doanh thu theo tháng trong năm</option>
+                                        <option value="mostViewedProducts">Lượt xem cao nhất</option>
+                                        <option value="mostSoldProducts">Lượt mua cao nhất</option>
                                     </select>
                                 </div>
                     </div>
@@ -138,21 +122,24 @@
                 <div class="cr-card-content">
 
                     <div class="cr-chart-content">
-                        <div id="newrevenueChart" class="mb-m-24"></div>
-                    </div>
-                    <div class="cr-chart-content">
                         <div id="areaChartWeekly" class="mb-m-24"></div>
                     </div>
                     <div class="cr-chart-content">
-                        <div id="areaChartRevenue" class="mb-m-24" style="display: none;"></div>
+                        <div id="areaChartRevenue" class="mb-m-24" ></div>
                     </div>
                     <div class="cr-chart-content">
-                        <div id="areaChartRevenue1" class="mb-m-24" style="display: none;"></div>
+                        <div id="areaChartRevenue1" class="mb-m-24" ></div>
                     </div>
                     <div class="cr-chart-content">
-                        <div id="areaChartLastWeek" class="mb-m-24" style="display: none;"></div>
+                        <div id="areaChartLastWeek" class="mb-m-24" ></div>
                     </div>
-                    
+                    <div class="cr-chart-content">
+                        <div id="areaChartMonth" class="mb-m-24"></div>
+                    </div>
+                    <div class="cr-chart-content">
+                        <div id="areaChartMostSoldProducts" class="mb-m-24" ></div>
+                    </div>
+        
                 </div>
             </div>
         </div>

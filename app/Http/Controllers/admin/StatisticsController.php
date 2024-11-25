@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\order_item;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
 {
@@ -19,6 +17,8 @@ class StatisticsController extends Controller
     
         $ordersPerMonth = [];
         $revenuePerMonth = [];
+        $mostViewedProducts = [];
+        $mostSoldProducts = [];
         $totalUsers = User::count();
         $totalProducts = Product::count();
         $totalOrders = Order::count();
@@ -33,6 +33,13 @@ class StatisticsController extends Controller
     
             $ordersPerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
             $revenuePerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('total_price');
+            $mostViewedProducts[] = Product::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->max('views') ?? 0;
+            $mostSoldProducts[] = order_item::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->selectRaw('SUM(order_item.quantity) as total_quantity')
+            ->groupBy('order_item.product_id')
+            ->orderByDesc('total_quantity')
+            ->first()?->total_quantity ?? 0;
         }
     
         // Thống kê mỗi ngày trong tuần hiện tại
@@ -54,7 +61,7 @@ class StatisticsController extends Controller
         return view('admin.dashboard', compact(
             'ordersPerMonth', 'dailyOrders', 'dailyOrdersLastWeek', 'totalUsers', 
             'totalProducts', 'totalOrders', 'totalRevenue', 'totalProductsSold', 
-            'totalViews', 'mostViewedProduct', 'thisMonth', 'revenuePerMonth'
+            'totalViews', 'mostViewedProduct', 'thisMonth', 'revenuePerMonth','mostViewedProducts','mostSoldProducts'
         ));
         
     }
