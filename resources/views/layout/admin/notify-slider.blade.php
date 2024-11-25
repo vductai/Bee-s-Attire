@@ -41,7 +41,7 @@
                             </div>
                         </li>
                     @endforeach
-                    <li class="check"><a class="cr-primary-btn" href="chatapp.html">View all</a></li>
+                    <li class="check"><a class="cr-primary-btn" href="">View all</a></li>
                 </ul>
             </div>
         </div>
@@ -57,7 +57,7 @@
                                data-bs-target="#replyModal" class="reply">Reply</a>
                             <div class="user">
                                 <img src="{{asset('upload/' . $chat->sender->avatar)}}" alt="user">
-                                <span class="label online"></span>
+                                {{--<span class="label online"></span>--}}
                             </div>
                             <div class="detail">
                                 <a href="" class="name">{{$chat->sender->username}}</a>

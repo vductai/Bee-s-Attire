@@ -5,6 +5,7 @@ import './bootstrap';
 
 const tableUser = document.getElementById('cat_data_table').getElementsByTagName('tbody')[0]
 const tableProduct = document.getElementById('cat_data_table').getElementsByTagName('tbody')[0]
+const tablePost = document.getElementById('cat_data_table').getElementsByTagName('tbody')[0]
 if (tableProduct){
     tableProduct.addEventListener('click', function (e) {
         if (e.target.classList.contains('toggleButton')){
@@ -73,5 +74,35 @@ if (tableUser) {
     });
 }
 
+if (tablePost){
+    tablePost.addEventListener('click', function (e) {
+        if (e.target.classList.contains('statusToggle')) {
+            const row = e.target.closest('tr');  // Tìm hàng (row) gần nhất
+            const postId = row.getAttribute('data-id');  // Lấy userId từ hàng
 
+            axios.post(`/admin/actionPost/${postId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(() => {
+                const statusBadge = row.querySelector('.statusBadge');
+                const statusButton = row.querySelector('.statusToggle');
+
+                if (statusBadge && statusButton) {
+                    if (statusBadge.classList.contains('text-bg-success')) {
+                        statusBadge.innerHTML = 'Private';
+                        statusBadge.classList.remove('text-bg-success');
+                        statusBadge.classList.add('text-bg-danger');
+                        statusButton.innerHTML = 'Public';
+                    } else {
+                        statusBadge.innerHTML = 'Public';
+                        statusBadge.classList.remove('text-bg-danger');
+                        statusBadge.classList.add('text-bg-success');
+                        statusButton.innerHTML = 'Private';
+                    }
+                }
+            });
+        }
+    });
+}
 

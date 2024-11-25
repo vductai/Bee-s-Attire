@@ -11,6 +11,7 @@ use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\order_item;
 use App\Models\ProductVariant;
+use App\Models\User;
 use App\Models\user_voucher;
 use App\Models\Vouchers;
 use Illuminate\Http\Request;
@@ -53,6 +54,13 @@ class CheckPaymentMethodController extends Controller
     private function cod(Request $request)
     {
         $order_items = json_decode($request['product']);
+        User::where('user_id', Auth::user()->user_id)
+            ->update([
+                'username' => $request->username,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ]);
         $order = Order::create([
             'order_id' => rand(0000000000, 999999999),
             'user_id' => Auth::user()->user_id,
@@ -76,12 +84,12 @@ class CheckPaymentMethodController extends Controller
             $cartItems = Cart::where('user_id', Auth::user()->user_id)
                 ->where('product_id', $item->product->product_id)
                 ->get();
-            foreach ($cartItems as $cartItem){
+            foreach ($cartItems as $cartItem) {
                 if (in_array($cartItem->product_variant_id, $processedVariants)) {
                     continue; // Nếu đã xử lý, bỏ qua
                 }
                 $variant = ProductVariant::find($cartItem->product_variant_id);
-                if ($variant){
+                if ($variant) {
                     $variant->quantity -= $cartItem->quantity;
                     $variant->save();
                     // Đánh dấu biến thể này đã được xử lý
@@ -116,6 +124,12 @@ class CheckPaymentMethodController extends Controller
                 'note' => $request->notes
             ],
             'order_items' => json_decode($_POST['product']),
+            'user' => [
+                'username' => $request->username,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ]
         ]);
         $total_after_discount = $request->final_price;
 
@@ -177,6 +191,12 @@ class CheckPaymentMethodController extends Controller
                 'note' => $request->notes
             ],
             'order_items' => json_decode($_POST['product']),
+            'user' => [
+                'username' => $request->username,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ]
         ]);
         $total_after_discount = $request->final_price;
 
@@ -243,6 +263,14 @@ class CheckPaymentMethodController extends Controller
         if ($vnp_ResponseCode == '00') {
             $order_data = session('order_data');
             $order_items = session('order_items');
+            $user = session('user');
+            User::where('user_id', Auth::user()->user_id)
+                ->update([
+                    'username' => $user['username'],
+                    'address' => $user['address'],
+                    'phone' => $user['phone'],
+                    'email' => $user['email']
+                ]);
             $order = Order::create([
                 'order_id' => $vnp_TxnRef,
                 'user_id' => Auth::user()->user_id,
@@ -265,12 +293,12 @@ class CheckPaymentMethodController extends Controller
                 $cartItems = Cart::where('user_id', Auth::user()->user_id)
                     ->where('product_id', $item->product->product_id)
                     ->get();
-                foreach ($cartItems as $cartItem){
+                foreach ($cartItems as $cartItem) {
                     if (in_array($cartItem->product_variant_id, $processedVariants)) {
                         continue; // Nếu đã xử lý, bỏ qua
                     }
                     $variant = ProductVariant::find($cartItem->product_variant_id);
-                    if ($variant){
+                    if ($variant) {
                         $variant->quantity -= $cartItem->quantity;
                         $variant->save();
                         // Đánh dấu biến thể này đã được xử lý
@@ -320,6 +348,14 @@ class CheckPaymentMethodController extends Controller
 
             $order_data = session('order_data');
             $order_items = session('order_items');
+            $user = session('user');
+            User::where('user_id', Auth::user()->user_id)
+                ->update([
+                    'username' => $user['username'],
+                    'address' => $user['address'],
+                    'phone' => $user['phone'],
+                    'email' => $user['email']
+                ]);
             $order = Order::create([
                 'order_id' => $orderId,
                 'user_id' => Auth::user()->user_id,
@@ -342,12 +378,12 @@ class CheckPaymentMethodController extends Controller
                 $cartItems = Cart::where('user_id', Auth::user()->user_id)
                     ->where('product_id', $item->product->product_id)
                     ->get();
-                foreach ($cartItems as $cartItem){
+                foreach ($cartItems as $cartItem) {
                     if (in_array($cartItem->product_variant_id, $processedVariants)) {
                         continue; // Nếu đã xử lý, bỏ qua
                     }
                     $variant = ProductVariant::find($cartItem->product_variant_id);
-                    if ($variant){
+                    if ($variant) {
                         $variant->quantity -= $cartItem->quantity;
                         $variant->save();
                         // Đánh dấu biến thể này đã được xử lý
