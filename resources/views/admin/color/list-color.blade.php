@@ -44,7 +44,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Edit</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Delete</button>
+                                                <button class="dropdown-item delete-color" data-id="{{$item->color_id}}">Delete</button>
                                             </div>
                                         </div>
                                     </td>

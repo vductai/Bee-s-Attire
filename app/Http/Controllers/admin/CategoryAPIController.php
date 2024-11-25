@@ -41,11 +41,19 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $category = Category::create([
-            'category_name' => $request->category_name,
-            'id' => $request->id
-        ]);
-        $parent = Parent_Category::find($request->id);
+        $check = Category::where('category_name', $request->category_name)->exists();
+        if ($check){
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã có danh mục này.'
+            ]);
+        }else{
+            $category = Category::create([
+                'category_name' => $request->category_name,
+                'id' => $request->id
+            ]);
+            $parent = Parent_Category::find($request->id);
+        }
         return response()->json(
             [
                 'category' => $category,
@@ -90,9 +98,17 @@ class CategoryAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $categories = Category::findOrFail($id);
-        $categories->update($request->all());
-        $parent = Parent_Category::find($request->id);
+        $check = Category::where('category_name', $request->category_name)->exists();
+        if ($check){
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã có danh mục này.'
+            ]);
+        }else{
+            $categories = Category::findOrFail($id);
+            $categories->update($request->all());
+            $parent = Parent_Category::find($request->id);
+        }
         return response()->json(
             [
                 'category' => $categories,

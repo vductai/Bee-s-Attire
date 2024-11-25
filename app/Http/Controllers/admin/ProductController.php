@@ -41,9 +41,13 @@ class ProductController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $show = Product::findOrFail($id)->first();
-        $category = Category::all();
-        return view('admin.product.edit-product',compact('show', 'category'));
+        $show = Product::findOrFail($id);
+        $category = Parent_Category::all();
+        $color = Color::all();
+        $size = Size::all();
+        $featured_categories = Featured_categories::all();
+        return view('admin.product.edit-product',compact('show',
+            'category', 'color', 'size', 'featured_categories'));
     }
 
     public function create()
@@ -113,7 +117,7 @@ class ProductController extends Controller
             foreach ($request->color_id as $index => $color_id) {
                 $size_id = $request->size_id[$index];
                 if ($color_id && $size_id) {
-                    ProductVariant::create([
+                    $varisant = ProductVariant::create([
                         'product_id' => $product->product_id,
                         'size_id' => $size_id,
                         'color_id' => $color_id,
@@ -130,14 +134,19 @@ class ProductController extends Controller
                     $imagePath = public_path('/upload');
                     $imageDetail = Image::read($image);
                     $imageDetail->resize(600, 600)->save($imagePath . '/' . $imageName);
-                    ProductImage::create([
+                    $image = ProductImage::create([
                         'product_id' => $product->product_id,
                         'product_image' => $imageName
                     ]);
                 }
             }
         }
-        return redirect()->route('product.index');
+        return response()->json([
+            'product' => $product,
+            'variant' => $varisant,
+            'image' => $image,
+            'tag' => $tag
+        ]);
     }
 
 
@@ -242,11 +251,9 @@ class ProductController extends Controller
             }
             $product->product_image()->delete();
             $product->variants()->delete();
+            $product->tags()->detach();
             $product->delete();
         }
-        return response()->json([
-            'message' => 'delete',
-            'data' => $product
-        ]);
+        return response()->json(['message' => 'delete',]);
     }
 }

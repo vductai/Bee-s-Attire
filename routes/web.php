@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantController;
 use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\SizeAPIController;
+use App\Http\Controllers\admin\StatisticsController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\VoucherController;
 use App\Http\Controllers\admin\VouchersAPIController;
@@ -112,6 +113,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
     // route chỉ admin mới dùng được
     Route::group(['middleware' => ['checkRole:admin']], function () {
         Route::prefix('admin')->group(function () {
+            Route::get('/', [StatisticsController::class, 'statistics'])->name('dashboard');
             // voucher
             Route::get('/coupon-user', [CouponUserController::class, 'formAdd'])->name('add-form-coupon-user');
             Route::post('/coupon-user', [CouponUserController::class, 'store'])->name('add-coupon-user');
@@ -135,7 +137,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
             // dashboard
-            Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
+            //Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
             // action user, product, post
             Route::post('/action/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
             Route::post('/actionProduct/{id}', [AuthAdminController::class, 'toggleProductStatus'])->name('action-product');
@@ -196,7 +198,9 @@ Route::post('/filter-product', [ProductClient::class, 'search']);
 // filter price
 Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 // search product
-Route::get('/search-product', [SearchController::class, 'searchProduct']);
+Route::get('/search-product', [SearchController::class, 'searchProduct'])->name('search-product');
+// hit
+Route::get('/search', [SearchController::class, 'index']);
 /*and home*/
 
 

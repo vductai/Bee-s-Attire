@@ -9,7 +9,9 @@ class PostController extends Controller
 {
     public function index()
     {
-        $list = Post::orderBy('created_at', 'desc')->paginate(4);
+        $list = Post::where('action', 1)
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
         return view('client.posts.list-post', compact('list'));
     }
 

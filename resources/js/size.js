@@ -46,7 +46,7 @@ if (formSize) {
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/size/${size.size_id}/edit">Edit</a>
-                                <button class="dropdown-item delete-btn" data-id="${size.size_id}">Delete</button>
+                                <button class="dropdown-item delete-size" data-id="${size.size_id}">Delete</button>
                             </div>
                         </div>
                     </td>
@@ -123,7 +123,7 @@ if (formSizeUpdate){
 }
 
 tableSize.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')){
+    if (e.target.classList.contains('delete-size')){
         const sizeId = e.target.getAttribute('data-id')
         axios.delete(`/admin/size/${sizeId}`, {
             headers: {

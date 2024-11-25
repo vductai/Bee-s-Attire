@@ -65,7 +65,7 @@
 
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('size.edit', $item->size_id)}}">Sửa</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">Xoá</button>
+                                                <button class="dropdown-item delete-size" data-id="{{$item->size_id}}">Xoá</button>
                                             </div>
                                         </div>
                                     </td>

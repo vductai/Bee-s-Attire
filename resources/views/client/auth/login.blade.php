@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="cr-login" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="form-logo">
-                            <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
+                            <img src="{{asset('full-logo.png')}}" alt="logo">
                         </div>
                         <form class="cr-content-form" id="loginFormClient">
                             <div class="form-group">
@@ -95,5 +95,13 @@
             </div>
         </div>
     </section>
+    <script>
+        if (window.history.replaceState) {
+            // Nếu người dùng đã đăng nhập, chuyển hướng họ khỏi trang login
+            if ({{ Auth::check() ? 'true' : 'false' }}) {
+                window.location.href = '/'; // Hoặc trang mà bạn muốn chuyển hướng
+            }
+        }
+    </script>
 @endsection
 @include('toast.auth-toast')
