@@ -78,68 +78,6 @@
         areaChartRevenue1.render();
     }
 
-    // Biểu đồ Lượt xem cao nhất theo tháng
-    function areaChartMonth() {
-        var options = {
-            chart: {
-                type: "area",
-                height: 365,
-                sparkline: { enabled: false },
-                dropShadow: { enabled: true, top: 5, left: 5, blur: 3, color: '#000', opacity: 0.1 },
-                toolbar: { show: false }
-            },
-            series: [{ name: 'Lượt xem cao nhất', data: mostViewedProducts }],
-            stroke: { width: 2, curve: 'smooth' },
-            colors: ["#3f51b5"],
-            xaxis: {
-                categories: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-                axisBorder: { show: false },
-                axisTicks: { show: false }
-            },
-            grid: { show: false },
-            tooltip: { fixed: { enabled: false } },
-            yaxis: {
-                labels: {
-                    formatter: function (value) {
-                        return Math.floor(value);
-                    }
-                },
-            }
-        };
-        var areaChartMonth = new ApexCharts(document.querySelector("#areaChartMonth"), options);
-        areaChartMonth.render();
-    }
-    // Biểu đồ Sản phẩm bán chạy nhất theo tháng
-    function areaChartMostSoldProducts() {
-        var options = {
-            chart: {
-                type: "area",
-                height: 365,
-                sparkline: { enabled: false },
-                dropShadow: { enabled: true, top: 5, left: 5, blur: 3, color: '#000', opacity: 0.1 },
-                toolbar: { show: false }
-            },
-            series: [{ name: 'Sản phẩm bán chạy nhất', data: mostSoldProducts }],
-            stroke: { width: 2, curve: 'smooth' },
-            colors: ["#3f51b5"],
-            xaxis: {
-                categories: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-                axisBorder: { show: false },
-                axisTicks: { show: false }
-            },
-            grid: { show: false },
-            tooltip: { fixed: { enabled: false } },
-            yaxis: {
-                labels: {
-                    formatter: function (value) {
-                        return Math.floor(value);
-                    }
-                },
-            }
-        };
-        var areaChartMostSoldProducts = new ApexCharts(document.querySelector("#areaChartMostSoldProducts"), options);
-        areaChartMostSoldProducts.render();
-    }
 
     // Biểu đồ thống kê Orders theo tuần
     function areaChartWeekly() {
@@ -276,8 +214,6 @@
         areaChartWeekly();
         areaChartLastWeek();
         newcampaignsChart();
-        areaChartMonth();
-        areaChartMostSoldProducts();
 
         $("#chartType").on("change", function () {
             const selected = $(this).val();
@@ -286,8 +222,6 @@
             $("#areaChartRevenue").hide();
             $("#areaChartRevenue1").hide();
             $("#areaChartLastWeek").hide();
-            $("#areaChartMonth").hide();
-            $("#areaChartMostSoldProducts").hide();
 
             if (selected === "weekly") {
                 $("#areaChartWeekly").show();
@@ -297,11 +231,7 @@
                 $("#areaChartRevenue1").show();
             } else if (selected === "areaChartLastWeek") {
                 $("#areaChartLastWeek").show();
-            } else if (selected === "mostViewedProducts") {
-                $("#areaChartMonth").show();
-            } else if (selected === "mostSoldProducts") {
-                $("#areaChartMostSoldProducts").show();
-            }
+            } 
 
         });
 
