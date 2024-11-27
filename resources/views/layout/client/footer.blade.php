@@ -34,8 +34,7 @@
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">
                         <li class="location-icon">
-                            Cổng số 1, Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô,
-                            phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội .
+                            13, phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội .
                         </li>
                         <li class="mail-icon">
                             <a href="javascript:void(0)">taivdph43863@fpt.edu.vn</a>
@@ -54,11 +53,9 @@
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">
                         <li><a href="{{route('about')}}">Về chúng tôi</a></li>
-                        <li><a href="track-order.html">Thông tin giao hàng</a></li>
-                        <li><a href="policy.html">Chính sách bảo mật</a></li>
-                        <li><a href="terms.html">Điều khoản & Điều kiện</a></li>
+                        <li><a href="{{route('return')}}">Chính sách đổi trả</a></li>
+                        <li><a href="{{route('policy')}}">Chính sách bảo mật</a></li>
                         <li><a href="{{route('contact')}}">Liên hệ với chúng tôi</a></li>
-                        {{--                        <li><a href="faq.html">Support Center</a></li>--}}
                     </ul>
                 </div>
             </div>
@@ -78,75 +75,14 @@
             <div class="col-xl-4 col-lg-12 col-sm-12 col-12 cr-footer-border">
                 <div class="cr-footer cr-newsletter">
                     <h4 class="cr-sub-title">
-                        Đăng ký nhận bản tin của chúng tôi
+                        Địa chỉ cửa hàng
                         <span class="cr-heading-res"></span>
                     </h4>
-                    <div class="cr-footer-links cr-footer-dropdown">
-                        <form class="cr-search-footer">
-                            <input class="search-input" type="text" placeholder="Search here...">
-                            <a href="javascript:void(0)" class="search-btn">
-                                <i class="ri-send-plane-fill"></i>
-                            </a>
-                        </form>
-                    </div>
-                    <div class="cr-social-media">
-                        <span><a href="javascript:void(0)"><i class="ri-facebook-line"></i></a></span>
-                        <span><a href="javascript:void(0)"><i class="ri-dribbble-line"></i></a></span>
-                        <span><a href="javascript:void(0)"><i class="ri-instagram-line"></i></a></span>
-                    </div>
-                    <div class="cr-payment">
-                        <div class="cr-insta-slider swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/1.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/2.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/3.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/4.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/5.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/6.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/7.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#" class="cr-payment-image">
-                                        <img src="{{asset('assets/client/img/insta/8.jpg')}}" alt="insta">
-                                        <div class="payment-overlay"></div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="cr-social-media" style="height: 250px">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.863806019117!2d105.74468687596995!3d21.038134787455142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1732632876092!5m2!1svi!2s"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -157,7 +93,6 @@
         </div>
     </div>
 </footer>
-
 <!-- Tab to top -->
 <a href="#Top" class="back-to-top result-placeholder">
     <i class="ri-arrow-up-line"></i>
@@ -172,8 +107,6 @@
 @include('modal.modal-view')
 <!-- Cart -->
 @include('client.carts.cart-slider')
-<!-- Side-tool -->
-{{--@include('layout.client.tool')--}}
 <!-- Vendor Custom -->
 <script src="{{asset('assets/client/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/jquery.zoom.min.js')}}"></script>

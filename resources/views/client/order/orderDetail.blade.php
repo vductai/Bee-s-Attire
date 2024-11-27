@@ -1,6 +1,11 @@
 @extends('layout.client.home')
 @section('content_client')
     <link rel="stylesheet" href="{{asset('assets/client/app.css')}}">
+    <div class="mt-3 d-flex justify-content-end" style="margin-right: 250px;">
+        <button onclick="window.print()" class="btn btn-success">
+            Xuất hóa đơn
+        </button>
+    </div>
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="from">

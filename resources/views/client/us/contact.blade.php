@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Liên hệ với chúng tôi')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -7,8 +8,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Contact Us</h2>
-                            <span> <a href="index.html">Home</a> - Contact Us</span>
+                            <h2>Liên hệ với chúng tôi</h2>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Liên hệ với chúng tôi</span>
                         </div>
                     </div>
                 </div>
@@ -23,12 +24,11 @@
                 <div class="col-lg-12">
                     <div class="mb-30" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="cr-banner">
-                            <h2>Get in Touch</h2>
+                            <h2>Liên hệ</h2>
                         </div>
                         <div class="cr-banner-sub-title">
-                            <p>Prepared is me marianne pleasure likewise debating. Wonder an unable except better stairs
-                                do ye
-                                admire. His secure called esteem praise.
+                            <p>
+                                Chúng tôi luôn sẳn sàng hỗ trợ bạn mọi lúc khi có vấn đề gì cần thắc mắc
                             </p>
                         </div>
                     </div>
@@ -42,10 +42,8 @@
                             <i class="ri-phone-line"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading">Contact</h4>
-                            <p><a href="javascript:void(0)"><i class="ri-phone-line"></i> &nbsp; (+91)-9876XXXXX</a></p>
-                            <p><a href="javascript:void(0)"><i class="ri-phone-line"></i> &nbsp; (+91)-987654XXXX</a>
-                            </p>
+                            <h4 class="heading">Số điện thoại</h4>
+                            <p><a href="javascript:void(0)"><i class="ri-phone-line"></i> &nbsp; (+84)-943244933</a></p>
                         </div>
                     </div>
                 </div>
@@ -56,10 +54,11 @@
                             <i class="ri-mail-line"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading">Mail & Website</h4>
+                            <h4 class="heading">Email</h4>
                             <p><a href="javascript:void(0)"><i class="ri-mail-line"></i> &nbsp;
-                                    mail.example@gmail.com</a></p>
-                            <p><a href="javascript:void(0)"><i class="ri-globe-line"></i> &nbsp; www.yourdomain.com</a>
+                                    taivdph43863@fpt.edu.vn</a></p>
+                            <p>
+                                <a href="javascript:void(0)"></a>
                             </p>
                         </div>
                     </div>
@@ -70,10 +69,13 @@
                             <i class="ri-map-pin-line"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading">Address</h4>
-                            <p><a href="javascript:void(0)"><i class="ri-map-pin-line"></i> &nbsp; 140 Ruami Moraes
-                                    Filho,
-                                    987 - Salvador - MA, 40352, Brazil.</a></p>
+                            <h4 class="heading">Địa chỉ</h4>
+                            <p>
+                                <a href="javascript:void(0)">
+                                    <i class="ri-map-pin-line"></i>
+                                    13, Trịnh Văn Bô, Phương Canh, Nam Từ Liêm, Hà Nội .
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -81,26 +83,31 @@
             <div class="row padding-t-100 mb-minus-24">
                 <div class="col-md-6 col-12 mb-24" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2965.0824050173574!2d-93.63905729999999!3d41.998507000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sWebFilings%2C+University+Boulevard%2C+Ames%2C+IA!5e0!3m2!1sen!2sus!4v1390839289319"
-                        title="maps">
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.863806019117!2d105.74468687596995!3d21.038134787455142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1732632876092!5m2!1svi!2s"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
                 <div class="col-md-6 col-12 mb-24" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="800">
-                    <form class="cr-content-form">
+                    <form class="cr-content-form" id="form-contact">
                         <div class="form-group">
-                            <input type="text" placeholder="Full Name" class="cr-form-control">
+                            <input type="text" id="name" placeholder="Họ và tên" class="cr-form-control">
+                            <p class="text-danger contact-err" id="name-error"></p>
                         </div>
                         <div class="form-group">
-                            <input type="email" placeholder="Email" class="cr-form-control">
+                            <input type="email" id="email" placeholder="Email" class="cr-form-control">
+                            <p class="text-danger contact-err" id="email-error"></p>
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Phone" class="cr-form-control">
+                            <input type="text" id="phone" placeholder="Số điện thoại" class="cr-form-control">
+                            <p class="text-danger contact-err" id="phone-error"></p>
                         </div>
                         <div class="form-group">
-                            <textarea class="cr-form-control" id="exampleFormControlTextarea1" rows="4"
-                                      placeholder="Message"></textarea>
+                            <textarea class="cr-form-control" id="content" rows="4"
+                                      placeholder="Nội dung"></textarea>
+                            <p class="text-danger contact-err" id="content-error"></p>
                         </div>
-                        <button type="button" class="cr-button">Submit</button>
+                        <button type="submit" class="cr-button">Gửi</button>
                     </form>
                 </div>
             </div>
