@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notifications;
 use App\Models\Notify_manager;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,5 +47,13 @@ class OrderController extends Controller
             return response()->json(['message' => 'Đã gửi yêu cầu huỷ.']);
         }
         return response()->json(['message' => 'Không thể hủy đơn hàng đã giao.']);
+    }
+
+    public function printInvoice($id){
+        $detail = Order::findOrFail($id);
+        $quantity = $detail->order_item->sum('quantity');
+        $pdf = Pdf::loadView('client.order.invoice', compact('detail', 'quantity'));
+        $filename = "{$detail->order_id}";
+        return $pdf->stream("{$filename}");
     }
 }

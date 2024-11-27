@@ -35,6 +35,16 @@ class ProductVariantController extends Controller
         ]);
     }
 
+    public function edit($id){
+        $edit = ProductVariant::findOrFail($id);
+        return response()->json([
+            'idVariant' => $edit->product_variant_id,
+            'color' => $edit->color->color_name,
+            'size' => $edit->size->size_name,
+            'quantity' => $edit->quantity
+        ]);
+    }
+
     public function create(){
         $product = Product::orderBy('created_at', 'desc')->get();
         $size = Size::orderBy('created_at', 'desc')->get();
@@ -43,7 +53,7 @@ class ProductVariantController extends Controller
         return view('admin.variant.add-variant', compact('product', 'color', 'size', 'variant'));
     }
 
-    /*public function store(ProductVariantRequest $request)
+    public function store(ProductVariantRequest $request)
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
@@ -80,7 +90,7 @@ class ProductVariantController extends Controller
             'data' => $variant
         ]);
 
-    }*/
+    }
 
     public function destroy($id){
         try {

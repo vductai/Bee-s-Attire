@@ -81,6 +81,22 @@
                             Tin tức
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)">
+                            Hỗ trợ
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{route('contact')}}">Liên hệ với chúng tôi</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{route('return')}}">Chính sách đổi trả</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{route('policy')}}">Chính sách bảo mật</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>

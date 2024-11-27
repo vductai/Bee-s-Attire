@@ -25,17 +25,7 @@
                 style="font-weight: bold; font-size: 24px; color: #4CAF50; background-color: #e0f7e8; padding: 15px 30px; border-radius: 5px; display: inline-block; margin-top: 10px;">
                 {{$voucher->voucher->voucher_code}}
             </div>
-            <p style="color: #777777; font-size: 14px; margin: 10px 0;">Hãy sử dụng mã này khi thanh toán để nhận ưu
-                đãi.</p>
-        </td>
-    </tr>
-    <!-- Button Section -->
-    <tr>
-        <td align="center" style="padding: 20px;">
-            <a href="http://127.0.0.1:8000/"
-               style="display: inline-block; padding: 15px 30px; font-size: 18px; color: #ffffff; background-color: #4CAF50; text-decoration: none; border-radius: 30px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); margin-top: 15px;">
-                Sử Dụng Ngay
-            </a>
+            <p style="color: #777777; font-size: 14px; margin: 10px 0;">Hãy sử dụng mã này khi thanh toán để nhận ưu đãi.</p>
         </td>
     </tr>
 </table>

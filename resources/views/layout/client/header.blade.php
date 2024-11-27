@@ -39,6 +39,8 @@
 @vite('resources/js/auth.js')
 @vite('resources/js/chat.js')
 @vite('resources/js/password.js')
+@vite('resources/js/noti-post.js')
+@vite('resources/js/contact.js')
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>

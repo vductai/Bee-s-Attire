@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const hiddenInputColor = document.getElementById('selected-color-id');
     const hiddenInputVariant = document.getElementById('selected-product-variant-id');
     const variantQuantity = document.getElementById('variant-quantity')
+    const addToCart = document.querySelector('.add-to-cart-btn')
 
     // khởi tạo biến lưu trữ
     let selectedSizeId = null;
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hiddenInputSize.value = selectedSizeId; // gán gt vào pt ẩn
             updateProductVariant();
             filterColorsByStock();
+            toggleAddToCartBtn()
         });
     });
 
@@ -60,8 +62,18 @@ document.addEventListener('DOMContentLoaded', function () {
             selectedColorId = this.getAttribute('data-color-id');
             hiddenInputColor.value = selectedColorId;
             updateProductVariant();
+            toggleAddToCartBtn()
         });
     });
+
+    // Hàm kiểm tra điều kiện hiển thị nút
+    function toggleAddToCartBtn() {
+        if (selectedSizeId && selectedColorId) {
+            addToCart.style.display = 'block';
+        } else {
+            addToCart.style.display = 'none';
+        }
+    }
 
     function updateProductVariant() {
         if (selectedSizeId && selectedColorId) {

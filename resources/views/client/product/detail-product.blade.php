@@ -67,13 +67,21 @@
                             <ul>
                                 <li><label>Danh mục <span>:</span></label>{{$getDetail->category->category_name}}</li>
                             </ul>
+                            <ul>
+                                <li>
+                                    <label>Tags <span>:</span></label>
+                                    @foreach($getDetail->tags as $tag)
+                                        {{$tag->tag_name}},
+                                    @endforeach
+                                </li>
+                            </ul>
                         </div>
                         <div class="cr-product-price">
                             <span class="new-price">{{number_format($getDetail->sale_price)}} đ</span>
                             <span class="old-price">{{number_format($getDetail->product_price)}} đ</span>
                         </div>
                         <div class="cr-size-weight">
-                            <h5><span>Size</span>:</h5>
+                            <h5><span>Kích thước</span>:</h5>
                             <div class="cr-kg">
                                 <ul>
                                     @foreach($getDetail->variants->unique('size') as $item)
@@ -87,7 +95,7 @@
                             </div>
                         </div>
                         <div class="cr-color-weight">
-                            <h5><span>Color</span>:</h5>
+                            <h5><span>Màu sắc</span>:</h5>
                             <div class="cl-kg">
                                 <ul>
                                     {{--<li class="cl-active-color">50kg</li>--}}
@@ -115,9 +123,9 @@
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button">Thêm vào giỏ hàng</button>
+                                    <button type="submit" style="display:none;"
+                                            class=" cr-button add-to-cart-btn">Thêm vào giỏ hàng</button>
                                 @else
-                                    <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
                             </div>
                             <div class="cr-card-icon">

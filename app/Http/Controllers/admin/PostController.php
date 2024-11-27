@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\NotiPostEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\NotifyUsersOfNewPostJob;
+use App\Models\Notifications;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +68,7 @@ class PostController extends Controller
             'slug' => $request->slug,
             'content' => $request['content']
         ]);
+        NotifyUsersOfNewPostJob::dispatch($post);
         return response()->json($post);
     }
 

@@ -5,10 +5,15 @@ namespace App\Providers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Chat;
+use App\Models\Color;
 use App\Models\Comment;
 use App\Models\Notifications;
 use App\Models\Notify_manager;
 use App\Models\Parent_Category;
+use App\Models\Post;
+use App\Models\Product;
+use App\Models\Size;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +44,12 @@ class AppServiceProvider extends ServiceProvider
                 ->orderBy('created_at', 'desc')
                 ->get();
             $noti->with(compact('chats', 'notis'));
+        });
+
+        View::composer('modal.update-variant', function ($get){
+            $color = Color::all();
+            $size = Size::all();
+            $get->with(compact('size', 'color'));
         });
         /*---------------------------------------------------------------------------------------------------*/
         View::composer('layout.client.header', function ($count) {
@@ -81,6 +92,17 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layout.client.testimonial', function ($comment) {
             $commentTop = Comment::limit(3)->get();
             $comment->with('comment', $commentTop);
+        });
+
+        View::composer('layout.client.post-new', function ($postNew) {
+            $posts = Post::limit(4)->get();
+            $postNew->with('posts', $posts);
+        });
+
+        View::composer('client.us.about', function ($about) {
+            $user = User::count();
+            $product = Product::count();
+            $about->with(compact('user', 'product'));
         });
 
         View::composer('client.product.quickview-modal', function ($voucher) {

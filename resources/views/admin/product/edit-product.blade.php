@@ -111,6 +111,104 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="row cr-category">
+            <div class="col-xl-4 col-lg-12">
+                <div class="team-sticky-bar">
+                    <div class="col-md-12">
+                        <div class="cr-cat-list cr-card card-default mb-24px">
+                            <div class="cr-card-content">
+                                <div class="cr-cat-form">
+                                    <h3>Tạo biến thể</h3>
+                                    <form id="">
+                                        <input type="hidden" id="idProduct" value="{{$show->product_id}}">
+                                        <div class="form-group">
+                                            <label>kích thước</label>
+                                            <div class="col-12">
+                                                <select name="" id="" class="form-control here slug-title">
+                                                    <option value="">Chọn kích thước</option>
+                                                    @foreach($size as $s)
+                                                        <option value="{{$s->size_id}}">{{$s->size_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mầu sắc</label>
+                                            <div class="col-12">
+                                                <select name="" id="" class="form-control here slug-title">
+                                                    <option value="">Chọn màu sắc</option>
+                                                    @foreach($color as $c)
+                                                        <option value="{{$c->color_id}}">{{$c->color_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 d-flex">
+                                                <button type="submit" class="cr-btn-primary">Tạo</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-12">
+                <div class="cr-cat-list cr-card card-default">
+                    <div class="cr-card-content ">
+                        <div class="table-responsive tbl-800">
+                            <table id="cat_data_table" class="table">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($show->variants as $variant)
+                                    <tr data-id="">
+                                        <td>{{$loop->index}}</td>
+                                        <td class="">{{$variant->color->color_name}}</td>
+                                        <td class="">Size {{$variant->size->size_name}}</td>
+                                        <td class="">{{$variant->quantity}}</td>
+                                        <td>
+                                            <div>
+                                                <button type="button"
+                                                        class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" data-display="static">
+															<span class="sr-only"><i
+                                                                    class="ri-settings-3-line"></i></span>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item variants"
+                                                       data-idVariant="{{$variant->product_variant_id}}"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#variantModal"
+                                                       href="javascript:void(0)">Sửa</a>
+                                                    <button class="dropdown-item delete-variant"
+                                                            data-id="{{$variant->product_variant_id}}">Xóa</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>

@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
-                                            <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
+                                            <a href="javascript:void(0)">{{$item->category->category_name}}</a>
                                         </div>
                                         <a href="{{route('detail', ['slug' => $item->slug])}}"
                                            style="display: -webkit-box;
