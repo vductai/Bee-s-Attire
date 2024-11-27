@@ -50,6 +50,8 @@
     @vite('resources/js/post.js')
     @vite('resources/js/product.js')
     @vite('resources/js/pro.js')
+    @vite('resources/js/rep-contact.js')
+    @vite('resources/js/update-variant.js')
 </head>
 
 <body>
@@ -69,16 +71,6 @@
 								<span class="inner-ring"></span>
 							</span>
                     </a>
-                    {{--<div class="header-search-box">
-                        <div class="header-search-drop">
-                            <a href="javascript:void(0)" class="open-search"><i class="ri-search-line"></i></a>
-                            <form class="cr-search">
-                                <input class="search-input" type="text" placeholder="Search...">
-                                <a href="javascript:void(0)" class="search-btn"><i class="ri-search-line"></i>
-                                </a>
-                            </form>
-                        </div>
-                    </div>--}}
                 </div>
                 <div class="right-header">
                     <div class="cr-right-tool display-screen">
@@ -155,25 +147,10 @@
             @yield('content_admin')
         </div>
     </div>
-
-    <!-- Footer -->
-    {{--<footer>
-        <div class="container-fluid">
-            <div class="copyright">
-                <p><span id="copyright_year"></span> © Carrot, All rights Reserved.</p>
-                <p>Design by MaraviyaInfotech.</p>
-            </div>
-        </div>
-    </footer>--}}
-
-    <!-- Feature tools -->{{--
-    <div class="cr-tools-sidebar-overlay"></div>
-    <div class="cr-tools-sidebar">
-        @include('layout.admin.tool')
-    </div>--}}
 </main>
 
 @include('modal.reply')
+@include('modal.update-variant')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>

@@ -4,3 +4,4 @@
 @include('modal.chat')
 @include('modal.reply')
 @include('modal.noti-verify-email')
+@include('modal.contact')
