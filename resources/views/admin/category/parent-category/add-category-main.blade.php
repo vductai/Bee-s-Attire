@@ -20,7 +20,7 @@
                                         <div class="col-12">
                                             <input id="category_main" name="category_main"
                                                    class="form-control here slug-title" type="text">
-                                            <p class="text-danger" id="errCategoryMain"></p>
+                                            <p class="text-danger errs" id="category_main-error"></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -63,7 +63,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Chỉnh sửa</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->id}}">
+                                                <button class="dropdown-item delete-parent" data-id="{{$item->id}}">
                                                     Xoá
                                                 </button>
                                             </div>

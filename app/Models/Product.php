@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\client\WishListController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchAspect;
-use Spatie\Searchable\SearchResult;
+use Laravel\Scout\Searchable;
 
-class Product extends Model implements Searchable
+
+class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'product';
     protected $primaryKey = 'product_id';
@@ -29,13 +27,14 @@ class Product extends Model implements Searchable
         'views'
     ];
 
-    public function getSearchResult():SearchResult
+    public function toSearchableArray()
     {
-        return new SearchResult(
-          $this,
-          $this->product_name,
-          null
-        );
+        return [
+            'product_id' => $this->product_id,
+            'product_name' => $this->product_name,
+            'category_id' => $this->category_id,
+            'slug' => $this->slug
+        ];
     }
 
     public function featuredCategories()

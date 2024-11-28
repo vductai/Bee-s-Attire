@@ -40,19 +40,19 @@ class VouchersAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $start = $request->start_date;
+        /*$start = $request->start_date;
         $end = $request->end_date;
         // convert date -> timestamp
         // dùng datetime local
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
-        $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
+        $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');*/
         $add = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
-            'quantity' => $request->quantity,
+            //'quantity' => $request->quantity,
             'voucher_desc' => $request->voucher_desc,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
+            //'start_date' => $start_date,
+            //'end_date' => $end_date,
         ]);
         return response()->json($add);
     }

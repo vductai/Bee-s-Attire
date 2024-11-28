@@ -1,10 +1,9 @@
 @extends('layout.admin.home')
 @include('toast.admin-toast')
-
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Size</h5>
+            <h5>Mã giảm giá</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -14,11 +13,10 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Add User Coupon</h3>
-                                <form action="{{route('add-coupon-user')}}" method="post">
-                                    @csrf
+                                <h3></h3>
+                                <form id="add-coupon-form">
                                     <div class="form-group">
-                                        <label>User</label>
+                                        <label>Người dùng</label>
                                         <div class="col-12">
                                             <input type="text" id="selected_usernames" class="form-control">
                                             <select name="user_id[]" multiple size="5"
@@ -32,28 +30,32 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <p class="text-danger ers" id="user_id-error"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Voucher</label>
+                                        <label>Mã giảm giá</label>
                                         <div class="col-12">
-                                            <select name="voucher_id" id="" class="form-control here slug-title">
-                                                <option value="">Chọn voucher</option>
+                                            <select name="voucher_id" id="voucher_id" class="form-control here slug-title">
+                                                <option value="">Chọn mã</option>
                                                 @foreach($voucher as $v)
                                                     <option value="{{$v->voucher_id}}">{{$v->voucher_code}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <p class="text-danger ers" id="voucher_id-error"></p>
                                     </div>
                                     <div class="form-group">
-                                        <label>End date</label>
+                                        <label>Ngày kết thúc</label>
                                         <div class="col-12">
-                                            <input type="datetime-local" name="end_date">
+                                            <input type="datetime-local" id="end_date" name="end_date">
                                         </div>
+                                        <p class="text-danger ers" id="end_date-error"></p>
+                                        <p class="text-danger ers" id="endere"></p>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
+                                            <button type="submit" class="cr-btn-primary">Tạo</button>
                                         </div>
                                     </div>
                                 </form>
@@ -71,10 +73,10 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>User</th>
-                                <th>Voucher</th>
-                                <th>Expired</th>
-                                <th>Action</th>
+                                <th>Người dùng</th>
+                                <th>Mã giảm giá</th>
+                                <th>Ngày hết hạn</th>
+                                <th>Thao tác</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -95,12 +97,12 @@
                                             </button>
 
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="">Edit</a>
+                                                <a class="dropdown-item" href="">Sửa</a>
                                                 <form action="{{route('delete-coupon', $item->user_voucher_id)}}"
                                                       method="post">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="dropdown-item" type="submit">Delete</button>
+                                                    <button class="dropdown-item" type="submit">Xóa</button>
                                                 </form>
                                             </div>
                                         </div>

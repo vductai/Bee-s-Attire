@@ -12,7 +12,7 @@
             <div class="cr-card card-default product-list">
                 <div class="cr-card-content ">
                     <div class="table-responsive">
-                        <table id="cat_data_table" class="table" style="width:100%">
+                        <table id="cat_data_table" class="table propro">
                             <thead>
                             <tr>
                                 <th>STT</th>
@@ -49,8 +49,9 @@
                                     </td>
                                     <td>{{$item->category->category_name}}</td>
                                     <td>
-                                        <span class="badgeProduct badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
-                                              data-status="{{ $item->action ? 'active' : 'inactive' }}">
+                                        <span
+                                            class="badgeProduct badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
+                                            data-status="{{ $item->action ? 'active' : 'inactive' }}">
                                             {{$item->action ? 'Public' : 'Private'}}
                                         </span>
                                     </td>
@@ -64,9 +65,15 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('product.edit', $item->product_id)}}">Chỉnh sửa</a>
-                                                <a class="dropdown-item" href="#">Xoá</a>
-                                                <button class="dropdown-item toggleButton" data-id="{{$item->product_id}}">
+                                                <a class="dropdown-item"
+                                                   href="{{route('product.edit', $item->product_id)}}">Chỉnh sửa</a>
+                                                <button
+                                                    data-id="{{ $item->product_id }}"
+                                                    class="dropdown-item delete-pro">
+                                                    Xóa
+                                                </button>
+                                                <button class="dropdown-item toggleButton"
+                                                        data-id="{{$item->product_id}}">
                                                     {{$item->action ? 'Private' : 'Public'}}
                                                 </button>
                                             </div>

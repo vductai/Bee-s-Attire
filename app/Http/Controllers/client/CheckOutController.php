@@ -34,9 +34,9 @@ class CheckOutController extends Controller
         if ($request->has('voucher_code') && !empty($request->voucher_code)) {
             // Tìm mã giảm giá trong bảng user_voucher cho người dùng hiện tại
             $voucher = user_voucher::where('user_id', $user->user_id)
+                ->where('end_date', '>=', now()) // Kiểm tra end_date trong bảng user_voucher
                 ->whereHas('voucher', function ($query) use ($request) {
-                    $query->where('voucher_code', $request->voucher_code)
-                        ->whereDate('end_date', '>=', now());
+                    $query->where('voucher_code', $request->voucher_code);
                 })
                 ->first();
             // Nếu mã giảm giá không hợp lệ
@@ -44,14 +44,7 @@ class CheckOutController extends Controller
                 session()->put('voucherError', 'Mã giảm giá không hợp lệ');
                 return back();
             }
-
-            // Kiểm tra nếu số lượng voucher còn lại
-            if ($voucher->voucher->quantity <= 0) {
-                session()->put('voucherError', 'Voucher đã hết lượt sử dụng');
-                return back();
-            }
             $voucher_item_id = $voucher->voucher->voucher_id;
-
             // Tính toán giảm giá
             $discount = $totalAmount * ($voucher->voucher->voucher_price / 100);
             $total_after_discount = $totalAmount - $discount;

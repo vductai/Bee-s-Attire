@@ -8,8 +8,7 @@
         </div>
     </div>
     <div class="row">
-        <form class="col-md-12" action="{{route('post.store')}}" enctype="multipart/form-data" method="post">
-            @csrf
+        <form class="col-md-12" id="formPost">
             <div class="cr-card card-default">
                 <div class="cr-card-content">
                     <div class="row cr-product-uploads">
@@ -18,7 +17,7 @@
                                 <div class="cr-vendor-main-img">
                                     <div class="avatar-upload">
                                         <div class="avatar-edit">
-                                            <input type='file' id="" class="cr-image-upload"
+                                            <input type='file' id="avatar" class="cr-image-upload"
                                                    name="avatar">
                                             <label><i class="ri-pencil-line"></i></label>
                                         </div>
@@ -29,6 +28,7 @@
                                                      alt="edit">
                                             </div>
                                         </div>
+                                        <p class="text-danger errpost" id="avatar-error"></p>
                                     </div>
                                     <div class="thumb-upload-set colo-md-12">
                                         <div class="thumb-upload"></div>
@@ -38,29 +38,33 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="cr-vendor-upload-detail">
-                                <form class="row g-3">
+                                <div class="row g-3">
                                     <div class="col-md-12">
                                         <label class="form-label">Tiêu đề</label>
-                                        <input type="text" id="titlePost" class="form-control slug-title" name="title">
+                                        <input type="text" id="titlePost" class="form-control title slug-title" name="title">
+                                        <p class="text-danger errpost" id="title-error"></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Slug</label>
                                         <div class="col-12">
-                                            <input id="slugPost" name="slug" class="form-control here set-slug" type="text">
+                                            <input id="slugPost" name="slug" class="form-control here slg set-slug" type="text">
+                                            <p class="text-danger errpost" id="slug-error"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Mô tả</label>
                                         <input type="text" id="desc" class="form-control slug-title" name="desc">
+                                        <p class="text-danger errpost" id="desc-error"></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Nội dung bài viết</label>
                                         <textarea name="content" id="editor1" cols="80" rows="70"></textarea>
+                                        <p class="text-danger errpost" id="content-error"></p>
                                     </div>
                                     <div class="col-md-12 mt-3">
                                         <button type="submit" class="btn cr-btn-primary">Tạo bài viết</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>

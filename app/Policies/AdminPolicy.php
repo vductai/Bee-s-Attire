@@ -17,6 +17,4 @@ class AdminPolicy
         return $user->role->role_name === self::ROLE_USER;
     }
 
-
-
 }

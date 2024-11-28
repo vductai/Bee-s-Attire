@@ -162,7 +162,7 @@
                                                                         <button
                                                                             style="width: 190px;"
                                                                             data-orderId="{{$item->order_id}}"
-                                                                            class="{{$item->status === 'Đang sử lý' ? 'cr-button cancel-order bg-danger' : 'cr-button cancel-order disabled'}}
+                                                                            class="{{$item->status === 'Đang xử lý' ? 'cr-button cancel-order bg-danger' : 'cr-button cancel-order disabled'}}
                                                                                 dropdown-item me-2">
                                                                             {{$item->status === 'Đang sử lý' ? 'Huỷ đơn hàng' : 'Đã gửi yêu cầu huỷ đơn'}}
                                                                         </button>

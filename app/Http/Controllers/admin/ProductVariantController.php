@@ -10,6 +10,7 @@ use App\Models\ProductVariant;
 use App\Models\Size;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ProductVariantController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductVariantController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $list = ProductVariant::all();
+        $list = ProductVariant::with('product', 'color', 'size')->get();
         return view('admin.variant.list-variant', compact('list'));
     }
 
@@ -34,54 +35,38 @@ class ProductVariantController extends Controller
             'data' => $show
         ]);
     }
-
-    public function create(){
-        $product = Product::orderBy('created_at', 'desc')->get();
-        $size = Size::orderBy('created_at', 'desc')->get();
-        $color = Color::orderBy('created_at', 'desc')->get();
-        $variant = ProductVariant::orderBy('created_at', 'desc')->get();
-        return view('admin.variant.add-variant', compact('product', 'color', 'size', 'variant'));
-    }
-
-    /*public function store(ProductVariantRequest $request)
+    public function create()
     {
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $create = ProductVariant::create([
-            'product_id' => $request->product_id,
-            'color_id' => $request->color_id,
-            'size_id' => $request->size_id,
-            'quantity' => $request->quantity
-        ]);
-
-        return response()->json([
-            'message' => 'add product variant',
-            'data' => $create
-        ]);
+        return view('admin.variant.add-variant');
     }
-
-    public function update(ProductVariantRequest $request, $id){
-        try {
-            $this->authorize('manageAdmin', Auth::user());
-        } catch (AuthorizationException $e) {
-        }
-        $variant = ProductVariant::find($id);
-        $variant->update([
-            'product_id' => $request->product_id,
-            'color_id' => $request->color_id,
-            'size_id' => $request->size_id,
-            'quantity' => $request->quantity
-        ]);
-
-        return response()->json([
-            'message' => 'update',
-            'data' => $variant
-        ]);
-
-    }*/
-
+    public function store(Request $request)
+    {
+ 
+            $request->validate([
+                'product_name' => 'required',
+                'color_code' => 'required',
+                'size_name' => 'required',
+                'quantity' => 'required',
+            ]);
+    
+            $product = Product::where('product_name', $request->product_name)->first();
+            $color = Color::where('color_code', $request->color_code)->first();
+            $size = Size::where('size_name', $request->size_name)->first();
+            
+            $variant = ProductVariant::create([
+                'product_id' => $product->id,
+                'color_id' => $color->id,
+                'size_id' => $size->id,
+                'quantity' => $request->quantity,
+            ]);
+    
+            return response()->json($variant);
+        } 
+    
     public function destroy($id){
         try {
             $this->authorize('manageAdmin', Auth::user());

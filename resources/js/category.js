@@ -1,6 +1,7 @@
 import './bootstrap';
 import axios from "axios";
 
+
 const formCategory = document.getElementById('formCategory')
 const category_name_create = document.getElementById('category_name')
 const category_parent_create = document.getElementById('id')
@@ -24,18 +25,21 @@ if (formCategory) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
-            const category = res.data
-            // Lấy số thứ tự của hàng cuối cùng
-            const lastRow = tableCategory.querySelector('tr:last-child');
-            let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
-            if (lastRow) {
-                const lastSttCell = lastRow.querySelector('td:first-child');
-                stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
-            }
-            const newRow = tableCategory.insertRow()
-            newRow.setAttribute('data-id', category.category_id)
-            newRow.innerHTML =
-                `
+            if (res.data.success === false){
+                document.getElementById('errsss').textContent = res.data.message
+            }else {
+                const category = res.data
+                // Lấy số thứ tự của hàng cuối cùng
+                const lastRow = tableCategory.querySelector('tr:last-child');
+                let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
+                if (lastRow) {
+                    const lastSttCell = lastRow.querySelector('td:first-child');
+                    stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
+                }
+                const newRow = tableCategory.insertRow()
+                newRow.setAttribute('data-id', category.category.category_id)
+                newRow.innerHTML =
+                    `
                     <td>${stt}</td>
                     <td>${category.category.category_name}</td>
                     <td>${category.parent.name}</td>
@@ -50,13 +54,14 @@ if (formCategory) {
                             </span>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/admin/categories/${category.category_id}/edit">Edit</a>
-                                <button class="dropdown-item delete-btn" data-id="${category.category_id}">Delete</button>
+                                <a class="dropdown-item" href="/admin/categories/${category.category.category_id}/edit">Edit</a>
+                                <button class="dropdown-item delete-cate" data-id="${category.category.category_id}">Delete</button>
                             </div>
                         </div>
                     </td>
             `;
-            category_name_create.value = '';
+                category_name_create.value = '';
+            }
         }).catch(error => {
             // kiểm tra xem có phản hồi lỗi ko, 422: dữ liệu gửi lên ko hợp lệ
             if (error.response && error.response.status === 422){
@@ -104,15 +109,18 @@ if (formCategoryUpdate){
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
-            const category = res.data
-            console.log(category)
-            const row = document.querySelector(`tr[data-id='${category_id}']`)
-            if (row){
-                row.querySelector('.categoryName').textContent = category.category.category_name
-                row.querySelector('.categoryParent').textContent = category.parent.name
+            if (res.data.success === false){
+                document.getElementById('errsss').textContent = res.data.message
+            }else {
+                const category = res.data
+                const row = document.querySelector(`tr[data-id='${category_id}']`)
+                if (row){
+                    row.querySelector('.categoryName').textContent = category.category.category_name
+                    row.querySelector('.categoryParent').textContent = category.parent.name
+                }
+                category_name_update.value = '';
+                category_parent_update.value = '';
             }
-            category_name_update.value = '';
-            category_parent_update.value = '';
         }).catch(error => {
             if (error.response && error.response.status === 422){
                 const errors = error.response.data.errors
@@ -133,57 +141,8 @@ if (formCategoryUpdate){
     })
 }
 
-// window.Echo.channel('sizes')
-//     .listen('size-updated', (e) => {
-//         const action = e.action
-//         const size = e.size
-//         if (action === 'create'){
-//             // Lấy số thứ tự của hàng cuối cùng
-//             const lastRow = tableSize.querySelector('tr:last-child');
-//             let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
-//             if (lastRow) {
-//                 const lastSttCell = lastRow.querySelector('td:first-child');
-//                 stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
-//             }
-//             const newRow = tableSize.insertRow()
-//             newRow.setAttribute('data-id', size.size_id)
-//             newRow.innerHTML =
-//                 `
-//                     <td>${stt}</td>
-//                     <td>${size.size_name}</td>
-//                     <td>
-//                         <div>
-//                             <button type="button"
-//                                     class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-//                                     data-bs-toggle="dropdown" aria-haspopup="true"
-//                                     aria-expanded="false" data-display="static">
-//                             <span class="sr-only">
-//                                 <i class="ri-settings-3-line"></i>
-//                             </span>
-//                             </button>
-//                             <div class="dropdown-menu">
-//                                 <a class="dropdown-item" href="/admin/size/${size.size_id}/edit">Edit</a>
-//                                 <button class="dropdown-item delete-btn" data-id="${size.size_id}">Delete</button>
-//                             </div>
-//                         </div>
-//                     </td>
-//             `;
-//
-//         }else if (action === 'update'){
-//             const row = document.querySelector(`tr[data-id='${size_id}']`)
-//             if (row){
-//                 row.querySelector('.sizeName').textContent = size.size_name
-//             }
-//         }else if (action === 'delete'){
-//             const row = document.querySelector(`tr[data-id='${category.id}']`);
-//             if (row) {
-//                 row.remove();
-//             }
-//         }
-//     })
-
 tableCategory.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')){
+    if (e.target.classList.contains('delete-cate')){
         const categoryId = e.target.getAttribute('data-id')
         axios.delete(`/admin/categories/${categoryId}`, {
             headers: {

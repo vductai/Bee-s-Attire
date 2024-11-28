@@ -35,6 +35,7 @@
                                             <input id="category_name" name="category_name" value="{{$find->category_name}}"
                                                    class="form-control here slug-title" type="text">
                                             <p class="text-danger" id="errCategory"></p>
+                                            <p class="text-danger" id="errsss"></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -80,7 +81,7 @@
 
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/categories/{{$item->category_id}}/edit">Chỉnh sửa</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->category_id}}">
+                                                <button class="dropdown-item delete-cate" data-id="{{$item->category_id}}">
                                                     Xoá
                                                 </button>
                                             </div>

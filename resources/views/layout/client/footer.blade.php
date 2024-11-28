@@ -19,7 +19,7 @@
             <div class="col-xl-4 col-lg-6 col-sm-12 col-12 cr-footer-border">
                 <div class="cr-footer-logo">
                     <div class="image">
-                        <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
+                        <img src="{{asset('full-logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </div>
                     <p>

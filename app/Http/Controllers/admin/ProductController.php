@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\ProductUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
@@ -41,9 +42,18 @@ class ProductController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $show = Product::findOrFail($id)->first();
-        $category = Category::all();
-        return view('admin.product.edit-product',compact('show', 'category'));
+        $show = Product::findOrFail($id);
+        $category = Parent_Category::all();
+        $color = Color::all();
+        $size = Size::all();
+        $featured_categories = Featured_categories::all();
+        return view('admin.product.edit-product', compact(
+            'show',
+            'category',
+            'color',
+            'size',
+            'featured_categories'
+        ));
     }
 
     public function create()
@@ -90,13 +100,13 @@ class ProductController extends Controller
         }
         $product->save(); // Lưu product trước để lấy được product_id
         // add tag
-        if (!empty($request->tag_name)){
+        if (!empty($request->tag_name)) {
             // tách chuổi = dấu , và loại bỏ khoảng trắng
             $tagArr = array_map('trim', explode(',', $request->tag_name));
             $tagId = [];
-            foreach ($tagArr as $item){
+            foreach ($tagArr as $item) {
                 $tag = Tag::firstOrCreate([
-                   'tag_name' => $item
+                    'tag_name' => $item
                 ]);
                 // thêm tag_id vào mảng
                 $tagId[] = $tag->tag_id;
@@ -105,7 +115,7 @@ class ProductController extends Controller
             $product->tags()->sync($tagId);
         }
         // add featuredCategories
-        if ($request->has('featuredCategories')){
+        if ($request->has('featuredCategories')) {
             $featuredId = $request->featuredCategories;
             $product->featuredCategories()->sync($featuredId);
         }
@@ -113,7 +123,7 @@ class ProductController extends Controller
             foreach ($request->color_id as $index => $color_id) {
                 $size_id = $request->size_id[$index];
                 if ($color_id && $size_id) {
-                    ProductVariant::create([
+                    $varisant = ProductVariant::create([
                         'product_id' => $product->product_id,
                         'size_id' => $size_id,
                         'color_id' => $color_id,
@@ -130,16 +140,20 @@ class ProductController extends Controller
                     $imagePath = public_path('/upload');
                     $imageDetail = Image::read($image);
                     $imageDetail->resize(600, 600)->save($imagePath . '/' . $imageName);
-                    ProductImage::create([
+                    $image = ProductImage::create([
                         'product_id' => $product->product_id,
                         'product_image' => $imageName
                     ]);
                 }
             }
         }
-        return redirect()->route('product.index');
+        return response()->json([
+            'product' => $product,
+            'variant' => $varisant,
+            'image' => $image,
+            'tag' => $tag
+        ]);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -147,81 +161,71 @@ class ProductController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $product = Product::find($id);
+    
+        $product = Product::findOrFail($id);
+    
         if ($request->hasFile('product_avatar')) {
-            if (File::exists(public_path('upload/' . $product->product_avatar))) {
-                File::delete(public_path('upload/' . $product->product_avatar));
+            // Xóa ảnh đại diện cũ nếu tồn tại
+            $oldAvatarPath = public_path('upload/' . $product->product_avatar);
+            if (File::exists($oldAvatarPath)) {
+                File::delete($oldAvatarPath);
             }
+    
+            // Lưu ảnh đại diện mới
             $file = $request->file('product_avatar');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/upload'), $filename);
-            $request->merge(['product_avatar' => $filename]);
+            $file->move(public_path('upload'), $filename);
             $product->product_avatar = $filename;
-        } else {
-            $filename = $product->product_avatar;
         }
-        $update = Product::where('product_id', $id)->update([
-            'product_name' => $request->product_name,
-            'product_avatar' => $filename,
-            'product_price' => $request->product_price,
-            'product_desc' => $request->product_desc,
-            'sale_price' => $request->sale_price,
-            'category_id' => $request->category_id
-        ]);
-
-        // Lưu các ảnh chi tiết vào bảng product_images
+    
+        // Cập nhật thông tin sản phẩm
+        $product->product_name = $request->input('product_name');
+        $product->product_price = $request->input('product_price');
+        $product->product_desc = $request->input('product_desc');
+        $product->sale_price = $request->input('sale_price');
+        $product->category_id = $request->input('category_id');
+    
+        $product->save();
+    
+        // Xử lý ảnh chi tiết
         if ($request->hasFile('product_images')) {
-            // Xóa tất cả các hình ảnh cũ trước khi thêm hình mới
-            $proImage = ProductImage::where('product_id', $product->product_id)->get();
-            foreach ($proImage as $item) {
-                if (File::exists(public_path('upload/' . $item->product_image))) {
-                    File::delete(public_path('upload/' . $item->product_image));
-                }
-                $item->delete(); // Xóa bản ghi khỏi cơ sở dữ liệu
-            }
-
-            // Thêm các hình ảnh mới
-            foreach ($request->file('product_images') as $image) {
-                if ($image) {
+            foreach ($request->file('product_images') as $key => $image) {
+                $oldImage = ProductImage::where('product_id', $product->product_id)
+                    ->skip($key)
+                    ->first();
+    
+                if ($oldImage) {
+                    // Xóa ảnh cũ khỏi thư mục nếu tồn tại
+                    $oldImagePath = public_path('upload/' . $oldImage->product_image);
+                    if (File::exists($oldImagePath)) {
+                        File::delete($oldImagePath);
+                    }
+    
+                    // Cập nhật ảnh mới
                     $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('/upload'), $imageName);
+                    $image->move(public_path('upload'), $imageName);
+    
+                    // Cập nhật thông tin ảnh trong DB
+                    $oldImage->product_image = $imageName;
+                    $oldImage->save();
+                } else {
+                    // Thêm ảnh mới nếu không tồn tại ảnh cũ
+                    $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('upload'), $imageName);
+    
                     ProductImage::create([
                         'product_id' => $product->product_id,
                         'product_image' => $imageName
                     ]);
                 }
             }
-        } else {
-            // Xóa tất cả các hình ảnh cũ
-            $proImage = ProductImage::where('product_id', $product->product_id)->get();
-            foreach ($proImage as $item) {
-                if (File::exists(public_path('upload/' . $item->product_image))) {
-                    File::delete(public_path('upload/' . $item->product_image));
-                }
-                $item->delete();
-            }
-
-
-            $defaultImagePath = public_path('error-image-default.jpg');
-            $imageName = time() . '-' . uniqid() . '-default-avatar.jpg';
-            $destinationImagePath = public_path('upload/' . $imageName);
-
-            if (File::exists($defaultImagePath)) {
-                File::copy($defaultImagePath, $destinationImagePath);
-            }
-
-            ProductImage::create([
-                'product_id' => $product->product_id,
-                'product_image' => $imageName
-            ]);
         }
-
-        return response()->json([
-            'message' => 'update',
-            'data' => $update
-        ]);
+    
+        // Trả về trang chỉnh sửa sản phẩm
+        $show = $product;
+        $category = Parent_Category::all();
+        return view('admin.product.edit-product', compact('show', 'category'));
     }
-
 
     public function destroy($id)
     {
@@ -242,11 +246,9 @@ class ProductController extends Controller
             }
             $product->product_image()->delete();
             $product->variants()->delete();
+            $product->tags()->detach();
             $product->delete();
         }
-        return response()->json([
-            'message' => 'delete',
-            'data' => $product
-        ]);
+        return response()->json(['message' => 'delete',]);
     }
 }

@@ -13,7 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Trang chủ')</title>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/client/img/logo/favicon.png')}}">
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 
     <!-- Icon CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/materialdesignicons.min.css')}}">
@@ -39,7 +39,6 @@
 @vite('resources/js/auth.js')
 @vite('resources/js/chat.js')
 @vite('resources/js/password.js')
-
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>
@@ -71,14 +70,17 @@
                         <img src="{{asset('full-logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <form class="cr-search">
+                    <form class="cr-search" action="{{route('search-product')}}" method="get">
                         <input class="search-input"
-                               id="search-box"
+                               autocomplete="off"
+                               name="key"
+                               id="key"
                                type="text" placeholder="Tìm kiếm mục...">
                         <a href="javascript:void(0)" class="search-btn">
                             <i class="ri-search-line"></i>
                         </a>
                     </form>
+                    <datalist id="browsers"></datalist>
                     <div class="cr-right-bar">
                         @if(auth()->check())
                             <ul class="navbar-nav">

@@ -8,6 +8,7 @@ const tableParent = document.getElementById('cat_data_table').getElementsByTagNa
 if (formCategoryParent) {
     formCategoryParent.addEventListener('submit', function (e) {
         e.preventDefault()
+        document.querySelector('.errs').textContent = ''
         const name = categoryMain.value
         axios.post('/admin/category-parent', {
             category_main: name
@@ -17,16 +18,19 @@ if (formCategoryParent) {
             }
         }).then(res => {
             const data = res.data
-            const lastRow = tableParent.querySelector('tr:last-child');
-            let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
-            if (lastRow) {
-                const lastSttCell = lastRow.querySelector('td:first-child');
-                stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
-            }
-            const newRow = tableParent.insertRow();
-            newRow.setAttribute('data-id', data.id)
-            newRow.innerHTML =
-                `
+            if (data.success === false){
+                document.querySelector('.errs').textContent = data.message
+            }else {
+                const lastRow = tableParent.querySelector('tr:last-child');
+                let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
+                if (lastRow) {
+                    const lastSttCell = lastRow.querySelector('td:first-child');
+                    stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
+                }
+                const newRow = tableParent.insertRow();
+                newRow.setAttribute('data-id', data.id)
+                newRow.innerHTML =
+                    `
                     <td>${stt}</td>
                     <td class="categoryParent">${data.name}</td>
                     <td>
@@ -39,15 +43,21 @@ if (formCategoryParent) {
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/category-parent/${data.id}/edit">Edit</a>
-                                <button class="dropdown-item delete-btn" data-id="${data.id}">
+                                <button class="dropdown-item delete-parent" data-id="${data.id}">
                                     Delete
                                 </button>
                             </div>
                         </div>
                     </td>
                 `
+            }
         }).catch(err => {
-
+            if (err.response && err.response.data.errors) {
+                let errors = err.response.data.errors
+                for (let field in errors) {
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0];
+                }
+            }
         })
     })
 }
@@ -57,6 +67,7 @@ const formCategoryParentUpdate = document.getElementById('formCategoryParentUpda
 if (formCategoryParentUpdate){
     formCategoryParentUpdate.addEventListener('submit', function (e) {
         e.preventDefault()
+        document.querySelector('.errs').textContent = ''
         const nameUpdate = document.getElementById('category_main')
         const id = document.getElementById('idParent').value
         axios.put(`/admin/category-parent/${id}`, {
@@ -67,18 +78,29 @@ if (formCategoryParentUpdate){
             }
         }).then(res =>{
             const data = res.data
-            const row = document.querySelector(`tr[data-id = '${data.id}']`)
-            if (row){
-                row.querySelector('.categoryParent').textContent = data.name
+            if (data.success === false){
+                document.querySelector('.errs').textContent = data.message
+            }else {
+                const row = document.querySelector(`tr[data-id = '${data.id}']`)
+                if (row){
+                    row.querySelector('.categoryParent').textContent = data.name
+                }
+                nameUpdate.value = ''
             }
-            nameUpdate.value = ''
+        }).catch(err => {
+            if (err.response && err.response.data.errors) {
+                let errors = err.response.data.errors
+                for (let field in errors) {
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0];
+                }
+            }
         })
     })
 }
 
 // delete
 tableParent.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')){
+    if (e.target.classList.contains('delete-parent')){
         const id = e.target.getAttribute('data-id')
         axios.delete(`/admin/category-parent/${id}`, {
             headers: {

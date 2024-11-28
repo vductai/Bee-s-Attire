@@ -76,7 +76,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/color/{{$item->color_id}}/edit">Chỉnh sửa</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->color_id}}">Xoá</button>
+                                                <button class="dropdown-item delete-color" data-id="{{$item->color_id}}">Xoá</button>
                                             </div>
                                         </div>
                                     </td>

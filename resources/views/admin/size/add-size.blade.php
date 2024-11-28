@@ -70,7 +70,7 @@
 
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/admin/size/{{$item->size_id}}/edit">Sửa</a>
-                                                <button class="dropdown-item delete-btn" data-id="{{$item->size_id}}">
+                                                <button class="dropdown-item delete-size" data-id="{{$item->size_id}}">
                                                     Xoá
                                                 </button>
                                             </div>

@@ -7,7 +7,7 @@
             <h5>Thêm sản phẩm</h5>
         </div>
     </div>
-    <form class="row" method="post" action="{{route('product.store')}}" enctype="multipart/form-data">
+    <form class="row" id="product-form" enctype="multipart/form-data">
         @csrf
         <div class="col-md-12">
             <div class="cr-card card-default">
@@ -30,6 +30,7 @@
                                                      alt="edit">
                                             </div>
                                         </div>
+                                        <p class="text-danger proErr" id="product_avatar-error"></p>
                                     </div>
                                     <div class="thumb-upload-set colo-md-12">
                                         <div class="thumb-upload">
@@ -112,6 +113,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <p class="text-danger proErr" id="product_image-error"></p>
                                     </div>
                                 </div>
                             </div>
@@ -123,9 +125,7 @@
                                         <label for="inputEmail4" class="form-label">Tên sản phẩm</label>
                                         <input type="text" name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
-                                        @error('product_name')
-                                        <p class="text-danger">{{$message}}</p>
-                                        @enderror
+                                        <p class="text-danger proErr" id="product_name-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Danh mục</label>
@@ -159,10 +159,12 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Giá</label>
                                         <input type="number" name="product_price" class="form-control" id="price1">
+                                        <p class="text-danger proErr" id="product_price-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Giá khuyến mãi</label>
                                         <input type="number" name="sale_price" class="form-control" id="price1">
+                                        <p class="text-danger proErr" id="sale_price-error"></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Danh mục nổi bật</label>
@@ -186,10 +188,12 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Mô tả sản phẩm</label>
-                                        <textarea name="product_desc" id="editor1" cols="80" rows="70"></textarea>
+                                        <textarea class="form-control" name="product_desc"
+                                                  id="product_desc" cols="80" rows="10"></textarea>
+                                        <p class="text-danger proErr" id="product_desc-error"></p>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn cr-btn-primary">Thêm sản phẩm</button>
+                                        <button type="submit" id="btn-add" class="btn cr-btn-primary">Thêm sản phẩm</button>
                                     </div>
                                 </div>
                             </div>
@@ -202,18 +206,5 @@
     <script !src="">
         var selColor = @json($color);
         var selSize = @json($size);
-    </script>
-@endsection
-@section('script')
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor1'))
-            .then(editor => {
-                console.log(editor);
-            })
-            .catch(error => {
-                console.error(error);
-            });
     </script>
 @endsection
