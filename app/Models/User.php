@@ -43,12 +43,13 @@ class User extends Authenticatable
         'password' => 'hashed'
     ];
 
-    // public function setPasswordAttribute($value)
-    // {
-    //     if (!empty($value)) {
-    //         $this->attributes['password'] = Hash::make($value);
-    //     }
-    // }
+
+    public function setPasswordAttribute($value)
+    {
+        if (!empty($value)) {
+            $this->attributes['password'] = Hash::make($value);
+        }
+    }
 
     public function whishlists()
     {

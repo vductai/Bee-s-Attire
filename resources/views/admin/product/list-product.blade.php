@@ -1,8 +1,10 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
+
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Product List</h5>
+            <h5>Danh sách sản phẩm</h5>
         </div>
     </div>
     <div class="row">
@@ -14,12 +16,12 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Avatar</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Danh mục</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,7 +49,7 @@
                                     </td>
                                     <td>{{$item->category->category_name}}</td>
                                     <td>
-                                        <span class="badgeProduct badge {{ $item->action ? 'text-success' : 'text-danger' }}"
+                                        <span class="badgeProduct badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
                                               data-status="{{ $item->action ? 'active' : 'inactive' }}">
                                             {{$item->action ? 'Public' : 'Private'}}
                                         </span>
@@ -62,8 +64,8 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('product.edit', $item->product_id)}}">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="{{route('product.edit', $item->product_id)}}">Chỉnh sửa</a>
+                                                <a class="dropdown-item" href="#">Xoá</a>
                                                 <button class="dropdown-item toggleButton" data-id="{{$item->product_id}}">
                                                     {{$item->action ? 'Private' : 'Public'}}
                                                 </button>

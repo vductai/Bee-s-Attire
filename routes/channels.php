@@ -13,6 +13,22 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('orders.{userId}', function ($user, $id) {
+    return (int) $user->user_id === (int) $id;
+});
+
+Broadcast::channel('user.{userId}', function ($user, $userId){
+    return (int) $user->user_id === (int) $userId;
+});
+
+Broadcast::channel('order-status.{userId}', function ($user, $userId){
+    return (int) $user->user_id === (int) $userId;
+});
+
+Broadcast::channel('admin-cancel-order', function ($user){
+    return $user->role && in_array($user->role->role_name, ['admin', 'user']);
+});
+
+Broadcast::channel('chat.{receiverId}', function ($user, $receiverId){
+    return (int) $user->user_id === (int) $receiverId || $user->isManager();
 });

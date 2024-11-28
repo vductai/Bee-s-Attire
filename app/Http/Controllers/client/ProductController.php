@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
@@ -45,10 +46,29 @@ class ProductController extends Controller
 
     public function getProductDetail($slug)
     {
+        session(['url.intended' => url()->current()]);
         $getDetail = Product::where('slug', $slug)->first();
-        $id = Product::select('product_id')->where('slug', $slug);
+        $id = $getDetail->product_id;
+        // tăng lượt xem
+        $productKey = 'product_' . $id;
+        if (!session()->has($productKey)){
+            $getDetail->increment('views');
+            session([$productKey => true]);
+        }
+
+        $hasPurchased = false;
+        if (auth()->check()) {
+            $userId = auth()->user()->user_id;
+            $hasPurchased = Order::where('user_id', $userId)
+                ->whereHas('order_item', function ($query) use ($id) {
+                    $query->where('product_id', $id);
+                })
+                ->exists();
+        }
+
         $listPost = Comment::where('product_id', $id)->get();
-        return view('client.product.detail-product', compact('getDetail', 'listPost'));
+        return view('client.product.detail-product', compact('getDetail',
+            'listPost', 'hasPurchased'));
     }
 
 
@@ -56,7 +76,7 @@ class ProductController extends Controller
     public function getProductShop()
     {
         $listcategory = Category::withCount('product')->get();
-        $listAllProductShop = Product::where('action', '=', 1)->get();
+        $listAllProductShop = Product::where('action', '=', 1)->paginate(16);
         $listColor = Color::all();
         $listSize = Size::all();
         $tags = Tag::all();

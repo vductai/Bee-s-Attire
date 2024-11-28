@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Cart</h2>
-                            <span> <a href="index.html">Home</a> / Cart</span>
+                            <h2>Giỏ hàng</h2>
+                            <span> <a href="index.html">Trang chủ</a> / Giỏ hàng</span>
                         </div>
                     </div>
                 </div>
@@ -41,11 +41,11 @@
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th class="text-center">Quantity</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th>Sản phầm</th>
+                                            <th>Giá</th>
+                                            <th class="text-center">Số lượng</th>
+                                            <th>Thành tiền</th>
+                                            <th>Hành động</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -57,7 +57,7 @@
                                                              alt="product-1" class="cr-cart-img">
                                                         <div>
                                                             <span class="amount"
-                                                                  style="font-size: 25px">{{$item->product->product_name}}</span>
+                                                                  style="font-size: 18px">{{$item->product->product_name}}</span>
                                                             <p>{{$item->productVariant->size->size_name ?? 'Trống'}}
                                                                 , {{$item->productVariant->color->color_name ?? 'Trống'}}</p>
                                                         </div>
@@ -97,8 +97,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="cr-cart-update-bottom">
-                                            <a href="{{route('home')}}" class="cr-links">Continue Shopping</a>
-                                            <a href="" class="cr-button checkout">Check Out</a>
+                                            <a href="{{route('home')}}" class="cr-links">Tiếp tục mua sắm</a>
+                                            <a href="" class="cr-button checkout">Thanh toán</a>
                                         </div>
                                     </div>
                                 </div>

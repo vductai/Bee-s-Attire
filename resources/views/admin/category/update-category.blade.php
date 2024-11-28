@@ -1,8 +1,10 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
+
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Category</h5>
+            <h5>Danh mục phụ</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -12,10 +14,10 @@
                     <div class="cr-cat-list cr-card card-default mb-24px">
                         <div class="cr-card-content">
                             <div class="cr-cat-form">
-                                <h3>Update Category</h3>
+                                <h3>Chỉnh sửa danh mục phụ</h3>
                                 <form id="formCategoryUpdate">
                                     <div class="form-group">
-                                        <label>Parent category</label>
+                                        <label>Danh mục chính</label>
                                         <div class="col-12">
                                             <select name="id" id="id" value="{{$find->parent->name}}" class="form-control form-select">
                                                 <option value="">Chọn danh mục gốc</option>
@@ -27,7 +29,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Name category</label>
+                                        <label>Tên danh mục</label>
                                         <input type="hidden" id="category_id"  value="{{$find->category_id}}">
                                         <div class="col-12">
                                             <input id="category_name" name="category_name" value="{{$find->category_name}}"
@@ -37,7 +39,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
+                                            <button type="submit" class="cr-btn-primary">Sửa danh mục</button>
                                         </div>
                                     </div>
                                 </form>
@@ -55,9 +57,9 @@
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Category</th>
-                                <th>Main Category</th>
-                                <th>Action</th>
+                                <th>Tên danh mục</th>
+                                <th>Danh mục chính</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -77,9 +79,9 @@
                                             </button>
 
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/categories/{{$item->category_id}}/edit">Edit</a>
+                                                <a class="dropdown-item" href="/admin/categories/{{$item->category_id}}/edit">Chỉnh sửa</a>
                                                 <button class="dropdown-item delete-btn" data-id="{{$item->category_id}}">
-                                                    Delete
+                                                    Xoá
                                                 </button>
                                             </div>
                                         </div>

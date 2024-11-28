@@ -4,45 +4,44 @@
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="from">
-                <img src="carrot-logo.png" alt="Carrot">
-                <p>321, Porigo alto, new st george church,<br>
-                    Nr. Jogas garden, USA.</p>
+                <img src="{{asset('assets/client/img/logo/logo.png')}}" style="margin-bottom: 5px;" alt="Carrot">
+                <p>13 phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội</p>
             </div>
             <div class="to">
-                <p><strong>To</strong><br>
-                    User: {{$detail->user->username}}<br>
-                    Address: {{$detail->user->address}}<br>
+                <p><strong>Người nhận</strong><br>
+                    Họ và tên: {{$detail->user->username}}<br>
+                    Địa chỉ: {{$detail->user->address}}<br>
                     Email: {{$detail->user->email}}<br>
-                    Phone: {{$detail->user->phone}}</p>
+                    Số điện thoại: {{$detail->user->phone}}</p>
             </div>
             <div class="details">
-                <p><strong>Order ID:</strong> {{$detail->order_id}}<br>
-                    <strong>Bank:</strong> Lotus bank<br>
+                <p><strong>Mã đơn hàng:</strong> {{$detail->order_id}}<br>
+                    <strong>Phương thức thanh toán:</strong> {{$detail->payment_method}}<br>
             </div>
         </div>
 
         <div class="invoice-summary">
-            <div><strong>Order:</strong> {{$detail->order_id}}</div>
-            <div><strong>Amount:</strong> {{number_format($detail->final_price)}} đ</div>
-            <div><strong>Quantity:</strong> {{$quantity}}</div>
-            <div><strong>Date:</strong> {{\Carbon\Carbon::parse($detail->created_at)->format('h:m:s d-m-Y')}}</div>
+            <div><strong>Mã đơn hàng:</strong> {{$detail->order_id}}</div>
+            <div><strong>Tổng tiền hàng:</strong> {{number_format($detail->final_price)}} đ</div>
+            <div><strong>Số lượng:</strong> {{$quantity}}</div>
+            <div><strong>Ngày mua:</strong> {{\Carbon\Carbon::parse($detail->created_at)->format('h:m d-m-Y')}}</div>
         </div>
 
         <table class="invoice-items">
             <thead>
             <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th class="item-column">Item</th>
-                <th>Quantity</th>
-                <th class="price-column">Price</th>
-                <th class="total-column">Total</th>
+                <th>Mã đơn hàng</th>
+                <th>Ảnh</th>
+                <th class="item-column">Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th class="price-column">Giá</th>
+                <th class="total-column">Thành tiền</th>
             </tr>
             </thead>
             <tbody>
             @foreach($detail->order_item as $item)
                 <tr>
-                    <td>{{$loop->index}}</td>
+                    <td>{{$item->order_id}}</td>
                     <td>
                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                              alt="Pants">
@@ -58,15 +57,14 @@
 
         <div class="invoice-bottom">
             <div class="invoice-note">
-                <p><strong>Note:</strong></p>
-                <p>Your country territory tax has been applied.<br>
-                    Your voucher cannot be applied, because you entered the wrong code.</p>
+                <p><strong>Ghi chú:</strong></p>
+                <p>{{$detail->note}}</p>
             </div>
 
             <div class="invoice-total">
                 <table>
                     <tr>
-                        <td><strong>Subtotal</strong></td>
+                        <td><strong>Tổng thu</strong></td>
                         <td>{{number_format($detail->total_price)}} đ</td>
                     </tr>
                     <tr>
@@ -79,7 +77,7 @@
                         @endif
                     </tr>
                     <tr>
-                        <td><strong>Total</strong></td>
+                        <td><strong>Thành tiền</strong></td>
                         @if(is_null($detail->voucher_id))
                             <td>
                                 {{number_format($detail->final_price)}} đ
@@ -93,10 +91,5 @@
                 </table>
             </div>
         </div>
-
-        {{--<div class="invoice-actions">
-            <button class="save">Save</button>
-            <button class="print" onclick="window.print()">Print</button>
-        </div>--}}
     </div>
 @endsection

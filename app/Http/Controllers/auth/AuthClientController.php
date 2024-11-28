@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\client\LoginRequest;
 use App\Http\Requests\client\RegisterRequest;
 use App\Jobs\DeleteUnverifiedUser;
+use App\Jobs\SendMailRegisterJob;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
@@ -30,10 +32,15 @@ class AuthClientController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        // check email
+        if (User::where('email', $request->email)->exists()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Email này đã tồn tại'
+            ]);
+        }
 
         $username = 'user_' . rand(1000, 9999);
-
-
         $create = User::create([
             'username' => $username,
             'password' => $request->password,
@@ -48,17 +55,17 @@ class AuthClientController extends Controller
             now()->addMinutes(5), // thoi gian xác thực
             ['id' => $create->user_id, 'hash' => sha1($create->email)]
         );
-
-
         // Gửi email xác minh
-        Mail::to($create->email)->send(new WelcomeMail($create, $verificationUrl));
-
-        // Dispatch job xóa tài khoản sau 2 phút
+        //Mail::to($create->email)->send(new WelcomeMail($create, $verificationUrl));
+        SendMailRegisterJob::dispatch($create->email, $create, $verificationUrl);
+        // Dispatch job xóa tài khoản sau 6 phút
         DeleteUnverifiedUser::dispatch($create->user_id)->delay(now()->addMinutes(6));
-
         $email = $create->email;
-        return view('client.auth.message.verify-email', compact('email'));
+        return response()->json($email);
+    }
 
+    public function viewVerify(){
+        return view('client.auth.message.verify-email');
     }
 
     public function loginClient(LoginRequest $request){
@@ -67,21 +74,29 @@ class AuthClientController extends Controller
             $user = Auth::user();
             if ($user && is_null($user->email_verified_at)) {
                 Auth::guard('web')->logout();
-                session()->put('errorsLogin', 'Tài khoản này chưa được xác minh, vui lòng xác minh email để tiếp tục');
-                return redirect()->route('client-viewLogin')->withErrors([]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tài khoản này chưa được xác minh, vui lòng xác minh email để tiếp tục'
+                ]);
             }
-
             if ($user && $user->action == 0){
                 Auth::guard('web')->logout();
-                session()->put('errorsLogin', 'Tài khoản này đã bị vô hiệu hoá');
-                return redirect()->route('client-viewLogin');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tài khoản này đã bị vô hiệu hoá'
+                ]);
             }
-
             $user->createToken('MyAppToken')->plainTextToken;
-            return redirect()->route('home');
+            //return redirect()->intended('/');
+            return response()->json([
+                'success' => true,
+                'redirect' => '/'
+            ]);
         } else {
-            session()->put('errorsLogin', 'Email hoặc mật khẩu không đúng');
-            return redirect()->route('client-viewLogin');
+            return response()->json([
+                'success' => false,
+                'message' => 'Email hoặc mật khẩu không đúng'
+            ]);
         }
     }
 

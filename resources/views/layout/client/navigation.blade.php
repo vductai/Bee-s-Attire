@@ -76,6 +76,11 @@
                             </a>
                         </li>
                     @endforeach
+                    <li class="nav-item">
+                        <a href="{{route('list-article')}}" class="nav-link">
+                            Tin tức
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>

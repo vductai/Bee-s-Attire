@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'image',
+            'avatar' => 'required',
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
             'email' => 'required|email',

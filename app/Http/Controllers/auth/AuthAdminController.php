@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 class AuthAdminController extends Controller
 {
     public function getProfile(){
-
         if (Auth::check()){
             return Auth::user();
         }
@@ -61,9 +60,6 @@ class AuthAdminController extends Controller
         $user = User::find($id);
         $user->action = !$user->action;
         $user->update();
-
-        broadcast(new AuthEvent($user))->toOthers();
-
         return redirect()->back();
     }
 
@@ -71,9 +67,6 @@ class AuthAdminController extends Controller
         $product = Product::find($id);
         $product->action = !$product->action;
         $product->update();
-
-        broadcast(new AuthEvent($product))->toOthers();
-
         return redirect()->back();
     }
 }

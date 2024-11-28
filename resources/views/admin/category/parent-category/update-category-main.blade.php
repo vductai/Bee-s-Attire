@@ -1,8 +1,9 @@
 @extends('layout.admin.home')
+@include('toast.admin-toast')
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Danh mục</h5>
+            <h5>Danh mục chính</h5>
         </div>
     </div>
     <div class="row cr-category">
@@ -26,7 +27,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="cr-btn-primary">Submit</button>
+                                            <button type="submit" class="cr-btn-primary">Thêm danh mục</button>
                                         </div>
                                     </div>
                                 </form>
@@ -45,7 +46,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Danh mục cha</th>
-                                <th>Action</th>
+                                <th>Dành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,9 +64,9 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Edit</a>
+                                                <a class="dropdown-item" href="/admin/category-parent/{{$item->id}}/edit">Chỉnh sửa</a>
                                                 <button class="dropdown-item delete-btn" data-id="{{$item->id}}">
-                                                    Delete
+                                                    Xoá
                                                 </button>
                                             </div>
                                         </div>

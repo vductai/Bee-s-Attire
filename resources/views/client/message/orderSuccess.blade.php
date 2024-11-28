@@ -24,7 +24,7 @@
                         <div class="cr-content-form text-center">
                             <h4>Đặt hàng thành công</h4>
                             <h6>Cảm ơn bạn đã đặt hàng. chúng tôi sẻ liên hệ với bạn sớm.</h6>
-                            <a href="{{route('home')}}" class="btn btn-success">
+                            <a href="{{route('home')}}" class="cr-button btn-success">
                                 Tiếp tục mua hàng
                             </a>
                         </div>

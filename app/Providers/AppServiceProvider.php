@@ -4,9 +4,13 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Chat;
 use App\Models\Comment;
+use App\Models\Notifications;
+use App\Models\Notify_manager;
 use App\Models\Parent_Category;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -26,7 +30,44 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // admin
+        View::composer('layout.admin.notify-slider', function ($noti){
+            $notis = Notify_manager::orderBy('created_at', 'desc')->get();
+            $chats = Chat::whereHas('receiver.role', function ($query){
+                $query->where('role_name', 'admin');
+            })
+                ->orderBy('created_at', 'desc')
+                ->get();
+            $noti->with(compact('chats', 'notis'));
+        });
+        /*---------------------------------------------------------------------------------------------------*/
+        View::composer('layout.client.header', function ($count) {
+            if (Auth::check()){
+                $counts = Notifications::where('user_id', Auth::user()->user_id)
+                    ->where('is_read', 'Chưa đọc')->count();
+            }else{
+                $counts = collect();
+            }
+            $count->with('counts', $counts);
+
+        });
+
+        View::composer('layout.client.header', function ($notifycation) {
+            if (Auth::check()){
+                $notifications = Notifications::where('user_id', Auth::user()->user_id)
+                    ->where('is_read', 'Chưa đọc')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(6)
+                    ->get();
+            }else{
+                $notifications = collect();
+            }
+            $notifycation->with('noti', $notifications);
+        });
+
+
         Carbon::setLocale('vi');
+        Paginator::useBootstrapFive();
         View::composer('layout.client.navigation', function ($parent){
             $selParentCategory = Parent_Category::limit(5)->get();
             $parent->with('parent', $selParentCategory);

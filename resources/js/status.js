@@ -19,15 +19,15 @@ if (tableProduct){
                 const toggleButton = row.querySelector('.toggleButton')
 
                 if (badgeProduct && toggleButton){
-                    if (badgeProduct.classList.contains('text-success')){
+                    if (badgeProduct.classList.contains('text-bg-success')){
                         badgeProduct.innerHTML = 'Private'
-                        badgeProduct.classList.remove('text-success')
-                        badgeProduct.classList.add('text-danger')
+                        badgeProduct.classList.remove('text-bg-success')
+                        badgeProduct.classList.add('text-bg-danger')
                         toggleButton.innerHTML = 'Public'
                     }else {
                         badgeProduct.innerHTML = 'Public'
-                        badgeProduct.classList.remove('text-danger')
-                        badgeProduct.classList.add('text-success')
+                        badgeProduct.classList.remove('text-bg-danger')
+                        badgeProduct.classList.add('text-bg-success')
                         toggleButton.innerHTML = 'Private'
                     }
                 }
@@ -56,15 +56,15 @@ if (tableUser) {
                 const statusButton = row.querySelector('.statusToggle');
 
                 if (statusBadge && statusButton) {
-                    if (statusBadge.classList.contains('text-success')) {
+                    if (statusBadge.classList.contains('text-bg-success')) {
                         statusBadge.innerHTML = 'Tạm khoá';
-                        statusBadge.classList.remove('text-success');
-                        statusBadge.classList.add('text-danger');
+                        statusBadge.classList.remove('text-bg-success');
+                        statusBadge.classList.add('text-bg-danger');
                         statusButton.innerHTML = 'Mở khoá';
                     } else {
                         statusBadge.innerHTML = 'Đang hoạt động';
-                        statusBadge.classList.remove('text-danger');
-                        statusBadge.classList.add('text-success');
+                        statusBadge.classList.remove('text-bg-danger');
+                        statusBadge.classList.add('text-bg-success');
                         statusButton.innerHTML = 'Khoá tài khoản';
                     }
                 }

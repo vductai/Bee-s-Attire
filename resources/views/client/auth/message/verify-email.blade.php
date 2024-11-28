@@ -22,7 +22,7 @@
                             <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
                         </div>
                         <div class="cr-content-form text-center">
-                            Kiểm tra email <b>{{$email}}</b> để xác minh
+                            Kiểm tra email <b id="verify-gmail"></b> để xác minh
                         </div>
                     </div>
                 </div>
