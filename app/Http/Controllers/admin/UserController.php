@@ -46,57 +46,43 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(UserRequest $request)
-{
-    try {
-        $this->authorize('manageAdmin', Auth::user());
-        
-    } catch (AuthorizationException $e) {
+    {
+        try {
+            $this->authorize('manageAdmin', Auth::user());
+        } catch (AuthorizationException $e) {
+        }
+        $user = User::create([
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'email' => $request->email,
+            'password' => $request->password,
+            'birthday' => $request->birthday,
+            'role_id' => $request->role_id,
+            'gender' => $request->gender,
+        ]);
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = public_path('/upload');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+            $image = Image::read($file);
+            $image->resize(600, 600)->save($path . '/' . $filename);
+            $user->avatar = $filename;
+        } else {
+            $defaultAvatarPath = public_path('error-image-default.jpg');
+            $filename = time() . '-default-avatar.jpg';
+            $destinationPath = public_path('/upload/' . $filename);
+            if (File::exists($defaultAvatarPath)) {
+                File::copy($defaultAvatarPath, $destinationPath);
+            }
+            $user->avatar = $filename;
+        }
+        $user->save();
+        return response()->json($user);
     }
-    // Tạo mới user
-    $user = User::create([
-        'username' => $request->username,
-        'phone' => $request->phone,
-        'address' => $request->address,
-        'email' => $request->email,
-        'password' => $request->password,
-        'birthday' => $request->birthday,
-        'role_id' => $request->role_id,
-        'gender' => $request->gender,
-    ]);
-
-
-    if ($request->hasFile('avatar')) {
-    $file = $request->file('avatar');
-    $filename = time() . '.' . $file->getClientOriginalExtension();
-    $path = public_path('/upload');
-
-    if (!File::exists($path)) {
-        File::makeDirectory($path, 0755, true);
-    }
-
-    $image = Image::read($file);
-    $image->resize(600, 600)->save($path . '/' . $filename);
-    $user->avatar = $filename;
-    } else {
-    $defaultAvatarPath = public_path('error-image-default.jpg');
-    $filename = time() . '-default-avatar.jpg';
-    $destinationPath = public_path('/upload/' . $filename);
-
-    if (File::exists($defaultAvatarPath)) {
-        File::copy($defaultAvatarPath, $destinationPath);
-    }
-
-    $user->avatar = $filename;
-}
-
-$user->save();
-
-broadcast(new UserEvent($user, 'create'))->toOthers();
-
-return response()->json($user);
-// return redirect()->route('user.index')->with('success', 'Thêm account thành công');
-
-}
 
     /**
      * Display the specified resource.
@@ -147,7 +133,6 @@ return response()->json($user);
             $request->merge(['avatar' => $filename]);
             $user->avatar = $filename;
         }
-        // dd($filename);  
         $user->update([
             'avatar' => $user->avatar,
             'username' => $request->username,

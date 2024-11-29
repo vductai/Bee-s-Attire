@@ -13,9 +13,20 @@ class ProductVariantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id',
-            'color_id',
-            'size_id'
+            'product_id'=> 'required',
+            'color_id'=> 'required',
+            'size_id'=> 'required',
+            'quantity' => 'required'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => 'Vui lòng chọn',
+            'color_id' => 'Vui lòng chọn',
+            'size_id' => 'Vui lòng chọn',
+            'quantity' => 'Vui lòng nhập số lượng',
         ];
     }
 

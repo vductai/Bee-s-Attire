@@ -13,63 +13,45 @@ if (formUser) {
         const Address = document.getElementById('address')
         const Gender = document.getElementById('gender')
         const Birthday = document.getElementById('birthday')
+
+        const formData = new FormData();
+        formData.append('username', userName.value);
+        formData.append('avatar', avaTar.files[0]); // Lấy file đầu tiên từ input
+        formData.append('password', passWord.value);
+        formData.append('email', Email.value);
+        formData.append('phone', Phone.value);
+        formData.append('address', Address.value);
+        formData.append('gender', Gender.value);
+        formData.append('birthday', Birthday.value);
+        formData.append('role_id', 3);
+
         // xoá các lỗi nếu có
         document.querySelectorAll('.error-text').forEach(function (p) {
             p.textContent = '';
         });
-        
-
-        axios.post('/admin/user', {
-            username: userName.value,
-            avatar: avaTar.value,
-            password: passWord.value,
-            email: Email.value,
-            phone: Phone.value,
-            address: Address.value,
-            gender: Gender.value,
-            birthday: Birthday.value,
-            role_id: 3
-        }, {
+        axios.post('/admin/user', formData, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
             const user = res.data
-
             window.location.href = '/admin/user'
-
         }).catch(err => {
             if (err.response && err.response.data.errors) {
-                const errors = err.response.data.errors;
-                for (const field in errors) {
+                let errors = err.response.data.errors
+                for (let field in errors) {
                     document.querySelector(`#${field}-error`).textContent = errors[field][0];
                 }
             }
-        });
-    });
-}
-
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')){
-        const userid = e.target.getAttribute('data-id')
-        axios.delete(`/admin/user/${userid}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(() => {
-            const row = document.querySelector(`tr[data-id='${voucherId}']`)
-            if (row){
-                row.remove()
-            }
         })
-    }
-})
 
+    })
+
+}
 // update
 
 const formUserUpdate = document.getElementById('formUserUpdate')
-
-if (formUserUpdate){
+if (formUserUpdate) {
     formUserUpdate.addEventListener('submit', function (e) {
         e.preventDefault()
         const userId = document.getElementById('userId').value
@@ -81,27 +63,34 @@ if (formUserUpdate){
         const genderUpdate = document.getElementById('gender')
         const usernameUpdate = document.getElementById('username')
 
-
-        document.querySelectorAll('.error-text').forEach(function(p) {
+        const updateData = new FormData();
+        updateData.append('avatar', avatarUpdate.files[0]);
+        updateData.append('email', emailUpdate.value);
+        updateData.append('address', addressUpdate.value);
+        updateData.append('phone', phoneUpdate.value);
+        updateData.append('birthday', birthdayUpdate.value);
+        updateData.append('gender', genderUpdate.value);
+        updateData.append('username', usernameUpdate.value);
+        updateData.append('_method', 'PUT')
+        document.querySelectorAll('.error-text').forEach(function (p) {
             p.textContent = '';
         });
-        axios.put(`/admin/user/${userId}`, {
-            username: usernameUpdate.value,
-            avatar: avatarUpdate.value,
-            email: emailUpdate.value,
-            phone: phoneUpdate.value,
-            address: addressUpdate.value,
-            gender: genderUpdate.value,
-            birthday: birthdayUpdate.value,
-        }, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(res => {
+        axios.post(`/admin/user/${userId}`, updateData
+            , {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(res => {
             const user = res.data
-
             window.location.href = '/admin/user'
-
+        }).catch(err => {
+            if (err.response && err.response.data.errors) {
+                let errors = err.response.data.errors
+                for (let field in errors) {
+                    document.querySelector(`#${field}-error`).textContent = errors[field][0];
+                }
+            }
         })
     })
 }

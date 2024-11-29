@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
             Route::resource('product', ProductController::class);
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
+            
             // dashboard
             //Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
             // action user, product, post

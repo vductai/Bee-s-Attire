@@ -15,7 +15,7 @@ class ProductRequest extends FormRequest
             'product_price' => 'required|numeric|min:0',
             'product_desc',
             'sale_price' => 'nullable|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required',
             'product_images',
             'product_images.*',
             'color_id',

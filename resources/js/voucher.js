@@ -136,7 +136,7 @@ if (formVoucherUpdate){
     })
 }
 
-
+// form xóa
 tableVoucher.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-coupon')){
         const voucherId = e.target.getAttribute('data-id')

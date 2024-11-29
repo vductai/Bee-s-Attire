@@ -28,7 +28,7 @@ class ProductVariantController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $show = ProductVariant::where('product_id', $id)->get();
+        $show = ProductVariant::findOrFail($id);
         return response()->json([
             'message' => 'show',
             'data' => $show
@@ -66,6 +66,8 @@ class ProductVariantController extends Controller
             'quantity' => $request->quantity
         ]);
 
+        $create->load(['color', 'size']);
+
         return response()->json([
             'message' => 'add product variant',
             'data' => $create
@@ -78,12 +80,14 @@ class ProductVariantController extends Controller
         } catch (AuthorizationException $e) {
         }
         $variant = ProductVariant::find($id);
+        
         $variant->update([
-            'product_id' => $request->product_id,
+            'product_id' => $variant->product_id,
             'color_id' => $request->color_id,
             'size_id' => $request->size_id,
             'quantity' => $request->quantity
         ]);
+        $variant->load(['color', 'size']);
 
         return response()->json([
             'message' => 'update',

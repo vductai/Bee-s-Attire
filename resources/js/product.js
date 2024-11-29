@@ -19,7 +19,7 @@ document.getElementById('btn-add').addEventListener('click', (e) => {
     }).then(res => {
         const data = res.data
         console.log(data)
-        //window.location.href = '/admin/product'
+        // window.location.href = '/admin/product'
     }).catch(err => {
         if (err.response && err.response.data.errors) {
             let errors = err.response.data.errors
@@ -29,6 +29,10 @@ document.getElementById('btn-add').addEventListener('click', (e) => {
         }
     })
 })
+
+/*-------------------------------------------------------- form update ----------------------------------------------------*/
+
+
 
 
 

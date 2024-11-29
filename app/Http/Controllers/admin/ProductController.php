@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRequest;
-use App\Models\Category;
-use App\Models\Color;
-use App\Models\Featured_categories;
-use App\Models\Parent_Category;
-use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\ProductVariant;
-use App\Models\Size;
 use App\Models\Tag;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\Size;
+use App\Models\Color;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\ProductVariant;
+use App\Models\Parent_Category;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use App\Models\Featured_categories;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Auth\Access\AuthorizationException;
 
 
 class ProductController extends Controller
@@ -163,8 +164,8 @@ class ProductController extends Controller
         }
         $product = Product::find($id);
         if ($request->hasFile('product_avatar')) {
-            if (File::exists(public_path('upload/' . $product->product_avatar))) {
-                File::delete(public_path('upload/' . $product->product_avatar));
+            if (Storage::exists('upload/' . $product->product_avatar)) {
+                Storage::delete('upload/' . $product->product_avatar);
             }
             $file = $request->file('product_avatar');
             $filename = time() . '.' . $file->getClientOriginalExtension();

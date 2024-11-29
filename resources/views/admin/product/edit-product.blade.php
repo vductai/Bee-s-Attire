@@ -7,7 +7,11 @@
             <h5>Cập nhật sản phẩm</h5>
         </div>
     </div>
-    <div class="row">
+
+    <form id="formUpdateProduct" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" id="productId" value="{{$show->product_id}}">
+        <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default">
                 <div class="cr-card-content">
@@ -17,7 +21,7 @@
                                 <div class="cr-vendor-main-img">
                                     <div class="avatar-upload">
                                         <div class="avatar-edit">
-                                            <input type='file' name="product_avatar" id="product_main"
+                                            <input type='file' name="product_avatar" id="product_avatar"
                                                    class="cr-image-upload"
                                                    accept=".png, .jpg, .jpeg">
                                             <label><i class="ri-pencil-line"></i></label>
@@ -30,6 +34,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <p class="error-text text-danger" id="product_avatar-error"></p>
+
                                     <div class="thumb-upload-set colo-md-12">
                                         @foreach($show->product_image as $image)
                                             <div class="thumb-upload">
@@ -50,6 +56,7 @@
                                             </div>
                                         @endforeach
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -60,46 +67,59 @@
                                         <label for="inputEmail4" class="form-label">Tên sản phẩm</label>
                                         <input type="text" value="{{$show->product_name}}"
                                                name="product_name" class="form-control slug-title"
-                                               id="inputEmail4">
+                                               id="product_name">
+                                               <p class="error-text text-danger" id="product_name-error"></p>
                                     </div>
+                                    
                                     <div class="col-md-6">
                                         <label class="form-label">Danh mục</label>
-                                        <select class="form-control form-select" name="category_id">
+                                        <select class="form-control form-select" name="category_id" id="category_id">
                                             @foreach($category as $item)
                                                 <optgroup label="{{$item->name}}">
                                                     @foreach($item->children as $childrens)
                                                         <option
-                                                            value="{{$childrens->category_id}}">{{$childrens->category_name}}</option>
+                                                            value="{{$childrens->category_id}}" @if ($childrens->category_id == $show->category_id)
+                                                                selected
+                                                            @endif>{{$childrens->category_name}}</option>
                                                     @endforeach
                                                 </optgroup>
                                             @endforeach
                                         </select>
+                                        <p class="error-text text-danger" id="category_id-error"></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="slug" class="col-12 col-form-label">Đường dẫn</label>
                                         <div class="col-12">
-                                            <input name="slug" id="slug" class="form-control here set-slug"
-                                                   type="hidden" value="{{$show->slug}}">
+                                            <input name="slug" id="slug" class="form-control here set-slug" type="hidden" value="{{$show->slug}}">
+
                                             <input id="slugs" value="{{$show->slug}}"
                                                    class="form-control here set-slug" type="text" disabled>
                                         </div>
+                                        <p class="error-text text-danger" id="slug-error"></p>
+
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Giá gốc</label>
                                         <input type="number" name="product_price"
                                                value="{{$show->product_price}}"
-                                               class="form-control" id="price1">
+                                               class="form-control" id="product_price">
                                     </div>
+                                    <p class="error-text text-danger" id="product_price-error"></p>
+
                                     <div class="col-md-6">
                                         <label class="form-label">Sale price</label>
                                         <input type="number" value="{{$show->sale_price}}"
-                                               name="sale_price" class="form-control" id="price1">
+                                               name="sale_price" class="form-control" id="sale_price">
                                     </div>
+                                    <p class="error-text text-danger" id="sale_price-error"></p>
+
                                     <div class="col-md-12">
                                         <label class="form-label">Mô tả</label>
-                                        <textarea name="product_desc" id="editor1" cols="80"
-                                                  rows="70">{!! $show->product_desc !!}</textarea>
+                                        <textarea name="product_desc" id="product_desc" class="form-control" cols="80"
+                                                  rows="5">{!! $show->product_desc !!}</textarea>
                                     </div>
+                                    <p class="error-text text-danger" id="product_desc-error"></p>
+
                                     <div class="col-md-12">
                                         <button type="submit" class="btn cr-btn-primary">Cập nhật</button>
                                     </div>
@@ -110,7 +130,12 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+</form>
+
+
+
+
     <div class="row">
         <div class="row cr-category">
             <div class="col-xl-4 col-lg-12">
@@ -120,31 +145,40 @@
                             <div class="cr-card-content">
                                 <div class="cr-cat-form">
                                     <h3>Tạo biến thể</h3>
-                                    <form id="">
+
+                                    <form id="formProductVariant">
                                         <input type="hidden" id="idProduct" value="{{$show->product_id}}">
                                         <div class="form-group">
                                             <label>kích thước</label>
                                             <div class="col-12">
-                                                <select name="" id="" class="form-control here slug-title">
+                                                <select name="" id="size_id" class="form-control here slug-title">
                                                     <option value="">Chọn kích thước</option>
                                                     @foreach($size as $s)
                                                         <option value="{{$s->size_id}}">{{$s->size_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                            <p class="error-text text-danger" id="size_id-error"></p> <!-- Sửa id -->
+                                          
                                         </div>
                                         <div class="form-group">
-                                            <label>Mầu sắc</label>
+                                            <label>Màu sắc</label>
                                             <div class="col-12">
-                                                <select name="" id="" class="form-control here slug-title">
+                                                <select name="" id="color_id" class="form-control here slug-title">
                                                     <option value="">Chọn màu sắc</option>
                                                     @foreach($color as $c)
                                                         <option value="{{$c->color_id}}">{{$c->color_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                            <p class="error-text text-danger" id="color_id-error"></p> <!-- Sửa id -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số lượng</label>
+                                            <div class="col-12" >
+                                                <input type="number" class="form-control" name="" id="quantity">
+                                            </div>
+                                            <p class="error-text text-danger" id="quantity-error"></p> <!-- Sửa id -->
                                         </div>
                                         <div class="row">
                                             <div class="col-12 d-flex">
@@ -152,6 +186,8 @@
                                             </div>
                                         </div>
                                     </form>
+
+
                                 </div>
                             </div>
                         </div>
@@ -174,11 +210,11 @@
                                 </thead>
                                 <tbody>
                                 @foreach($show->variants as $variant)
-                                    <tr data-id="">
+                                <tr data-id="{{$variant->product_variant_id}}">
                                         <td>{{$loop->index}}</td>
-                                        <td class="">{{$variant->color->color_name}}</td>
-                                        <td class="">Size {{$variant->size->size_name}}</td>
-                                        <td class="">{{$variant->quantity}}</td>
+                                        <td class="size_id">Size {{$variant->size->size_name}}</td>
+                                        <td class="color_id">{{$variant->color->color_name}}</td>
+                                        <td class="quantity">{{$variant->quantity}}</td>
                                         <td>
                                             <div>
                                                 <button type="button"
@@ -189,13 +225,15 @@
                                                                     class="ri-settings-3-line"></i></span>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item variants"
+                                                    <a class="dropdown-item variants1"
                                                        data-idVariant="{{$variant->product_variant_id}}"
                                                        data-bs-toggle="modal"
                                                        data-bs-target="#variantModal"
                                                        href="javascript:void(0)">Sửa</a>
-                                                    <button class="dropdown-item delete-variant"
+                                                
+                                                        <button class="dropdown-item delete-variant" id="delete-variant"
                                                             data-id="{{$variant->product_variant_id}}">Xóa</button>
+                                            
                                                 </div>
                                             </div>
                                         </td>
@@ -221,5 +259,8 @@
             .catch(error => {
                 console.error(error);
             });
+
+
+
     </script>
 @endsection
