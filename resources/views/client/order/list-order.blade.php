@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Đơn hàng của bạn')
 @section('content_client')
     <style>
         /* Căn chỉnh cột bên phải */

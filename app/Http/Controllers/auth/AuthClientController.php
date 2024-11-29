@@ -26,7 +26,11 @@ class AuthClientController extends Controller
 
     public function viewLogin()
     {
-        return view('client.auth.login');
+        return response()
+            ->view('client.auth.login')
+            ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');;
     }
 
 
@@ -102,7 +106,6 @@ class AuthClientController extends Controller
 
 
     public function logoutClient() {
-        // Xoá token của user đang đăng nhập
         if (Auth::guard('web')->check()){
             $user = Auth::guard('web')->user();
             $user->tokens()->delete();
@@ -110,9 +113,7 @@ class AuthClientController extends Controller
             Session::flush(); // Xóa toàn bộ dữ liệu session
             // Xóa cookie liên quan đến xác thực
             Cookie::queue(Cookie::forget('sanctum_token'));
-
-            return redirect()->route('home');
+            return response()->json(['message' => 'dang xuat thanh cong']);
         }
-
     }
 }

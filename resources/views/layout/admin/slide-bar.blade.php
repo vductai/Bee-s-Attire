@@ -50,7 +50,7 @@
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
                         <li><a href="{{route('coupon.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Tạo mã giảm giá</a></li>
+                                    class="ri-checkbox-blank-circle-line"></i>Kho mã giảm giá</a></li>
                         <li><a href="{{route('add-form-coupon-user')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Tạo mã cho người dùng</a></li>
                     </ul>
@@ -63,11 +63,6 @@
                 <i class="ri-shield-keyhole-line"></i><span class="condense">Xác thực<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
-                <li>
-                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                       data-bs-target="#replyModal" class="cr-page-link drop">
-                        <i class="ri-chat-3-line"></i>Tin nhắn</a>
-                </li>
                 <li class="cr-sb-item sb-subdrop-item">
                     <a href="javascript:void(0)" class="cr-sub-drop-toggle">
                         <i class="ri-user-line"></i></i><span class="condense">Người dùng<i
@@ -101,6 +96,16 @@
                             class="ri-checkbox-blank-circle-line"></i>Danh sách bài viết</a></li>
                 <li><a href="{{route('post.create')}}" class="cr-page-link subdrop"><i
                             class="ri-checkbox-blank-circle-line"></i>Tạo bài viết</a></li>
+            </ul>
+        </li>
+        <li class="cr-sb-item-separator"></li>
+        <li class="cr-sb-item sb-drop-item">
+            <a href="javascript:void(0)" class="cr-drop-toggle">
+                <i class="ri-article-line"></i><span class="condense">Tin nhắn đến<i
+                        class="drop-arrow ri-arrow-down-s-line"></i></span></a>
+            <ul class="cr-sb-drop condense">
+                <li><a href="{{route('get-contact')}}" class="cr-page-link subdrop"><i
+                            class="ri-checkbox-blank-circle-line"></i>Danh sách tin nhắn</a></li>
             </ul>
         </li>
     </ul>

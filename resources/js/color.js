@@ -57,7 +57,7 @@ if (formColor){
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/color/${color.color_id}/edit">Edit</a>
-                                <button class="dropdown-item delete-btn" data-id="${color.color_id}">Delete</button>
+                                <button class="dropdown-item delete-color" data-id="${color.color_id}">Delete</button>
                             </div>
                         </div>
                     </td>
@@ -165,7 +165,7 @@ if (formColorUpdate){
 
 // delete
 tableColor.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')){
+    if (e.target.classList.contains('delete-color')){
         const colorId = e.target.getAttribute('data-id')
         axios.delete(`/admin/color/${colorId}`, {
             headers: {

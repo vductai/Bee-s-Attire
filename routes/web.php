@@ -3,11 +3,13 @@
 use App\Http\Controllers\admin\CategoryAPIController;
 use App\Http\Controllers\admin\CategoryParentController;
 use App\Http\Controllers\admin\ColorController;
+use App\Http\Controllers\admin\ContactAdminController;
 use App\Http\Controllers\admin\CouponUserController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductVariantController;
 use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\SizeAPIController;
+use App\Http\Controllers\admin\StatisticsController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\VoucherController;
 use App\Http\Controllers\admin\VouchersAPIController;
@@ -36,9 +38,9 @@ use App\Http\Controllers\client\PostController;
 use App\Http\Controllers\client\ProfileController;
 use App\Http\Controllers\client\ProductController as ProductClient;
 use App\Http\Controllers\client\SearchController;
+use App\Http\Controllers\client\SupportController;
 use App\Http\Controllers\client\VNPayController;
 use App\Http\Controllers\client\WishListController;
-use App\Jobs\SendMailVoucherExpiredJob;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,7 +58,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
     // route admin và user dùng chung
     Route::group(['middleware' => ['checkRole:user,admin']], function () {
-        Route::post('/logout', [AuthAdminController::class, 'logoutAdmin'])->name('admin.logout');
+        Route::post('/logout', [AuthClientController::class, 'logoutClient']);
         // chat
         Route::post('/send-message', [ChatController::class, 'sendMessage']);
         Route::get('/get-chat/{senderId}', [ChatController::class, 'getChatUserAdmin']);
@@ -115,11 +117,14 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
         Route::get('/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('detail-order');
         Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('order-track');
         Route::post('/order/{id}/cancel', [OrderController::class, 'cancelOrder']);
+        // get invoice
+        Route::get('/order/{id}/invoice', [OrderController::class, 'printInvoice'])->name('invoice-print');
     });
 
     // route chỉ admin mới dùng được
     Route::group(['middleware' => ['checkRole:admin']], function () {
         Route::prefix('admin')->group(function () {
+            Route::get('/', [StatisticsController::class, 'statistics'])->name('dashboard');
             // voucher
             Route::get('/coupon-user', [CouponUserController::class, 'formAdd'])->name('add-form-coupon-user');
             Route::post('/coupon-user', [CouponUserController::class, 'store'])->name('add-coupon-user');
@@ -143,7 +148,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
             // crud product variant
             Route::resource('product-variant', ProductVariantController::class);
             // dashboard
-            Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
+            //Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
             // action user, product, post
             Route::post('/action/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
             Route::post('/actionProduct/{id}', [AuthAdminController::class, 'toggleProductStatus'])->name('action-product');
@@ -154,6 +159,10 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
             Route::get('/export-order', [OrderAdmin::class, 'export'])->name('export-order');
             // post
             Route::resource('post', PostAdmin::class);
+            // contact
+            Route::get('/message', [ContactAdminController::class, 'index'])->name('get-contact');
+            Route::get('/message/{id}', [ContactAdminController::class, 'edit'])->name('get-contact-edit');
+            Route::post('/rep', [ContactAdminController::class, 'repContact'])->name('rep-contact');
             // status
             Route::put('/orders/{order}/status/{status}', [OrderAdmin::class, 'updateStatus'])->name('admin-update-status');
         });
@@ -204,17 +213,19 @@ Route::post('/filter-product', [ProductClient::class, 'search']);
 // filter price
 Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 // search product
-Route::get('/search-product', [SearchController::class, 'searchProduct']);
+Route::get('/search-product', [SearchController::class, 'searchProduct'])->name('search-product');
+// hit
+Route::get('/search', [SearchController::class, 'index']);
 /*and home*/
 
 
 Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
-Route::get('/about', function () {
-    return view('client.us.about');
-})->name('about');
-Route::get('/contact', function () {
-    return view('client.us.contact');
-})->name('contact');
+Route::get('/about', [SupportController::class, 'about'])->name('about');
+Route::get('/policy', [SupportController::class, 'policy'])->name('policy');
+Route::get('/return', [SupportController::class, 'return'])->name('return');
+Route::get('/contact', [SupportController::class, 'contact'])->name('contact');
+Route::post('/contact-post', [SupportController::class, 'store']);
+// bài viết
 Route::get('/article', [PostController::class, 'index'])->name('list-article');
 Route::get('/article/{slug}', [PostController::class, 'show'])->name('detail-article');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');

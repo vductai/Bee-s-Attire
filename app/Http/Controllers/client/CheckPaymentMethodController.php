@@ -10,10 +10,13 @@ use App\Models\Cart;
 use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\order_item;
+use App\Models\ProductVariant;
+use App\Models\User;
 use App\Models\user_voucher;
 use App\Models\Vouchers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -53,38 +56,65 @@ class CheckPaymentMethodController extends Controller
 
     private function cod(Request $request)
     {
-        $order_items = json_decode($request['product']);
-        $order = Order::create([
-            'order_id' => rand(0000000000, 999999999),
-            'user_id' => Auth::user()->user_id,
-            'total_price' => $request['total_price'],
-            'voucher_id' => $request['voucher_id'],
-            'final_price' => $request['final_price'],
-            'payment_method' => 'Tiền mặt khi giao hàng',
-            'note' => $request['note']
-        ]);
-        $order->save();
-        foreach ($order_items as $item) {
-            order_item::create([
-                'order_id' => $order->order_id,
-                'product_id' => $item->product->product_id,
-                'quantity' => $item->quantity,
-                'price_per_item' => $item->product->sale_price
+        DB::transaction(function () use ($request) {
+            $order_items = json_decode($request['product']);
+            User::where('user_id', Auth::user()->user_id)
+                ->update([
+                    'username' => $request->username,
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                    'email' => $request->email
+                ]);
+            $order = Order::create([
+                'order_id' => rand(0000000000, 999999999),
+                'user_id' => Auth::user()->user_id,
+                'total_price' => $request['total_price'],
+                'voucher_id' => $request['voucher_id'],
+                'final_price' => $request['final_price'],
+                'payment_method' => 'Tiền mặt khi giao hàng',
+                'note' => $request['note']
             ]);
-        }
-        Notifications::create([
-            'user_id' => $order->user_id,
-            'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
-        ]);
-        $order = Order::where('order_id', $order->order_id)->first();
-        if ($order && $order->voucher_id) {
-            // Xóa chỉ mã voucher đã áp dụng
-            $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
-            $voucher->delete();
-        }
-        Cart::where('user_id', Auth::user()->user_id)->delete();
-        SendMailOrderJob::dispatch(Auth::user()->email, $order);
-        event(new OrderEvent($order));
+            $order->save();
+            // Mảng để lưu trữ các product_variant_id đã xử lý
+            $processedVariants = [];
+            foreach ($order_items as $item) {
+                order_item::create([
+                    'order_id' => $order->order_id,
+                    'product_id' => $item->product->product_id,
+                    'quantity' => $item->quantity,
+                    'price_per_item' => $item->product->sale_price
+                ]);
+                // xóa biến thể
+                $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                    ->where('product_id', $item->product->product_id)
+                    ->get();
+                foreach ($cartItems as $cartItem) {
+                    if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                        continue; // Nếu đã xử lý, bỏ qua
+                    }
+                    $variant = ProductVariant::find($cartItem->product_variant_id);
+                    if ($variant) {
+                        $variant->quantity -= $cartItem->quantity;
+                        $variant->save();
+                        // Đánh dấu biến thể này đã được xử lý
+                        $processedVariants[] = $cartItem->product_variant_id;
+                    }
+                }
+            }
+            Notifications::create([
+                'user_id' => $order->user_id,
+                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+            ]);
+            $order = Order::where('order_id', $order->order_id)->first();
+            if ($order && $order->voucher_id) {
+                // Xóa chỉ mã voucher đã áp dụng
+                $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
+                $voucher->delete();
+            }
+            Cart::where('user_id', Auth::user()->user_id)->delete();
+            SendMailOrderJob::dispatch(Auth::user()->email, $order);
+            event(new OrderEvent($order));
+        });
         return redirect()->route('home');
     }
 
@@ -99,6 +129,12 @@ class CheckPaymentMethodController extends Controller
                 'note' => $request->notes
             ],
             'order_items' => json_decode($_POST['product']),
+            'user' => [
+                'username' => $request->username,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ]
         ]);
         $total_after_discount = $request->final_price;
 
@@ -160,6 +196,12 @@ class CheckPaymentMethodController extends Controller
                 'note' => $request->notes
             ],
             'order_items' => json_decode($_POST['product']),
+            'user' => [
+                'username' => $request->username,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email
+            ]
         ]);
         $total_after_discount = $request->final_price;
 
@@ -208,7 +250,6 @@ class CheckPaymentMethodController extends Controller
 
     public function handlePaymentReturn(Request $request)
     {
-
         $vnp_Amount = $request->query('vnp_Amount');
         $vnp_BankCode = $request->query('vnp_BankCode');
         $vnp_BankTranNo = $request->query('vnp_BankTranNo');
@@ -224,40 +265,67 @@ class CheckPaymentMethodController extends Controller
 
         // Kiểm tra và xử lý dữ liệu
         if ($vnp_ResponseCode == '00') {
-            $order_data = session('order_data');
-            $order_items = session('order_items');
-            $order = Order::create([
-                'order_id' => $vnp_TxnRef,
-                'user_id' => Auth::user()->user_id,
-                'total_price' => $order_data['total_price'],
-                'voucher_id' => $order_data['voucher_id'],
-                'final_price' => $order_data['final_price'],
-                'payment_method' => 'VNPay',
-                'note' => $order_data['note']
-            ]);
-            $order->save();
-            foreach ($order_items as $item) {
-                order_item::create([
-                    'order_id' => $order->order_id,
-                    'product_id' => $item->product->product_id,
-                    'quantity' => $item->quantity,
-                    'price_per_item' => $item->product->sale_price
+            DB::transaction(function () use ($vnp_TxnRef){
+                $order_data = session('order_data');
+                $order_items = session('order_items');
+                $user = session('user');
+                User::where('user_id', Auth::user()->user_id)
+                    ->update([
+                        'username' => $user['username'],
+                        'address' => $user['address'],
+                        'phone' => $user['phone'],
+                        'email' => $user['email']
+                    ]);
+                $order = Order::create([
+                    'order_id' => $vnp_TxnRef,
+                    'user_id' => Auth::user()->user_id,
+                    'total_price' => $order_data['total_price'],
+                    'voucher_id' => $order_data['voucher_id'],
+                    'final_price' => $order_data['final_price'],
+                    'payment_method' => 'VNPay',
+                    'note' => $order_data['note']
                 ]);
-            }
-            Notifications::create([
-                'user_id' => $order->user_id,
-                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
-            ]);
-            // Tìm đơn hàng dựa trên vnp_TxnRef (order_id)
-            $order = Order::where('order_id', $vnp_TxnRef)->first();
-            if ($order && $order->voucher_id) {
-                // Xóa chỉ mã voucher đã áp dụng
-                $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
-                $voucher->delete();
-            }
-            Cart::where('user_id', Auth::user()->user_id)->delete();
-            SendMailOrderJob::dispatch(Auth::user()->email, $order);
-            event(new OrderEvent($order));
+                $order->save();
+                $processedVariants = [];
+                foreach ($order_items as $item) {
+                    order_item::create([
+                        'order_id' => $order->order_id,
+                        'product_id' => $item->product->product_id,
+                        'quantity' => $item->quantity,
+                        'price_per_item' => $item->product->sale_price
+                    ]);
+                    // xóa biến thể
+                    $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                        ->where('product_id', $item->product->product_id)
+                        ->get();
+                    foreach ($cartItems as $cartItem) {
+                        if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                            continue; // Nếu đã xử lý, bỏ qua
+                        }
+                        $variant = ProductVariant::find($cartItem->product_variant_id);
+                        if ($variant) {
+                            $variant->quantity -= $cartItem->quantity;
+                            $variant->save();
+                            // Đánh dấu biến thể này đã được xử lý
+                            $processedVariants[] = $cartItem->product_variant_id;
+                        }
+                    }
+                }
+                Notifications::create([
+                    'user_id' => $order->user_id,
+                    'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+                ]);
+                // Tìm đơn hàng dựa trên vnp_TxnRef (order_id)
+                $order = Order::where('order_id', $vnp_TxnRef)->first();
+                if ($order && $order->voucher_id) {
+                    // Xóa chỉ mã voucher đã áp dụng
+                    $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
+                    $voucher->delete();
+                }
+                Cart::where('user_id', Auth::user()->user_id)->delete();
+                SendMailOrderJob::dispatch(Auth::user()->email, $order);
+                event(new OrderEvent($order));
+            });
             return redirect()->route('home');
         } else {
             return redirect()->route('checkout');
@@ -283,41 +351,67 @@ class CheckPaymentMethodController extends Controller
 
         // Xử lý thông tin hoặc lưu vào cơ sở dữ liệu
         if ($resultCode == '00') {
-
-            $order_data = session('order_data');
-            $order_items = session('order_items');
-            $order = Order::create([
-                'order_id' => $orderId,
-                'user_id' => Auth::user()->user_id,
-                'total_price' => $order_data['total_price'],
-                'voucher_id' => $order_data['voucher_id'],
-                'final_price' => $order_data['final_price'],
-                'payment_method' => 'Momo',
-                'note' => $order_data['note']
-            ]);
-            $order->save();
-            foreach ($order_items as $item) {
-                order_item::create([
-                    'order_id' => $order->order_id,
-                    'product_id' => $item->product->product_id,
-                    'quantity' => $item->quantity,
-                    'price_per_item' => $item->product->sale_price
+            DB::transaction(function () use ($orderId){
+                $order_data = session('order_data');
+                $order_items = session('order_items');
+                $user = session('user');
+                User::where('user_id', Auth::user()->user_id)
+                    ->update([
+                        'username' => $user['username'],
+                        'address' => $user['address'],
+                        'phone' => $user['phone'],
+                        'email' => $user['email']
+                    ]);
+                $order = Order::create([
+                    'order_id' => $orderId,
+                    'user_id' => Auth::user()->user_id,
+                    'total_price' => $order_data['total_price'],
+                    'voucher_id' => $order_data['voucher_id'],
+                    'final_price' => $order_data['final_price'],
+                    'payment_method' => 'Momo',
+                    'note' => $order_data['note']
                 ]);
-            }
-            Notifications::create([
-                'user_id' => $order->user_id,
-                'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
-            ]);
-            $order = Order::where('order_id', $orderId)->first();
-            if ($order && $order->voucher_id) {
-                // Xóa chỉ mã voucher đã áp dụng
-                // Xóa chỉ mã voucher đã áp dụng
-                $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
-                $voucher->delete();
-            }
-            Cart::where('user_id', Auth::user()->user_id)->delete();
-            SendMailOrderJob::dispatch(Auth::user()->email, $order);
-            event(new OrderEvent($order));
+                $order->save();
+                $processedVariants = [];
+                foreach ($order_items as $item) {
+                    order_item::create([
+                        'order_id' => $order->order_id,
+                        'product_id' => $item->product->product_id,
+                        'quantity' => $item->quantity,
+                        'price_per_item' => $item->product->sale_price
+                    ]);
+                    // xóa biến thể
+                    $cartItems = Cart::where('user_id', Auth::user()->user_id)
+                        ->where('product_id', $item->product->product_id)
+                        ->get();
+                    foreach ($cartItems as $cartItem) {
+                        if (in_array($cartItem->product_variant_id, $processedVariants)) {
+                            continue; // Nếu đã xử lý, bỏ qua
+                        }
+                        $variant = ProductVariant::find($cartItem->product_variant_id);
+                        if ($variant) {
+                            $variant->quantity -= $cartItem->quantity;
+                            $variant->save();
+                            // Đánh dấu biến thể này đã được xử lý
+                            $processedVariants[] = $cartItem->product_variant_id;
+                        }
+                    }
+                }
+                Notifications::create([
+                    'user_id' => $order->user_id,
+                    'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
+                ]);
+                $order = Order::where('order_id', $orderId)->first();
+                if ($order && $order->voucher_id) {
+                    // Xóa chỉ mã voucher đã áp dụng
+                    // Xóa chỉ mã voucher đã áp dụng
+                    $voucher = user_voucher::where('voucher_id', $order->voucher_id)->first();
+                    $voucher->delete();
+                }
+                Cart::where('user_id', Auth::user()->user_id)->delete();
+                SendMailOrderJob::dispatch(Auth::user()->email, $order);
+                event(new OrderEvent($order));
+            });
             return redirect()->route('home');
         } else {
             return redirect()->route('checkout');

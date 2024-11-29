@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Tin tức')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -24,10 +25,12 @@
                     <div class="col-lg-6 mb-24">
                         <div class="cr-blog-classic" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                             <div class="cr-blog-classic-content">
-                                <div class="cr-comment">
+                                <div class="cr-comment noti">
                                     <span>Bởi Quản trị viên <code> / {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</code></span>
                                 </div>
-                                <h4>{{$item->title}}</h4>
+                                <h4>
+                                    {{$item->title}}
+                                </h4>
                                 <p style="display: -webkit-box;
                                             -webkit-line-clamp: 3; -webkit-box-orient: vertical;white-space: nowrap;
                                             overflow: hidden; text-overflow: ellipsis; word-wrap: break-word"

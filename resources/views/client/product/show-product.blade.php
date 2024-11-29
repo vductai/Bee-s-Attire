@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Shop')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -108,17 +109,6 @@
                                 <div class="center-content">
                                     <span></span>
                                 </div>
-                                <div class="cr-select">
-                                    <label>Sort By :</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Featured</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +142,7 @@
                                     </div>
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
-                                            <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
+                                            <a href="javascript:void(0)">{{$item->category->category_name}}</a>
                                         </div>
                                         <a href="{{route('detail', ['slug' => $item->slug])}}"
                                            style="display: -webkit-box;

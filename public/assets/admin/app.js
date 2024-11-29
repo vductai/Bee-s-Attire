@@ -1,20 +1,19 @@
 /*------------------------------------------- slug, color, size ---------------------------------------*/
-
-
 // Hàm chuyển đổi các ký tự có dấu thành không dấu
-function removeVietnameseTones(str) {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Loại bỏ dấu
-        .replace(/đ/g, 'd').replace(/Đ/g, 'D'); // Thay thế chữ đ/Đ thành d/D
-}
-
-document.getElementById('inputEmail4').addEventListener('input', function () {
-    var productName = this.value;
-    var slug = removeVietnameseTones(productName.toLowerCase())
-        .replace(/[^a-z0-9\s-]/g, '')  // Loại bỏ ký tự đặc biệt
-        .replace(/\s+/g, '-')          // Thay thế khoảng trắng bằng dấu gạch ngang
-        .replace(/-+/g, '-');          // Xóa các dấu gạch ngang liên tiếp
-    document.getElementById('slug').value = slug;
-    document.getElementById('slugs').value = slug;
+document.addEventListener('DOMContentLoaded', function () {
+    function removeVietnameseTones(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Loại bỏ dấu
+            .replace(/đ/g, 'd').replace(/Đ/g, 'D'); // Thay thế chữ đ/Đ thành d/D
+    }
+    document.getElementById('inputEmail4').addEventListener('input', function () {
+        var productName = this.value;
+        var slug = removeVietnameseTones(productName.toLowerCase())
+            .replace(/[^a-z0-9\s-]/g, '')  // Loại bỏ ký tự đặc biệt
+            .replace(/\s+/g, '-')          // Thay thế khoảng trắng bằng dấu gạch ngang
+            .replace(/-+/g, '-');          // Xóa các dấu gạch ngang liên tiếp
+        document.getElementById('slug').value = slug;
+        document.getElementById('slugs').value = slug;
+    });
 });
 // thêm biến thể
 document.getElementById('add-variant-btn').addEventListener('click', function () {
@@ -30,16 +29,9 @@ document.getElementById('add-variant-btn').addEventListener('click', function ()
                     <hr>
                     <div class="col-md-6">
                         <label class="form-label">Color</label>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <select name="color_id[]" id="color_id" class="form-control form-select">
-                                    <option>Chọn màu sắc</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="color"  disabled>
-                            </div>
-                        </div>
+                            <select name="color_id[]" id="color_id" class="form-control form-select">
+                                <option>Chọn màu sắc</option>
+                            </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Size</label>

@@ -47,7 +47,7 @@ class ProductController extends Controller
     public function getProductDetail($slug)
     {
         session(['url.intended' => url()->current()]);
-        $getDetail = Product::where('slug', $slug)->first();
+        $getDetail = Product::with('tags')->where('slug', $slug)->first();
         $id = $getDetail->product_id;
         // tăng lượt xem
         $productKey = 'product_' . $id;

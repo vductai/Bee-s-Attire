@@ -10,7 +10,10 @@
                 <div class="col-lg-12">
                     <div class="mb-30">
                         <div class="cr-banner">
-                            <h2>Sản phẩm của chúng tôi</h2>
+                            <h2><a href="{{route('product')}}">Sản phẩm của chúng tôi</a></h2>
+                        </div>
+                        <div class="cr-banner-sub-title">
+                            <p>Đầy đủ mẫu mã, thời trang, phong cách</p>
                         </div>
                     </div>
                 </div>
@@ -74,7 +77,7 @@
                                     </div>
                                     <div class="cr-product-details">
                                         <div class="cr-brand">
-                                            <a href="shop-left-sidebar.html">{{$item->category->category_name}}</a>
+                                            <a href="javascript:void(0)">{{$item->category->category_name}}</a>
                                         </div>
                                         <a href="{{route('detail', ['slug' => $item->slug])}}"
                                            style="display: -webkit-box;
@@ -107,6 +110,10 @@
         </section>--}}
     <section class="section-testimonial padding-b-100">
         @include('layout.client.testimonial')
+    </section>
+    <!-- Blog -->
+    <section class="section-blog padding-b-100">
+        @include('layout.client.post-new')
     </section>
 @endsection
 

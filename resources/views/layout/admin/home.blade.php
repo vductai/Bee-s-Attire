@@ -10,10 +10,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>Carrot - Admin.</title>
+    <title>@yield('title-admin', 'Admin')</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/admin/img/favicon/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{asset('assets/admin/img/logo/collapse-logo.png')}}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,6 +46,12 @@
     @vite('resources/js/admin-notify.js')
     @vite('resources/js/pusher-amin.js')
     @vite('resources/js/reply.js')
+    @vite('resources/js/voucher-user.js')
+    @vite('resources/js/post.js')
+    @vite('resources/js/product.js')
+    @vite('resources/js/pro.js')
+    @vite('resources/js/rep-contact.js')
+    @vite('resources/js/update-variant.js')
 </head>
 
 <body>
@@ -65,16 +71,6 @@
 								<span class="inner-ring"></span>
 							</span>
                     </a>
-                    {{--<div class="header-search-box">
-                        <div class="header-search-drop">
-                            <a href="javascript:void(0)" class="open-search"><i class="ri-search-line"></i></a>
-                            <form class="cr-search">
-                                <input class="search-input" type="text" placeholder="Search...">
-                                <a href="javascript:void(0)" class="search-btn"><i class="ri-search-line"></i>
-                                </a>
-                            </form>
-                        </div>
-                    </div>--}}
                 </div>
                 <div class="right-header">
                     <div class="cr-right-tool display-screen">
@@ -96,7 +92,7 @@
                     <div class="cr-right-tool cr-user-drop">
                         <div class="cr-hover-drop">
                             <div class="cr-hover-tool">
-                                <img class="user" src="{{asset('assets/admin/img/user/1.jpg')}}" alt="user">
+                                <img class="user" src="{{asset('upload/' . auth()->user()->avatar)}}" alt="user">
                             </div>
                             <div class="cr-hover-drop-panel right">
                                 <div class="details">
@@ -106,17 +102,14 @@
                                     @endif
 
                                 </div>
-                                <ul class="border-top">
+                                {{--<ul class="border-top">
                                     <li><a href="team-profile.html">Profile</a></li>
                                     <li><a href="project-overview.html">Projects</a></li>
-                                </ul>
+                                </ul>--}}
                                 <ul class="border-top">
-                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: none;" id="logout-form">
-                                        @csrf
-                                    </form>
                                     <li>
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="ri-logout-circle-r-line"></i>Logout
+                                        <a href="{{route('home')}}">
+                                            <i class="ri-logout-circle-r-line"></i>Quay lại
                                         </a>
                                     </li>
                                 </ul>
@@ -132,8 +125,8 @@
     <div class="cr-sidebar-overlay"></div>
     <div class="cr-sidebar" data-mode="light">
         <div class="cr-sb-logo">
-            <a href="index.html" class="sb-full"><img src="{{asset('assets/admin/img/logo/full-logo.png')}}" alt="logo"></a>
-            <a href="index.html" class="sb-collapse"><img src="{{asset('assets/admin/img/logo/collapse-logo.png')}}"
+            <a href="{{route('dashboard')}}" class="sb-full"><img src="{{asset('full-logo.png')}}" alt="logo"></a>
+            <a href="{{route('dashboard')}}" class="sb-collapse"><img src="{{asset('favicon.ico')}}"
                                                           alt="logo"></a>
         </div>
         <div class="cr-sb-wrapper">
@@ -154,25 +147,10 @@
             @yield('content_admin')
         </div>
     </div>
-
-    <!-- Footer -->
-    {{--<footer>
-        <div class="container-fluid">
-            <div class="copyright">
-                <p><span id="copyright_year"></span> © Carrot, All rights Reserved.</p>
-                <p>Design by MaraviyaInfotech.</p>
-            </div>
-        </div>
-    </footer>--}}
-
-    <!-- Feature tools -->
-    <div class="cr-tools-sidebar-overlay"></div>
-    <div class="cr-tools-sidebar">
-        @include('layout.admin.tool')
-    </div>
 </main>
 
 @include('modal.reply')
+@include('modal.update-variant')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>

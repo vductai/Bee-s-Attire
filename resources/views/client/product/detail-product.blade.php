@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', $getDetail->product_name)
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -66,13 +67,21 @@
                             <ul>
                                 <li><label>Danh mục <span>:</span></label>{{$getDetail->category->category_name}}</li>
                             </ul>
+                            <ul>
+                                <li>
+                                    <label>Tags <span>:</span></label>
+                                    @foreach($getDetail->tags as $tag)
+                                        {{$tag->tag_name}},
+                                    @endforeach
+                                </li>
+                            </ul>
                         </div>
                         <div class="cr-product-price">
                             <span class="new-price">{{number_format($getDetail->sale_price)}} đ</span>
                             <span class="old-price">{{number_format($getDetail->product_price)}} đ</span>
                         </div>
                         <div class="cr-size-weight">
-                            <h5><span>Size</span>:</h5>
+                            <h5><span>Kích thước</span>:</h5>
                             <div class="cr-kg">
                                 <ul>
                                     @foreach($getDetail->variants->unique('size') as $item)
@@ -86,7 +95,7 @@
                             </div>
                         </div>
                         <div class="cr-color-weight">
-                            <h5><span>Color</span>:</h5>
+                            <h5><span>Màu sắc</span>:</h5>
                             <div class="cl-kg">
                                 <ul>
                                     {{--<li class="cl-active-color">50kg</li>--}}
@@ -100,7 +109,10 @@
                                 <input type="hidden" name="color_id" id="selected-color-id">
                             </div>
                         </div>
-
+                        <div class="cr-color-weight">
+                            <h5><span>Số lượng kho</span>:</h5>
+                            <div class="cl-kg" id="variant-quantity">Chọn biến thể</div>
+                        </div>
                         <div class="cr-add-card">
                             <div class="cr-qty-main">
                                 <input type="text" placeholder="."
@@ -111,19 +123,25 @@
                             </div>
                             <div class="cr-add-button">
                                 @if(auth()->check())
-                                    <button type="submit" class="cr-button">Thêm vào giỏ hàng</button>
+                                    <button type="submit" style="display:none;"
+                                            class=" cr-button add-to-cart-btn">Thêm vào giỏ hàng</button>
                                 @else
-                                    <button type="button" class="cr-button">Thêm vào giỏ hàng</button>
                                 @endif
-                                    <a href="javascript:void(0)" type="button" class="cr-button btn-primary"
-                                            data-sender="{{auth()->user()->user_id}}"
-                                            id="replys"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#chatModal">
-                                        trò truyện với chúng tôi
-                                    </a>
                             </div>
-
+                            <div class="cr-card-icon">
+                                <a href="javascript:void(0)" id="share">
+                                    <i class="ri-share-forward-line"></i>
+                                </a>
+                                <script>
+                                    document.getElementById('share').addEventListener('click', async ()=>{
+                                        await navigator.share({
+                                            title: '{{$getDetail->product_name}}',
+                                            text: '{{$getDetail->product_name}}',
+                                            url: '{{route('detail', $getDetail->slug)}}'
+                                        })
+                                    })
+                                </script>
+                            </div>
                             <div class="cr-add-button">
                                 @if(session()->has('errorCart'))
                                     <div class="alert alert-danger">

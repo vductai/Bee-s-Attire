@@ -1,4 +1,5 @@
 @extends('layout.client.home')
+@section('title', 'Thanh toán đơn hàng')
 @section('content_client')
     <!-- Breadcrumb -->
     <section class="section-breadcrumb">
@@ -67,8 +68,11 @@
                                                                 overflow: hidden; text-overflow: ellipsis; white-space: normal"
                                                             >{{$item->product->product_name}}</a>
                                                         </h5>
-                                                        <div class="cr-pro-rating">
-                                                            <p>x{{$item->quantity}}</p>
+                                                        <div class="cr-pro-rating d-flex
+                                                        justify-content-between align-content-center">
+                                                            <p>{{$item->productVariant->size->size_name ?? 'Trống'}}
+                                                                , {{$item->productVariant->color->color_name ?? 'Trống'}}</p>
+                                                            <p style="">x{{$item->quantity}}</p>
                                                         </div>
                                                         <p class="cr-price">
                                                             <span class="new-price">{{number_format($item->product->sale_price)}} đ</span>
@@ -179,17 +183,17 @@
                                                     <label>Tên người nhận</label>
                                                     <input type="text" value="{{$item->user->username}}"
                                                            name="username"
-                                                           placeholder="Enter your username">
+                                                           placeholder="Họ và tên">
                                                 </span>
                                                 <span class="cr-bill-wrap">
                                                     <label>Địa chỉ nhận hàng</label>
                                                     <input type="text" name="address" value="{{$item->user->address}}"
-                                                           placeholder="Address">
+                                                           placeholder="Địa chỉ">
                                                 </span>
                                                 <span class="cr-bill-wrap ">
                                                     <label>Số điện thoại</label>
                                                     <input type="number" value="{{$item->user->phone}}" name="phone"
-                                                           placeholder="Phone">
+                                                           placeholder="Số điện thoại">
                                                 </span>
                                                 <span class="cr-bill-wrap ">
                                                     <label>Email</label>
@@ -202,7 +206,7 @@
                                     <span class="cr-check-order-btn">
                                     <button class="cr-button mt-30" id="submitButton" name="cod"
                                             type="submit">Đặt hàng</button>
-                                </span>
+                                    </span>
                                 </form>
                             </div>
                         </div>

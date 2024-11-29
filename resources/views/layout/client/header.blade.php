@@ -11,12 +11,9 @@
         <meta name="user-id" content="{{auth()->user()->user_id}}">
     @endif
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
-    <title>Carrot - Multipurpose eCommerce HTML Template</title>
-
+    <title>@yield('title', 'Trang chủ')</title>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/client/img/logo/favicon.png')}}">
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 
     <!-- Icon CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/materialdesignicons.min.css')}}">
@@ -41,11 +38,23 @@
 @vite('resources/js/order-status.js')
 @vite('resources/js/auth.js')
 @vite('resources/js/chat.js')
-
+@vite('resources/js/password.js')
+@vite('resources/js/noti-post.js')
+@vite('resources/js/contact.js')
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>
-
+<style>
+    body.modal-open{
+        overflow: auto !important;
+    }
+    .modal{
+        pointer-events: auto !important;
+    }
+    .modal-backdrop{
+        display: none !important;
+    }
+</style>
 <body class="body-bg-6">
 
 <!-- Loader -->
@@ -60,17 +69,20 @@
             <div class="col-lg-12">
                 <div class="top-header">
                     <a href="{{route('home')}}" class="cr-logo">
-                        <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo" class="logo">
+                        <img src="{{asset('full-logo.png')}}" alt="logo" class="logo">
                         <img src="{{asset('assets/client/img/logo/dark-logo.png')}}" alt="logo" class="dark-logo">
                     </a>
-                    <form class="cr-search">
+                    <form class="cr-search" action="{{route('search-product')}}" method="get">
                         <input class="search-input"
-                               id="search-box"
+                               autocomplete="off"
+                               name="key"
+                               id="key"
                                type="text" placeholder="Tìm kiếm mục...">
                         <a href="javascript:void(0)" class="search-btn">
                             <i class="ri-search-line"></i>
                         </a>
                     </form>
+                    <datalist id="browsers"></datalist>
                     <div class="cr-right-bar">
                         @if(auth()->check())
                             <ul class="navbar-nav">
@@ -152,9 +164,8 @@
                                                   style="display: none;" id="logout-form">
                                                 @csrf
                                             </form>
-                                            <a class="dropdown-item" href="#"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng
-                                                xuất</a>
+                                            <a class="dropdown-item" href="javascript:void(0)"
+                                               id="btnLogout">Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -210,3 +221,4 @@
     </div>
 </header>
 @include('layout.client.mobile-menu')
+@include('toast.auth-toast')
