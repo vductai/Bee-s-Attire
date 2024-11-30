@@ -1094,8 +1094,9 @@
                         statusBadge.append('<span class="badge text-bg-primary">Đã xác nhận</span>');
                     } else if (status === 'Đã giao hàng') {
                         statusBadge.append('<span class="badge text-bg-success">Đã giao hàng</span>');
+                    }else if (status === 'Hủy đơn hàng'){
+                        statusBadge.append('<span class="badge text-bg-danger">Đã hủy</span>');
                     }
-
                 },
                 error: function (xhr) {
                     alert('Có lỗi xảy ra: ' + (xhr.responseJSON.message || 'Không xác định.'));

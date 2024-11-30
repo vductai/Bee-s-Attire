@@ -7,7 +7,6 @@ import './bootstrap';
 
 document.addEventListener('DOMContentLoaded', () => {
     const tableProduct = document.querySelector('.propro').getElementsByTagName('tbody')[0]
-    console.log('pro', tableProduct)
     if (tableProduct){
         tableProduct.addEventListener('click', function (e) {
             if (e.target.classList.contains('delete-pro')){

@@ -1,5 +1,4 @@
 import './bootstrap';
-import axios from "axios";
 
 
 const formCategory = document.getElementById('formCategory')

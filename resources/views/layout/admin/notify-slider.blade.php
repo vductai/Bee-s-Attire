@@ -35,7 +35,6 @@
                             <div class="detail">
                                 <div class="d-flex justify-content-start align-items-center">
                                     <p class="time mx-3">{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</p>
-                                    <span class="badge text-bg-danger">Mới</span>
                                 </div>
                                 <p class="message">{{$item->message}}</p>
                             </div>

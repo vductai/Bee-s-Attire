@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
-                            <h2>Đơn hàng</h2>
+                            <h2>Đơn hàng của bạn</h2>
                             <span> <a href="{{route('home')}}">Trang chủ</a> / Đơn hàng của bạn</span>
                         </div>
                     </div>
@@ -95,7 +95,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Sidebar Summary Block -->
+                    </div>
+                    <div class="alert alert-danger text-center" role="alert">
+                        Nếu bạn hủy đơn hàng thì bạn sẻ không được hoàn tiền
                     </div>
                 </div>
                 <div class="cr-checkout-leftside col-lg-8 col-md-12 m-t-991">
@@ -154,10 +156,15 @@
                                                                     <span
                                                                         data-badgeId="{{$item->order_id}}"
                                                                         class="badge bbb text-bg-warning mb-3 cancel">Đã yêu cầu huỷ</span>
+                                                                @elseif($item->status === 'Hủy đơn hàng')
+                                                                    <span
+                                                                        data-badgeId="{{$item->order_id}}"
+                                                                        class="badge bbb text-bg-warning mb-3 cancel">Đơn hàng đã bị hủy</span>
                                                                 @endif
                                                                 <div class="my-3"></div>
                                                                 <div class="d-flex justify-content-center">
                                                                     @if($item->status === 'Đã giao hàng')
+                                                                    @elseif($item->status === 'Hủy đơn hàng')
                                                                     @else
                                                                         <button
                                                                             style="width: 190px;"

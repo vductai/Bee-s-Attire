@@ -59,6 +59,10 @@
                                             <span
                                                 data-orId="{{$item->order_id}}"
                                                 class="badge text-bg-danger oro">{{$item->status}}</span>
+                                        @elseif($item->status === 'Hủy đơn hàng')
+                                            <span
+                                                data-orId="{{$item->order_id}}"
+                                                class="badge text-bg-danger oro">Đã hủy</span>
                                         @endif
                                     </td>
                                     <td>
@@ -70,27 +74,48 @@
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
-                                            <div class="dropdown-menu">
-                                                <button
-                                                    data-status="Đang sử lý" data-id="{{$item->order_id}}"
-                                                    class="dropdown-item update-status btn btn-warning"
-                                                >Đang sử lý
-                                                </button>
-                                                <button
-                                                    data-status="Đã xác nhận" data-id="{{$item->order_id}}"
-                                                    class="dropdown-item update-status btn btn-primary"
-                                                >Đã xác nhận
-                                                </button>
-                                                <button
-                                                    data-status="Đã giao hàng" data-id="{{$item->order_id}}"
-                                                    class="dropdown-item update-status btn btn-success"
-                                                >Đã giao hàng
-                                                </button>
-                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                   class="dropdown-item">Chi tiết</a>
-                                                <button class="dropdown-item delete-btn" data-id="">
-                                                    Delete
-                                                </button>
+                                            <div class="dropdown-menu" data-dropId="{{$item->order_id}}">
+                                                @if($item->status === 'Yêu cầu huỷ đơn hàng')
+                                                    <button
+                                                        data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
+                                                        class="dropdown-item update-status btn btn-warning"
+                                                    >Hủy đơn hàng
+                                                    </button>
+                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                       class="dropdown-item">Chi tiết</a>
+                                                @elseif($item->status === 'Hủy đơn hàng')
+                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                       class="dropdown-item">Chi tiết</a>
+                                                    <button class="dropdown-item delete-order" data-id="{{$item->order_id}}">
+                                                        Xóa đơn hàng
+                                                    </button>
+                                                @else
+                                                    <button
+                                                        data-status="Đang sử lý" data-id="{{$item->order_id}}"
+                                                        class="dropdown-item update-status btn btn-warning"
+                                                    >Đang sử lý
+                                                    </button>
+                                                    <button
+                                                        data-status="Đã xác nhận" data-id="{{$item->order_id}}"
+                                                        class="dropdown-item update-status btn btn-primary"
+                                                    >Đã xác nhận
+                                                    </button>
+                                                    <button
+                                                        data-status="Đã giao hàng" data-id="{{$item->order_id}}"
+                                                        class="dropdown-item update-status btn btn-success"
+                                                    >Đã giao hàng
+                                                    </button>
+                                                    <button
+                                                        data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
+                                                        class="dropdown-item update-status btn btn-warning"
+                                                    >Hủy đơn hàng
+                                                    </button>
+                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                       class="dropdown-item">Chi tiết</a>
+                                                    <button class="dropdown-item delete-order" data-id="{{$item->order_id}}">
+                                                        Xóa đơn hàng
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>

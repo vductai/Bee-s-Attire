@@ -8,6 +8,7 @@ use App\Models\order_item;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
@@ -26,12 +27,27 @@ class StatisticsController extends Controller
         $totalViews = Product::sum('views');
 
         // Thống kê theo tháng trong năm
-        for ($i = $currentMonth - 1; $i >= 0; $i--){
+
+        for ($i = $currentMonth - 1; $i >= 0; $i--) {
             $startOfMonth = Carbon::now()->subMonths($i)->startOfMonth();
             $endOfMonth = Carbon::now()->subMonths($i)->endOfMonth();
 
             $ordersPerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
             $revenuePerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('total_price');
+        }
+
+        // Lấy thông tin trạng thái đơn hàng theo tuần
+        $statuses = ['Đã xác nhận', 'Đang sử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
+        $ordersByStatusWeekly = [];
+        $startOfWeek = Carbon::now()->startOfWeek();
+        foreach ($statuses as $status) {
+            $ordersByStatusWeekly[$status] = [];
+            for ($i = 0; $i < 7; $i++) {
+                $day = $startOfWeek->copy()->addDays($i);
+                $ordersByStatusWeekly[$status][] = Order::where('status', $status)
+                    ->whereDate('created_at', $day->toDateString())
+                    ->count();
+            }
         }
 
         // Thống kê mỗi ngày trong tuần hiện tại
@@ -48,14 +64,40 @@ class StatisticsController extends Controller
             $dailyOrdersLastWeek[] = Order::whereDate('created_at', $day->toDateString())->count();
         }
 
-        $mostViewedProduct = Product::max('views');
+        $top5MostSoldProductsDetails = Product::join('order_item', 'product.product_id', '=', 'order_item.product_id')
+            ->select(
+                'product.*',
+                DB::raw('SUM(order_item.quantity) as total_sales'),
+                DB::raw('SUM(order_item.quantity * product.sale_price) as total_revenue')
+            )
+            ->groupBy('product.product_id')
+            ->orderByDesc('total_sales')
+            ->limit(5)
+            ->get();
+
+
+        // Lấy 5 sản phẩm có lượt xem cao nhất
+        $top5MostViewedProducts = Product::orderByDesc('views')
+            ->limit(5)
+            ->get();
+
 
         return view('admin.dashboard', compact(
-            'ordersPerMonth', 'dailyOrders', 'dailyOrdersLastWeek', 'totalUsers',
-            'totalProducts', 'totalOrders', 'totalRevenue', 'totalProductsSold',
-            'totalViews', 'mostViewedProduct', 'thisMonth', 'revenuePerMonth'
+            'ordersPerMonth',
+            'dailyOrders',
+            'dailyOrdersLastWeek',
+            'totalUsers',
+            'totalProducts',
+            'totalOrders',
+            'totalRevenue',
+            'totalProductsSold',
+            'totalViews',
+            'top5MostViewedProducts',
+            'thisMonth',
+            'revenuePerMonth',
+            'top5MostSoldProductsDetails',
+            'ordersByStatusWeekly'
         ));
-
     }
 
 }
