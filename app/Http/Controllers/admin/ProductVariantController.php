@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductVariantRequest;
+use App\Http\Requests\VariantUpdateRequest;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -67,12 +68,17 @@ class ProductVariantController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'add product variant',
-            'data' => $create
+            'data' => [
+                'id' => $create->product_variant_id,
+                'color' => $create->color->color_name,
+                'size' => $create->size->size_name,
+                'quantity' => $create->quantity,
+                'productId' => $create->product_id
+            ]
         ]);
     }
 
-    public function update(ProductVariantRequest $request, $id){
+    public function update(VariantUpdateRequest $request, $id){
         try {
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
@@ -80,14 +86,19 @@ class ProductVariantController extends Controller
         $variant = ProductVariant::find($id);
         $variant->update([
             'product_id' => $request->product_id,
-            'color_id' => $request->color_id,
-            'size_id' => $request->size_id,
-            'quantity' => $request->quantity
+            'color_id' => $request->color_id1,
+            'size_id' => $request->size_id1,
+            'quantity' => $request->quantity1
         ]);
 
         return response()->json([
-            'message' => 'update',
-            'data' => $variant
+            'data' => [
+                'id' => $variant->product_variant_id,
+                'color' => $variant->color->color_name,
+                'size' => $variant->size->size_name,
+                'quantity' => $variant->quantity,
+                'productId' => $variant->product_id
+            ]
         ]);
 
     }
@@ -97,8 +108,8 @@ class ProductVariantController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $delete = ProductVariant::where('product_variant_id', $id)->delete();
+        ProductVariant::where('product_variant_id', $id)->delete();
 
-        return redirect()->route('product-variant.index');
+        return response()->json(['message' => 'done']);
     }
 }

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="cr-card card-default">
-                <div class="cr-card-content">
+                <form class="cr-card-content" id="formUpdatePro" enctype="multipart/form-data">
                     <div class="row cr-product-uploads">
                         <div class="col-lg-4 mb-991">
                             <div class="cr-vendor-img-upload">
@@ -55,12 +55,15 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="cr-vendor-upload-detail">
+                                <input type="hidden" name="" id="idProductUpdate" value="{{$show->product_id}}">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Tên sản phẩm</label>
                                         <input type="text" value="{{$show->product_name}}"
                                                name="product_name" class="form-control slug-title"
                                                id="inputEmail4">
+                                        <p class="text-danger proErr" id="product_name-error"></p>
+
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Danh mục</label>
@@ -87,27 +90,30 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Giá gốc</label>
                                         <input type="number" name="product_price"
-                                               value="{{$show->product_price}}"
+                                               value="{{ str_replace(',', '', number_format($show->product_price)) }}"
                                                class="form-control" id="price1">
+                                        <p class="text-danger proErr" id="product_price-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Sale price</label>
-                                        <input type="number" value="{{$show->sale_price}}"
+                                        <input type="number" value="{{ str_replace(',', '', number_format($show->sale_price)) }}"
                                                name="sale_price" class="form-control" id="price1">
+                                        <p class="text-danger proErr" id="sale_price-error"></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label">Mô tả</label>
                                         <textarea name="product_desc" id="editor1" cols="80"
                                                   rows="70">{!! $show->product_desc !!}</textarea>
+                                        <p class="text-danger proErr" id="product_desc-error"></p>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn cr-btn-primary">Cập nhật</button>
+                                        <button type="submit" id="btn-update" class="btn cr-btn-primary">Cập nhật</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -120,31 +126,38 @@
                             <div class="cr-card-content">
                                 <div class="cr-cat-form">
                                     <h3>Tạo biến thể</h3>
-                                    <form id="">
+                                    <form id="formProductVariant">
                                         <input type="hidden" id="idProduct" value="{{$show->product_id}}">
                                         <div class="form-group">
                                             <label>kích thước</label>
                                             <div class="col-12">
-                                                <select name="" id="" class="form-control here slug-title">
+                                                <select name="" id="size_id" class="form-control here slug-title">
                                                     <option value="">Chọn kích thước</option>
                                                     @foreach($size as $s)
                                                         <option value="{{$s->size_id}}">{{$s->size_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                            <p class="error-text text-danger" id="color_id-error"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Mầu sắc</label>
+                                            <label>Màu sắc</label>
                                             <div class="col-12">
-                                                <select name="" id="" class="form-control here slug-title">
+                                                <select name="" id="color_id" class="form-control here slug-title">
                                                     <option value="">Chọn màu sắc</option>
                                                     @foreach($color as $c)
                                                         <option value="{{$c->color_id}}">{{$c->color_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                                            <p class="error-text text-danger" id="size_id-error"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số lượng</label>
+                                            <div class="col-12" >
+                                                <input type="number" class="form-control" name="" id="quantity">
+                                            </div>
+                                            <p class="error-text text-danger" id="quantity-error"></p> <!-- Sửa id -->
                                         </div>
                                         <div class="row">
                                             <div class="col-12 d-flex">
@@ -162,7 +175,7 @@
                 <div class="cr-cat-list cr-card card-default">
                     <div class="cr-card-content ">
                         <div class="table-responsive tbl-800">
-                            <table id="cat_data_table" class="table">
+                            <table id="cat_data_table" class="table table-variant">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
@@ -174,11 +187,11 @@
                                 </thead>
                                 <tbody>
                                 @foreach($show->variants as $variant)
-                                    <tr data-id="">
+                                    <tr data-id="{{$variant->product_variant_id}}">
                                         <td>{{$loop->index}}</td>
-                                        <td class="">{{$variant->color->color_name}}</td>
-                                        <td class="">Size {{$variant->size->size_name}}</td>
-                                        <td class="">{{$variant->quantity}}</td>
+                                        <td class="color_id">{{$variant->color->color_name}}</td>
+                                        <td class="size_id">Size {{$variant->size->size_name}}</td>
+                                        <td class="quantity">{{$variant->quantity}}</td>
                                         <td>
                                             <div>
                                                 <button type="button"

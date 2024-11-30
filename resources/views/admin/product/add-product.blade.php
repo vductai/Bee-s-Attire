@@ -8,7 +8,6 @@
         </div>
     </div>
     <form class="row" id="product-form" enctype="multipart/form-data">
-        @csrf
         <div class="col-md-12">
             <div class="cr-card card-default">
                 <div class="cr-card-content">
@@ -189,7 +188,7 @@
                                     <div class="col-md-12">
                                         <label class="form-label">Mô tả sản phẩm</label>
                                         <textarea class="form-control" name="product_desc"
-                                                  id="product_desc" cols="80" rows="10"></textarea>
+                                                  id="editor1" cols="80" rows="10"></textarea>
                                         <p class="text-danger proErr" id="product_desc-error"></p>
                                     </div>
                                     <div class="col-md-12">
@@ -206,5 +205,18 @@
     <script !src="">
         var selColor = @json($color);
         var selSize = @json($size);
+    </script>
+@endsection
+@section('script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor1'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 @endsection
