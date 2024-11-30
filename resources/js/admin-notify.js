@@ -48,4 +48,7 @@ Echo.private('admin-cancel-order')
 
         document.querySelector(`.oro[data-orId='${e.order_id}']`).innerText = 'Yêu cầu huỷ đơn hàng'
         document.querySelector(`.oro[data-orId='${e.order_id}']`).classList.add('text-bg-danger')
+        document.querySelectorAll(`.update-status[data-id='${e.order_id}']`).forEach(us => {
+            us.style.display = 'none'
+        })
     })

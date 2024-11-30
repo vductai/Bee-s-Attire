@@ -99,7 +99,7 @@
                                             <span class="cr-del-option">
                                                 <span>
                                                     <span class="cr-del-opt-head">Nhập mã giảm giá</span>
-                                                    <input type="text" class="form-control" name="voucher_code">
+                                                    <input type="text" id="inp-voucher-code" class="form-control" name="voucher_code">
                                                     @if(session()->has('voucherError'))
                                                         <div
                                                             class="alert alert-danger">{{ session('voucherError') }}</div>
@@ -115,6 +115,7 @@
                                                 </span>
                                             </span>
                                             <button
+                                                id="btn-add-voucher" style="display: none"
                                                 form="addVoucher"
                                                 class="cr-button mt-2" type="submit">Add mã giảm giá
                                             </button>
@@ -227,6 +228,18 @@
         note.addEventListener('input', function () {
             notes.value = note.value
             console.log(notes.value)
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const inpVoucherCode = document.getElementById('inp-voucher-code')
+            const btnAddVoucher = document.getElementById('btn-add-voucher')
+            inpVoucherCode.addEventListener('input', function () {
+                if (inpVoucherCode.value.length > 1){
+                    btnAddVoucher.style.display = 'inline'
+                }else {
+                    btnAddVoucher.style.display = 'none'
+                }
+            })
         })
     </script>
 @endsection

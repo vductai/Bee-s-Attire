@@ -13,37 +13,38 @@
             </div>
             <div class="modal-body" id="variantContent">
                 <div>
-                    <form class="row gx-5">
+                    <form class="row gx-5" id="form-update-variant">
                         <input type="hidden" id="idVariant" value="">
                         <div class="form-group col">
                             <label>kích thước</label>
                             <div class="col-12">
-                                <select name="" id="size_id" class="form-control here slug-title">
+                                <select name="" id="size_id1" class="form-control here slug-title">
                                     <option value="">Chọn kích thước</option>
                                     @foreach($size as $s)
                                         <option value="{{$s->size_id}}">{{$s->size_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <p class="error-text text-danger" id=""></p> <!-- Sửa id -->
+                            <p class="error-variant text-danger" id="size_id1-error"></p>
                         </div>
                         <div class="form-group col">
                             <label>Màu sắc</label>
                             <div class="col-12">
-                                <select name="" id="color_id" class="form-control here slug-title">
+                                <select name="" id="color_id1" class="form-control here slug-title">
                                     <option value="">Chọn màu sắc</option>
                                     @foreach($color as $c)
                                         <option value="{{$c->color_id}}">{{$c->color_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <p class="error-text text-danger" id=""></p>
+                            <p class="error-variant text-danger" id="color_id1-error"></p>
                         </div>
                         <div class="form-group col">
                             <label>Số lượng</label>
                             <div class="col-12">
-                                <input type="number" name="" class="form-control" id="quantity">
+                                <input type="number" name="" class="form-control" id="quantity1">
                             </div>
+                            <p class="error-variant text-danger" id="quantity1-error"></p>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center">

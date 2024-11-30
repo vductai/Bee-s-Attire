@@ -222,3 +222,4 @@
 </header>
 @include('layout.client.mobile-menu')
 @include('toast.auth-toast')
+@include('toast.order-toast')
