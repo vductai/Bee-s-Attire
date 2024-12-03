@@ -7,6 +7,8 @@
         var revenuePerMonth = @json($revenuePerMonth);
         var dailyOrdersLastWeek = @json($dailyOrdersLastWeek);
         var ordersByStatusWeekly = @json($ordersByStatusWeekly);
+        var usersOrdersPerMonth = @json($usersOrdersPerMonth);
+        var topUsers = @json($topUsers);
     </script>
 
     <div class="cr-page-title">
@@ -112,6 +114,7 @@
                                 <option value="statusWeekly">Biểu đồ Trạng thái đơn hàng</option>
                                 <option value="monthlyOrders">Biểu đồ Đơn hàng theo tháng trong năm</option>
                                 <option value="monthlyRevenue">Biểu đồ Doanh thu theo tháng trong năm</option>
+                                <option value="usersOrdersPerMonth">Người dùng đặt hàng nhiều nhất</option>
                             </select>
                         </div>
                     </div>
@@ -129,6 +132,9 @@
                     </div>
                     <div class="cr-chart-content">
                         <div id="areaChartStatusWeekly" class="mb-m-24" style="display: none;"></div>
+                    </div>
+                    <div class="cr-chart-content">
+                        <div id="usersOrdersPerMonth" class="mb-m-24" style="display: none;"></div>
                     </div>
 
                 </div>

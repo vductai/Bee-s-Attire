@@ -27,14 +27,32 @@ class StatisticsController extends Controller
         $totalViews = Product::sum('views');
 
         // Thống kê theo tháng trong năm
-
+        $usersOrdersPerMonth = [];
+        $topUsers = []; 
+        
         for ($i = $currentMonth - 1; $i >= 0; $i--) {
             $startOfMonth = Carbon::now()->subMonths($i)->startOfMonth();
             $endOfMonth = Carbon::now()->subMonths($i)->endOfMonth();
-
+        
             $ordersPerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
             $revenuePerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('total_price');
+        
+            // Lấy người dùng có nhiều đơn hàng nhất trong tháng
+            $topUser = User::join('order', 'users.user_id', '=', 'order.user_id')
+                ->whereBetween('order.created_at', [$startOfMonth, $endOfMonth])
+                ->select(
+                    'users.username',
+                    DB::raw('COUNT(order.order_id) as total_orders')
+                )
+                ->groupBy('users.user_id', 'users.username')
+                ->orderByDesc('total_orders')
+                ->orderByRaw('MIN(order.created_at) ASC')
+                ->first();
+        
+            $usersOrdersPerMonth[] = $topUser ? $topUser->total_orders : 0;
+            $topUsers[] = $topUser ? $topUser->username : "Không có"; 
         }
+        
 
         // Lấy thông tin trạng thái đơn hàng theo tuần
         $statuses = ['Đã xác nhận', 'Đang xử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
@@ -72,13 +90,13 @@ class StatisticsController extends Controller
             )
             ->groupBy('product.product_id')
             ->orderByDesc('total_sales')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
 
         // Lấy 5 sản phẩm có lượt xem cao nhất
         $top5MostViewedProducts = Product::orderByDesc('views')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
 
@@ -96,7 +114,9 @@ class StatisticsController extends Controller
             'thisMonth',
             'revenuePerMonth',
             'top5MostSoldProductsDetails',
-            'ordersByStatusWeekly'
+            'ordersByStatusWeekly',
+            'usersOrdersPerMonth',
+            'topUsers'
         ));
     }
 }
