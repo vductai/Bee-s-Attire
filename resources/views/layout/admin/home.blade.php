@@ -151,6 +151,7 @@
 
 @include('modal.reply')
 @include('modal.update-variant')
+@include('modal.loading')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/admin/js/vendor/jquery-3.6.4.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/simplebar.min.js')}}"></script>

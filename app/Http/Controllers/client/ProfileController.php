@@ -5,6 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\user_voucher;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class ProfileController extends Controller
     public function getProfile()
     {
         $user = Auth::user();
-        $vouchers = $user->voucher;
+        $vouchers = user_voucher::where('user_id', $user->user_id)->get();
         return view('client.Profile-client', compact('vouchers'));
     }
 

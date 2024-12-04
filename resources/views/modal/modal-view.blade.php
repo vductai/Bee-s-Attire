@@ -5,3 +5,6 @@
 @include('modal.reply')
 @include('modal.noti-verify-email')
 @include('modal.contact')
+@include('modal.error-modal')
+@include('modal.lock-acc')
+@include('modal.give-voucher')

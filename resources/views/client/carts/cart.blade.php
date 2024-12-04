@@ -61,6 +61,7 @@
                                                                   style="font-size: 18px">{{$item->product->product_name}}</span>
                                                             <p>{{$item->productVariant->size->size_name ?? 'Trống'}}
                                                                 , {{$item->productVariant->color->color_name ?? 'Trống'}}</p>
+                                                            <input type="hidden" value="{{$item->product_variant_id}}" id="variantId">
                                                         </div>
                                                     </a>
                                                 </td>

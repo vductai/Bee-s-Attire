@@ -15,7 +15,7 @@ class ProductRequest extends FormRequest
             'product_price' => 'required|numeric|min:0',
             'product_desc' => 'required',
             'sale_price' => 'required|nullable|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
+            'category_id',
             'product_images',
             'product_images.*',
             'color_id',
@@ -39,8 +39,6 @@ class ProductRequest extends FormRequest
             'product_price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
             'sale_price.required' => 'Giá sản phẩm là bắt buộc.',
             'sale_price.numeric' => 'Giá khuyến mãi phải là số.',
-            'category_id.required' => 'Danh mục là bắt buộc.',
-            'category_id.exists' => 'Danh mục không hợp lệ.',
             'product_desc.required' => 'Mô tả sản phẩm là bắt buộc.',
         ];
     }

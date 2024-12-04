@@ -98,6 +98,62 @@
         areaChartRevenue1.render();
     }
 
+    // Biểu đồ người dùng đặt hàng nhiều nhất theo tháng
+    function areaChartUsersOrders() {
+        var options = {
+            chart: {
+                type: "area",
+                height: 365,
+                sparkline: { enabled: false },
+                dropShadow: { enabled: true, top: 5, left: 5, blur: 3, color: '#000', opacity: 0.1 },
+                toolbar: { show: false }
+            },
+            series: [{
+                name: '',
+                data: usersOrdersPerMonth
+            }],
+            stroke: { width: 2, curve: 'smooth' },
+            colors: ["#3f51b5"],
+            xaxis: {
+                categories: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                labels: {
+                    rotate: 0,
+                    style: {
+                        fontSize: '11px'
+                    }
+                }
+            },
+            grid: { show: false },
+            tooltip: {
+                fixed: { enabled: false },
+                y: {
+                    formatter: function (value, {dataPointIndex,}) {
+                        return "Tên người dùng: " + topUsers[dataPointIndex] + " - Số đơn hàng: " + Math.floor(value);
+                    },
+                }
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return Math.floor(value) + " đơn hàng";
+                    },
+                }
+            },
+            title: {
+                text: 'Người dùng đặt hàng nhiều nhất theo tháng',
+                align: 'center',
+                margin: 20,
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    color: '#333'
+                }
+            }
+        };
+        var areaChartUsersOrders = new ApexCharts(document.querySelector("#usersOrdersPerMonth"), options);
+        areaChartUsersOrders.render();
+    }
+
     // Biểu đồ trạng thái đơn hàng theo tuần
     function areaChartStatusWeekly() {
         var options = {
@@ -284,6 +340,7 @@
         areaChartWeekly();
         newcampaignsChart();
         areaChartStatusWeekly();
+        areaChartUsersOrders();
         $("#chartType").on("change", function () {
             const selected = $(this).val();
 
@@ -291,6 +348,7 @@
             $("#areaChartRevenue").hide();
             $("#areaChartRevenue1").hide();
             $("#areaChartStatusWeekly").hide();
+            $("#usersOrdersPerMonth").hide();
 
             if (selected === "weekly") {
                 $("#areaChartWeekly").show();
@@ -300,6 +358,8 @@
                 $("#areaChartRevenue1").show();
             } else if (selected === "statusWeekly") {
                 $("#areaChartStatusWeekly").show();
+            }else if (selected === "usersOrdersPerMonth") {
+                $("#usersOrdersPerMonth").show();
             }
 
         });

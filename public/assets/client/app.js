@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // update cart
     const checkoutButton = document.querySelector('.checkout')
+    const contentClientModal = document.getElementById('contentClientModal')
     checkoutButton.addEventListener('click', function (e) {
         e.preventDefault()
         const cartItems = [];
@@ -194,13 +195,15 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('tbody tr').forEach((row, index) => {
             const productLink = row.querySelector('a');
             if (productLink) {
+                const idVariant = row.querySelector('#variantId').value
                 const productId = row.querySelector('a').getAttribute('data-idPro').split('/').pop()
                 const quantity = parseInt(row.querySelector('.quantityy').value)
                 const totalprice = row.querySelector('.cr-cart-price').getAttribute('data-total')
                 cartItems.push({
                     product_id: parseInt(productId),
                     quantity: quantity,
-                    price: totalprice * quantity
+                    price: totalprice * quantity,
+                    idVariant: idVariant
                 })
             }
         })
@@ -216,10 +219,15 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(res => res.json())
                 .then(data => {
-                    if (!data.success) {
-                        window.location.href = "/checkout"
+                    if (data.success === false) {
+                        contentClientModal.innerHTML = `
+                            <p class="text-center">Số lượng sản phẩm: <b>${data.message}</b> không đủ trong kho.</p>
+                            <p class="text-center">Số lượng kho còn: ${data.variantQuantity} sản phẩm.</p>
+                        `
+                        const errorClientModal = new bootstrap.Modal(document.getElementById('errorClientModal'))
+                        errorClientModal.show()
                     } else {
-                        alert('error chuyen huong')
+                        window.location.href = "/checkout"
                     }
                 }).catch(err => {
                 alert('cart faild')

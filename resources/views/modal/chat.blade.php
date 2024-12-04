@@ -75,7 +75,7 @@
                 <form id="chatForm" class="mt-3">
                     <div class="input-group">
                         <input type="text" class="form-control" id="chatInput"
-                               placeholder="Nhắn tin" required/>
+                               placeholder="Nhắn tin" autocomplete="off" required/>
                         <button class="cr-button btn-primary" type="submit">Gửi</button>
                     </div>
                 </form>

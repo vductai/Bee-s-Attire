@@ -9,7 +9,7 @@
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="from">
-                <img src="{{asset('assets/client/img/logo/logo.png')}}" style="margin-bottom: 5px;" alt="Carrot">
+                <img src="{{asset('full-logo.png')}}" style="margin-bottom: 5px;" alt="Carrot">
                 <p>13 phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội</p>
             </div>
             <div class="to">

@@ -35,5 +35,9 @@ class Vouchers extends Model
             'voucher_id', 'user_id');
     }
 
+    public function user_voucher()
+    {
+        return $this->hasMany(user_voucher::class, 'voucher_id');
+    }
 
 }

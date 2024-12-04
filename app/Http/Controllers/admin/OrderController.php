@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\GiveVoucherEvent;
 use App\Events\OrderStatusUpdateEvent;
 use App\Exports\OrderExport;
 use App\Http\Controllers\Controller;

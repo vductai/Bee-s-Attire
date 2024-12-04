@@ -1,14 +1,13 @@
 import './bootstrap';
 
 
-
-
-
 /*-------------------------------------------------------- update ---------------------------------------------------------*/
 const formUpdatePro = document.getElementById('formUpdatePro')
-if (formUpdatePro){
-    formUpdatePro.addEventListener('submit',  (e) => {
+if (formUpdatePro) {
+    formUpdatePro.addEventListener('submit', (e) => {
         e.preventDefault()
+        const loadModal = new bootstrap.Modal(document.getElementById('loadModal'))
+        loadModal.show()
         document.querySelectorAll('.proErr').forEach(function (p) {
             p.textContent = '';
         });
@@ -43,15 +42,21 @@ if (formUpdatePro){
                 formUpdate.append(`product_images[${index}]`, input.files[0]);
             }
         });
-        axios.post(`/admin/product/${idPro}`,formUpdate,{
+        axios.post(`/admin/product/${idPro}`, formUpdate, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 'Content-Type': 'multipart/form-data'
             }
         }).then(res => {
             const data = res.data
-            window.location.href = '/admin/product'
+            if (data.success === false){
+                loadModal.hide()
+                document.getElementById('sale_price-error').textContent = data.messages
+            }else {
+                window.location.href = '/admin/product'
+            }
         }).catch(err => {
+            loadModal.hide()
             if (err.response && err.response.data.errors) {
                 let errors = err.response.data.errors
                 for (let field in errors) {
@@ -65,9 +70,11 @@ if (formUpdatePro){
 
 /*--------------------------------------------------- product ----------------------------------------------*/
 const productForm = document.getElementById('product-form')
-if (productForm){
+if (productForm) {
     productForm.addEventListener('submit', function (e) {
         e.preventDefault()
+        const loadModal = new bootstrap.Modal(document.getElementById('loadModal'))
+        loadModal.show()
         document.querySelectorAll('.proErr').forEach(function (p) {
             p.textContent = '';
         });
@@ -80,8 +87,14 @@ if (productForm){
             }
         }).then(res => {
             const data = res.data
-            window.location.href = '/admin/product'
+            if (data.success === false){
+                loadModal.hide()
+                document.getElementById('sale_price-error').textContent = data.messages
+            }else {
+                window.location.href = '/admin/product'
+            }
         }).catch(err => {
+            loadModal.hide()
             if (err.response && err.response.data.errors) {
                 let errors = err.response.data.errors
                 for (let field in errors) {
