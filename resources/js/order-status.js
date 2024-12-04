@@ -6,7 +6,10 @@ Echo.private(`order-status.${userId}`)
     .listen('OrderStatusUpdateEvent',  (e) => {
         const viewNoti = document.getElementById('noti-header-view')
         document.getElementById('notis-badge').style.display = 'inline'
-        document.getElementById('noti-null').style.display = 'none'
+        const notiNullElement = document.getElementById('noti-null');
+        if (notiNullElement) {
+            notiNullElement.style.display = 'none';
+        }
         const createNoti = document.createElement('li')
 
         if (e.status === "Đã xác nhận"){

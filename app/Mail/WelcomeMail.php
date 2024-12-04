@@ -32,7 +32,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Chào mừng bạn đến với ứng dụng của chúng tôi', // Đặt tiêu đề tại đây
+            subject: 'Chào mừng bạn đến với ứng dụng của chúng tôi',
         );
     }
 
@@ -42,7 +42,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.Mail',  // Đảm bảo bạn có file view 'resources/views/Mail.blade.php'
+            view: 'mail.Mail',
         );
     }
 

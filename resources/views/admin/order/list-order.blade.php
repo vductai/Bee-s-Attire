@@ -3,7 +3,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>List size</h5>
+            <h5>Danh sách đơn hàng</h5>
         </div>
     </div>
     <div class="row">
@@ -86,9 +86,15 @@
                                                 @elseif($item->status === 'Hủy đơn hàng')
                                                     <a href="{{route('admin-order-detail', $item->order_id)}}"
                                                        class="dropdown-item">Chi tiết</a>
-                                                    <button class="dropdown-item delete-order" data-id="{{$item->order_id}}">
+                                                    {{--<button class="dropdown-item delete-order" data-id="{{$item->order_id}}">
                                                         Xóa đơn hàng
-                                                    </button>
+                                                    </button>--}}
+                                                @elseif($item->status === 'Đã giao hàng')
+                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                       class="dropdown-item">Chi tiết</a>
+                                                    {{--<button class="dropdown-item delete-order" data-id="{{$item->order_id}}">
+                                                        Xóa đơn hàng
+                                                    </button>--}}
                                                 @else
                                                     <button
                                                         data-status="Đang sử lý" data-id="{{$item->order_id}}"

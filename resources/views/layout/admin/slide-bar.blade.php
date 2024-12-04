@@ -101,7 +101,7 @@
         <li class="cr-sb-item-separator"></li>
         <li class="cr-sb-item sb-drop-item">
             <a href="javascript:void(0)" class="cr-drop-toggle">
-                <i class="ri-article-line"></i><span class="condense">Tin nhắn đến<i
+                <i class="ri-chat-1-line"></i><span class="condense">Tin nhắn đến<i
                         class="drop-arrow ri-arrow-down-s-line"></i></span></a>
             <ul class="cr-sb-drop condense">
                 <li><a href="{{route('get-contact')}}" class="cr-page-link subdrop"><i

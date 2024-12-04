@@ -32,3 +32,11 @@ Broadcast::channel('admin-cancel-order', function ($user){
 Broadcast::channel('chat.{receiverId}', function ($user, $receiverId){
     return (int) $user->user_id === (int) $receiverId || $user->isManager();
 });
+
+Broadcast::channel('lock-acc.{userId}', function ($user, $userId){
+    return (int) $user->user_id === (int) $userId;
+});
+
+Broadcast::channel('give-voucher.{userId}', function ($user, $userId){
+    return (int) $user->user_id === (int) $userId;
+});

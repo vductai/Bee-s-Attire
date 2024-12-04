@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="alert alert-danger text-center" role="alert">
-                        Nếu bạn hủy đơn hàng thì bạn sẻ không được hoàn tiền
+                        Hãy liên hệ với shop nếu bạn có vấn đề gì về đơn hàng
                     </div>
                 </div>
                 <div class="cr-checkout-leftside col-lg-8 col-md-12 m-t-991">
@@ -169,9 +169,9 @@
                                                                         <button
                                                                             style="width: 190px;"
                                                                             data-orderId="{{$item->order_id}}"
-                                                                            class="{{$item->status === 'Đang sử lý' ? 'cr-button cancel-order bg-danger' : 'cr-button cancel-order disabled'}}
+                                                                            class="{{in_array($item->status, ['Đang sử lý', 'Đã xác nhận']) ? 'cr-button cancel-order bg-danger' : 'cr-button cancel-order disabled'}}
                                                                                 dropdown-item me-2">
-                                                                            {{$item->status === 'Đang sử lý' ? 'Huỷ đơn hàng' : 'Đã gửi yêu cầu huỷ đơn'}}
+                                                                            {{ in_array($item->status, ['Đang sử lý', 'Đã xác nhận']) ? 'Huỷ đơn hàng' : 'Đã gửi yêu cầu huỷ đơn' }}
                                                                         </button>
                                                                     @endif
                                                                     <a href="{{route('detail-order', $item->order_id)}}"

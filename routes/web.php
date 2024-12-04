@@ -178,12 +178,9 @@ Route::prefix('auth')->group(function () {
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
         ->name('verification.verify')
         ->middleware(['signed', 'throttle:6,1']);
-    Route::get('success', function () {
-        return view('client.auth.message.verify-email-success');
-    })->name('success');
-    Route::get('error', function () {
-        return view('client.auth.message.verify-email-error');
-    })->name('error');
+    Route::view('success', 'client.auth.message.verify-email-success');
+    Route::view('error', 'client.auth.message.verify-email-error');
+    Route::view('error-outtime', 'client.auth.message.verify-token-outTime');
     Route::get('/verify-email', [AuthClientController::class, 'viewVerify'])->name('verify-email');
     // forgot password
     Route::get('forgot-password', [PasswordController::class, 'showForgotPasswordForm'])->name('password.request');

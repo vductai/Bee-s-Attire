@@ -14,6 +14,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\User;
+use App\Models\user_voucher;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -108,7 +109,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('client.product.quickview-modal', function ($voucher) {
             $user = Auth::user();
             if (Auth::check()){
-                $vouchers = $user->voucher;
+                $vouchers = user_voucher::where('user_id', $user->user_id)->get();
             }else{
                 $vouchers = collect();
             }

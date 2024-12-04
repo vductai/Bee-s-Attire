@@ -22,9 +22,7 @@
                             <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
                         </div>
                         <div class="cr-content-form text-center">
-                            @if(session('status'))
-                                <h6>{{session('status')}}</h6>
-                            @endif
+                            <h6 class="text-center">Email này đã được xác minh</h6>
                         </div>
                     </div>
                 </div>
