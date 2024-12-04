@@ -41,6 +41,8 @@
 @vite('resources/js/password.js')
 @vite('resources/js/noti-post.js')
 @vite('resources/js/contact.js')
+@vite('resources/js/lock-acc.js')
+@vite('resources/js/give.js')
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>

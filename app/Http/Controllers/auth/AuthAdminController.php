@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\auth;
 
 use App\Events\AuthEvent;
+use App\Events\LockUserAccountEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\LoginAdminRequest;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AuthAdminController extends Controller
@@ -46,6 +48,7 @@ class AuthAdminController extends Controller
         $user = User::find($id);
         $user->action = !$user->action;
         $user->update();
+        broadcast(new LockUserAccountEvent($user->user_id));
         return redirect()->back();
     }
 

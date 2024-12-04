@@ -13,14 +13,14 @@
                                 @foreach($voucher as $item)
                                     <div class="col">
                                         <div class="voucher-card">
-                                            <div class="voucher-title">{{$item->voucher_desc}}</div>
-                                            <div class="voucher-discount">{{$item->voucher_price}}% OFF</div>
-                                            <div class="voucher-details">Code: <strong>{{$item->voucher_code}}</strong></div>
+                                            <div class="voucher-title">{{$item->voucher->voucher_desc}}</div>
+                                            <div class="voucher-discount">{{$item->voucher->voucher_price}}% OFF</div>
+                                            <div class="voucher-details">Code: <strong>{{$item->voucher->voucher_code}}</strong></div>
                                             <div class="voucher-expiry mb-3">
                                                 Hạn dùng mã: <br>
                                                 <b>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</b>
                                             </div>
-                                            <button class="use-btn rounded-2" data-copys="{{$item->voucher_code}}">Copy code</button>
+                                            <button class="use-btn rounded-2" data-copys="{{$item->voucher->voucher_code}}">Copy code</button>
                                         </div>
                                     </div>
                                 @endforeach

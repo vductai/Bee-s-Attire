@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\auth;
 
+use App\Events\GiveVoucherEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\client\LoginRequest;
 use App\Http\Requests\client\RegisterRequest;
@@ -9,6 +10,8 @@ use App\Jobs\DeleteUnverifiedUser;
 use App\Jobs\SendMailRegisterJob;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Models\user_voucher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -52,7 +55,11 @@ class AuthClientController extends Controller
             'role_id' => 3,
             'email_verified_at' => null
         ]);
-
+        user_voucher::create([
+            'user_id' => $create->user_id,
+            'voucher_id' => 23,
+            'end_date' => now()->addDays(3)
+        ]);
         // Tạo URL xác minh
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',

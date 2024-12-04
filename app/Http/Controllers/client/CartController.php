@@ -15,7 +15,9 @@ class CartController extends Controller
     public function getCart()
     {
         $user = auth()->user();
-        $getCart = Cart::where('user_id', $user->user_id)->with(['productVariant', 'product'])->get();
+        $getCart = Cart::where('user_id', $user->user_id)
+            ->with(['productVariant', 'product'])
+            ->get();
         return view('client.carts.cart', compact('getCart'));
     }
 
@@ -56,9 +58,6 @@ class CartController extends Controller
                 'product_variant_id' => $request->product_variant_id,
                 'price' => $request->sale_price * $request->quantity
             ]);
-            /*// update sl sau
-            $variantQuantity->quantity -= $request->quantity;
-            $variantQuantity->update();*/
         }
         return redirect()->route('viewCart');
     }
@@ -71,6 +70,14 @@ class CartController extends Controller
         foreach ($cartItems as $item) {
             $cartItem = Cart::where('product_id', $item['product_id'])->where('user_id', Auth::user()->user_id)->first();
             if ($cartItem) {
+                $variant = ProductVariant::find($item['idVariant']);
+                if ($variant->quantity < $item['quantity']) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "{$variant->product->product_name}",
+                        'variantQuantity' => "{$variant->quantity}"
+                    ]);
+                }
                 $cartItem->quantity = $item['quantity'];
                 $cartItem->price = $item['price'];
                 $cartItem->update();

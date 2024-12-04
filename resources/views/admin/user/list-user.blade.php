@@ -19,6 +19,7 @@
                                     <th>STT</th>
                                     <th>Ảnh đai diện</th>
                                     <th>Tên</th>
+                                    <th>Vai Trò</th>
                                     <th>Email</th>
                                     <th>Ngày tạo</th>
                                     <th>Trạng thái</th>
@@ -34,6 +35,7 @@
                                                 alt="User Avatar">
                                         </td>
                                         <td class="userName">{{ $item->username }}</td>
+                                        <td>{{$item->role->role_name}}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ \Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y') }}
                                         </td>

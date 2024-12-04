@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Jobs\CreateProductJob;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Featured_categories;
@@ -14,6 +15,7 @@ use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\Tag;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,14 +70,13 @@ class ProductController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
+        if ($request->sale_price > $request->product_price) {
+            return response()->json([
+                'success' => false,
+                'messages' => 'Giá khuyến mãi không được cao hơn giá gốc'
+            ]);
+        }
         DB::transaction(function () use ($request) {
-            $product = new Product();
-            $product->product_name = $request->product_name;
-            $product->product_desc = $request->product_desc;
-            $product->product_price = $request->product_price;
-            $product->sale_price = $request->sale_price;
-            $product->category_id = $request->category_id;
-            $product->slug = $request->slug;
             if ($request->hasFile('product_avatar')) {
                 $file = $request->file('product_avatar');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -86,7 +87,7 @@ class ProductController extends Controller
                 }
                 $image = Image::read($file);
                 $image->resize(600, 600)->save($path . '/' . $filename);
-                $product->product_avatar = $filename;
+                //$product->product_avatar = $filename;
             } else {
                 $defaultAvatarPath = public_path('error-image-default.jpg');
                 $filename = time() . '-default-avatar.jpg';
@@ -94,63 +95,72 @@ class ProductController extends Controller
                 if (File::exists($defaultAvatarPath)) {
                     File::copy($defaultAvatarPath, $destinationPath);
                 }
-                $product->product_avatar = $filename;
+                //$product->product_avatar = $filename;
             }
-            $product->save(); // Lưu product trước để lấy được product_id
+            $product = Product::create([
+                'product_name' => $request->product_name,
+                'product_desc' => $request->product_desc,
+                'product_price' => $request->product_price,
+                'sale_price' => $request->sale_price,
+                'category_id' => $request->category_id,
+                'slug' => $request->slug,
+                'product_avatar' => $filename
+            ]);
+            //$product->save();
             // add tag
-            if (!empty($request->tag_name)) {
-                // tách chuổi = dấu , và loại bỏ khoảng trắng
-                $tagArr = array_map('trim', explode(',', $request->tag_name));
-                $tagId = [];
-                foreach ($tagArr as $item) {
-                    $tag = Tag::firstOrCreate([
-                        'tag_name' => $item
-                    ]);
-                    // thêm tag_id vào mảng
-                    $tagId[] = $tag->tag_id;
-                }
-                // lieen keets tag với các snar phẩm
-                $product->tags()->sync($tagId);
+            $tagNames = $request->tag_name ? explode(',', $request->tag_name) : [];
+            $featuredCategories = $request->featuredCategories ?? [];
+            /*$tagArr = array_map('trim', explode(',', $request->tag_name));
+            // Lấy các tag đã tồn tại
+            $existingTags = Tag::whereIn('tag_name', $tagArr)->pluck('tag_id', 'tag_name')->toArray();
+            // Lấy các tag chưa tồn tại
+            $newTags = array_diff($tagArr, array_keys($existingTags));
+            // Thêm các tag mới vào cơ sở dữ liệu
+            if (!empty($newTags)) {
+                Tag::insert(array_map(fn($name) => ['tag_name' => $name], $newTags));
+                $newTagsIds = Tag::whereIn('tag_name', $newTags)->pluck('tag_id', 'tag_name')->toArray();
+                $existingTags = array_merge($existingTags, $newTagsIds);
             }
+            // Gán tag cho sản phẩm
+            $product->tags()->sync(array_values($existingTags));
             // add featuredCategories
             if ($request->has('featuredCategories')) {
                 $featuredId = $request->featuredCategories;
                 $product->featuredCategories()->sync($featuredId);
-            }
+            }*/
+            // Chuẩn bị biến thể
+            $variants = [];
             if ($request->has('color_id') && $request->has('size_id')) {
                 foreach ($request->color_id as $index => $color_id) {
                     $size_id = $request->size_id[$index];
                     if ($color_id && $size_id) {
-                        $varisant = ProductVariant::create([
-                            'product_id' => $product->product_id,
+                        $variants[] = [
                             'size_id' => $size_id,
                             'color_id' => $color_id,
                             'quantity' => $request->quantity[$index] ?? 0
-                        ]);
+                        ];
                     }
                 }
             }
+            CreateProductJob::dispatch($product, $tagNames, $featuredCategories, $variants);
             // Lưu các ảnh chi tiết vào bảng product_images
             if ($request->hasFile('product_images')) {
+                $images = [];
                 foreach ($request->file('product_images') as $image) {
                     if ($image) {
                         $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
                         $imagePath = public_path('/upload');
-                        $imageDetail = Image::read($image);
-                        $imageDetail->resize(600, 600)->save($imagePath . '/' . $imageName);
-                        $image = ProductImage::create([
+                        Image::read($image)->resize(600, 600)->save($imagePath . '/' . $imageName);
+
+                        $images[] = [
                             'product_id' => $product->product_id,
                             'product_image' => $imageName
-                        ]);
+                        ];
                     }
                 }
+                ProductImage::insert($images);
             }
-            return response()->json([
-                'product' => $product,
-                'variant' => $varisant,
-                'image' => $image,
-                'tag' => $tag
-            ]);
+            return response()->json(['message' => 'done']);
             throw new \Exception('error');
         });
     }
@@ -162,7 +172,13 @@ class ProductController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        DB::transaction(function () use ($request, $id){
+        if ($request->sale_price > $request->product_price) {
+            return response()->json([
+                'success' => false,
+                'messages' => 'Giá khuyến mãi không được cao hơn giá gốc'
+            ]);
+        }
+        DB::transaction(function () use ($request, $id) {
             $product = Product::findOrFail($id);
             if ($request->hasFile('product_avatar')) {
                 if (File::exists(public_path('upload/' . $product->product_avatar))) {
