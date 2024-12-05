@@ -70,7 +70,8 @@ class CheckPaymentMethodController extends Controller
                 'voucher_id' => $request['voucher_id'],
                 'final_price' => $request['final_price'],
                 'payment_method' => 'Tiền mặt khi giao hàng',
-                'note' => $request['note']
+                'note' => $request['note'],
+                'payment_status' => 'Chưa thanh toán'
             ]);
             $order->save();
             // Mảng để lưu trữ các product_variant_id đã xử lý
@@ -281,7 +282,8 @@ class CheckPaymentMethodController extends Controller
                     'voucher_id' => $order_data['voucher_id'],
                     'final_price' => $order_data['final_price'],
                     'payment_method' => 'VNPay',
-                    'note' => $order_data['note']
+                    'note' => $order_data['note'],
+                    'payment_status' => 'Đã thanh toán'
                 ]);
                 $order->save();
                 $processedVariants = [];
@@ -367,7 +369,8 @@ class CheckPaymentMethodController extends Controller
                     'voucher_id' => $order_data['voucher_id'],
                     'final_price' => $order_data['final_price'],
                     'payment_method' => 'Momo',
-                    'note' => $order_data['note']
+                    'note' => $order_data['note'],
+                    'payment_status' => 'Đã thanh toán'
                 ]);
                 $order->save();
                 $processedVariants = [];

@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
         Route::get('/order-detail/{id}', [OrderController::class, 'orderDetail'])->name('detail-order');
         Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('order-track');
         Route::post('/order/{id}/cancel', [OrderController::class, 'cancelOrder']);
+        Route::post('/order/{id}/success', [OrderController::class, 'successOrder']);
         // get invoice
         Route::get('/order/{id}/invoice', [OrderController::class, 'printInvoice'])->name('invoice-print');
     });
