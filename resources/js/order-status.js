@@ -13,6 +13,9 @@ Echo.private(`order-status.${userId}`)
         const createNoti = document.createElement('li')
 
         if (e.status === "Đã xác nhận"){
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).classList.remove('text-bg-warning')
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).textContent = 'Đã xác nhận'
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).classList.add('text-bg-primary')
             document.querySelector('#toast-order-content').textContent = 'Bạn có thông báo mới về đơn hàng';
             toastOrderShow.show();
             createNoti.innerHTML = `
@@ -26,6 +29,15 @@ Echo.private(`order-status.${userId}`)
             `
             viewNoti.appendChild(createNoti)
         }else if (e.status === "Đã giao hàng"){
+            const baba = document.querySelector(`.successOrder[data-orderId='${e.order.order_id}']`)
+            if (baba){
+                baba.classList.remove('d-none')
+                baba.style.display = 'block'
+            }
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).classList.remove('text-bg-warning')
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).textContent = 'Đã giao hàng'
+            document.querySelector(`.bbb[data-badgeId='${e.order.order_id}']`).classList.add('text-bg-success')
+            document.querySelector(`.modalCanner[data-orderId='${e.order.order_id}']`).style.display = 'none'
             document.querySelector('#toast-order-content').textContent = 'Bạn có thông báo mới về đơn hàng';
             toastOrderShow.show();
             createNoti.innerHTML = `
@@ -42,7 +54,7 @@ Echo.private(`order-status.${userId}`)
             document.querySelector('#toast-order-content').textContent = 'Bạn có thông báo mới về đơn hàng';
             toastOrderShow.show();
             document.querySelector(`.cancel[data-badgeId='${e.order.order_id}']`).innerText = 'Đơn hàng đã bị hủy'
-            document.querySelector(`.cancel-order[data-orderId='${e.order.order_id}']`).style.display = 'none'
+            document.querySelector(`.modalCanner[data-orderId='${e.order.order_id}']`).style.display = 'none'
             createNoti.innerHTML = `
                 <li>
                      <a class="dropdown-item"

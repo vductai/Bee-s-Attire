@@ -43,6 +43,7 @@
 @vite('resources/js/contact.js')
 @vite('resources/js/lock-acc.js')
 @vite('resources/js/give.js')
+@vite('resources/js/success-order.js')
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>

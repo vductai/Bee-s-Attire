@@ -18,16 +18,26 @@
                                     <div class="form-group">
                                         <label>Mã code</label>
                                         <div class="col-12">
-                                            <input id="voucher_code" name="voucher_code" class="form-control here slug-title" type="text">
+                                            <input id="voucher_code" name="voucher_code"
+                                                   class="form-control here slug-title" type="text">
                                         </div>
                                         <p class="error-text text-danger" id="voucher_code-error"></p> <!-- Sửa id -->
                                     </div>
                                     <div class="form-group">
                                         <label>Giảm giá ( % )</label>
                                         <div class="col-12">
-                                            <input id="voucher_price" name="voucher_price" class="form-control here slug-title" type="number">
+                                            <input id="voucher_price" name="voucher_price"
+                                                   class="form-control here slug-title" type="number">
                                         </div>
                                         <p class="error-text text-danger" id="voucher_price-error"></p> <!-- Sửa id -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Giá giảm tối đa</label>
+                                        <div class="col-12">
+                                            <input id="max_discount" name="max_discount"
+                                                   class="form-control here slug-title" type="number">
+                                        </div>
+                                        <p class="error-text text-danger" id="max_discount-error"></p> <!-- Sửa id -->
                                     </div>
                                     {{--<div class="form-group">
                                         <label>Quantity</label>
@@ -53,7 +63,9 @@
                                     <div class="form-group">
                                         <label>Mô tả</label>
                                         <div class="col-12">
-                                            <textarea name="voucher_desc" class="form-control here slug-title" id="voucher_desc" cols="70" rows="5" style="resize: none"></textarea>
+                                            <textarea name="voucher_desc" class="form-control here slug-title"
+                                                      id="voucher_desc" cols="70" rows="5"
+                                                      style="resize: none"></textarea>
                                         </div>
                                         <p class="error-text text-danger" id="voucher_desc-error"></p> <!-- Sửa id -->
                                     </div>
@@ -80,6 +92,7 @@
                                 <th>STT</th>
                                 <th>Mã code</th>
                                 <th>Giảm giá</th>
+                                <th>Giảm giá tối đa</th>
                                 <th>Mô tả</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -90,6 +103,7 @@
                                     <td>{{$loop->index}}</td>
                                     <td class="voucher_code">{{$item->voucher_code}}</td>
                                     <td class="voucher_price">{{$item->voucher_price}} %</td>
+                                    <td class="max_discount">{{number_format($item->max_discount)}} đ</td>
                                     <td class="voucher_desc">{{$item->voucher_desc}}</td>
                                     <td>
                                         <div>
@@ -101,8 +115,11 @@
                                                                     class="ri-settings-3-line"></i></span>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/admin/coupon/{{$item->voucher_id}}/edit">Sửa</a>
-                                                <button class="dropdown-item delete-coupon" data-id="{{$item->voucher_id}}">Xóa</button>
+                                                <a class="dropdown-item"
+                                                   href="/admin/coupon/{{$item->voucher_id}}/edit">Sửa</a>
+                                                <button class="dropdown-item delete-coupon"
+                                                        data-id="{{$item->voucher_id}}">Xóa
+                                                </button>
                                             </div>
                                         </div>
                                     </td>

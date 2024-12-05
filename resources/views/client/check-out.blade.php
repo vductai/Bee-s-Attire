@@ -37,7 +37,7 @@
                                         </div>
                                         <div>
                                         <span class="text-left">
-                                            Giảm giá ( {{$voucher->voucher->voucher_price ?? ''}} % )
+                                            Giảm giá ( {{$voucher->voucher->voucher_price  ?? ''}}  % )
                                         </span>
                                             <span class="text-right">{{ number_format($discount) ?? 0}} đ</span>
                                         </div>
@@ -99,7 +99,8 @@
                                             <span class="cr-del-option">
                                                 <span>
                                                     <span class="cr-del-opt-head">Nhập mã giảm giá</span>
-                                                    <input type="text" id="inp-voucher-code" class="form-control" name="voucher_code">
+                                                    <input type="text" id="inp-voucher-code" autocomplete="off"
+                                                           class="form-control" name="voucher_code">
                                                     @if(session()->has('voucherError'))
                                                         <div
                                                             class="alert alert-danger">{{ session('voucherError') }}</div>
@@ -234,9 +235,9 @@
             const inpVoucherCode = document.getElementById('inp-voucher-code')
             const btnAddVoucher = document.getElementById('btn-add-voucher')
             inpVoucherCode.addEventListener('input', function () {
-                if (inpVoucherCode.value.length > 1){
+                if (inpVoucherCode.value.length > 1) {
                     btnAddVoucher.style.display = 'inline'
-                }else {
+                } else {
                     btnAddVoucher.style.display = 'none'
                 }
             })

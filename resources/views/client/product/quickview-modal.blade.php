@@ -14,6 +14,7 @@
                                     <div class="col">
                                         <div class="voucher-card">
                                             <div class="voucher-title">{{$item->voucher->voucher_desc}}</div>
+                                            <p class="voucher-span">Tối đa {{number_format($item->voucher->max_discount)}} đ</p>
                                             <div class="voucher-discount">{{$item->voucher->voucher_price}}% OFF</div>
                                             <div class="voucher-details">Code: <strong>{{$item->voucher->voucher_code}}</strong></div>
                                             <div class="voucher-expiry mb-3">

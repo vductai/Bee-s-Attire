@@ -47,6 +47,11 @@ class CheckOutController extends Controller
             $voucher_item_id = $voucher->voucher->voucher_id;
             // Tính toán giảm giá
             $discount = $totalAmount * ($voucher->voucher->voucher_price / 100);
+            // Áp dụng giới hạn max_discount nếu có
+            $maxDiscount = $voucher->voucher->max_discount; // Lấy giá trị max_discount từ bảng voucher
+            if (!is_null($maxDiscount) && $discount > $maxDiscount) {
+                $discount = $maxDiscount;
+            }
             $total_after_discount = $totalAmount - $discount;
         } else {
             // Nếu không có voucher, tiếp tục với số tiền ban đầu

@@ -36,7 +36,7 @@ class CancelOrderEvent implements ShouldBroadcast
             'order_id' => $this->order->order_id,
             'time' => Carbon::now(),
             'username' => $this->order->user->username,
-            'message' => "Có yêu cầu hủy đơn hàng có ID: {$this->order->order_id} từ {$this->order->user->username}",
+            'status' => $this->order->status
         ];
     }
 }
