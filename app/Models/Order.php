@@ -18,7 +18,8 @@ class Order extends Model
         'final_price',
         'status',
         'payment_method',
-        'note'
+        'note',
+        'payment_status'
     ];
 
     public function order_item()

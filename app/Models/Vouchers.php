@@ -21,7 +21,8 @@ class Vouchers extends Model
         'voucher_desc',
         'start_date',
         'end_date',
-        'quantity'
+        'quantity',
+        'max_discount'
     ];
 
     public function order(): HasMany

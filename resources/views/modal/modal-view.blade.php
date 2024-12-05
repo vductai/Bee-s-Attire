@@ -8,3 +8,5 @@
 @include('modal.error-modal')
 @include('modal.lock-acc')
 @include('modal.give-voucher')
+@include('modal.canner-order')
+@include('modal.success-order')

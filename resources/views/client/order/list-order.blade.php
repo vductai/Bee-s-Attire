@@ -160,20 +160,48 @@
                                                                     <span
                                                                         data-badgeId="{{$item->order_id}}"
                                                                         class="badge bbb text-bg-warning mb-3 cancel">Đơn hàng đã bị hủy</span>
+                                                                @elseif($item->status === 'Đã nhận được hàng')
+                                                                    <span
+                                                                        data-badgeId="{{$item->order_id}}"
+                                                                        class="badge bbb text-bg-success mb-3 cancel">{{$item->status}}</span>
                                                                 @endif
                                                                 <div class="my-3"></div>
                                                                 <div class="d-flex justify-content-center">
                                                                     @if($item->status === 'Đã giao hàng')
+                                                                        <button
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#successOrderModal"
+                                                                            data-orderId="{{$item->order_id}}"
+                                                                            class="cr-button dropdown-item me-2 {{$item->status != 'Đã nhận được hàng' ? 'successOrder bg-success' : 'successOrder bg-secondary disabled'}}">
+                                                                            Đã nhận được hàng
+                                                                        </button>
+                                                                    @elseif($item->status === 'Đã nhận được hàng')
+                                                                        <button
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#successOrderModal"
+                                                                            data-orderId="{{$item->order_id}}"
+                                                                            class=" cr-button dropdown-item me-2 {{$item->status != 'Đã nhận được hàng' ? 'successOrder bg-success' : 'successOrder bg-secondary disabled'}}">
+                                                                            Đã nhận được hàng
+                                                                        </button>
                                                                     @elseif($item->status === 'Hủy đơn hàng')
                                                                     @else
                                                                         <button
                                                                             style="width: 190px;"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#cancelOrderModal"
                                                                             data-orderId="{{$item->order_id}}"
-                                                                            class="{{in_array($item->status, ['Đang sử lý', 'Đã xác nhận']) ? 'cr-button cancel-order bg-danger' : 'cr-button cancel-order disabled'}}
+                                                                            class="{{in_array($item->status, ['Đang sử lý', 'Đã xác nhận']) ? 'cr-button modalCanner bg-danger' : 'cr-button modalCanner disabled'}}
                                                                                 dropdown-item me-2">
                                                                             {{ in_array($item->status, ['Đang sử lý', 'Đã xác nhận']) ? 'Huỷ đơn hàng' : 'Đã gửi yêu cầu huỷ đơn' }}
                                                                         </button>
                                                                     @endif
+                                                                        <button
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#successOrderModal"
+                                                                            data-orderId="{{$item->order_id}}"
+                                                                            class="cr-button d-none dropdown-item me-2 {{$item->status != 'Đã nhận được hàng' ? 'successOrder bg-success' : 'successOrder bg-secondary disabled'}}">
+                                                                            Đã nhận được hàng
+                                                                        </button>
                                                                     <a href="{{route('detail-order', $item->order_id)}}"
                                                                        class="cr-button btn-secondary dropdown-item">
                                                                         Chi tiết

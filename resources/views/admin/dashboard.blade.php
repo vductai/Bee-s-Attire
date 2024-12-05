@@ -15,8 +15,8 @@
         <div class="cr-breadcrumb">
             <h5>Thống kê</h5>
             <ul>
-                <li><a href="index.html">Carrot</a></li>
-                <li>Thống kê</li>
+                {{--<li><a href="index.html">Carrot</a></li>
+                <li>Thống kê</li>--}}
             </ul>
         </div>
         <div class="cr-tools">

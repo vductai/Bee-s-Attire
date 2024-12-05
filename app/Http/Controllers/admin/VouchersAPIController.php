@@ -51,6 +51,7 @@ class VouchersAPIController extends Controller
             'voucher_price' => $request->voucher_price,
             //'quantity' => $request->quantity,
             'voucher_desc' => $request->voucher_desc,
+            'max_discount' => $request->max_discount,
             //'start_date' => $start_date,
             //'end_date' => $end_date,
         ]);
@@ -88,17 +89,19 @@ class VouchersAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        $start = $request->start_date;
+        /*$start = $request->start_date;
         $end = $request->end_date;
         // convert date -> timestamp
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
-        $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');
+        $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');*/
         $voucher = Vouchers::findOrFail($id);
         $voucher->update([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,
-            'start_date' => $start_date,
-            'end_date' => $end_date
+            'voucher_desc' => $request->voucher_desc,
+            'max_discount' => $request->max_discount,
+            /*'start_date' => $start_date,
+            'end_date' => $end_date*/
         ]);
         return response()->json($voucher);
     }

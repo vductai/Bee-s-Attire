@@ -33,9 +33,30 @@ class OrderController extends Controller
         return view('client.order.track-order');
     }
 
+    public function successOrder($id){
+        $order = Order::findOrFail($id);
+        if ($order->status === 'Đã giao hàng') {
+            $order->status = 'Đã nhận được hàng';
+            $order->save();
+            Notify_manager::create([
+                'category' => 'Đơn hàng',
+                'message' => "Đơn hàng có ID: {$order->order_id} từ {$order->user->username} đã được giao thành công"
+            ]);
+            broadcast(new CancelOrderEvent($order))->toOthers();
+            return response()->json(['message' => 'Đã giao hàng thàn công.']);
+        }
+        return response()->json(['message' => 'Đã giao hàng thàn công.']);
+    }
+
     public function cancelOrder($id)
     {
         $order = Order::findOrFail($id);
+        if ($order->status === 'Đã giao hàng'){
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể gửi yêu cầu hủy đơn hàng'
+            ]);
+        }
         if ($order->status != 'Đã giao hàng') {
             $order->status = 'Yêu cầu huỷ đơn hàng';
             $order->save();

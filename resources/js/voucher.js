@@ -1,5 +1,4 @@
 import './bootstrap';
-import axios from "axios";
 
 
 
@@ -15,6 +14,7 @@ if (formVoucher) {
         const startDate = document.getElementById('start_date')
         const endDate = document.getElementById('end_date')*/
         const voucherDesc = document.getElementById('voucher_desc')
+        const maxDiscount = document.getElementById('max_discount')
 
         // xoá các lỗi nếu có
         document.querySelectorAll('.error-text').forEach(function(p) {
@@ -28,13 +28,25 @@ if (formVoucher) {
             /*quantity: quantity.value,
             start_date: startDate.value,
             end_date: endDate.value,*/
-            voucher_desc: voucherDesc.value
+            voucher_desc: voucherDesc.value,
+            max_discount: maxDiscount.value
         }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
             const voucher = res.data
+            function formatCurrencyVND(amount) {
+                // Kiểm tra nếu không phải số
+                if (isNaN(amount)) {
+                    return "0 đ";
+                }
+                return new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0, // Không hiển thị phần thập phân
+                }).format(amount).replace("₫", "đ"); // Thay thế ký hiệu ₫ bằng đ
+            }
             // Lấy số thứ tự của hàng cuối cùng
             const lastRow = tableVoucher.querySelector('tr:last-child');
             let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
@@ -49,6 +61,7 @@ if (formVoucher) {
                     <td>${stt}</td>
                     <td class="voucher_code">${voucher.voucher_code}</td>
                     <td class="voucher_price">${voucher.voucher_price} %</td>
+                    <td class="max_discount">${formatCurrencyVND(voucher.max_discount)}</td>
                     <td class="voucher_desc">${voucher.voucher_desc}</td>
                     <td>
                         <div>
@@ -70,6 +83,7 @@ if (formVoucher) {
             voucherCode.value = ''
             voucherPrice.value = ''
             voucherDesc.value = ''
+            maxDiscount.value = ''
         }).catch(err =>{
             if (err.response && err.response.data.errors){
                 let errors = err.response.data.errors
@@ -94,6 +108,7 @@ if (formVoucherUpdate){
         const startDateUpdate = document.getElementById('start_date')
         const endDateUpdate = document.getElementById('end_date')*/
         const voucherDescUpdate = document.getElementById('voucher_desc')
+        const maxDiscountUpdate = document.getElementById('max_discount')
 
         document.querySelectorAll('.error-text').forEach(function(p) {
             p.textContent = '';
@@ -102,19 +117,31 @@ if (formVoucherUpdate){
         axios.put(`/admin/coupon/${voucherId}`, {
             voucher_code: voucherCodeUpdate.value,
             voucher_price: voucherPriceUpdate.value,
-            voucher_desc: voucherDescUpdate.value
+            voucher_desc: voucherDescUpdate.value,
+            max_discount: maxDiscountUpdate.value
         }, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
             const voucher = res.data
-            console.log(voucher)
+            function formatCurrencyVND(amount) {
+                // Kiểm tra nếu không phải số
+                if (isNaN(amount)) {
+                    return "0 đ";
+                }
+                return new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0, // Không hiển thị phần thập phân
+                }).format(amount).replace("₫", "đ"); // Thay thế ký hiệu ₫ bằng đ
+            }
             const row = document.querySelector(`tr[data-id='${voucherId}']`)
             if (row){
                 row.querySelector('.voucherCode').textContent = voucher.voucher_code
                 row.querySelector('.voucherPrice').textContent = `${voucher.voucher_price} %`
                 row.querySelector('.voucherDesc').textContent = voucher.voucher_desc
+                row.querySelector('.max_discount').textContent = `${formatCurrencyVND(voucher.max_discount)}`
 /*                row.querySelector('.quantity').textContent = voucher.quantity
                 row.querySelector('.startDate').textContent = voucher.start_date
                 row.querySelector('.endDate').textContent = voucher.end_date*/
@@ -125,6 +152,7 @@ if (formVoucherUpdate){
             quantityUpdate.value = ''
             endDateUpdate.value = ''*/
             voucherDescUpdate.value = ''
+            maxDiscountUpdate.value = ''
         }).catch(err =>{
             if (err.response && err.response.data.errors){
                 let errors = err.response.data.errors
