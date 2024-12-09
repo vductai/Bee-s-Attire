@@ -37,6 +37,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         if ($order->status === 'Đã giao hàng') {
             $order->status = 'Đã nhận được hàng';
+            $order->payment_status = 'Đã thanh toán';
             $order->save();
             Notify_manager::create([
                 'category' => 'Đơn hàng',

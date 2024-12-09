@@ -11,14 +11,15 @@
 
             <div class="cr-card card-default product-list">
                 <div class="mt-4 mx-4 header-tools d-flex justify-content-end align-items-center">
-                    {{--<button class="cr-btn-primary m-r-5">Save</button>--}}
+                    <button id="reloadButton" class="cr-btn-primary m-r-5">Làm mới</button>
                     <a href="{{route('export-order')}}" class="cr-btn-primary">Export</a>
                 </div>
-                <div class="cr-card-content ">
+                <div class="cr-card-content">
                     <div class="table-responsive">
                         <table id="cat_data_table" class="table">
                             <thead>
                             <tr>
+                                <th>STT</th>
                                 <th>Mã đơn hàng</th>
                                 <th>Người mua</th>
                                 <th>Tiền hàng</th>
@@ -33,6 +34,7 @@
                             <tbody>
                             @foreach($listOrder as $item)
                                 <tr data-id="{{$item->order_id}}">
+                                    <td>{{$loop->index}}</td>
                                     <td>{{$item->order_id}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{number_format($item->total_price)}} đ</td>
@@ -42,14 +44,16 @@
                                         <td>{{$item->voucher->voucher_price}} %</td>
                                     @endif
                                     <td>{{number_format($item->final_price)}} đ</td>
-                                    <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y')}}</td>
+                                    <td>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i / d-m-Y')}}</td>
                                     <td>
                                         @if($item->payment_status === 'Đã thanh toán')
                                             <span
-                                                class="badge text-bg-success">Đã thanh toán</span>
+                                                data-payment="{{$item->order_id}}"
+                                                class="badge text-bg-success payment-status">Đã thanh toán</span>
                                         @else
                                             <span
-                                                class="badge text-bg-danger">Chưa thanh toán</span>
+                                                data-payment="{{$item->order_id}}"
+                                                class="badge text-bg-danger payment-status">Chưa thanh toán</span>
                                         @endif
                                     </td>
                                     <td class="order-status" data-id="{{$item->order_id}}">
@@ -80,61 +84,62 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div>
-                                            <button type="button"
-                                                    class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false" data-display="static">
+                                        <button type="button"
+                                                class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false" data-display="static">
 															<span class="sr-only"><i
                                                                     class="ri-settings-3-line"></i></span>
-                                            </button>
-                                            <div class="dropdown-menu" data-dropId="{{$item->order_id}}">
-                                                @if($item->status === 'Yêu cầu huỷ đơn hàng')
-                                                    <button
-                                                        data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
-                                                        class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
-                                                    >Hủy đơn hàng
-                                                    </button>
-                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                       class="dropdown-item">Chi tiết</a>
-                                                @elseif($item->status === 'Hủy đơn hàng')
-                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                       class="dropdown-item">Chi tiết</a>
-                                                @elseif($item->status === 'Đã giao hàng')
-                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                       class="dropdown-item">Chi tiết</a>
-                                                @elseif($item->status === 'Đang sử lý')
-                                                    <button
-                                                        data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
-                                                        class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
-                                                    >Hủy đơn hàng
-                                                    </button>
-                                                    <button
-                                                        data-status="Đã xác nhận" data-id="{{$item->order_id}}"
-                                                        class="dropdown-item update-status btn btn-primary"
-                                                    >Đã xác nhận
-                                                    </button>
-                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                       class="dropdown-item">Chi tiết</a>
-                                                @elseif($item->status === 'Đã xác nhận')
-                                                    <button
-                                                        data-status="Đã giao hàng" data-id="{{$item->order_id}}"
-                                                        class="dropdown-item update-status btn btn-success"
-                                                    >Đã giao hàng
-                                                    </button>
-                                                    <button
-                                                        data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
-                                                        class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
-                                                    >Hủy đơn hàng
-                                                    </button>
-                                                    <a href="{{route('admin-order-detail', $item->order_id)}}"
-                                                       class="dropdown-item">Chi tiết</a>
-                                                    <button class="dropdown-item delete-order"
-                                                            data-id="{{$item->order_id}}">
-                                                        Xóa đơn hàng
-                                                    </button>
-                                                @endif
-                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu" data-dropId="{{$item->order_id}}">
+                                            @if($item->status === 'Yêu cầu huỷ đơn hàng')
+                                                <button
+                                                    data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
+                                                    class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
+                                                >Hủy đơn hàng
+                                                </button>
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                            @elseif($item->status === 'Hủy đơn hàng')
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                            @elseif($item->status === 'Đã giao hàng')
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                            @elseif($item->status === 'Đã nhận được hàng')
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                            @elseif($item->status === 'Đang sử lý')
+                                                <button
+                                                    data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
+                                                    class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
+                                                >Hủy đơn hàng
+                                                </button>
+                                                <button
+                                                    data-status="Đã xác nhận" data-id="{{$item->order_id}}"
+                                                    class="dropdown-item update-status btn btn-primary"
+                                                >Đã xác nhận
+                                                </button>
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                            @elseif($item->status === 'Đã xác nhận')
+                                                <button
+                                                    data-status="Đã giao hàng" data-id="{{$item->order_id}}"
+                                                    class="dropdown-item update-status btn btn-success"
+                                                >Đã giao hàng
+                                                </button>
+                                                <button
+                                                    data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
+                                                    class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
+                                                >Hủy đơn hàng
+                                                </button>
+                                                <a href="{{route('admin-order-detail', $item->order_id)}}"
+                                                   class="dropdown-item">Chi tiết</a>
+                                                <button class="dropdown-item delete-order"
+                                                        data-id="{{$item->order_id}}">
+                                                    Xóa đơn hàng
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -146,4 +151,9 @@
             </div>
         </div>
     </div>
+    <script !src="">
+        document.getElementById('reloadButton').addEventListener('click', function () {
+            location.reload();
+        });
+    </script>
 @endsection

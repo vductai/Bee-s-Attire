@@ -217,11 +217,11 @@
                                                name="product_id"
                                                value="{{$getDetail->product_id}}">
                                         <div class="cr-ratting-input form-submit">
-                                            @if($hasPurchased)
+                                            @if($hasPurchased && !$hasReviewed)
                                                 <textarea id="comment" name="comment"
                                                           placeholder="Nhập bình luận của bạn"></textarea>
                                                 <p class="text-danger error-text" id="comment-error"></p>
-                                                <button class="cr-button" type="submit">Submit</button>
+                                                <button class="cr-button btn-comment" type="submit">Submit</button>
                                             @endif
                                         </div>
                                     </form>

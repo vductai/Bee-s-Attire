@@ -9,29 +9,31 @@ Echo.private('admin-cancel-order')
         toastAdmin.show();
         const notiManagerView = document.getElementById('noti-manager-view')
         const createLi = document.createElement('li')
+
         // tính toán thời gian
         function timeAgo(date) {
             // lấy second
             const seconds = Math.floor((new Date() - new Date(date)) / 1000) // milions
             const intervals = [
-                { label: 'năm', seconds: 31536000 },
-                { label: 'tháng', seconds: 2592000 },
-                { label: 'ngày', seconds: 86400 },
-                { label: 'giờ', seconds: 3600 },
-                { label: 'phút', seconds: 60 },
-                { label: 'giây', seconds: 1 }
+                {label: 'năm', seconds: 31536000},
+                {label: 'tháng', seconds: 2592000},
+                {label: 'ngày', seconds: 86400},
+                {label: 'giờ', seconds: 3600},
+                {label: 'phút', seconds: 60},
+                {label: 'giây', seconds: 1}
             ]
-            for (const interval of intervals){
+            for (const interval of intervals) {
                 // tính số thời gian trôi qua
                 const count = Math.floor(seconds / interval.seconds)
-                if (count >= 1){
+                if (count >= 1) {
                     return `${count} ${interval.label} trước`;
                 }
             }
             return "Vừa xong";
         }
+
         const timeAgoText = timeAgo(e.time)
-        if (e.status === 'Đã nhận được hàng'){
+        if (e.status === 'Đã nhận được hàng') {
             createLi.innerHTML = `
             <li>
                 <div class="icon cr-alert">
@@ -47,12 +49,31 @@ Echo.private('admin-cancel-order')
             </li>
         `
             notiManagerView.appendChild(createLi)
+            document.querySelector(`.payment-status[data-payment='${e.order_id}']`).innerText = 'Đã thanh toán'
+            document.querySelector(`.payment-status[data-payment='${e.order_id}']`).classList.remove('text-bg-danger');
+            document.querySelector(`.payment-status[data-payment='${e.order_id}']`).classList.add('text-bg-success')
             document.querySelector(`.oro[data-orId='${e.order_id}']`).innerText = 'Đã nhận được hàng'
             document.querySelector(`.oro[data-orId='${e.order_id}']`).classList.add('text-bg-success')
             document.querySelectorAll(`.update-status[data-id='${e.order_id}']`).forEach(us => {
                 us.style.display = 'none'
             })
-        }else {
+        } else if (e.status === 'Đang sử lý') {
+            createLi.innerHTML = `
+            <li>
+                <div class="icon cr-alert">
+                    <i class="ri-alarm-warning-line"></i>
+                </div>
+                <div class="detail">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <p class="time mx-3">${timeAgoText}</p>
+                        <span class="badge text-bg-danger">Mới</span>
+                    </div>
+                    <p class="message">Bạn có 1 đơn hàng mới có ID: ${e.order_id} từ ${e.username}</p>
+                </div>
+            </li>
+        `
+            notiManagerView.appendChild(createLi)
+        } else {
             createLi.innerHTML = `
             <li>
                 <div class="icon cr-alert">

@@ -3,6 +3,9 @@
     <section class="section-hero padding-b-100 next">
         @include('client.banner')
     </section>
+    <section class="section-popular margin-b-100">
+        @include('client.product.popular-product')
+    </section>
     <!-- Popular product -->
     <section class="section-popular-product-shape padding-b-100">
         <div class="container" data-aos="fade-up" data-aos-duration="2000">
@@ -10,7 +13,7 @@
                 <div class="col-lg-12">
                     <div class="mb-30">
                         <div class="cr-banner">
-                            <h2><a href="{{route('product')}}">Sản phẩm của chúng tôi</a></h2>
+                            <h2><a href="{{route('product')}}">Tất cả sản phẩm</a></h2>
                         </div>
                         <div class="cr-banner-sub-title">
                             <p>Đầy đủ mẫu mã, thời trang, phong cách</p>
@@ -33,7 +36,7 @@
                         </div>
                         <div class="col-lg-12 col-sm-6 col-6 cr-product-box banner-480 mb-24">
                             <div class="cr-ice-cubes">
-                                <img src="{{asset('assets/client/img/product/product-banner.jpg')}}"
+                                <img src="{{asset('assets/client/img/product/bannerLefft.png')}}"
                                      alt="product banner">
                                 <div class="cr-ice-cubes-contain">
                                     <h4 class="title">Thời trang</h4>
@@ -105,9 +108,6 @@
     <section class="section-services padding-b-100">
         @include('layout.client.service')
     </section>
-    {{--    <section class="section-popular margin-b-100">
-            @include('client.product.popular-product')
-        </section>--}}
     <section class="section-testimonial padding-b-100">
         @include('layout.client.testimonial')
     </section>

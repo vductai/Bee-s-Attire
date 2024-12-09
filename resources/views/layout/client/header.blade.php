@@ -44,18 +44,39 @@
 @vite('resources/js/lock-acc.js')
 @vite('resources/js/give.js')
 @vite('resources/js/success-order.js')
+{{--@vite('resources/js/search-dynamic.js')--}}
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 </head>
 <style>
-    body.modal-open{
+    body.modal-open {
         overflow: auto !important;
     }
-    .modal{
+
+    .modal {
         pointer-events: auto !important;
     }
-    .modal-backdrop{
+
+    .modal-backdrop {
         display: none !important;
+    }
+
+    .list-result {
+        display: none; /* Ẩn danh sách mặc định */
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        width: 100%;
+    }
+
+    .list-result.active {
+        display: block; /* Hiển thị danh sách khi được kích hoạt */
+    }
+
+    .list-result ul li {
+        list-style-type: none;
     }
 </style>
 <body class="body-bg-6">
@@ -84,8 +105,12 @@
                         <a href="javascript:void(0)" class="search-btn">
                             <i class="ri-search-line"></i>
                         </a>
+                        {{--<div class="list-result">
+                            <div id="ul">
+
+                            </div>
+                        </div>--}}
                     </form>
-                    <datalist id="browsers"></datalist>
                     <div class="cr-right-bar">
                         @if(auth()->check())
                             <ul class="navbar-nav">
@@ -223,6 +248,25 @@
         @include('layout.client.navigation')
     </div>
 </header>
+{{--<script !src="">
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.querySelector('.search-input');
+        const listResult = document.querySelector('.list-result');
+
+        // Khi input được focus
+        input.addEventListener('focus', () => {
+            listResult.classList.add('active');
+        });
+
+        // Khi click ra ngoài input hoặc danh sách, ẩn list-result
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !listResult.contains(e.target)) {
+                listResult.classList.remove('active');
+            }
+        });
+    });
+</script>--}}
 @include('layout.client.mobile-menu')
 @include('toast.auth-toast')
 @include('toast.order-toast')
+@include('toast.chat-toast')
