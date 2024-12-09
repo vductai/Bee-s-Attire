@@ -25,7 +25,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr data-id="{{$item->id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td class="">{{$item->name}}</td>
                                     <td class="" style="width: 275px;">
                                          Email: {{$item->email}} <br>

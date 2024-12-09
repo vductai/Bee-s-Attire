@@ -138,6 +138,12 @@ tableSize.addEventListener('click', function (e) {
             if (row){
                 row.remove()
             }
-        })
+        }).catch((error) => {
+            if (error.response) {
+                alert(error.response.data.message);
+            } else {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+            }
+        });
     }
 })

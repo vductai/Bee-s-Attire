@@ -82,7 +82,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr>
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{$item->voucher->voucher_code}}</td>
                                     <td>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</td>

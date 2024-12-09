@@ -52,6 +52,7 @@
         bottom: 130px;
         right: 10px;
     }
+
 </style>
 <div class="modal fade" id="chatModal" tabindex="-1"
      aria-labelledby="chatModalLabel" aria-hidden="true">

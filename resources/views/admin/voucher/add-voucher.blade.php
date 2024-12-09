@@ -100,7 +100,7 @@
                             <tbody>
                             @foreach($vouchers as $item)
                                 <tr data-id="{{$item->voucher_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td class="voucher_code">{{$item->voucher_code}}</td>
                                     <td class="voucher_price">{{$item->voucher_price}} %</td>
                                     <td class="max_discount">{{number_format($item->max_discount)}} đ</td>

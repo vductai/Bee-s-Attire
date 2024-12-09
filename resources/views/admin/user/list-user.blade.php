@@ -29,7 +29,7 @@
                             <tbody>
                                 @foreach ($list as $item)
                                     <tr data-id="{{ $item->user_id }}">
-                                        <td>{{ $loop->index }}</td>
+                                        <td>{{ $loop->index + 1}}</td>
                                         <td>
                                             <img class="tbl-thumb" src="{{ asset('upload/' . $item->avatar) }}"
                                                 alt="User Avatar">
