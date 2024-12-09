@@ -156,7 +156,14 @@ tableCategory.addEventListener('click', function (e) {
             if (row){
                 row.remove()
             }
-        })
+        }).catch((error) => {
+            if (error.response) {
+                // Hiển thị thông báo lỗi từ server
+                alert(error.response.data.message);
+            } else {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+            }
+        });
     }
 })
 

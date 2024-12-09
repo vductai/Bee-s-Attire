@@ -59,7 +59,7 @@
                             <tbody>
                             @foreach($listColor as $item)
                                 <tr data-id="{{$item->color_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td class="colorName">{{$item->color_name}}</td>
                                     <td>
                                         <input id="colorCode" name="color_code"

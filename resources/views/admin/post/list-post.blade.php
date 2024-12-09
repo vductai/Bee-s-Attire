@@ -26,7 +26,7 @@
                             <tbody>
                             @foreach ($list as $item)
                                 <tr data-id="{{ $item->id }}">
-                                    <td>{{ $loop->index }}</td>
+                                    <td>{{ $loop->index + 1}}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>
                                         {{ \Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y') }}

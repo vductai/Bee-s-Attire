@@ -81,6 +81,10 @@ class CategoryParentController extends Controller
     public function destroy($id)
     {
         $del = Parent_Category::findOrFail($id);
+        $del->children()->exists();
+        if ($del) {
+            return response()->json(['message' => 'Không thể xóa vì ràng buộc.'], 400);
+        }
         $del->delete();
         return response()->json(['message' => 'done']);
     }

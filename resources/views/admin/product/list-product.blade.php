@@ -26,7 +26,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr data-id="{{$item->product_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index + 1}}</td>
                                     <td>
                                         <img class="tbl-thumb"
                                              src="{{asset('upload/'. $item->product_avatar)}}"

@@ -127,6 +127,10 @@ class CategoryAPIController extends Controller
         } catch (AuthorizationException $e) {
         }
         $categories = Category::findOrFail($id );
+        $categories->product()->exists();
+        if ($categories) {
+            return response()->json(['message' => 'Không thể xóa vì ràng buộc.'], 400);
+        }
         $categories->delete();
         return response()->json([
             'message' => 'Xoa thanh cong !',
