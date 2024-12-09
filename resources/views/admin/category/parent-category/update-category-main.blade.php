@@ -52,7 +52,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr data-id="{{$item->id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td class="categoryParent">{{$item->name}}</td>
                                     <td>
                                         <div>

@@ -115,7 +115,13 @@ class VouchersAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
-        Vouchers::find($id)->delete();
+
+        $voucher = Vouchers::find($id);
+        $relatedDataExists = $voucher->user_voucher()->exists();
+        if ($relatedDataExists) {
+            return response()->json(['message' => 'Voucher này đang được sử dụng và không thể xóa.'], 400);
+        }
+        $voucher->delete(); // Xóa voucher nếu không có liên kết
         return response()->json(['message' => 'Xóa thành công!']);
     }
 

@@ -84,6 +84,10 @@ class SizeAPIController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
+        $relatedDataExists = $size->variantSize()->exists();
+        if ($relatedDataExists) {
+            return response()->json(['message' => 'Không thể xóa vì ràng buộc.'], 400);
+        }
         $size->delete();
         return response()->json(['mesage' => 'done']);
     }

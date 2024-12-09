@@ -77,6 +77,10 @@ class ColorController extends Controller
             $this->authorize('manageAdmin', Auth::user());
         } catch (AuthorizationException $e) {
         }
+        $relatedDataExists = $color->variantColor()->exists();
+        if ($relatedDataExists) {
+            return response()->json(['message' => 'Không thể xóa vì ràng buộc'], 400);
+        }
         $color->delete();
         return response()->json(['message' => 'done']);
     }

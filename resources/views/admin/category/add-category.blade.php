@@ -64,7 +64,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr data-id="{{$item->category_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index+1}}</td>
                                     <td class="categoryName">{{$item->category_name}}</td>
                                     <td class="categoryParent">{{$item->parent->name}}</td>
                                     <td>

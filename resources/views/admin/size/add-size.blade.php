@@ -56,7 +56,7 @@
                             <tbody>
                             @foreach($list as $item)
                                 <tr data-id="{{$item->size_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index +1}}</td>
                                     <td class="sizeName">{{$item->size_name}}</td>
                                     <td>
                                         <div>

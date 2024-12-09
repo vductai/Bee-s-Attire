@@ -18,9 +18,9 @@ if (formCategoryParent) {
             }
         }).then(res => {
             const data = res.data
-            if (data.success === false){
+            if (data.success === false) {
                 document.querySelector('.errs').textContent = data.message
-            }else {
+            } else {
                 const lastRow = tableParent.querySelector('tr:last-child');
                 let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
                 if (lastRow) {
@@ -64,7 +64,7 @@ if (formCategoryParent) {
 
 // update
 const formCategoryParentUpdate = document.getElementById('formCategoryParentUpdate')
-if (formCategoryParentUpdate){
+if (formCategoryParentUpdate) {
     formCategoryParentUpdate.addEventListener('submit', function (e) {
         e.preventDefault()
         document.querySelector('.errs').textContent = ''
@@ -76,13 +76,13 @@ if (formCategoryParentUpdate){
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        }).then(res =>{
+        }).then(res => {
             const data = res.data
-            if (data.success === false){
+            if (data.success === false) {
                 document.querySelector('.errs').textContent = data.message
-            }else {
+            } else {
                 const row = document.querySelector(`tr[data-id = '${data.id}']`)
-                if (row){
+                if (row) {
                     row.querySelector('.categoryParent').textContent = data.name
                 }
                 nameUpdate.value = ''
@@ -100,21 +100,28 @@ if (formCategoryParentUpdate){
 
 // delete
 tableParent.addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-parent')){
+    if (e.target.classList.contains('delete-parent')) {
         const id = e.target.getAttribute('data-id')
         const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
-        if (!isConfirmed){
+        if (!isConfirmed) {
             return;
         }
         axios.delete(`/admin/category-parent/${id}`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        }).then(() =>{
+        }).then(() => {
             const row = document.querySelector(`tr[data-id='${id}']`)
-            if (row){
+            if (row) {
                 row.remove()
             }
-        })
+        }).catch((error) => {
+            if (error.response) {
+                // Hiển thị thông báo lỗi từ server
+                alert(error.response.data.message);
+            } else {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+            }
+        });
     }
 })

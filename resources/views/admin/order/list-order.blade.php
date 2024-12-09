@@ -34,7 +34,7 @@
                             <tbody>
                             @foreach($listOrder as $item)
                                 <tr data-id="{{$item->order_id}}">
-                                    <td>{{$loop->index}}</td>
+                                    <td>{{$loop->index + 1}}</td>
                                     <td>{{$item->order_id}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{number_format($item->total_price)}} đ</td>
@@ -128,17 +128,17 @@
                                                     class="dropdown-item update-status btn btn-success"
                                                 >Đã giao hàng
                                                 </button>
-                                                <button
+                                                {{--<button
                                                     data-status="Hủy đơn hàng" data-id="{{$item->order_id}}"
                                                     class="dropdown-item {{$item->status != 'Yêu cầu huỷ đơn hàng' ? 'd-none' : ''}} update-status btn btn-warning"
                                                 >Hủy đơn hàng
-                                                </button>
+                                                </button>--}}
                                                 <a href="{{route('admin-order-detail', $item->order_id)}}"
                                                    class="dropdown-item">Chi tiết</a>
-                                                <button class="dropdown-item delete-order"
+                                                {{--<button class="dropdown-item delete-order"
                                                         data-id="{{$item->order_id}}">
                                                     Xóa đơn hàng
-                                                </button>
+                                                </button>--}}
                                             @endif
                                         </div>
                                     </td>
