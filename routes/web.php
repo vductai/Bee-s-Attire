@@ -99,9 +99,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
         Route::post('online-checkout', [CheckPaymentMethodController::class, 'onlineCheckOut'])->name('check-payment-method');
         // vnpay
         Route::get('/order-success', [CheckPaymentMethodController::class, 'handlePaymentReturn'])->name('vnpay-return');
-        Route::get('/success', function (){
-            return view('client.message.orderSuccess');
-        })->name('success-checkout');
+        Route::view('success', 'client.message.orderSuccess')->name('success-checkout');
         // momo
         Route::get('/return-momo', [CheckPaymentMethodController::class, 'orderSuccessMono'])->name('momo-return');
         // get order
@@ -204,12 +202,12 @@ Route::post('/filter-product', [ProductClient::class, 'search']);
 Route::get('/filter-price', [ProductClient::class, 'filterPrice']);
 // search product
 Route::get('/search-product', [SearchController::class, 'searchProduct'])->name('search-product');
+Route::get('/search-dynamic', [SearchController::class, 'searchDynamic'])->name('search-dynamic');
 // hit
 Route::get('/search', [SearchController::class, 'index']);
 /*and home*/
 
 
-Route::get('/tag/search', [ProductClient::class, 'searchTag'])->name('tag');
 Route::get('/about', [SupportController::class, 'about'])->name('about');
 Route::get('/policy', [SupportController::class, 'policy'])->name('policy');
 Route::get('/return', [SupportController::class, 'return'])->name('return');

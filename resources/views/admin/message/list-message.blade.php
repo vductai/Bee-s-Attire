@@ -50,9 +50,9 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{route('get-contact-edit', $item->id)}}">Trả lời</a>
-                                                <button class="dropdown-item delete-message" data-id="{{$item->size_id}}">
+                                                {{--<button class="dropdown-item delete-message" data-id="{{$item->size_id}}">
                                                     Xóa
-                                                </button>
+                                                </button>--}}
                                             </div>
                                         </div>
                                     </td>

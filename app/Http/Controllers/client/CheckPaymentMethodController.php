@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\client;
 
+use App\Events\CancelOrderEvent;
 use App\Events\OrderEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendMailOrderJob;
 use App\Mail\OrderMail;
 use App\Models\Cart;
 use App\Models\Notifications;
+use App\Models\Notify_manager;
 use App\Models\Order;
 use App\Models\order_item;
 use App\Models\ProductVariant;
@@ -104,6 +106,11 @@ class CheckPaymentMethodController extends Controller
                 'user_id' => $order->user_id,
                 'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
             ]);
+            Notify_manager::create([
+                'category' => 'Đơn hàng',
+                'message' => "Bạn có 1 đơn hàng mới có ID: {$order->order_id} từ {$order->user->username}"
+            ]);
+            broadcast(new CancelOrderEvent($order))->toOthers();
             $order = Order::where('order_id', $order->order_id)->first();
             if ($order && $order->voucher_id) {
                 // Xóa chỉ mã voucher đã áp dụng
@@ -315,6 +322,11 @@ class CheckPaymentMethodController extends Controller
                     'user_id' => $order->user_id,
                     'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
                 ]);
+                Notify_manager::create([
+                    'category' => 'Đơn hàng',
+                    'message' => "Bạn có 1 đơn hàng mới có ID: {$order->order_id} từ {$order->user->username}"
+                ]);
+                broadcast(new CancelOrderEvent($order))->toOthers();
                 // Tìm đơn hàng dựa trên vnp_TxnRef (order_id)
                 $order = Order::where('order_id', $vnp_TxnRef)->first();
                 if ($order && $order->voucher_id) {
@@ -402,6 +414,11 @@ class CheckPaymentMethodController extends Controller
                     'user_id' => $order->user_id,
                     'message' => "Đơn hàng {$order->order_id} của bạn đã đặt hàng thành công"
                 ]);
+                Notify_manager::create([
+                    'category' => 'Đơn hàng',
+                    'message' => "Bạn có 1 đơn hàng mới có ID: {$order->order_id} từ {$order->user->username}"
+                ]);
+                broadcast(new CancelOrderEvent($order))->toOthers();
                 $order = Order::where('order_id', $orderId)->first();
                 if ($order && $order->voucher_id) {
                     // Xóa chỉ mã voucher đã áp dụng

@@ -1,7 +1,6 @@
 import './bootstrap'
 
 const userId = document.querySelector('meta[name="user-id"]').getAttribute('content')
-console.log('sdfsdfsdfsdf')
 document.addEventListener('DOMContentLoaded', function () {
     Echo.private(`give-voucher.${userId}`)
         .listen('GiveVoucherEvent', function (e) {

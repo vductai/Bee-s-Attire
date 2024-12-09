@@ -167,6 +167,10 @@ if (formColorUpdate){
 tableColor.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-color')){
         const colorId = e.target.getAttribute('data-id')
+        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
+        if (!isConfirmed){
+            return;
+        }
         axios.delete(`/admin/color/${colorId}`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

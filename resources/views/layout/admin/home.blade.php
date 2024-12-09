@@ -16,13 +16,14 @@
     <link rel="shortcut icon" href="{{asset('assets/admin/img/logo/collapse-logo.png')}}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
     <!-- Icon CSS -->
     <link href="{{asset('assets/admin/css/vendor/materialdesignicons.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/remixicon.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/owl.carousel.min.css')}}" rel="stylesheet">
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--}}
-    <!-- Vendor CSS -->
+<!-- Vendor CSS -->
     <link href="{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/daterangepicker.css')}}" rel="stylesheet">
@@ -127,7 +128,7 @@
         <div class="cr-sb-logo">
             <a href="{{route('dashboard')}}" class="sb-full"><img src="{{asset('full-logo.png')}}" alt="logo"></a>
             <a href="{{route('dashboard')}}" class="sb-collapse"><img src="{{asset('favicon.ico')}}"
-                                                          alt="logo"></a>
+                                                                      alt="logo"></a>
         </div>
         <div class="cr-sb-wrapper">
             @include('layout.admin.slide-bar')

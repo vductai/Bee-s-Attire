@@ -42,7 +42,11 @@ chatForm.addEventListener('submit', (e) => {
 const rece = localStorage.getItem('rece');
 Echo.private(`chat.${rece}`)
     .listen('MessageSentEvent', function (e) {
-        console.log(e)
+        // thông báo toast
+        const toastChatElement = document.getElementById('toastChat')
+        const toastChat = new bootstrap.Toast(toastChatElement)
+        document.querySelector('#toast-chat-content').innerHTML = `Có tin nhắn mới`
+        toastChat.show();
         const data = e.message
         const userMessage = document.createElement('div');
         userMessage.className = 'chat-message support';

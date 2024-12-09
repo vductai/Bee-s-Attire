@@ -102,6 +102,10 @@ if (formCategoryParentUpdate){
 tableParent.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-parent')){
         const id = e.target.getAttribute('data-id')
+        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
+        if (!isConfirmed){
+            return;
+        }
         axios.delete(`/admin/category-parent/${id}`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
