@@ -62,6 +62,8 @@ if (formComment){
             `
             viewComment.appendChild(commentPost)
             //console.log(data)
+            document.querySelector('.btn-comment').style.display = 'none'
+            document.querySelector('#comment').style.display = 'none'
         }).catch(err => {
             if (err.response && err.response.data.errors){
                 let errors = err.response.data.errors

@@ -12,6 +12,7 @@ use App\Models\Notify_manager;
 use App\Models\Parent_Category;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Product_featured_category;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\user_voucher;
@@ -53,6 +54,16 @@ class AppServiceProvider extends ServiceProvider
             $get->with(compact('size', 'color'));
         });
         /*---------------------------------------------------------------------------------------------------*/
+        View::composer('client.product.popular-product', function ($popular){
+            $populars = Product::whereHas('featuredCategories', function ($query) {
+                $query->where('product_featured_category.featured_categories_id', 1); // Chỉ định rõ bảng trung gian
+            })
+                ->with('featuredCategories') // Load danh mục liên quan
+                ->take(8)
+                ->get();
+            $popular->with(compact('populars'));
+        });
+
         View::composer('layout.client.header', function ($count) {
             if (Auth::check()){
                 $counts = Notifications::where('user_id', Auth::user()->user_id)

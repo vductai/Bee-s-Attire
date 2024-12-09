@@ -53,8 +53,8 @@ if (formCategory) {
                             </span>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/admin/categories/${category.category.category_id}/edit">Edit</a>
-                                <button class="dropdown-item delete-cate" data-id="${category.category.category_id}">Delete</button>
+                                <a class="dropdown-item" href="/admin/categories/${category.category.category_id}/edit">Sửa</a>
+                                <button class="dropdown-item delete-cate" data-id="${category.category.category_id}">Xóa</button>
                             </div>
                         </div>
                     </td>
@@ -143,6 +143,10 @@ if (formCategoryUpdate){
 tableCategory.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-cate')){
         const categoryId = e.target.getAttribute('data-id')
+        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
+        if (!isConfirmed){
+            return;
+        }
         axios.delete(`/admin/categories/${categoryId}`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

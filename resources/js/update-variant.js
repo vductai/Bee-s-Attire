@@ -162,6 +162,10 @@ tableVariant.addEventListener('click', function (e) {
     e.preventDefault();
     if (e.target.classList.contains('delete-variant')) {
         const variantId = e.target.getAttribute('data-id');
+        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
+        if (!isConfirmed){
+            return;
+        }
         axios.delete(`/admin/product-variant/${variantId}`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

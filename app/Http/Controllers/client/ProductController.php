@@ -57,18 +57,22 @@ class ProductController extends Controller
         }
 
         $hasPurchased = false;
+        $hasReviewed = false;
         if (auth()->check()) {
             $userId = auth()->user()->user_id;
             $hasPurchased = Order::where('user_id', $userId)
+                ->where('status', 'Đã nhận được hàng')
                 ->whereHas('order_item', function ($query) use ($id) {
                     $query->where('product_id', $id);
                 })
                 ->exists();
+            $hasReviewed = Comment::where('user_id', $userId)
+                ->where('product_id', $id)->exists();
         }
 
         $listPost = Comment::where('product_id', $id)->get();
         return view('client.product.detail-product', compact('getDetail',
-            'listPost', 'hasPurchased'));
+            'listPost', 'hasPurchased', 'hasReviewed'));
     }
 
 
@@ -138,12 +142,5 @@ class ProductController extends Controller
         $filter = Product::whereBetween('sale_price', [$minPrice, $maxPrice])
             ->with('category')->get();
         return response()->json($filter);
-    }
-
-    public function searchTag(Request $request)
-    {
-        $searchTerm = $request->input('query');
-        $tags = Tag::where('tag_name', 'like', '%' . $searchTerm . '%')->get();
-        return response()->json($tags);
     }
 }
