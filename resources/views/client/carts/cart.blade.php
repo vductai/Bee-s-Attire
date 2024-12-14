@@ -39,7 +39,7 @@
                         <div class="row">
                             <div>
                                 <div class="cr-table-content">
-                                    <table>
+                                    <table id="cart-table">
                                         <thead>
                                         <tr>
                                             <th>Sản phầm</th>
@@ -51,7 +51,7 @@
                                         </thead>
                                         <tbody>
                                         @foreach($getCart as $item)
-                                            <tr>
+                                            <tr data-id="{{$item->cart_item_id}}">
                                                 <td class="cr-cart-name">
                                                     <a href="{{route('detail', ['slug' => $item->product->slug])}}" data-idPro="{{$item->product_id}}">
                                                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
@@ -80,15 +80,8 @@
                                                     {{number_format($item->price)}} đ
                                                 </td>
                                                 <td class="cr-cart-remove">
-                                                    <form action="{{ route('deleteCart', $item->cart_item_id) }}"
-                                                          method="POST" style="display: none;"
-                                                          id="cart-form-{{$item->cart_item_id}}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                    <a href="#"
-                                                       onclick="event.preventDefault(); document.getElementById('cart-form-{{$item->cart_item_id}}').submit();">
-                                                        <i class="ri-delete-bin-line"></i>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="ri-delete-bin-line delete-cart" data-id="{{$item->cart_item_id}}"></i>
                                                     </a>
                                                 </td>
                                             </tr>
