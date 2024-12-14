@@ -44,6 +44,7 @@
 @vite('resources/js/lock-acc.js')
 @vite('resources/js/give.js')
 @vite('resources/js/success-order.js')
+@vite('resources/js/cart.js')
 {{--@vite('resources/js/search-dynamic.js')--}}
 <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
@@ -220,7 +221,7 @@
                                 <i class="ri-heart-3-line"></i>
                                 <span>Yêu thích</span>
                             </a>
-                            <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle position-relative">
+                            <a href="{{route('viewCart')}}" class="cr-right-bar-item {{--Shopping-toggle--}} position-relative">
                                 <i class="ri-shopping-cart-line"></i>
                                 <span class="me-3">Giỏ hàng</span>
                                 @if(\App\Models\Cart::where('user_id', auth()->user()->user_id)->exists())
@@ -248,25 +249,8 @@
         @include('layout.client.navigation')
     </div>
 </header>
-{{--<script !src="">
-    document.addEventListener('DOMContentLoaded', function () {
-        const input = document.querySelector('.search-input');
-        const listResult = document.querySelector('.list-result');
-
-        // Khi input được focus
-        input.addEventListener('focus', () => {
-            listResult.classList.add('active');
-        });
-
-        // Khi click ra ngoài input hoặc danh sách, ẩn list-result
-        document.addEventListener('click', (e) => {
-            if (!input.contains(e.target) && !listResult.contains(e.target)) {
-                listResult.classList.remove('active');
-            }
-        });
-    });
-</script>--}}
 @include('layout.client.mobile-menu')
 @include('toast.auth-toast')
 @include('toast.order-toast')
 @include('toast.chat-toast')
+@include('toast.cart-toast')

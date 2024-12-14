@@ -25,8 +25,12 @@ class CartController extends Controller
     public function addCart(Request $request)
     {
         if (!$request->has('product_variant_id') || empty($request->product_variant_id)) {
-            session()->put('errorCart', 'Vui lòng chọn biến thể sản phẩm');
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => 'Vui lòng chọn biến thể sản phẩm'
+            ]);
+            /*session()->put('errorCart', 'Vui lòng chọn biến thể sản phẩm');
+            return back();*/
         }
         // lấy biến thể được chọn
         $variantQuantity = ProductVariant::where('product_variant_id', $request->product_variant_id)->first();
@@ -36,11 +40,19 @@ class CartController extends Controller
         $sl = $request->quantity;
         // kiểm tra số lượng user nhập
         if ($sl > $variantQuantity->quantity) {
-            session()->put('errorCart', 'Số lượng vượt quá kho');
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => 'Số lượng vượt quá kho'
+            ]);
+            /*session()->put('errorCart', 'Số lượng vượt quá kho');
+            return back();*/
         } else if ($variantQuantity->quantity <= 0) {
-            session()->put('errorCart', 'Sản phẩm đã hết hàng');
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm đã hết hàng'
+            ]);
+            /*session()->put('errorCart', 'Sản phẩm đã hết hàng');
+            return back();*/
         }
 
         // Nếu $cartItem đã tồn tại, cập nhật giỏ hàng
@@ -51,24 +63,26 @@ class CartController extends Controller
             ]);
         } else {
             // Nếu chưa tồn tại, thêm sản phẩm mới vào giỏ hàng
-            Cart::create([
+            $cart = Cart::create([
                 'user_id' => $request->user_id,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
                 'product_variant_id' => $request->product_variant_id,
                 'price' => $request->sale_price * $request->quantity
             ]);
+            return response()->json($cart);
         }
-        return redirect()->route('viewCart');
+
     }
 
 
     public function updateCart(Request $request)
     {
         $cartItems = $request->input('cartItems');
-
         foreach ($cartItems as $item) {
-            $cartItem = Cart::where('product_id', $item['product_id'])->where('user_id', Auth::user()->user_id)->first();
+            $cartItem = Cart::where('product_variant_id', $item['idVariant'])
+                ->where('user_id', Auth::user()->user_id)
+                ->first();
             if ($cartItem) {
                 $variant = ProductVariant::find($item['idVariant']);
                 if ($variant->quantity < $item['quantity']) {
@@ -91,7 +105,7 @@ class CartController extends Controller
         $cartItem = Cart::find($id);
         if ($cartItem) {
             $cartItem->delete();
-            return redirect()->back();
+            return response()->json(['message' => 'done']);
         }
     }
 
