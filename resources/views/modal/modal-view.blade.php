@@ -10,3 +10,4 @@
 @include('modal.give-voucher')
 @include('modal.canner-order')
 @include('modal.success-order')
+@include('modal.success-cart')

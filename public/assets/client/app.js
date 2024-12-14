@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const hiddenInputColor = document.getElementById('selected-color-id');
     const hiddenInputVariant = document.getElementById('selected-product-variant-id');
     const variantQuantity = document.getElementById('variant-quantity')
-    const addToCart = document.querySelector('.add-to-cart-btn')
+    const addToCart = document.querySelector('.styleCart')
 
     // khởi tạo biến lưu trữ
     let selectedSizeId = null;
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     product_id: parseInt(productId),
                     quantity: quantity,
                     price: totalprice * quantity,
-                    idVariant: idVariant
+                    idVariant: parseInt(idVariant)
                 })
             }
         })

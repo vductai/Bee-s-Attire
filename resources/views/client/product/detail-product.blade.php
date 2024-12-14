@@ -46,16 +46,15 @@
                         </div>
                     </div>
                 </div>
-                <form class="col-xxl-8 col-xl-7 col-md-6 col-12 mb-24" action="{{route('addCart')}}" method="post">
+                <form class="col-xxl-8 col-xl-7 col-md-6 col-12 mb-24" id="formAddCart">
                     @if(auth()->check())
-                        <input type="hidden" name="user_id" value="{{auth()->user()->user_id}}">
+                        <input type="hidden" id="user_id" name="user_id" value="{{auth()->user()->user_id}}">
                     @else
-                        <input type="hidden" name="user_id" value="">
+                        <input type="hidden" id="user_id" name="user_id" value="">
                     @endif
-                    <input type="hidden" name="product_id" value="{{$getDetail->product_id}}">
-                    <input type="hidden" name="sale_price" value="{{$getDetail->sale_price}}">
+                    <input type="hidden" id="product_id" name="product_id" value="{{$getDetail->product_id}}">
+                    <input type="hidden" id="sale_price" name="sale_price" value="{{$getDetail->sale_price}}">
                     <input type="hidden" name="product_variant_id" id="selected-product-variant-id" value="">
-                    @csrf
                     <div class="cr-size-and-weight-contain">
                         <h2 class="heading">
                             {{$getDetail->product_name}}
@@ -109,46 +108,27 @@
                                 <input type="hidden" name="color_id" id="selected-color-id">
                             </div>
                         </div>
-                        <div class="cr-color-weight">
-                            <h5><span>Số lượng kho</span>:</h5>
-                            <div class="cl-kg" id="variant-quantity">Chọn biến thể</div>
-                        </div>
-                        <div class="cr-add-card">
-                            <div class="cr-qty-main">
-                                <input type="text" placeholder="."
-                                       name="quantity" value="1" minlength="1" maxlength="5"
-                                       class="quantity">
-                                <button type="button" class="plus">+</button>
-                                <button type="button" class="minus">-</button>
+                        <div class="styleCart" style="display: none">
+                            <div class="cr-color-weight">
+                                <h5><span>Số lượng kho</span>:</h5>
+                                <div class="cl-kg" id="variant-quantity">Chọn biến thể</div>
                             </div>
-                            <div class="cr-add-button">
-                                @if(auth()->check())
-                                    <button type="submit" style="display:none;"
-                                            class=" cr-button add-to-cart-btn">Thêm vào giỏ hàng</button>
-                                @else
-                                @endif
-                            </div>
-                            <div class="cr-card-icon">
-                                <a href="javascript:void(0)" id="share">
-                                    <i class="ri-share-forward-line"></i>
-                                </a>
-                                <script>
-                                    document.getElementById('share').addEventListener('click', async ()=>{
-                                        await navigator.share({
-                                            title: '{{$getDetail->product_name}}',
-                                            text: '{{$getDetail->product_name}}',
-                                            url: '{{route('detail', $getDetail->slug)}}'
-                                        })
-                                    })
-                                </script>
-                            </div>
-                            <div class="cr-add-button">
-                                @if(session()->has('errorCart'))
-                                    <div class="alert alert-danger">
-                                        {{ session('errorCart') }}
-                                    </div>
-                                    {{ session()->forget('errorCart') }}
-                                @endif
+                            <div class="cr-add-card" >
+                                <div class="cr-qty-main">
+                                    <input type="text" placeholder="."
+                                           name="quantity" value="1" minlength="1" maxlength="5"
+                                           class="quantity">
+                                    <button type="button" class="plus">+</button>
+                                    <button type="button" class="minus">-</button>
+                                </div>
+                                <div class="cr-add-button">
+                                    @if(auth()->check())
+                                        <button type="submit"
+                                                class="cr-button add-to-cart-btn">Thêm vào giỏ hàng</button>
+                                    @else
+                                    @endif
+                                </div>
+                                <div class="cr-add-button" id="errCart"></div>
                             </div>
                         </div>
                     </div>
