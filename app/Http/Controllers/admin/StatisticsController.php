@@ -28,15 +28,15 @@ class StatisticsController extends Controller
 
         // Thống kê theo tháng trong năm
         $usersOrdersPerMonth = [];
-        $topUsers = []; 
-        
+        $topUsers = [];
+
         for ($i = $currentMonth - 1; $i >= 0; $i--) {
             $startOfMonth = Carbon::now()->subMonths($i)->startOfMonth();
             $endOfMonth = Carbon::now()->subMonths($i)->endOfMonth();
-        
-            $ordersPerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
-            $revenuePerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('total_price');
-        
+
+            $ordersPerMonth[] = order_item::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+            $revenuePerMonth[] = order_item::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('price_per_item');
+
             // Lấy người dùng có nhiều đơn hàng nhất trong tháng
             $topUser = User::join('order', 'users.user_id', '=', 'order.user_id')
                 ->whereBetween('order.created_at', [$startOfMonth, $endOfMonth])
@@ -48,14 +48,23 @@ class StatisticsController extends Controller
                 ->orderByDesc('total_orders')
                 ->orderByRaw('MIN(order.created_at) ASC')
                 ->first();
-        
+
             $usersOrdersPerMonth[] = $topUser ? $topUser->total_orders : 0;
-            $topUsers[] = $topUser ? $topUser->username : "Không có"; 
+            $topUsers[] = $topUser ? $topUser->username : "Không có";
+
+            $statuses = ['Đã xác nhận', 'Đang sử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
+            foreach ($statuses as $status) {
+                if (!isset($ordersByStatusMonthly[$status])) {
+                    $ordersByStatusMonthly[$status] = [];
+                }
+                $ordersByStatusMonthly[$status][] = Order::where('status', $status)
+                    ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                    ->count();
+            }
         }
-        
 
         // Lấy thông tin trạng thái đơn hàng theo tuần
-        $statuses = ['Đã xác nhận', 'Đang xử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
+        $statuses = ['Đã xác nhận', 'Đang sử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
         $ordersByStatusWeekly = [];
         $startOfWeek = Carbon::now()->startOfWeek();
         foreach ($statuses as $status) {
@@ -73,13 +82,6 @@ class StatisticsController extends Controller
         for ($i = 0; $i < 7; $i++) {
             $day = $startOfWeek->copy()->addDays($i);
             $dailyOrders[] = Order::whereDate('created_at', $day->toDateString())->count();
-        }
-
-        // Thống kê cho mỗi ngày trong tuần trước
-        $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
-        for ($i = 0; $i < 7; $i++) {
-            $day = $startOfLastWeek->copy()->addDays($i);
-            $dailyOrdersLastWeek[] = Order::whereDate('created_at', $day->toDateString())->count();
         }
 
         $top5MostSoldProductsDetails = Product::join('order_item', 'product.product_id', '=', 'order_item.product_id')
@@ -103,7 +105,6 @@ class StatisticsController extends Controller
         return view('admin.dashboard', compact(
             'ordersPerMonth',
             'dailyOrders',
-            'dailyOrdersLastWeek',
             'totalUsers',
             'totalProducts',
             'totalOrders',
@@ -114,9 +115,10 @@ class StatisticsController extends Controller
             'thisMonth',
             'revenuePerMonth',
             'top5MostSoldProductsDetails',
-            'ordersByStatusWeekly',
+            'ordersByStatusMonthly',
             'usersOrdersPerMonth',
-            'topUsers'
+            'topUsers',
+            'ordersByStatusWeekly'
         ));
     }
 }

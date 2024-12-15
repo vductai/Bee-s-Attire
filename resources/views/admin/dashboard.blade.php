@@ -5,10 +5,11 @@
         var ordersPerMonth = @json($ordersPerMonth);
         var dailyOrders = @json($dailyOrders);
         var revenuePerMonth = @json($revenuePerMonth);
-        var dailyOrdersLastWeek = @json($dailyOrdersLastWeek);
-        var ordersByStatusWeekly = @json($ordersByStatusWeekly);
+        var ordersByStatusMonthly = @json($ordersByStatusMonthly);
         var usersOrdersPerMonth = @json($usersOrdersPerMonth);
         var topUsers = @json($topUsers);
+        var ordersByStatusWeekly = @json($ordersByStatusWeekly);
+       
     </script>
 
     <div class="cr-page-title">
@@ -111,9 +112,10 @@
                         <div class="mb-3 mt-3">
                             <select id="chartType" class="form-select form-select-sm">
                                 <option value="weekly">Biểu đồ Đơn hàng tuần này</option>
-                                <option value="statusWeekly">Biểu đồ Trạng thái đơn hàng</option>
-                                <option value="monthlyOrders">Biểu đồ Đơn hàng theo tháng trong năm</option>
-                                <option value="monthlyRevenue">Biểu đồ Doanh thu theo tháng trong năm</option>
+                                <option value="statusWeekly">Biểu đồ Trạng thái đơn hàng tuần này</option>
+                                <option value="statusMonth">Biểu đồ Trạng thái đơn hàng theo tháng</option>
+                                <option value="monthlyOrders">Biểu đồ Đơn hàng theo tháng </option>
+                                <option value="monthlyRevenue">Biểu đồ Doanh thu theo tháng</option>
                                 <option value="usersOrdersPerMonth">Người dùng đặt hàng nhiều nhất</option>
                             </select>
                         </div>
@@ -125,13 +127,16 @@
                         <div id="areaChartWeekly" class="mb-m-24"></div>
                     </div>
                     <div class="cr-chart-content">
+                        <div id="areaChartStatusWeekly" class="mb-m-24" style="display: none;"></div>
+                    </div>
+                    <div class="cr-chart-content">
                         <div id="areaChartRevenue" class="mb-m-24" style="display: none;"></div>
                     </div>
                     <div class="cr-chart-content">
                         <div id="areaChartRevenue1" class="mb-m-24" style="display: none;"></div>
                     </div>
                     <div class="cr-chart-content">
-                        <div id="areaChartStatusWeekly" class="mb-m-24" style="display: none;"></div>
+                        <div id="areaChartStatus" class="mb-m-24" style="display: none;"></div>
                     </div>
                     <div class="cr-chart-content">
                         <div id="usersOrdersPerMonth" class="mb-m-24" style="display: none;"></div>
@@ -143,7 +148,7 @@
         <div class="col-xxl-4 col-xl-6 col-md-12">
             <div class="cr-card" id="campaigns">
                 <div class="cr-card-header">
-                    <h4 class="cr-card-title">Tăng trưởng bán hàng</h4>
+                    <h4 class="cr-card-title">doanh thu và đơn hàng tháng này so với tổng một năm</h4>
                     <div class="header-tools">
                         <div class="cr-date-range dots">
                             <span></span>
