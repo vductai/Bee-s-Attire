@@ -109,6 +109,7 @@
 @include('client.carts.cart-slider')
 <!-- Vendor Custom -->
 <script src="{{asset('assets/client/js/vendor/jquery-3.6.4.min.js')}}"></script>
+<script src="{{asset('assets/client/js/vendor/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/jquery.zoom.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/client/js/vendor/mixitup.min.js')}}"></script>

@@ -53,7 +53,7 @@ class StatisticsController extends Controller
         }
 
         // Lấy thông tin trạng thái đơn hàng theo tuần
-        $statuses = ['Đã xác nhận', 'Đang sử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng'];
+        $statuses = ['Đã xác nhận', 'Đang sử lý', 'Đã giao hàng', 'Yêu cầu huỷ đơn hàng', 'Đã nhận được hàng'];
         $ordersByStatusWeekly = [];
         $startOfWeek = Carbon::now()->startOfWeek();
         foreach ($statuses as $status) {

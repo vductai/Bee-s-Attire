@@ -21,7 +21,9 @@ class SendMailVoucherExpiredJob implements ShouldQueue
     {
         // Lấy ngày hết hạn là 3 ngày tới
         $day = now()->copy()->addDays(3);
-        $expired = user_voucher::whereBetween('end_date', [now(), $day])->get();
+        $expired = user_voucher::whereBetween('end_date', [now()->startOfDay(), $day])
+            ->where('notified', false)
+            ->get();
         if ($expired->isEmpty()){
             Log::info('No vouchers expiring in the next 3 days.');
             return;
@@ -34,6 +36,10 @@ class SendMailVoucherExpiredJob implements ShouldQueue
             $userExpired = User::find($userId);
             if ($userExpired && $userExpired->email){
                 Mail::to($userExpired->email)->send(new ExpiredVoucherMail($vouchers));
+                foreach ($vouchers as $voucher) {
+                    $voucher->notified = true;
+                    $voucher->save();
+                }
             }
         }
     }

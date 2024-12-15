@@ -36,28 +36,31 @@ if (formVoucher) {
             }
         }).then(res => {
             const voucher = res.data
-            function formatCurrencyVND(amount) {
-                // Kiểm tra nếu không phải số
-                if (isNaN(amount)) {
-                    return "0 đ";
+            if (voucher.success === false){
+                document.getElementById('voucher_price-error').textContent = voucher.message
+            }else {
+                function formatCurrencyVND(amount) {
+                    // Kiểm tra nếu không phải số
+                    if (isNaN(amount)) {
+                        return "0 đ";
+                    }
+                    return new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                        minimumFractionDigits: 0, // Không hiển thị phần thập phân
+                    }).format(amount).replace("₫", "đ"); // Thay thế ký hiệu ₫ bằng đ
                 }
-                return new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0, // Không hiển thị phần thập phân
-                }).format(amount).replace("₫", "đ"); // Thay thế ký hiệu ₫ bằng đ
-            }
-            // Lấy số thứ tự của hàng cuối cùng
-            const lastRow = tableVoucher.querySelector('tr:last-child');
-            let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
-            if (lastRow) {
-                const lastSttCell = lastRow.querySelector('td:first-child');
-                stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
-            }
-            const newRow = tableVoucher.insertRow();
-            newRow.setAttribute('data-id', voucher.voucher_id)
-            newRow.innerHTML =
-                `
+                // Lấy số thứ tự của hàng cuối cùng
+                const lastRow = tableVoucher.querySelector('tr:last-child');
+                let stt = 1; // Bắt đầu từ 1 nếu bảng rỗng
+                if (lastRow) {
+                    const lastSttCell = lastRow.querySelector('td:first-child');
+                    stt = parseInt(lastSttCell.textContent) + 1; // Lấy STT của hàng cuối và +1
+                }
+                const newRow = tableVoucher.insertRow();
+                newRow.setAttribute('data-id', voucher.voucher_id)
+                newRow.innerHTML =
+                    `
                     <td>${stt}</td>
                     <td class="voucher_code">${voucher.voucher_code}</td>
                     <td class="voucher_price">${voucher.voucher_price} %</td>
@@ -80,10 +83,11 @@ if (formVoucher) {
                         </div>
                     </td>
                 `;
-            voucherCode.value = ''
-            voucherPrice.value = ''
-            voucherDesc.value = ''
-            maxDiscount.value = ''
+                voucherCode.value = ''
+                voucherPrice.value = ''
+                voucherDesc.value = ''
+                maxDiscount.value = ''
+            }
         }).catch(err =>{
             if (err.response && err.response.data.errors){
                 let errors = err.response.data.errors
@@ -168,24 +172,34 @@ if (formVoucherUpdate){
 tableVoucher.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-coupon')){
         const voucherId = e.target.getAttribute('data-id')
-        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
-        if (!isConfirmed){
-            return;
-        }
-        axios.delete(`/admin/coupon/${voucherId}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(() => {
-            const row = document.querySelector(`tr[data-id='${voucherId}']`)
-            if (row){
-                row.remove()
-            }
-        }).catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            } else {
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: 'Xóa mục này sẽ không thể hoàn tác!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`/admin/coupon/${voucherId}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(() => {
+                    const row = document.querySelector(`tr[data-id='${voucherId}']`)
+                    if (row){
+                        row.remove()
+                    }
+                }).catch((error) => {
+                    if (error.response) {
+                        Swal.fire({
+                            icon: "error",
+                            text: `${error.response.data.message}`
+                        });
+                    } else {
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                    }
+                });
             }
         });
     }

@@ -24,6 +24,7 @@
     <link href="{{asset('assets/admin/css/vendor/owl.carousel.min.css')}}" rel="stylesheet">
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--}}
 <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{{asset('assets/client/css/vendor/sweetalert2.min.css')}}">
     <link href="{{asset('assets/admin/css/vendor/datatables.bootstrap5.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/responsive.datatables.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/admin/css/vendor/daterangepicker.css')}}" rel="stylesheet">
@@ -161,6 +162,8 @@
 <script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/owl.carousel.min.js')}}"></script>
+<script src="{{asset('assets/client/js/vendor/sweetalert2.all.min.js')}}"></script>
+
 <!-- Data Tables -->
 <script src="{{asset('assets/admin/js/vendor/jquery.datatables.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/vendor/datatables.bootstrap5.min.js')}}"></script>
