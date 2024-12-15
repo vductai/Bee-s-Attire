@@ -79,12 +79,11 @@ if (formRegister) {
                     p.textContent = ''
                 })
                 this.reset()
-                document.getElementById('verifyContent').innerHTML =
-                    `
-                        <p class="text-center">Đăng kí thành công. Kiểm tra email <b>${res.data}</b> để xác minh.</p>
-                    `;
-                const verify = new bootstrap.Modal(document.getElementById('verifyRegisterModal'));
-                verify.show();
+                Swal.fire({
+                    title: "Đăng kí thành công",
+                    text: `Đăng kí thành công. Kiểm tra email ${res.data} để xác minh.`,
+                    icon: "success"
+                });
             }
         }).catch(err => {
             document.getElementById('sub-res').innerHTML = 'Đăng kí'

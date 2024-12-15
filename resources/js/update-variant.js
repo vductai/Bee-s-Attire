@@ -162,22 +162,29 @@ tableVariant.addEventListener('click', function (e) {
     e.preventDefault();
     if (e.target.classList.contains('delete-variant')) {
         const variantId = e.target.getAttribute('data-id');
-        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
-        if (!isConfirmed){
-            return;
-        }
-        axios.delete(`/admin/product-variant/${variantId}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: 'Xóa mục này sẽ không thể hoàn tác!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`/admin/product-variant/${variantId}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(() => {
+                    // Tìm và xóa hàng trong bảng
+                    const row = document.querySelector(`tr[data-id='${variantId}']`);
+                    if (row) {
+                        row.remove();
+                    }
+                }).catch(err => {
+                    console.error('Có lỗi xảy ra:', err);
+                });
             }
-        }).then(() => {
-            // Tìm và xóa hàng trong bảng
-            const row = document.querySelector(`tr[data-id='${variantId}']`);
-            if (row) {
-                row.remove();
-            }
-        }).catch(err => {
-            console.error('Có lỗi xảy ra:', err);
         });
     }
 });

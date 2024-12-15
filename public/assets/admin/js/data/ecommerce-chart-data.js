@@ -171,7 +171,7 @@
                 };
             }),
             stroke: {width: 2, curve: 'smooth'},
-            colors: ["#ff9800", "#4caf50", "#f44336", "#2196f3"],
+            colors: ["#ff9800", "#4caf50", "#f44336", "#2196f3", "#00EB52"],
             xaxis: {
                 categories: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
                 axisBorder: {show: false},

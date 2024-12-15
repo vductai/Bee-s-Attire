@@ -46,8 +46,14 @@ class CouponUserController extends Controller
             'voucher_id' => 'Vui lòng nhập',
             'end_date' => ' Vui lòng nhập',
         ]);
-        $endDate = Carbon::parse($request->end_date);
-        $now = Carbon::now()->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->startOfDay();
+        $now = Carbon::now()->startOfDay(); // chỉ lấy ngày
+        if ($endDate->equalTo($now)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ngày hết hạn không được trùng với ngày hiện tại'
+            ]);
+        }
         if ($endDate->lessThanOrEqualTo($now)){
             return response()->json([
                 'success' => false,

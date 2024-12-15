@@ -102,25 +102,34 @@ if (formCategoryParentUpdate) {
 tableParent.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-parent')) {
         const id = e.target.getAttribute('data-id')
-        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
-        if (!isConfirmed) {
-            return;
-        }
-        axios.delete(`/admin/category-parent/${id}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        }).then(() => {
-            const row = document.querySelector(`tr[data-id='${id}']`)
-            if (row) {
-                row.remove()
-            }
-        }).catch((error) => {
-            if (error.response) {
-                // Hiển thị thông báo lỗi từ server
-                alert(error.response.data.message);
-            } else {
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: 'Xóa mục này sẽ không thể hoàn tác!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`/admin/category-parent/${id}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(() => {
+                    const row = document.querySelector(`tr[data-id='${id}']`)
+                    if (row) {
+                        row.remove()
+                    }
+                }).catch((error) => {
+                    if (error.response) {
+                        Swal.fire({
+                            icon: "error",
+                            text: `${error.response.data.message}`
+                        });
+                    } else {
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                    }
+                });
             }
         });
     }

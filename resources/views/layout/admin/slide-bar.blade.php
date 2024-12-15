@@ -36,8 +36,8 @@
                         <i class="ri-remixicon-line"></i></i><span class="condense">Biến thể<i
                                 class="drop-arrow ri-arrow-down-s-line"></i></span></a>
                     <ul class="cr-sb-subdrop condense">
-                        <li><a href="{{route('product-variant.index')}}" class="cr-page-link subdrop"><i
-                                    class="ri-checkbox-blank-circle-line"></i>Danh sách</a></li>
+                        {{--<li><a href="{{route('product-variant.index')}}" class="cr-page-link subdrop"><i
+                                    class="ri-checkbox-blank-circle-line"></i>Danh sách</a></li>--}}
                         <li><a href="{{route('color.create')}}" class="cr-page-link subdrop"><i
                                     class="ri-checkbox-blank-circle-line"></i>Màu sắc</a></li>
                         <li><a href="{{route('size.create')}}" class="cr-page-link subdrop"><i

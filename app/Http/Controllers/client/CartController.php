@@ -88,7 +88,7 @@ class CartController extends Controller
                 if ($variant->quantity < $item['quantity']) {
                     return response()->json([
                         'success' => false,
-                        'message' => "{$variant->product->product_name}",
+                        'message' => "{$variant->product->product_name} - {$variant->size->size_name}, {$variant->color->color_name}",
                         'variantQuantity' => "{$variant->quantity}"
                     ]);
                 }

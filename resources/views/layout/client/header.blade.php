@@ -22,9 +22,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
           rel="stylesheet">
-
     <!-- Vendor -->
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/animate.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/client/css/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/aos.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/client/css/vendor/range-slider.css')}}">
@@ -221,7 +221,8 @@
                                 <i class="ri-heart-3-line"></i>
                                 <span>Yêu thích</span>
                             </a>
-                            <a href="{{route('viewCart')}}" class="cr-right-bar-item {{--Shopping-toggle--}} position-relative">
+                            <a href="{{route('viewCart')}}"
+                               class="cr-right-bar-item {{--Shopping-toggle--}} position-relative">
                                 <i class="ri-shopping-cart-line"></i>
                                 <span class="me-3">Giỏ hàng</span>
                                 @if(\App\Models\Cart::where('user_id', auth()->user()->user_id)->exists())

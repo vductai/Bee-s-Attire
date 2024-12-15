@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new SendMailVoucherExpiredJob())->monthly();  // everyMinute(): chạy từng phút
-        $schedule->job(new DeleteVoucherJob())->monthly();
+        $schedule->job(new SendMailVoucherExpiredJob())->hourly();  // everyMinute(): chạy từng phút
+        $schedule->job(new DeleteVoucherJob())->hourly();
         $schedule->call(function () {
             User::whereNull('email_verified_at')  // Chọn những tài khoản chưa xác minh email
             ->delete();  // Xóa tài khoản

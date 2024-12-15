@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="mb-30">
                 <div class="cr-banner">
-                    <h2><a href="javascript:void(0)">Sản phẩm nổi bật</a></h2>
+                    <h2><a href="javascript:void(0)">Sản phẩm mới nhập</a></h2>
                 </div>
                 <div class="cr-banner-sub-title">
                     <p></p>

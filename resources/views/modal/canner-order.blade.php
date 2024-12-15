@@ -23,21 +23,35 @@
                                value="Tìm thấy giá tốt hơn">
                         <label class="form-check-label" for="reason3">Tìm thấy giá tốt hơn</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="cancelReason" id="reason4" value="Khác">
-                        <label class="form-check-label" for="reason4">Khác</label>
-                    </div>
                     <textarea class="form-control mt-3 d-none" id="otherReason" rows="3"
                               placeholder="Nhập lý do khác..."></textarea>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="cr-button btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="cr-button cancel-order"
+                <button type="button" class="cr-button cancel-order disabled"
                         style="background-color:#c41616;"
                         data-orderId=""
-                        id="submitCancel">Xác nhận</button>
+                        id="submitCancel" disabled>Xác nhận</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    // Lấy tham chiếu đến các radio buttons và nút "Xác nhận"
+    const radioButtons = document.querySelectorAll('input[name="cancelReason"]');
+    const submitCancelButton = document.getElementById('submitCancel');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function () {
+            // Kiểm tra nếu có bất kỳ radio nào được chọn
+            const selectedReason = document.querySelector('input[name="cancelReason"]:checked');
+            if (selectedReason) {
+                submitCancelButton.classList.remove('disabled');
+                submitCancelButton.removeAttribute('disabled');
+            } else {
+                submitCancelButton.classList.add('disabled');
+                submitCancelButton.setAttribute('disabled', true);
+            }
+        });
+    });
+</script>
