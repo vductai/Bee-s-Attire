@@ -55,11 +55,14 @@ class AppServiceProvider extends ServiceProvider
         });
         /*---------------------------------------------------------------------------------------------------*/
         View::composer('client.product.popular-product', function ($popular){
-            $populars = Product::whereHas('featuredCategories', function ($query) {
+            /*
+             * $populars = Product::whereHas('featuredCategories', function ($query) {
                 $query->where('product_featured_category.featured_categories_id', 1); // Chỉ định rõ bảng trung gian
             })
                 ->with('featuredCategories') // Load danh mục liên quan
-                ->take(8)
+                ->take(8)*/
+            $populars = Product::orderByDesc('created_at')
+                ->limit(7)
                 ->get();
             $popular->with(compact('populars'));
         });

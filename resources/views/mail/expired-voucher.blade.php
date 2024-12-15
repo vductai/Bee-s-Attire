@@ -84,13 +84,12 @@
     @foreach($vouchers as $item)
         <div class="voucher-details">
             <p><strong>Mã Voucher:</strong> <span style="color: #28a745;">{{$item->voucher->voucher_code}}</span></p>
-            <p><strong>Ngày Hết Hạn:</strong> <span style="color: #d9534f;">{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</span></p>
+            <p><strong>Ngày Hết Hạn:</strong> <span style="color: #d9534f;">{{\Illuminate\Support\Carbon::parse($item->end_date)->format('d-m-Y') }}</span></p>
             <p><strong>Giá Trị Voucher:</strong> <span style="color: #28a745;">{{$item->voucher->voucher_price}} %</span></p>
         </div>
     @endforeach
 
     <p>Đừng bỏ lỡ cơ hội sử dụng voucher của mình! Nhấn vào nút bên dưới để mua sắm ngay hôm nay.</p>
-    <a href="https://yourwebsite.com/shop" class="button">Mua Sắm Ngay</a>
 
     <footer>
         <p>Cảm ơn bạn đã chọn chúng tôi!</p>

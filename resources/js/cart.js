@@ -27,8 +27,12 @@ if (formAddCart){
                     <div class="alert alert-danger">${data.message}</div>
                 `
             }else {
-                const cartModal = new bootstrap.Modal(document.getElementById('cartModal'))
-                cartModal.show()
+                Swal.fire({
+                    title: "Thêm thành công",
+                    icon: "success",
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
             }
         });
     })
@@ -40,25 +44,32 @@ const tableCart = document.getElementById('cart-table').getElementsByTagName('tb
 tableCart.addEventListener('click', function (e) {
     if (e.target.classList.contains('delete-cart')){
         const cartId = e.target.getAttribute('data-id')
-        const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa mục này không?');
-        if (!isConfirmed){
-            return;
-        }
-        axios.delete(`/deleteCart/${cartId}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: 'Xóa mục này sẽ không thể hoàn tác!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed){
+                axios.delete(`/deleteCart/${cartId}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(() => {
+                    const row = document.querySelector(`tr[data-id='${cartId}']`)
+                    if (row){
+                        row.remove()
+                    }
+                }).catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    } else {
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                    }
+                });
             }
-        }).then(() => {
-            const row = document.querySelector(`tr[data-id='${cartId}']`)
-            if (row){
-                row.remove()
-            }
-        }).catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            } else {
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-            }
-        });
+        })
     }
 })

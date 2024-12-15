@@ -24,7 +24,7 @@ class VerificationController extends Controller
         }
         $user->markEmailAsVerified();
         Auth::login($user);
-        GiveVoucherJob::dispatch($user->user_id)->delay(now()->addMinutes(1));
+        GiveVoucherJob::dispatch($user->user_id)->delay(now()->addSecond(10));
         return redirect()->route('home');
     }
 }

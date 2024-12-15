@@ -46,6 +46,12 @@ class VouchersAPIController extends Controller
         // dùng datetime local
         $start_date = Carbon::parse($start)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($end)->format('Y-m-d H:i:s');*/
+        if ($request->voucher_price > 100){
+            return response()->json([
+                'success' => false,
+                'message' => 'Không được vượt quá 100 %'
+            ]);
+        }
         $add = Vouchers::create([
             'voucher_code' => $request->voucher_code,
             'voucher_price' => $request->voucher_price,

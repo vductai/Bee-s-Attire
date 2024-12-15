@@ -21,12 +21,11 @@ if (contactForm){
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         }).then(res => {
-            document.getElementById('contactContent').innerHTML =
-                `
-                <p class="text-center">Cảm ơn bạn đã liên hệ, chúng tôi sẽ phản hồi lại trong thời gian sớm nhất.</p>
-            `;
-            const contactModal = new bootstrap.Modal(document.getElementById('contactModal'));
-            contactModal.show();
+            Swal.fire({
+                title: "Gửi thành công",
+                text: "Cảm ơn bạn đã liên hệ, chúng tôi sẽ phản hồi lại trong thời gian sớm nhất.",
+                icon: "success"
+            });
             this.reset()
         }).catch(err => {
             if (err.response && err.response.data.errors) {

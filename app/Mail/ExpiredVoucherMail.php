@@ -22,7 +22,7 @@ class ExpiredVoucherMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Expired Voucher',
+            subject: 'Thông báo voucher sắp hết hạn',
         );
     }
 

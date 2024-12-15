@@ -46,9 +46,9 @@
                                         <p class="text-danger ers" id="voucher_id-error"></p>
                                     </div>
                                     <div class="form-group">
-                                        <label>Ngày kết thúc</label>
+                                        <label>Ngày hết hạn</label>
                                         <div class="col-12">
-                                            <input type="datetime-local" id="end_date" name="end_date">
+                                            <input type="date" id="end_date" name="end_date">
                                         </div>
                                         <p class="text-danger ers" id="end_date-error"></p>
                                         <p class="text-danger ers" id="endere"></p>
@@ -85,7 +85,7 @@
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$item->user->username}}</td>
                                     <td>{{$item->voucher->voucher_code}}</td>
-                                    <td>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('H:i d-m-Y') }}</td>
+                                    <td>{{\Illuminate\Support\Carbon::parse($item->end_date)->format('d-m-Y') }}</td>
                                     <td>
                                         <div>
                                             <button type="button"
