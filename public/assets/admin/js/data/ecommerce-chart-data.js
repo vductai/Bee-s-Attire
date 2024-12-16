@@ -57,13 +57,13 @@
             stroke: { width: 2, curve: 'smooth' },
             colors: ["#3f51b5"],
             dataLabels: {
-                enabled: true, 
+                enabled: true,
                 formatter: function (value) {
-                    return value.toLocaleString('vi-VN') + "VNĐ";
+                    return value.toLocaleString('vi-VN');
                 },
                 style: {
                     fontSize: '12px',
-                    colors: ["#3f51b5"] 
+                    colors: ["#3f51b5"]
                 }
             },
             xaxis: {
@@ -81,7 +81,7 @@
             tooltip: {
                 y: {
                     formatter: function (value) {
-                        return value.toLocaleString('vi-VN') + " VNĐ"; 
+                        return value.toLocaleString('vi-VN') + " VNĐ";
                     }
                 }
             },
@@ -93,7 +93,7 @@
                 }
             },
             title: {
-                text: 'Doanh thu theo tháng',
+                text: 'Doanh thu theo tháng(VNĐ)',
                 align: 'center',
                 margin: 20,
                 style: {
@@ -106,7 +106,7 @@
         var areaChartRevenue1 = new ApexCharts(document.querySelector("#areaChartRevenue1"), options);
         areaChartRevenue1.render();
     }
-    
+
     // Biểu đồ người dùng đặt hàng nhiều nhất theo tháng
     function areaChartUsersOrders() {
         var options = {
@@ -239,11 +239,18 @@
         areaChartStatus.render();
     }
 
-    // Biểu đồ thống kê đơn hàng theo tuần
+    // Tính khoảng thời gian tuần này
+    const now = new Date();
+    const startOfWeek = new Date();
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+    const endOfWeek = new Date();
+    endOfWeek.setDate(now.getDate() - now.getDay() + 7);
 
-    
+    const Start = `${startOfWeek.getDate()}/${startOfWeek.getMonth() + 1}/${startOfWeek.getFullYear()}`;
+    const End = `${endOfWeek.getDate()}/${endOfWeek.getMonth() + 1}/${endOfWeek.getFullYear()}`;
+
+    // Biểu đồ thống kê đơn hàng theo tuần
     function areaChartWeekly() {
-        var currentMonth = new Date().toLocaleString('vi-VN', { month: 'long' });
         var options = {
             chart: {
                 type: "area",
@@ -270,7 +277,7 @@
                 },
             },
             title: {
-                text: `Thống kê đơn hàng theo tuần của ${currentMonth}`,
+                text: `Thống kê đơn hàng theo tuần(${Start}-${End})`,
                 align: 'center',
                 margin: 20,
                 style: {
@@ -280,13 +287,13 @@
                 }
             }
         };
+
         var areaChartWeekly = new ApexCharts(document.querySelector("#areaChartWeekly"), options);
         areaChartWeekly.render();
     }
-    
-      // Biểu đồ trạng thái đơn hàng theo tuần
-      function areaChartStatusWeekly() {
-        var currentMonth = new Date().toLocaleString('vi-VN', { month: 'long' });
+
+    // Biểu đồ thống kê trạng thái theo tuần
+    function areaChartStatusWeekly() {
         var options = {
             chart: {
                 type: "line",
@@ -328,7 +335,7 @@
                     },
                     style: {
                         color: '#333'
-                    }
+                    },
                 },
             },
             dataLabels: {
@@ -346,7 +353,7 @@
                 }
             },
             title: {
-                text: `Trạng thái đơn hàng theo tuần của ${currentMonth}`,
+                text: `Trạng thái đơn hàng theo tuần(${Start}-${End})`,
                 align: 'center',
                 margin: 20,
                 style: {
@@ -356,68 +363,9 @@
                 }
             }
         };
+
         var areaChartStatusWeekly = new ApexCharts(document.querySelector("#areaChartStatusWeekly"), options);
         areaChartStatusWeekly.render();
-    }
-
-    //oanh thu và đơn hàng tháng này so với tổng một năm
-    var currentMonth = new Date().getMonth();
-    var totalRevenueThisMonth = parseInt(revenuePerMonth[currentMonth]) || 0;
-    var totalOrdersThisMonth = ordersPerMonth[currentMonth] || 0;
-
-    var allRevenueThisMonth = revenuePerMonth.reduce((sum, item) => sum + parseInt(item) || 0, 0);
-    var allOrdersThisMonth = ordersPerMonth.reduce((sum, item) => sum + (item || 0), 0);
-
-    var revenuePercentageOfTotal = allRevenueThisMonth > 0 ? (totalRevenueThisMonth / allRevenueThisMonth) * 100 : 0;
-
-    var ordersPercentageOfTotal = allOrdersThisMonth > 0 ? (totalOrdersThisMonth / allOrdersThisMonth) * 100 : 0;
-
-    revenuePercentageOfTotal = Math.round(revenuePercentageOfTotal * 10) / 10;
-    ordersPercentageOfTotal = Math.round(ordersPercentageOfTotal * 10) / 10;
-
-    document.getElementById("revenueChange").innerHTML =
-        `<span class="${revenuePercentageOfTotal > 0 ? 'up' : 'down'}">${revenuePercentageOfTotal.toFixed(1)}%</span>`;
-
-    document.getElementById("ordersChange").innerHTML =
-        `<span class="${ordersPercentageOfTotal > 0 ? 'up' : 'down'}">${ordersPercentageOfTotal.toFixed(1)}%</span>`;
-
-    document.getElementById("totalOrders").innerHTML =
-        `${totalOrdersThisMonth} đơn hàng`;
-
-    document.getElementById("totalRevenue").innerHTML =
-        `${Math.round(totalRevenueThisMonth).toLocaleString('vi-VN')} VNĐ`;
-
-    function newcampaignsChart() {
-        var options = {
-            series: [ordersPercentageOfTotal, revenuePercentageOfTotal],
-            chart: {
-                height: 350,
-                type: 'radialBar',
-            },
-            plotOptions: {
-                radialBar: {
-                    dataLabels: {
-                        name: {
-                            fontSize: '16px',
-                        },
-                        value: {
-                            fontSize: '16px',
-                        },
-                        total: {
-                            show: true,
-                            label: 'Tổng ',
-                            formatter: function () {
-                                return `${(ordersPercentageOfTotal + revenuePercentageOfTotal).toFixed(1)}%`;
-                            }
-                        }
-                    }
-                }
-            },
-            labels: ['% Đơn hàng so với tổng', '% Doanh thu so với tổng'],
-            colors: ["#3f51b5", "#50d1f8"], 
-        };
-        var newcampaignsChart = new ApexCharts(document.querySelector("#newcampaignsChart"), options);
-        newcampaignsChart.render();
     }
 
 
@@ -426,7 +374,6 @@
         areaChartStatusWeekly();
         areaChartRevenue();
         areaChartRevenue1();
-        newcampaignsChart();
         areaChartStatus();
         areaChartUsersOrders();
 

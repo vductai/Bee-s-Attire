@@ -642,6 +642,14 @@
             "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">'
         });
     }
+    var responsiveDataTable = $("#best_seller_data_table1");
+    if (responsiveDataTable.length !== 0) {
+        responsiveDataTable.DataTable({
+            "aLengthMenu": [[5, 20, 30, 50, 75, -1], [5, 20, 30, 50, 75, "All"]],
+            "pageLength": 5,
+            "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">'
+        });
+    }
     /*========== Todo DATA TABLE ===========*/
     var responsiveDataTable = $("#todo-data-table");
     if (responsiveDataTable.length !== 0) {

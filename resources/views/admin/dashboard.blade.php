@@ -145,37 +145,57 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-xxl-4 col-xl-6 col-md-12">
             <div class="cr-card" id="campaigns">
+
+               
+    <div class="row">
+        <div class="">
+            <div class="cr-card" id="best_seller_tbl">
                 <div class="cr-card-header">
-                    <h4 class="cr-card-title">doanh thu và đơn hàng tháng này so với tổng một năm</h4>
+                    <h4 class="cr-card-title">Top 5 người mua sản phẩm nhiều nhất</h4>
                     <div class="header-tools">
+                        <a href="javascript:void(0)" class="m-r-10 cr-full-card" title="Full Screen"><i
+                                class="ri-fullscreen-line"></i></a>
                         <div class="cr-date-range dots">
                             <span></span>
                         </div>
                     </div>
                 </div>
-                <div class="cr-card-content">
-                    <div class="cr-chart-content">
-                        <div id="newcampaignsChart"></div>
-                    </div>
-                    <div class="cr-chart-header-2">
-                        <div class="block">
-                            <h6>Tổng đơn hàng</h6>
-                            <h5><span id="ordersChange"></span> <span id="totalOrders"></span></h5>
-                        </div>
-                        <div class="block">
-                            <h6>Tổng doanh thu</h6>
-                            <h5><span id="revenueChange"></span> <span id="totalRevenue"></span></h5>
-
+                <div class="cr-card-content card-default">
+                    <div class="best-seller-table">
+                        <div class="table-responsive">
+                            <table id="best_seller_data_table" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>ID người dùng</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Tổng số sản phẩm đã mua</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($top5MostPurchasedUsers as $index => $user)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->user_id }}</td>
+                                            <td>{{ $user->username }}</td>
+                                            <td>{{ $user->total_purchased }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div> 
 
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <div class="col-xxl-6 col-xl-12">
@@ -193,7 +213,7 @@
                 <div class="cr-card-content card-default">
                     <div class="best-seller-table">
                         <div class="table-responsive">
-                            <table id="best_seller_data_table" class="table">
+                            <table id="best_seller_data_table1" class="table">
                                 <thead>
                                     <tr>
                                         <th>STT</th>

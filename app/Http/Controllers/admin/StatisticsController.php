@@ -34,8 +34,8 @@ class StatisticsController extends Controller
             $startOfMonth = Carbon::now()->subMonths($i)->startOfMonth();
             $endOfMonth = Carbon::now()->subMonths($i)->endOfMonth();
 
-            $ordersPerMonth[] = order_item::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
-            $revenuePerMonth[] = order_item::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('price_per_item');
+            $ordersPerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+            $revenuePerMonth[] = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('final_price');
 
             // Lấy người dùng có nhiều đơn hàng nhất trong tháng
             $topUser = User::join('order', 'users.user_id', '=', 'order.user_id')
@@ -84,7 +84,13 @@ class StatisticsController extends Controller
             $dailyOrders[] = Order::whereDate('created_at', $day->toDateString())->count();
         }
 
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
         $top5MostSoldProductsDetails = Product::join('order_item', 'product.product_id', '=', 'order_item.product_id')
+            ->join('order', 'order.order_id', '=', 'order_item.order_id')
+            ->where('order.status', 'Đã xác nhận')
+            ->whereBetween('order_item.created_at', [$startOfMonth, $endOfMonth])
             ->select(
                 'product.*',
                 DB::raw('SUM(order_item.quantity) as total_sales'),
@@ -95,6 +101,21 @@ class StatisticsController extends Controller
             ->limit(5)
             ->get();
 
+        //Top 5 người mua sản phẩm nhiều nhất
+        $top5MostPurchasedUsers = User::join('order', 'users.user_id', '=', 'order.user_id')
+        ->join('order_item', 'order_item.order_id', '=', 'order.order_id')
+        ->whereBetween('order_item.created_at', [$startOfMonth, $endOfMonth])
+        ->select(
+            'users.username',
+            'users.user_id',
+            DB::raw('SUM(order_item.quantity) as total_purchased'),
+           
+        )
+        ->groupBy('users.user_id', 'users.username')
+        ->orderByDesc('total_purchased')
+        ->limit(5)
+        ->get();
+    
 
         // Lấy 5 sản phẩm có lượt xem cao nhất
         $top5MostViewedProducts = Product::orderByDesc('views')
@@ -118,7 +139,8 @@ class StatisticsController extends Controller
             'ordersByStatusMonthly',
             'usersOrdersPerMonth',
             'topUsers',
-            'ordersByStatusWeekly'
+            'ordersByStatusWeekly',
+            'top5MostPurchasedUsers'
         ));
     }
 }
