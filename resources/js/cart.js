@@ -1,10 +1,9 @@
 import './bootstrap';
-import axios from "axios";
+
 const formAddCart = document.getElementById('formAddCart')
 if (formAddCart){
     formAddCart.addEventListener('submit', function (e) {
         e.preventDefault()
-        document.getElementById('errCart').innerHTML = ''
         const idVariant = document.getElementById('selected-product-variant-id').value;
         const idProduct = document.getElementById('product_id').value;
         const sale_price = document.getElementById('sale_price').value;
@@ -23,15 +22,15 @@ if (formAddCart){
         }).then(res =>{
             const data = res.data
             if (data.success === false){
-                document.getElementById('errCart').innerHTML = `
-                    <div class="alert alert-danger">${data.message}</div>
-                `
+                Swal.fire({
+                    icon: "error",
+                    text: `${data.message}`
+                });
             }else {
                 Swal.fire({
                     title: "Thêm thành công",
                     icon: "success",
-                    timer: 3000,
-                    timerProgressBar: true,
+                    footer: '<a class="text-primary" href="/checkout">Thanh toán ngay ?</a>'
                 });
             }
         });

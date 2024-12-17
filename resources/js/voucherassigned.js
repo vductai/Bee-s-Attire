@@ -23,15 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
         `
             viewNoti.appendChild(createNoti)
 
-            document.getElementById('voucherContent').innerHTML =
+            Swal.fire({
+                html: `
+                    <p>Bạn vừa nhận được một voucher mới! Hãy kiểm tra ví của bạn và sử dụng ngay để tiết kiệm nhiều hơn.</p>
+                    <p><strong>Mã Voucher:</strong> ${e.voucher.voucher_code}</p>
+                    <p><strong>Giảm giá:</strong> ${e.voucher.voucher_price} %</p>
+                    <p><strong>Hạn sử dụng:</strong> ${e.endDate}</p>
                 `
-                <p>Bạn vừa nhận được một voucher mới! Hãy kiểm tra ví của bạn và sử dụng ngay để tiết kiệm nhiều hơn.</p>
-                <p><strong>Mã Voucher:</strong> ${e.voucher.voucher_code}</p>
-                <p><strong>Giảm giá:</strong> ${e.voucher.voucher_price} %</p>
-                <p><strong>Hạn sử dụng:</strong> ${e.endDate}</p>
-            `;
-            const voucherModal = new bootstrap.Modal(document.getElementById('voucherModal'));
-            voucherModal.show();
+            });
         })
 });
 

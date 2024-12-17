@@ -174,7 +174,7 @@
                                         <li>
                                             <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                         </li>
-                                        @if(auth()->user()->role_id === 4)
+                                        @if(auth()->user()->role->role_name === 'admin')
                                             <li>
                                                 <a class="dropdown-item" href="{{route('dashboard')}}">Trang quản
                                                     trị</a>
@@ -189,10 +189,6 @@
                                                 bạn</a>
                                         </li>
                                         <li>
-                                            <form action="{{ route('client.logout') }}" method="POST"
-                                                  style="display: none;" id="logout-form">
-                                                @csrf
-                                            </form>
                                             <a class="dropdown-item" href="javascript:void(0)"
                                                id="btnLogout">Đăng xuất</a>
                                         </li>

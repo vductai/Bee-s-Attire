@@ -121,7 +121,7 @@
                                                                 <h5 class="mb-1 text-primary">Mã đơn:
                                                                     <strong>#{{$item->order_id}}</strong></h5>
                                                                 <p class="mb-1 text-muted">Ngày mua:
-                                                                    <strong>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('h:i d-m-Y')}}</strong>
+                                                                    <strong>{{\Illuminate\Support\Carbon::parse($item->created_at)->format('H:i d-m-Y')}}</strong>
                                                                 </p>
                                                                 <p class="mb-1">Tiền hàng: <span
                                                                         class="text-success fw-bold">{{number_format($item->total_price)}} đ</span>

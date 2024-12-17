@@ -111,3 +111,17 @@ btnLogout.addEventListener('click', function (e) {
         window.location.href = '/'
     })
 })
+
+/*------------------------------------------------- logout mobile -------------------------------------------------*/
+const btnLogoutMb = document.getElementById('btnLogoutMobile')
+btnLogoutMb.addEventListener('click', function (e) {
+    e.preventDefault()
+    axios.post('/logout', {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }).then(res => {
+        localStorage.clear()
+        window.location.href = '/'
+    })
+})

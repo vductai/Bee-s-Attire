@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\OrderEvent;
 use App\Mail\OrderMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,5 +30,6 @@ class SendMailOrderJob implements ShouldQueue
     public function handle()
     {
         Mail::to($this->email)->send(new OrderMail($this->order));
+        broadcast(new OrderEvent($this->order));
     }
 }

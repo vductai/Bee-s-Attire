@@ -34,9 +34,9 @@
                                             <img class="tbl-thumb" src="{{ asset('upload/' . $item->avatar) }}"
                                                 alt="User Avatar">
                                         </td>
-                                        <td class="userName">{{ $item->username }}</td>
+                                        <td class="userName">{{$item->username}}</td>
                                         <td>{{$item->role->role_name}}</td>
-                                        <td>{{ $item->email }}</td>
+                                        <td>{{$item->email}}</td>
                                         <td>{{ \Illuminate\Support\Carbon::parse($item->created_at)->format('H:i:s d-m-Y') }}
                                         </td>
                                         <td>
@@ -56,10 +56,13 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a href="{{route('user.edit', $item->user_id)}}" class="dropdown-item">Sửa</a>
-                                                    <button class="dropdown-item statusToggle"
-                                                        data-id="{{ $item->user_id }}">
-                                                        {{ $item->action ? 'Khoá tài khoản' : 'Mở khoá' }}
-                                                    </button>
+                                                    @if($item->role->role_name === 'admin')
+                                                    @else
+                                                        <button class="dropdown-item statusToggle"
+                                                                data-id="{{ $item->user_id }}">
+                                                            {{ $item->action ? 'Khoá tài khoản' : 'Mở khoá' }}
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>
