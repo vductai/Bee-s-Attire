@@ -22,6 +22,7 @@
         "instantsearch.css": "^8.5.1",
         "instantsearch.js": "^4.75.5",
         "laravel-echo": "^1.16.1",
-        "pusher-js": "^8.4.0-rc2"
+        "pusher-js": "^8.4.0-rc2",
+        "sweetalert2": "^11.15.2"
     }
 }

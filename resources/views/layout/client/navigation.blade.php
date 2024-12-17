@@ -18,18 +18,24 @@
                                 <li>
                                     <a class="dropdown-item" href="{{route('profile')}}">Hồ sơ</a>
                                 </li>
+                                @if(auth()->user()->role->role_name === 'admin')
+                                    <li>
+                                        <a class="dropdown-item" href="{{route('dashboard')}}">Trang quản
+                                            trị</a>
+                                    </li>
+                                @endif
                                 <li>
                                     <a class="dropdown-item" href="{{route('checkout')}}">Thanh toán</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{route('list-wish')}}">Yêu thích</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{route('get-all-order')}}">Đơn hàng của bạn</a>
                                 </li>
                                 <li>
-                                    <form action="{{ route('client.logout') }}" method="POST" style="display: none;" id="logout-form">
-                                        @csrf
-                                    </form>
-                                    <a class="dropdown-item" href="#"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                       id="btnLogoutMobile">Đăng xuất</a>
                                 </li>
                             </ul>
                         </li>
@@ -53,9 +59,11 @@
                 {{--<a href="wishlist.html" class="cr-right-bar-item">
                     <i class="ri-heart-line"></i>
                 </a>--}}
-                <a href="javascript:void(0)" class="cr-right-bar-item Shopping-toggle">
-                    <i class="ri-shopping-cart-line"></i>
-                </a>
+                @if(auth()->check())
+                    <a href="{{route('viewCart')}}" class="cr-right-bar-item {{--Shopping-toggle--}}">
+                        <i class="ri-shopping-cart-line"></i>
+                    </a>
+                @endif
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">

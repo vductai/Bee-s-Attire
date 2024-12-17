@@ -51,7 +51,7 @@
                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                              alt="Pants">
                     </td>
-                    <td>{{$item->product->product_name}}</td>
+                    <td><a href="{{route('detail', $item->product->slug)}}">{{$item->product->product_name}}</a></td>
                     <td>{{$item->quantity}}</td>
                     <td>{{number_format($item->product->sale_price)}} đ</td>
                     <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

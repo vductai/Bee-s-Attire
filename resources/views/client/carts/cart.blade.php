@@ -9,7 +9,7 @@
                     <div class="col-lg-12">
                         <div class="cr-breadcrumb-title">
                             <h2>Giỏ hàng</h2>
-                            <span> <a href="index.html">Trang chủ</a> / Giỏ hàng</span>
+                            <span> <a href="{{route('home')}}">Trang chủ</a> / Giỏ hàng</span>
                         </div>
                     </div>
                 </div>

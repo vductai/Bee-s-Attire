@@ -108,28 +108,31 @@
                                 <input type="hidden" name="color_id" id="selected-color-id">
                             </div>
                         </div>
-                        <div class="styleCart" style="display: none">
+                        <div class="styleCart">
                             <div class="cr-color-weight">
                                 <h5><span>Số lượng kho</span>:</h5>
-                                <div class="cl-kg" id="variant-quantity">Chọn biến thể</div>
+                                <div class="cl-kg" id="variant-quantity"></div>
                             </div>
-                            <div class="cr-add-card" >
-                                <div class="cr-qty-main">
-                                    <input type="text" placeholder="."
-                                           name="quantity" value="1" minlength="1" maxlength="5"
-                                           class="quantity">
-                                    <button type="button" class="plus">+</button>
-                                    <button type="button" class="minus">-</button>
-                                </div>
-                                <div class="cr-add-button">
-                                    @if(auth()->check())
+                            <div class="cr-add-card">
+                                @if(auth()->check())
+                                    <div class="cr-qty-main">
+                                        <input type="text" placeholder="."
+                                               name="quantity" value="1" minlength="1" maxlength="5"
+                                               class="quantity">
+                                        <button type="button" class="plus">+</button>
+                                        <button type="button" class="minus">-</button>
+                                    </div>
+                                    <div class="cr-add-button">
                                         <button type="submit"
-                                                class="cr-button add-to-cart-btn">Thêm vào giỏ hàng</button>
-                                    @else
-                                    @endif
-                                </div>
-                                <div class="cr-add-button" id="errCart"></div>
+                                                class="cr-button add-to-cart-btn">Thêm vào giỏ hàng
+                                        </button>
+                                    </div>
+                                @else
+                                    <span class="alert alert-danger text-center" role="alert">
+                                    Đăng nhập để mua hàng</span>
+                                @endif
                             </div>
+
                         </div>
                     </div>
                 </form>

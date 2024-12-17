@@ -1076,33 +1076,40 @@
         $('.update-status').click(function () {
             var orderId = $(this).data('id');
             var status = $(this).data('status');
-            var confirmUpdate = confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng sang "' + status + '" không?');
-            if (!confirmUpdate) {
-                return;
-            }
-            $.ajax({
-                url: '/admin/orders/' + orderId + '/status/' + encodeURIComponent(status),
-                type: 'PUT',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    // Cập nhật trạng thái hiển thị
-                    var statusBadge = $('.order-status[data-id="' + orderId + '"]');
-                    statusBadge.empty(); // Xóa nội dung cũ
-                    if (status === 'Đang sử lý') {
-                        statusBadge.append('<span class="badge text-bg-warning">Đang sử lý</span>');
-                    } else if (status === 'Đã xác nhận') {
-                        statusBadge.append('<span class="badge text-bg-primary">Đã xác nhận</span>');
-                    } else if (status === 'Đã giao hàng') {
-                        statusBadge.append('<span class="badge text-bg-success">Đã giao hàng</span>');
-                    }else if (status === 'Hủy đơn hàng'){
-                        statusBadge.append('<span class="badge text-bg-danger">Đã hủy</span>');
-                    }
-                    location.reload()
-                },
-                error: function (xhr) {
-                    alert('Có lỗi xảy ra: ' + (xhr.responseJSON.message || 'Không xác định.'));
+            Swal.fire({
+                title: 'Thay đổi trạng thái đơn hàng ?',
+                html: `Bạn có chắc chắn muốn chuyển trạng thái đơn hàng sang <b style="color: red">${status}</b> không ?`,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/orders/' + orderId + '/status/' + encodeURIComponent(status),
+                        type: 'PUT',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            // Cập nhật trạng thái hiển thị
+                            var statusBadge = $('.order-status[data-id="' + orderId + '"]');
+                            statusBadge.empty(); // Xóa nội dung cũ
+                            if (status === 'Đang sử lý') {
+                                statusBadge.append('<span class="badge text-bg-warning">Đang sử lý</span>');
+                            } else if (status === 'Đã xác nhận') {
+                                statusBadge.append('<span class="badge text-bg-primary">Đã xác nhận</span>');
+                            } else if (status === 'Đã giao hàng') {
+                                statusBadge.append('<span class="badge text-bg-success">Đã giao hàng</span>');
+                            }else if (status === 'Hủy đơn hàng'){
+                                statusBadge.append('<span class="badge text-bg-danger">Đã hủy</span>');
+                            }
+                            location.reload()
+                        },
+                        error: function (xhr) {
+                            alert('Có lỗi xảy ra: ' + (xhr.responseJSON.message || 'Không xác định.'));
+                        }
+                    });
                 }
             });
         });

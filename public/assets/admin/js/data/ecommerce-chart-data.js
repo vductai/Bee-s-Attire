@@ -56,6 +56,16 @@
             series: [{name: 'Doanh thu', data: revenuePerMonth}],
             stroke: {width: 2, curve: 'smooth'},
             colors: ["#3f51b5"],
+            dataLabels: {
+                enabled: true,
+                formatter: function (value) {
+                    return value.toLocaleString('vi-VN');
+                },
+                style: {
+                    fontSize: '12px',
+                    colors: ["#3f51b5"]
+                }
+            },
             xaxis: {
                 categories: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
                 axisBorder: {show: false},
@@ -72,19 +82,19 @@
                 fixed: {enabled: false},
                 y: {
                     formatter: function (value) {
-                        return value.toLocaleString('vi-VN') + " VNĐ";
+                        return value.toLocaleString('vi-VN');
                     }
                 }
             },
             yaxis: {
                 labels: {
                     formatter: function (value) {
-                        return value.toLocaleString('vi-VN') + " VNĐ";
+                        return value.toLocaleString('vi-VN');
                     }
                 }
             },
             title: {
-                text: 'Doanh thu theo tháng',
+                text: 'Doanh thu theo tháng (VNĐ)',
                 align: 'center',
                 margin: 20,
                 style: {
@@ -215,7 +225,7 @@
                 }
             },
             title: {
-                text: 'Trạng thái đơn hàng theo tuần',
+                text: `Trạng thái đơn hàng theo tuần (${Start} - ${End})`,
                 align: 'center',
                 margin: 20,
                 style: {
@@ -230,6 +240,14 @@
     }
 
     // Biểu đồ thống kê đơn hàng theo tuần
+    const now = new Date();
+    const startOfWeek = new Date();
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+    const endOfWeek = new Date();
+    endOfWeek.setDate(now.getDate() - now.getDay() + 7);
+
+    const Start = `${startOfWeek.getDate()}/${startOfWeek.getMonth() + 1}/${startOfWeek.getFullYear()}`;
+    const End = `${endOfWeek.getDate()}/${endOfWeek.getMonth() + 1}/${endOfWeek.getFullYear()}`;
     function areaChartWeekly() {
         var options = {
             chart: {
@@ -257,7 +275,7 @@
                 },
             },
             title: {
-                text: 'Thống kê đơn hàng theo tuần',
+                text: `Thống kê đơn hàng theo tuần (${Start} - ${End})`,
                 align: 'center',
                 margin: 20,
                 style: {
@@ -272,73 +290,11 @@
     }
 
 
-    //Tăng trưởng bán hàng
-    var currentMonth = new Date().getMonth();
-
-    var totalOrdersThisMonth = ordersPerMonth[currentMonth] || 0;
-    var totalRevenueThisMonth = revenuePerMonth[currentMonth] || 0;
-
-    var totalOrdersLastMonth = ordersPerMonth[currentMonth - 1] !== undefined ? ordersPerMonth[currentMonth - 1] : 0;
-    var totalRevenueLastMonth = revenuePerMonth[currentMonth - 1] !== undefined ? revenuePerMonth[currentMonth - 1] : 0;
-
-    var percentageOrders = totalOrdersLastMonth > 0
-        ? ((totalOrdersThisMonth - totalOrdersLastMonth) / totalOrdersLastMonth) * 100
-        : (totalOrdersThisMonth > 0 ? 100 : 0);
-
-    var percentageRevenue = totalRevenueLastMonth > 0
-        ? ((totalRevenueThisMonth - totalRevenueLastMonth) / totalRevenueLastMonth) * 100
-        : (totalRevenueThisMonth > 0 ? 100 : 0);
-
-    percentageOrders = Math.round(percentageOrders * 10) / 10;
-    percentageRevenue = Math.round(percentageRevenue * 10) / 10;
-
-    document.getElementById("ordersChange").innerHTML = `<span class="${percentageOrders > 0 ? 'up' : 'down'}">${percentageOrders.toFixed(1)}%</span>`;
-    document.getElementById("totalOrders").innerHTML = `${totalOrdersThisMonth} đơn hàng`;
-    document.getElementById("revenueChange").innerHTML = `<span class="${percentageRevenue > 0 ? 'up' : 'down'}">${percentageRevenue.toFixed(1)}%</span>`;
-    document.getElementById("totalRevenue").innerHTML = `${Math.round(totalRevenueThisMonth).toLocaleString('vi-VN')} VNĐ`;
-
-    function newcampaignsChart() {
-        var totalPercentage = percentageOrders + percentageRevenue;
-        var options = {
-            series: [percentageOrders, percentageRevenue],
-            chart: {
-                height: 350,
-                type: 'radialBar',
-            },
-            plotOptions: {
-                radialBar: {
-                    dataLabels: {
-                        name: {
-                            fontSize: '16px',
-                        },
-                        value: {
-                            fontSize: '16px',
-                        },
-                        total: {
-                            show: true,
-                            label: 'Tổng',
-                            formatter: function () {
-                                //return `${totalOrdersThisMonth} đơn hàng, ${totalRevenueThisMonth.toLocaleString('vi-VN')} VNĐ`;
-                                return totalPercentage.toFixed(1) + '%';
-                            }
-                        }
-                    }
-                }
-            },
-            labels: ['Tổng đơn hàng', 'Tổng doanh thu'],
-            colors: ["#3f51b5", "#50d1f8"],
-        };
-
-        var newcampaignsChart = new ApexCharts(document.querySelector("#newcampaignsChart"), options);
-        newcampaignsChart.render();
-    }
-
 
     $(document).ready(function () {
         areaChartRevenue();
         areaChartRevenue1();
         areaChartWeekly();
-        newcampaignsChart();
         areaChartStatusWeekly();
         areaChartUsersOrders();
         $("#chartType").on("change", function () {

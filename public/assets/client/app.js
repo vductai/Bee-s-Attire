@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const hiddenInputColor = document.getElementById('selected-color-id');
     const hiddenInputVariant = document.getElementById('selected-product-variant-id');
     const variantQuantity = document.getElementById('variant-quantity')
-    const addToCart = document.querySelector('.styleCart')
+    const addToCart = document.querySelector('.add-to-cart-btn')
 
     // khởi tạo biến lưu trữ
     let selectedSizeId = null;
@@ -66,14 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Hàm kiểm tra điều kiện hiển thị nút
-    function toggleAddToCartBtn() {
-        if (selectedSizeId && selectedColorId) {
-            addToCart.style.display = 'block';
-        } else {
-            addToCart.style.display = 'none';
+    // Thêm thông báo nếu người dùng chưa chọn màu sắc và kích thước
+    addToCart.addEventListener('click', function (e) {
+        if (!selectedSizeId || !selectedColorId) {
+            e.preventDefault();
+            Swal.fire({
+                icon: "warning",
+                text: `Vui lòng chọn kích thước và màu sắc`
+            });
         }
-    }
+    });
 
     function updateProductVariant() {
         if (selectedSizeId && selectedColorId) {
@@ -104,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function filterSizesByStock() {
+    /*function filterSizesByStock() {
 
         sizeOptions.forEach(option => {
             const sizeId = option.getAttribute('data-size-id');
@@ -119,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 option.style.display = 'inline-block'; // Ẩn size nếu hết hàng
             }
         });
-    }
+    }*/
 });
 
 /*--------------------------- update cart --------------------------*/
@@ -196,9 +198,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const productLink = row.querySelector('a');
             if (productLink) {
                 const idVariant = row.querySelector('#variantId').value
-                const productId = row.querySelector('a').getAttribute('data-idPro').split('/').pop()
+                const productId = row.querySelector('a').getAttribute('data-idPro')
                 const quantity = parseInt(row.querySelector('.quantityy').value)
                 const totalprice = row.querySelector('.cr-cart-price').getAttribute('data-total')
+                // thêm vào mảng
                 cartItems.push({
                     product_id: parseInt(productId),
                     quantity: quantity,
@@ -220,12 +223,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(res => res.json())
                 .then(data => {
                     if (data.success === false) {
-                        contentClientModal.innerHTML = `
-                            <p class="text-center">Số lượng sản phẩm: <b>${data.message}</b> không đủ trong kho.</p>
-                            <p class="text-center">Số lượng kho còn: ${data.variantQuantity} sản phẩm.</p>
-                        `
-                        const errorClientModal = new bootstrap.Modal(document.getElementById('errorClientModal'))
-                        errorClientModal.show()
+                        Swal.fire({
+                            icon: "error",
+                            html: `
+                                <p class="text-center">Số lượng sản phẩm: <b class="text-black">${data.message}</b> không đủ trong kho.</p>
+                                <p class="text-center text-black">Số lượng kho còn: ${data.variantQuantity} sản phẩm.</p>
+                            `
+                        });
                     } else {
                         window.location.href = "/checkout"
                     }

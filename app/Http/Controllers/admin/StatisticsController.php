@@ -14,6 +14,22 @@ class StatisticsController extends Controller
 {
     public function statistics()
     {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        //Top 5 người mua sản phẩm nhiều nhất
+        $top5MostPurchasedUsers = User::join('order', 'users.user_id', '=', 'order.user_id')
+            ->join('order_item', 'order_item.order_id', '=', 'order.order_id')
+            ->whereBetween('order_item.created_at', [$startOfMonth, $endOfMonth])
+            ->select(
+                'users.username',
+                'users.user_id',
+                DB::raw('SUM(order_item.quantity) as total_purchased'),
+
+            )
+            ->groupBy('users.user_id', 'users.username')
+            ->orderByDesc('total_purchased')
+            ->limit(5)
+            ->get();
         $currentMonth = Carbon::now()->month;
         $thisMonth = Carbon::now()->locale('vi')->translatedFormat('F');
 
@@ -114,7 +130,8 @@ class StatisticsController extends Controller
             'top5MostSoldProductsDetails',
             'ordersByStatusWeekly',
             'usersOrdersPerMonth',
-            'topUsers'
+            'topUsers',
+            'top5MostPurchasedUsers'
         ));
     }
 
