@@ -1,28 +1,20 @@
 import './bootstrap';
+import Swal from 'sweetalert2';
 
 const userId = document.querySelector('meta[name="user-id"]').getAttribute('content')
 
 Echo.private(`orders.${userId}`)
     .listen('OrderEvent', (e) => {
-        resetOrderState()
-        document.getElementById('paymentContent').innerHTML =
+        Swal.fire({
+            icon: "success",
+            title: "Đặt hàng thành công",
+            html: `
+                  <p class="text-center">Cảm ơn bạn vì đã tin tưởng và mua hàng của chúng tôi.</p>
+                  <p class="text-center">Vui lòng kiểm tra email để nhận được thông tin về đơn hàng.</p>
             `
-            <p class="text-center">Cảm ơn bạn vì đã tin tưởng và mua hàng của chúng tôi.</p>
-            <p class="text-center">Vui lòng kiểm tra email để nhận được thông tin về đơn hàng.</p>
-        `;
-        const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-        paymentModal.show();
+        })
         document.getElementById('noti-badge').style.display = 'inline';
     })
-
-function resetOrderState() {
-    document.getElementById('paymentContent').innerHTML = '';
-    // kiểm tra modal
-    const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-    if (paymentModal) {
-        paymentModal.hide();
-    }
-}
 
 
 /*------------------------------------------ cancel order ------------------------------------------------------------*/
@@ -52,13 +44,13 @@ if (cancelItem) {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }).then(res => {
-                if (res.data.success === false){
+                if (res.data.success === false) {
                     document.getElementById('contentClientModal').innerHTML = `
                         <p class="text-center">Bạn không thể hủy đơn hàng này</p>
                     `
                     const errorsModal = new bootstrap.Modal(document.getElementById('errorClientModal'))
                     errorsModal.show()
-                }else {
+                } else {
                     document.querySelector(`.cancel[data-badgeId='${id}']`).innerText = 'Đã yêu cầu huỷ'
                     document.querySelector(`.modalCanner[data-orderId='${id}']`).innerText = 'Đã gửi yêu cầu huỷ đơn'
                     document.querySelector(`.modalCanner[data-orderId='${id}']`).classList.remove('bg-danger')

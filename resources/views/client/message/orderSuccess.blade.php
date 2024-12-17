@@ -19,14 +19,10 @@
                 <div class="col-12">
                     <div class="cr-register" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="form-logo">
-                            <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
+                            <img src="{{asset('full-logo.png')}}" alt="logo">
                         </div>
                         <div class="cr-content-form text-center">
-                            <h4>Đặt hàng thành công</h4>
-                            <h6>Cảm ơn bạn đã đặt hàng. chúng tôi sẻ liên hệ với bạn sớm.</h6>
-                            <a href="{{route('home')}}" class="cr-button btn-success">
-                                Tiếp tục mua hàng
-                            </a>
+                            <h4>Bạn đã chậm tay mấy rồi</h4>
                         </div>
                     </div>
                 </div>

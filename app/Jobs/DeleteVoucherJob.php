@@ -21,7 +21,7 @@ class DeleteVoucherJob implements ShouldQueue
 
     public function handle()
     {
-        $endVoucher = user_voucher::whereDate('end_date', '=', Carbon::today())->get();
+        $endVoucher = user_voucher::whereDate('end_date', '<', Carbon::today())->get();
         foreach ($endVoucher as $item) {
             $voucherName = $item->voucher->voucher_code;
             $userId = $item->user_id;

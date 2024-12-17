@@ -29,7 +29,7 @@
                 </div>
                 <div class="cr-footer">
                     <h4 class="cr-sub-title cr-title-hidden">
-                        Contact us
+                        Thông tin cửa hàng
                         <span class="cr-heading-res"></span>
                     </h4>
                     <ul class="cr-footer-links cr-footer-dropdown">

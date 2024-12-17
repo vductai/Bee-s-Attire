@@ -19,10 +19,10 @@
                 <div class="col-12">
                     <div class="cr-register" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="form-logo">
-                            <img src="{{asset('assets/client/img/logo/logo.png')}}" alt="logo">
+                            <img src="{{asset('full-logo.png')}}" alt="logo">
                         </div>
                         <div class="cr-content-form text-center">
-                            Kiểm tra email <b id="verify-gmail"></b> để xác minh
+                            Bạn đã chậm tay
                         </div>
                     </div>
                 </div>

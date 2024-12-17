@@ -99,6 +99,11 @@ class AppServiceProvider extends ServiceProvider
             $parent->with('parent', $selParentCategory);
         });
 
+        View::composer('layout.client.mobile-menu', function ($parent){
+            $selParentCategory = Parent_Category::limit(5)->get();
+            $parent->with('parent', $selParentCategory);
+        });
+
         View::composer('layout.client.footer', function ($categories){
             $cate = Category::limit(6)->get();
             $categories->with('Category', $cate);

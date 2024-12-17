@@ -96,10 +96,11 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
         Route::get('/checkout', [CheckOutController::class, 'selectCart'])->name('checkout');
         Route::post('/addVoucher', [CheckOutController::class, 'applyVoucher'])->name('addVoucher');
         // online checkout
+
         Route::post('online-checkout', [CheckPaymentMethodController::class, 'onlineCheckOut'])->name('check-payment-method');
         // vnpay
         Route::get('/order-success', [CheckPaymentMethodController::class, 'handlePaymentReturn'])->name('vnpay-return');
-        Route::view('success', 'client.message.orderSuccess')->name('success-checkout');
+        Route::view('error-order', 'client.message.orderSuccess')->name('success-checkout');
         // momo
         Route::get('/return-momo', [CheckPaymentMethodController::class, 'orderSuccessMono'])->name('momo-return');
         // get order
