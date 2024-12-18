@@ -6,6 +6,7 @@ use App\Events\GiveVoucherEvent;
 use App\Events\OrderStatusUpdateEvent;
 use App\Exports\OrderExport;
 use App\Http\Controllers\Controller;
+use App\Jobs\CheckOrderConfirmationJob;
 use App\Jobs\SendMailOrderStatusJob;
 use App\Models\Notifications;
 use App\Models\Order;
@@ -54,6 +55,7 @@ class OrderController extends Controller
                 'message' => "Đơn hàng có mã {$order->order_id} của bạn đã được chúng tôi gửi đi, vui lòng kiển tra tin nhắn."
             ]);
             SendMailOrderStatusJob::dispatch($order->user->email, $order);
+            CheckOrderConfirmationJob::dispatch($order)->delay(now()->addDays(3));
         }elseif ($status === "Hủy đơn hàng"){
             Notifications::create([
                 'user_id' => $order->user_id,

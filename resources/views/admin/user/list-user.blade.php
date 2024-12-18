@@ -17,7 +17,7 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Ảnh đai diện</th>
+                                    <th>Ảnh</th>
                                     <th>Tên</th>
                                     <th>Vai Trò</th>
                                     <th>Email</th>
@@ -43,10 +43,11 @@
                                             <span
                                                 class="statusBadge badge {{ $item->action ? 'text-bg-success' : 'text-bg-danger' }}"
                                                 data-status="{{ $item->action ? 'active' : 'inactive' }}">
-                                                {{ $item->action ? 'Đang hoạt động' : 'Tạm khoá' }}
+                                                {{ $item->action ? 'Đang hoạt động' : 'Tạm khóa' }}
                                             </span>
                                         </td>
                                         <td>
+
                                             <div>
                                                 <button type="button"
                                                     class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
@@ -55,12 +56,12 @@
                                                     <span class="sr-only"><i class="ri-settings-3-line"></i></span>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a href="{{route('user.edit', $item->user_id)}}" class="dropdown-item">Sửa</a>
+                                                    <a href="{{route('user.edit', $item->user_id)}}" class="dropdown-item">Chi tiết</a>
                                                     @if($item->role->role_name === 'admin')
                                                     @else
-                                                        <button class="dropdown-item statusToggle"
+                                                        <button class="dropdown-item statusToggleUser"
                                                                 data-id="{{ $item->user_id }}">
-                                                            {{ $item->action ? 'Khoá tài khoản' : 'Mở khoá' }}
+                                                            {{ $item->action ? 'Khoá tài khoản' : 'Mở khóa' }}
                                                         </button>
                                                     @endif
                                                 </div>
