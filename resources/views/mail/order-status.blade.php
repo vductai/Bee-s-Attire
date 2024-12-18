@@ -264,7 +264,7 @@
                     <img src="{{ config('APP_URL') . '/upload/' . $item->product->product_avatar }}"
                          alt="Pants">
                 </td>--}}
-                <td>{{$item->product->product_name}}</td>
+                <td>{{$item->product->product_name}}, {{$item->productVariant->size->size_name}} - {{$item->productVariant->color->color_name}}</td>
                 <td>{{$item->quantity}}</td>
                 <td>{{number_format($item->product->sale_price)}} đ</td>
                 <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

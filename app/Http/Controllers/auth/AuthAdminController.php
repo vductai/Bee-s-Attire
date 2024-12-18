@@ -49,13 +49,13 @@ class AuthAdminController extends Controller
         $user->action = !$user->action;
         $user->update();
         broadcast(new LockUserAccountEvent($user->user_id));
-        return redirect()->back();
+        return response()->json(['message' => 'done']);
     }
 
     public function toggleProductStatus($id){
         $product = Product::find($id);
         $product->action = !$product->action;
         $product->update();
-        return redirect()->back();
+        return response()->json(['message' => 'done']);
     }
 }
