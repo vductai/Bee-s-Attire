@@ -83,6 +83,7 @@ class CheckPaymentMethodController extends Controller
                     order_item::create([
                         'order_id' => $order->order_id,
                         'product_id' => $item->product->product_id,
+                        'product_variant_id' => $item->product_variant->product_variant_id,
                         'quantity' => $item->quantity,
                         'price_per_item' => $item->product->sale_price
                     ]);
@@ -282,6 +283,7 @@ class CheckPaymentMethodController extends Controller
                 DB::transaction(function () use ($vnp_TxnRef){
                     $order_data = session('order_data');
                     $order_items = session('order_items');
+                    Log::info($order_items);
                     $user = session('user');
                     User::where('user_id', Auth::user()->user_id)
                         ->update([
@@ -306,6 +308,7 @@ class CheckPaymentMethodController extends Controller
                         order_item::create([
                             'order_id' => $order->order_id,
                             'product_id' => $item->product->product_id,
+                            'product_variant_id' => $item->product_variant->product_variant_id,
                             'quantity' => $item->quantity,
                             'price_per_item' => $item->product->sale_price
                         ]);
@@ -406,6 +409,7 @@ class CheckPaymentMethodController extends Controller
                         order_item::create([
                             'order_id' => $order->order_id,
                             'product_id' => $item->product->product_id,
+                            'product_variant_id' => $item->product_variant->product_variant_id,
                             'quantity' => $item->quantity,
                             'price_per_item' => $item->product->sale_price
                         ]);

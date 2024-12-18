@@ -1,11 +1,11 @@
 @extends('layout.client.home')
 @section('content_client')
     <link rel="stylesheet" href="{{asset('assets/client/app.css')}}">
-    <div class="mt-3 d-flex justify-content-end" style="margin-right: 250px;">
+    {{--<div class="mt-3 d-flex justify-content-end" style="margin-right: 250px;">
         <button onclick="window.print()" class="btn btn-success">
             Xuất hóa đơn
         </button>
-    </div>
+    </div>--}}
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="from">
@@ -29,7 +29,7 @@
             <div><strong>Mã đơn hàng:</strong> {{$detail->order_id}}</div>
             <div><strong>Tổng tiền hàng:</strong> {{number_format($detail->final_price)}} đ</div>
             <div><strong>Số lượng:</strong> {{$quantity}}</div>
-            <div><strong>Ngày mua:</strong> {{\Carbon\Carbon::parse($detail->created_at)->format('h:m d-m-Y')}}</div>
+            <div><strong>Ngày mua:</strong> {{\Carbon\Carbon::parse($detail->created_at)->format('H:m d-m-Y')}}</div>
         </div>
 
         <table class="invoice-items">
@@ -51,7 +51,9 @@
                         <img src="{{asset('upload/'. $item->product->product_avatar)}}"
                              alt="Pants">
                     </td>
-                    <td><a href="{{route('detail', $item->product->slug)}}">{{$item->product->product_name}}</a></td>
+                    <td><a href="{{route('detail', $item->product->slug)}}">
+                            {{$item->product->product_name}}, {{$item->productVariant->size->size_name}} - {{$item->productVariant->color->color_name}}</a>
+                    </td>
                     <td>{{$item->quantity}}</td>
                     <td>{{number_format($item->product->sale_price)}} đ</td>
                     <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

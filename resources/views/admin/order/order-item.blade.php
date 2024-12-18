@@ -14,7 +14,7 @@
                     <div class="invoice-wrapper">
                         <div class="row">
                             <div class="col-md-6 col-lg-3 col-sm-6">
-                                <img src="{{asset('assets/admin/img/logo/full-logo.png')}}" alt="logo">
+                                <img src="{{asset('full-logo.png')}}" alt="logo">
                                 <address>
                                     <br> 13 phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội
                                 </address>
@@ -69,7 +69,7 @@
                             <div class="block">
                                 <h6>Ngày đặt hàng</h6>
                                 <h5>
-                                    {{\Carbon\Carbon::parse($detail->created_at)->format('h:m:s d-m-Y')}}
+                                    {{\Carbon\Carbon::parse($detail->created_at)->format('H:m d-m-Y')}}
                                 </h5>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                             <td><img class="invoice-item-img"
                                                      src="{{asset('upload/'. $item->product->product_avatar)}}"
                                                      alt="product-image"></td>
-                                            <td>{{$item->product->product_name}}</td>
+                                            <td>{{$item->product->product_name}}, {{$item->productVariant->size->size_name}} - {{$item->productVariant->color->color_name}}</td>
                                             <td>{{$item->quantity}}</td>
                                             <td>{{number_format($item->product->sale_price)}} đ</td>
                                             <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

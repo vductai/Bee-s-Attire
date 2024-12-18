@@ -213,11 +213,12 @@
 </head>
 <body>
 <div class="" style="display:flex; justify-content: center; align-items: center">
-    <h1>Cảm ơn bạn đặt hàng</h1>
+    <h2>Xin chào {{$order->user->username}},</h2>
 </div>
-<p>Chúng tôi rất vui mừng thông báo với bạn rằng đơn hàng có mã <strong>#{{$order->order_id}}</strong> của bạn đã
-    được xác nhận và đang được xử lý.
-    Sau đây là thông tin chi tiết:</p>
+<p>Chúng tôi thông báo với bạn rằng đơn hàng có mã <strong>#{{$order->order_id}}</strong>
+    của bạn <strong>chưa được xác nhận là đã nhận được hàng</strong>. Nếu đã nhận được hàng thì hãy cho chúng tôi biết
+    còn nếu chưa hãy liên hệ với chúng tôi để được giải quyết.</p>
+<h3>Chi tiết đơn hàng</h3>
 <div class="invoice-container">
     <div class="invoice-header">
         <div class="from">
@@ -234,7 +235,8 @@
         <div class="details">
             <p><strong>Mã đơn hàng:</strong> #{{$order->order_id}}<br>
                 <strong>Phương thức thanh toán:</strong> {{$order->payment_method}}<br>
-            <div><strong>Ngày mua:</strong> {{\Carbon\Carbon::parse($order->created_at)->format('H:m d-m-Y')}}</div> <br>
+            <div><strong>Ngày mua:</strong> {{\Carbon\Carbon::parse($order->created_at)->format('h:m d-m-Y')}}</div>
+            <br>
         </div>
     </div>
 
@@ -259,7 +261,7 @@
                     <img src="{{ config('APP_URL') . '/upload/' . $item->product->product_avatar }}"
                          alt="Pants">
                 </td>--}}
-                <td>{{$item->product->product_name}}, {{$item->productVariant->size->size_name}} - {{$item->productVariant->color->color_name}}</td>
+                <td>{{$item->product->product_name}}</td>
                 <td>{{$item->quantity}}</td>
                 <td>{{number_format($item->product->sale_price)}} đ</td>
                 <td>{{number_format($item->product->sale_price * $item->quantity)}} đ</td>

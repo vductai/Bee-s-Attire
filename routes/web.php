@@ -142,7 +142,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth:web']], function () {
             // dashboard
             //Route::get('/', [AuthAdminController::class, 'dashboard'])->name('dashboard');
             // action user, product, post
-            Route::post('/action/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
+            Route::post('/actionUser/{id}', [AuthAdminController::class, 'toggleUserStatus'])->name('action-user');
             Route::post('/actionProduct/{id}', [AuthAdminController::class, 'toggleProductStatus'])->name('action-product');
             Route::post('/actionPost/{id}', [PostAdmin::class, 'togglePostStatus'])->name('action-post');
             // order

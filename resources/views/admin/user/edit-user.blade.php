@@ -4,7 +4,7 @@
 @section('content_admin')
     <div class="cr-page-title cr-page-title-2">
         <div class="cr-breadcrumb">
-            <h5>Chỉnh sửa người dùng</h5>
+            <h5>Chi tiết người dùng</h5>
         </div>
     </div>
     <form id="formUserUpdate" enctype="multipart/form-data">
@@ -19,10 +19,10 @@
                                 <div class="cr-vendor-main-img">
                                     <div class="avatar-upload">
                                         <div class="avatar-edit">
-                                            <input type='file' name="avatar" id="avatar"
+                                            {{--<input type='file' name="avatar" id="avatar"
                                                    class="cr-image-upload"
-                                                   accept=".png, .jpg, .jpeg">
-                                            <label><i class="ri-pencil-line"></i></label>
+                                                   accept=".png, .jpg, .jpeg" disabled>
+                                            <label><i class="ri-pencil-line"></i></label>--}}
                                         </div>
                                         <div class="avatar-preview cr-preview">
                                             <div class="imagePreview cr-div-preview">
@@ -42,45 +42,45 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Tên</label>
                                         <input type="text" class="form-control" id="username" name="username"
-                                               value="{{$show->username}}" placeholder="">
+                                               value="{{$show->username}}" placeholder="" disabled>
                                         <p class="error-text text-danger" id="username-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control slug-title"
-                                               id="email" value="{{$show->email}}">
+                                               id="email" value="{{$show->email}}" disabled>
                                         <p class="error-text text-danger" id="email-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Giới tính</label>
-                                        <select name="gender" id="gender" class="form-control">
-                                            <option>---- Chọn giới tính ----</option>
-                                            <option value="Nam">Nam</option>
-                                            <option value="Nữ">Nữ</option>
+                                        <select name="gender" id="gender" class="form-control" disabled>
+                                            <option>{{$show->gender}}</option>
+                                           {{-- <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>--}}
                                         </select>
                                         <p class="error-text text-danger" id="gender-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Số điện thoại</label>
                                         <input type="number" name="phone" class="form-control slug-title"
-                                               id="phone" value="{{$show->phone}}">
+                                               id="phone" value="{{$show->phone}}" disabled>
                                         <p class="error-text text-danger" id="phone-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Ngày sinh</label>
                                         <input type="date" name="birthday" class="form-control slug-title"
-                                               id="birthday" value="{{$show->birthday}}">
+                                               id="birthday" value="{{$show->birthday}}" disabled>
                                         <p class="error-text text-danger" id="birthday-error"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Địa chỉ</label>
                                         <input type="text" name="address" class="form-control slug-title"
-                                               id="address" value="{{$show->address}}">
+                                               id="address" value="{{$show->address}}" disabled>
                                         <p class="error-text text-danger" id="address-error"></p>
                                     </div>
-                                    <div class="col-md-12">
+                                    {{--<div class="col-md-12">
                                         <button type="submit" class="btn cr-btn-primary">Sửa</button>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                         </div>

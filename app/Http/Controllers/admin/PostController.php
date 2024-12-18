@@ -123,6 +123,6 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->action = !$post->action;
         $post->update();
-        return redirect()->back();
+        return response()->json(['message' => 'done']);
     }
 }
